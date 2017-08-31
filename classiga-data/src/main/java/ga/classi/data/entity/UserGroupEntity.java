@@ -1,0 +1,70 @@
+package ga.classi.data.entity;
+
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.io.Serializable;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+
+/**
+ * 
+ * @author eatonmunoz
+ */
+@NoArgsConstructor
+@AllArgsConstructor
+@Setter 
+@Getter 
+@Entity
+@Table(name = UserGroupEntity.TABLE_NAME, uniqueConstraints = @UniqueConstraint(columnNames = { "lower_name" }))
+@DynamicInsert
+@DynamicUpdate
+public class UserGroupEntity extends BaseEntity implements Serializable {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
+    public static final String TABLE_NAME = "mn_user_group";
+   
+    @Column(name = "name", length = 128, nullable = false)
+    private String name;
+
+    @JsonIgnore
+    @Column(name = "lower_name", length = 128, nullable = false)
+    private String lowerName;
+
+    @Column(name = "description", length = 512)
+    private String description;
+
+    @Column(name = "active", length = 1, nullable = false)
+    private String active;
+
+    @JsonBackReference
+    @OneToMany(mappedBy = "userGroup")
+    private List<UserEntity> users;
+
+    @JsonBackReference
+    @OneToMany(mappedBy = "userGroup")
+    private List<MenuPermissionEntity> menuPermissions;
+
+    public UserGroupEntity(Long id) {
+        super(id);
+    }
+ 
+}

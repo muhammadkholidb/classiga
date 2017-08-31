@@ -1,0 +1,55 @@
+.uppercase {
+    text-transform: uppercase;
+}
+.align-center {
+    text-align: center;
+}
+.align-right {
+    text-align: right;
+}
+.sidebar-menu .treeview-menu > li > a:hover, 
+.sidebar-menu .treeview-menu > li.active > a {
+    color: #d199ff;
+}
+.form-inline .btn {
+    padding: 8px 12px;
+}
+.btn {
+    padding: 8px 12px;
+}
+.table-data-info {
+    margin-top: 12px;
+}
+.table {
+    margin-bottom: 0;
+}
+.table > thead > tr > th, .table > thead > tr > td, .table > tbody > tr > th, .table > tbody > tr > td, .table > tfoot > tr > th, .table > tfoot > tr > td {
+    vertical-align: middle;
+}
+table.dataTable tbody td {
+    vertical-align: middle;
+}
+table.dataTable thead th.sorting_asc:after {
+    content: "\f0de";
+}
+table.dataTable thead th.sorting_desc:after {
+    content: "\f0dd";
+}
+div.required .control-label:not(span)::before, td.required::before {
+    content: '* ';
+    color: #F00;
+    font-weight: bold;
+}
+.animated-checkbox label {
+    margin-bottom: 0;
+}
+.card .overlay {
+    z-index: 9999;
+}
+ul.pagination {
+    margin: 0;
+    white-space: nowrap;
+}
+ul.pagination > li > a, .pagination > li > span {
+    margin-bottom: 5px;
+}

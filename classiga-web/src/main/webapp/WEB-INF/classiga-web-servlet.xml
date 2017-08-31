@@ -1,0 +1,76 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context" 
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+    
+    <util:properties id="applicationProp" location="classpath:application.properties" />
+    <util:properties id="usersProp" location="classpath:users.properties" />
+
+    <!-- Append the the value of base-package with your packages, separated with comma -->
+    <context:component-scan base-package="ga.classi.web" />
+    
+    <!-- https://www.mkyong.com/spring-mvc/cannot-change-http-accept-header-use-a-different-locale-resolution-strategy/ -->
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver"> 
+        <property name="defaultLocale" value="en" />
+    </bean>
+    
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="fallbackToSystemLocale" value="false"/>
+        <property name="basenames">
+            <list>
+                <value>ga.classi.web.labels</value>
+                <value>ga.classi.web.messages</value>
+                <!-- Add other message properties below here -->
+                
+            </list>
+        </property>
+    </bean>
+
+    <bean id="messageHelper" class="ga.classi.commons.helper.MessageHelper">
+        <property name="messageSource" ref="messageSource" />
+        <property name="defaultLocale" value="en" />
+    </bean>
+
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">  
+        <property name="prefix" value="/WEB-INF/templates/"></property>  
+        <property name="suffix" value=".jsp"></property>  
+    </bean>  
+
+    <mvc:resources mapping="/res/**" location="/resources/" />
+
+    <mvc:annotation-driven/> 
+ 
+    <mvc:interceptors>
+        <!-- This XML will intercept all URIs -->
+        <!-- 
+        <bean class="ga.classi.web.interceptor.LoginInterceptor" />
+        -->
+        
+        <!-- This XML will apply interceptor to only certain URIs -->
+        <mvc:interceptor>
+            <mvc:mapping path="/**" />
+            <mvc:exclude-mapping path="/res/**" />
+            <mvc:exclude-mapping path="/logout" />
+            <mvc:exclude-mapping path="/error" />
+            <bean class="ga.classi.web.interceptor.LoginInterceptor" />
+        </mvc:interceptor>
+         
+        <mvc:interceptor>
+            <mvc:mapping path="/**" />
+            <mvc:exclude-mapping path="/res/**" />
+            <mvc:exclude-mapping path="/login" />
+            <mvc:exclude-mapping path="/logout" />
+            <mvc:exclude-mapping path="/error" />
+            <bean class="ga.classi.web.interceptor.PagePermissionInterceptor" />
+        </mvc:interceptor>
+        
+    </mvc:interceptors>
+ 
+</beans>

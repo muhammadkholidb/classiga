@@ -1,0 +1,9 @@
+.directory
+.project
+.metadata
+.classpath
+nbactions.xml
+**/.settings/
+**/target/
+**/logs/
+**/bin/

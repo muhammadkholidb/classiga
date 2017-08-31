@@ -1,0 +1,38 @@
+[
+    {
+        "name": "Menu Settings",
+        "description": "",
+        "code": "menu.settings",
+        "label": "label.menu.settings",
+        "faIcon": "fa fa-gear",
+        "page": "#",
+        "sequence": 999
+    }, {
+        "name": "Menu System",
+        "description": "",
+        "code": "menu.settings.system",
+        "label": "label.menu.settings.system",
+        "parentCode": "menu.settings",
+        "faIcon": "fa fa-gear",
+        "path": "/settings/system",
+        "sequence": 1
+    }, {
+        "name": "Menu User",
+        "description": "",
+        "code": "menu.settings.user",
+        "label": "label.menu.settings.user",
+        "parentCode": "menu.settings",
+        "faIcon": "fa fa-user",
+        "path": "/settings/user",
+        "sequence": 2
+    }, {
+        "name": "Menu User Group",
+        "description": "",
+        "code": "menu.settings.usergroup",
+        "label": "label.menu.settings.usergroup",
+        "parentCode": "menu.settings",
+        "faIcon": "fa fa-users",
+        "path": "/settings/user-group",
+        "sequence": 3
+    }
+]

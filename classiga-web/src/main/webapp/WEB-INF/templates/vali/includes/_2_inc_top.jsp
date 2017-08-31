@@ -1,0 +1,22 @@
+<%@ page session="false"%>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
+<!-- Navbar-->
+<header class="main-header hidden-print"><a class="logo" href="${contextPath}">${appName}</a>
+    <nav class="navbar navbar-static-top">
+        <!-- Sidebar toggle button--><a class="sidebar-toggle" href="#" data-toggle="offcanvas"></a>
+        <!-- Navbar Right Menu-->
+        <div class="navbar-custom-menu">
+            <ul class="top-nav">
+                <!-- User Menu-->
+                <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user fa-lg"></i></a>
+                    <ul class="dropdown-menu settings-menu">
+                        <li><a href="${contextPath}/logout"><i class="fa fa-sign-out fa-lg"></i> <s:message code="label.logout" /></a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>

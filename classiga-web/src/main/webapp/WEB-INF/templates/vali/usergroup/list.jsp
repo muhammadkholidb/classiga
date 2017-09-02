@@ -145,7 +145,9 @@
                 $("input[name=selected]").prop("checked", false);
                 // Then make this row checkbox checked
                 $(this).closest("tr").find("input[name=selected]").prop("checked", true);
-                showDeleteConfirmation();
+                showDeleteConfirmation(function() {
+                    $("input[name=selected]").prop("checked", false);
+                });
             });
                 
             $("a#btnDeleteSelected").on("click", function(e) {
@@ -153,7 +155,7 @@
                 showDeleteConfirmation();
             });
         
-            function showDeleteConfirmation() {
+            function showDeleteConfirmation(onCancel) {
                 swal({
                     title: "<s:message code="dialog.message.areyousure" />",
                     text: "<s:message code="dialog.message.areyousure.description" />",
@@ -162,7 +164,7 @@
                     confirmButtonText: "<s:message code="button.yes" />",
                     cancelButtonText: "<s:message code="button.no" />",
                     closeOnConfirm: false
-                }, function(confirmed){
+                }, function(confirmed) {
                     if (confirmed) {
                         var form = $("<form></form>");
                         form.prop("action", "${contextPath}/settings/user-group/remove");
@@ -176,6 +178,10 @@
                         });    
                         form.appendTo("body");
                         form.submit();
+                    } else {
+                        if(onCancel && (typeof onCancel === "function")) {
+                            onCancel();
+                        }
                     }
                 });
             }

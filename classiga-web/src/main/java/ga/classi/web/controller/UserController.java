@@ -53,16 +53,14 @@ public class UserController extends HttpClientBaseController {
     @SuppressWarnings("unchecked")
     @RequestMapping(value = "/settings/user/add", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView add(
-            @RequestParam(name = "firstName", required = true, defaultValue = StringConstants.EMPTY) String firstName,
-            @RequestParam(name = "lastName", required = true, defaultValue = StringConstants.EMPTY) String lastName,
+            @RequestParam(name = "fullName", required = true, defaultValue = StringConstants.EMPTY) String fullName,
             @RequestParam(name = "username", required = true, defaultValue = StringConstants.EMPTY) String username,
             @RequestParam(name = "email", required = true, defaultValue = StringConstants.EMPTY) String email,
             @RequestParam(name = "password", required = true, defaultValue = StringConstants.EMPTY) String password,
             @RequestParam(name = "userGroupId", required = true, defaultValue = StringConstants.EMPTY) String userGroupId) throws IOException {
 
         Map<String, Object> model = new HashMap<String, Object>();
-        model.put(ModelKeyConstants.FIRST_NAME, firstName);
-        model.put(ModelKeyConstants.LAST_NAME, lastName);
+        model.put(ModelKeyConstants.FULL_NAME, fullName);
         model.put(ModelKeyConstants.USERNAME, username);
         model.put(ModelKeyConstants.EMAIL, email);
         model.put(ModelKeyConstants.PASSWORD, password);
@@ -74,8 +72,7 @@ public class UserController extends HttpClientBaseController {
         if (isPost()) {
 
             JSONObject jsonUser = new JSONObject();
-            jsonUser.put("firstName", firstName.trim());
-            jsonUser.put("lastName", lastName.trim());
+            jsonUser.put("fullName", fullName.trim());
             jsonUser.put("username", username.trim());
             jsonUser.put("email", email.trim());
             jsonUser.put("password", password.trim());
@@ -102,8 +99,7 @@ public class UserController extends HttpClientBaseController {
     @RequestMapping(value = "/settings/user/edit/{userId}", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView edit(
             @PathVariable String userId,
-            @RequestParam(name = "firstName", required = true, defaultValue = StringConstants.EMPTY) String firstName,
-            @RequestParam(name = "lastName", required = true, defaultValue = StringConstants.EMPTY) String lastName,
+            @RequestParam(name = "fullName", required = true, defaultValue = StringConstants.EMPTY) String fullName,
             @RequestParam(name = "username", required = true, defaultValue = StringConstants.EMPTY) String username,
             @RequestParam(name = "email", required = true, defaultValue = StringConstants.EMPTY) String email,
             @RequestParam(name = "password", required = true, defaultValue = StringConstants.EMPTY) String password,
@@ -111,7 +107,7 @@ public class UserController extends HttpClientBaseController {
             @RequestParam(name = "active", required = true, defaultValue = StringConstants.EMPTY) String active) throws IOException {
 
         if (userId == null || userId.isEmpty()) {
-
+            return redirectAndNotifyError("/settings/user", messageHelper.getMessage("error.usernotfound"));
         }
 
         JSONObject user;
@@ -131,8 +127,7 @@ public class UserController extends HttpClientBaseController {
         if (isPost()) {
 
             JSONObject jsonUser = new JSONObject();
-            jsonUser.put("firstName", firstName.trim());
-            jsonUser.put("lastName", lastName.trim());
+            jsonUser.put("fullName", fullName.trim());
             jsonUser.put("username", username.trim());
             jsonUser.put("email", email.trim());
             jsonUser.put("password", password.trim());
@@ -149,8 +144,7 @@ public class UserController extends HttpClientBaseController {
             } else {    // Fail or error
 
                 Map<String, Object> model = new HashMap<String, Object>();
-                model.put(ModelKeyConstants.FIRST_NAME, firstName);
-                model.put(ModelKeyConstants.LAST_NAME, lastName);
+                model.put(ModelKeyConstants.FULL_NAME, fullName);
                 model.put(ModelKeyConstants.USERNAME, username);
                 model.put(ModelKeyConstants.EMAIL, email);
                 model.put(ModelKeyConstants.PASSWORD, password);
@@ -164,8 +158,7 @@ public class UserController extends HttpClientBaseController {
         }
 
         Map<String, Object> model = new HashMap<String, Object>();
-        model.put(ModelKeyConstants.FIRST_NAME, user.get("firstName"));
-        model.put(ModelKeyConstants.LAST_NAME, user.get("lastName"));
+        model.put(ModelKeyConstants.FULL_NAME, user.get("fullName"));
         model.put(ModelKeyConstants.USERNAME, user.get("username"));
         model.put(ModelKeyConstants.EMAIL, user.get("email"));
         model.put(ModelKeyConstants.PASSWORD, password);

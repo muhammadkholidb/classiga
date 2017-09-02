@@ -34,7 +34,7 @@ public class SystemEntity extends BaseEntity implements Serializable {
      */
     private static final long serialVersionUID = 1L;
 
-    public static final String TABLE_NAME = "mn_system";
+    public static final String TABLE_NAME = "classiga_system";
 
     @Column(name = "data_key", length = 64, nullable = false)
     private String dataKey;

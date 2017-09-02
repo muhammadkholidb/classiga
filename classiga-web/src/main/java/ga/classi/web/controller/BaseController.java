@@ -295,9 +295,17 @@ public abstract class BaseController {
         messageHelper.setDefaultLocale(newLocale);
     }
     
+    private final List<String> ENDING_PATHS = Arrays.asList("/add", "/edit");
+    
     private JSONObject getCurrentMenu() {
         String contextPath = httpServletRequest.getContextPath();
         String requestUrl = httpServletRequest.getRequestURI(); // This method returns the path before URL query strings
+        for (String path : ENDING_PATHS) {
+            if (requestUrl.contains(path)) {
+                requestUrl = requestUrl.substring(0, requestUrl.indexOf(path));
+                break;
+            }
+        }
         for (Object o : getMenus(true)) {
             JSONObject menu = (JSONObject) o; 
             String path = (String) menu.get(MenuKeyConstants.PATH);

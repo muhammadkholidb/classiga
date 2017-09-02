@@ -4,9 +4,11 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 
 import org.json.simple.JSONObject;
 
@@ -125,14 +127,14 @@ public class HttpClient {
      * @param parameters
      * @return 
      */
-    private String buildQueryStrings(JSONObject parameters) {
+    private String buildQueryStrings(JSONObject parameters) throws UnsupportedEncodingException {
         if ((parameters != null) && !parameters.isEmpty()) {
             StringBuilder builder = new StringBuilder();
             int i = 0;
             for (Object key : parameters.keySet()) {
                 builder.append(key);
                 builder.append("=");
-                builder.append(parameters.get(key));
+                builder.append(parameters.get(key) == null ? StringConstants.EMPTY : URLEncoder.encode(parameters.get(key).toString(), "UTF-8"));
                 i++;
                 if (i < parameters.size()) {
                     builder.append("&");

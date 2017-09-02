@@ -40,7 +40,7 @@ public class UserGroupEntity extends BaseEntity implements Serializable {
      */
     private static final long serialVersionUID = 1L;
 
-    public static final String TABLE_NAME = "mn_user_group";
+    public static final String TABLE_NAME = "classiga_user_group";
    
     @Column(name = "name", length = 128, nullable = false)
     private String name;

@@ -105,21 +105,14 @@ public class LoginController extends HttpClientBaseController {
         if ((defaultUser == null) || defaultUser.trim().isEmpty()) {
             return null;
         }
-        String defaultUserFirstName = StringConstants.EMPTY;
-        String defaultUserLastName = StringConstants.EMPTY;
+        String defaultUserFullName = StringConstants.EMPTY;
         String[] dataUserSplit = defaultUser.split(",");
         switch (dataUserSplit.length) {
             case 1:    // Only contains password
-                String[] name = DefaultUser.chooseName();
-                defaultUserFirstName = name[0];
-                defaultUserLastName = name[1];
+                defaultUserFullName = DefaultUser.chooseName();
                 break;
             case 2:    // Only contains password and first name
-                defaultUserFirstName = dataUserSplit[1].trim();
-                break;
-            case 3:    // Contains password, first name, and last name
-                defaultUserFirstName = dataUserSplit[1].trim();
-                defaultUserLastName = dataUserSplit[2].trim();
+                defaultUserFullName = dataUserSplit[1].trim();
                 break;
             default:
 
@@ -134,8 +127,7 @@ public class LoginController extends HttpClientBaseController {
             JSONObject user = new JSONObject();
             user.put("id", DefaultUser.USER_ID);
             user.put("username", username);
-            user.put("firstName", defaultUserFirstName);
-            user.put("lastName", defaultUserLastName);
+            user.put("fullName", defaultUserFullName);
             user.put("userGroup", userGroup);
             return user;
         }

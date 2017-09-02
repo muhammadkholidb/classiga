@@ -15,6 +15,7 @@ import ga.classi.data.helper.DtoUtils;
 import ga.classi.data.service.SystemService;
 import ga.classi.rest.controller.BaseController;
 import ga.classi.rest.helper.ResponseObject;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -41,7 +42,7 @@ public class SystemController extends BaseController {
         Dto dto = systemService.getAllSystem(new Dto());
 
         // Import default system data when no data returned
-        if ((dto == null) || dto.isEmpty()) {
+        if ((dto == null) || dto.isEmpty() || dto.get("content") == null || ((List) dto.get("content")).isEmpty() ) {
 
             log.debug("System data is empty, load initial data ...");
             InputStream is = this.getClass().getClassLoader().getResourceAsStream("dataset/system.xml");

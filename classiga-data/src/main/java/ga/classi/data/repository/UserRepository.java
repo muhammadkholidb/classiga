@@ -26,23 +26,21 @@ public interface UserRepository extends BaseDataRepository<UserEntity, Long>, Us
 
     /**
      * 
-     * @param searchTermLowercase
+     * @param lowerSearchTerm
      * @param pageable
      * @return 
      */
     @Query(value = "SELECT u FROM UserEntity u INNER JOIN FETCH u.userGroup ug "
-            + " WHERE LOWER(u.firstName) LIKE CONCAT('%',?1,'%') "
-            + " OR LOWER(u.lastName) LIKE CONCAT('%',?1,'%') "
+            + " WHERE u.lowerFullName LIKE CONCAT('%',?1,'%') "
             + " OR u.lowerUsername LIKE CONCAT('%',?1,'%') "
             + " OR u.lowerEmail LIKE CONCAT('%',?1,'%') "
             + " OR ug.lowerName LIKE CONCAT('%',?1,'%') ",
             countQuery = "SELECT COUNT(u) FROM UserEntity u INNER JOIN u.userGroup ug " 
-            + " WHERE LOWER(u.firstName) LIKE CONCAT('%',?1,'%') "
-            + " OR LOWER(u.lastName) LIKE CONCAT('%',?1,'%') "
+            + " WHERE u.lowerFullName LIKE CONCAT('%',?1,'%') "
             + " OR u.lowerUsername LIKE CONCAT('%',?1,'%') "
             + " OR u.lowerEmail LIKE CONCAT('%',?1,'%') "
             + " OR ug.lowerName LIKE CONCAT('%',?1,'%') ")
-    Page<UserEntity> findAllFetchUserGroupFiltered(String searchTermLowercase, Pageable pageable);
+    Page<UserEntity> findAllFetchUserGroupFiltered(String lowerSearchTerm, Pageable pageable);
 
     /**
      * 
@@ -51,6 +49,13 @@ public interface UserRepository extends BaseDataRepository<UserEntity, Long>, Us
      */
     List<UserEntity> findByUserGroup(UserGroupEntity userGroup);
 
+    /**
+     * 
+     * @param userGroup
+     * @return 
+     */
+    Long countByUserGroup(UserGroupEntity userGroup);
+    
     /**
      * 
      * @param lowerUsername

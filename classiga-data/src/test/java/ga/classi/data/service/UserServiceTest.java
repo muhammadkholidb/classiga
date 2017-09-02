@@ -59,15 +59,14 @@ public class UserServiceTest extends AbstractTestDataImport {
                 Long id = dto.get("id");
                 Dto dtoUserGroup = dto.getDto("userGroup");
                 if (id.equals(1L)) {
-                    assertEquals("John", dto.get("firstName"));
-                    assertEquals("Doe", dto.get("lastName"));
+                    assertEquals("John", dto.get("fullName"));
                     assertEquals("johndoe", dto.get("username"));
                     assertEquals("johndoe@yahoo.com", dto.get("email"));
                     assertEquals(CommonConstants.YES, dto.get("active"));
                     assertEquals(1L, dtoUserGroup.get("id"));
                     assertEquals("Administrator", dtoUserGroup.get("name"));
                 } else if (id.equals(2L)) {
-                    assertEquals("Fulan", dto.get("firstName"));
+                    assertEquals("Fulan", dto.get("fullName"));
                     assertEquals("fulan", dto.get("username"));
                     assertEquals("fulan@yahoo.com", dto.get("email"));
                     assertEquals(CommonConstants.YES, dto.get("active"));
@@ -92,8 +91,7 @@ public class UserServiceTest extends AbstractTestDataImport {
             assertEquals(1, list.size());
             Dto dtoUser = list.get(0);
             Dto dtoUserGroup = dtoUser.getDto("userGroup");
-            assertEquals("John", dtoUser.get("firstName"));
-            assertEquals("Doe", dtoUser.get("lastName"));
+            assertEquals("John", dtoUser.get("fullName"));
             assertEquals("johndoe", dtoUser.get("username"));
             assertEquals("johndoe@yahoo.com", dtoUser.get("email"));
             assertEquals(CommonConstants.YES, dtoUser.get("active"));
@@ -113,8 +111,7 @@ public class UserServiceTest extends AbstractTestDataImport {
             Dto dtoUser = userService.getUserById(dtoInput).get(CommonConstants.CONTENT);
             Dto dtoUserGroup = dtoUser.getDto("userGroup");
             assertEquals(1L, dtoUser.get("id"));
-            assertEquals("John", dtoUser.get("firstName"));
-            assertEquals("Doe", dtoUser.get("lastName"));
+            assertEquals("John", dtoUser.get("fullName"));
             assertEquals("johndoe", dtoUser.get("username"));
             assertEquals("johndoe@yahoo.com", dtoUser.get("email"));
             assertEquals(CommonConstants.YES, dtoUser.get("active"));
@@ -150,7 +147,7 @@ public class UserServiceTest extends AbstractTestDataImport {
         try {
             Dto dtoUser = userService.login(dtoInput).get(CommonConstants.CONTENT);
             log.debug("Result: {}", dtoUser);
-            assertEquals("Fulan", dtoUser.get("firstName"));
+            assertEquals("Fulan", dtoUser.get("fullName"));
             assertEquals("fulan", dtoUser.get("username"));
             assertEquals("fulan@yahoo.com", dtoUser.get("email"));
             assertEquals(CommonConstants.YES, dtoUser.get("active"));
@@ -176,8 +173,7 @@ public class UserServiceTest extends AbstractTestDataImport {
             Dto dtoUser = userService.getUserByEmail(dtoInput).get(CommonConstants.CONTENT);
             Dto dtoUserGroup = dtoUser.getDto("userGroup");
             assertEquals(1L, dtoUser.get("id"));
-            assertEquals("John", dtoUser.get("firstName"));
-            assertEquals("Doe", dtoUser.get("lastName"));
+            assertEquals("John", dtoUser.get("fullName"));
             assertEquals("johndoe", dtoUser.get("username"));
             assertEquals("johndoe@yahoo.com", dtoUser.get("email"));
             assertEquals(CommonConstants.YES, dtoUser.get("active"));
@@ -213,7 +209,7 @@ public class UserServiceTest extends AbstractTestDataImport {
             Dto dtoUser = userService.getUserByUsername(dtoInput).get(CommonConstants.CONTENT);
             Dto dtoUserGroup = dtoUser.getDto("userGroup");
             assertEquals(2L, dtoUser.get("id"));
-            assertEquals("Fulan", dtoUser.get("firstName"));
+            assertEquals("Fulan", dtoUser.get("fullName"));
             assertEquals("fulan", dtoUser.get("username"));
             assertEquals("fulan@yahoo.com", dtoUser.get("email"));
             assertEquals(CommonConstants.YES, dtoUser.get("active"));
@@ -245,8 +241,7 @@ public class UserServiceTest extends AbstractTestDataImport {
         log.debug("Test success add user ...");
 
         Dto dtoInput = new Dto();
-        dtoInput.put("firstName", "Brian");
-        dtoInput.put("lastName", "Mc Knight");
+        dtoInput.put("fullName", "Brian");
         dtoInput.put("username", "brian");
         dtoInput.put("email", "bryan.mckningt@yahoo.com");
         dtoInput.put("password", "123");
@@ -268,8 +263,7 @@ public class UserServiceTest extends AbstractTestDataImport {
         log.debug("Test fail add user ...");
 
         Dto dtoInput = new Dto();
-        dtoInput.put("firstName", "John");
-        dtoInput.put("lastName", "Doe");
+        dtoInput.put("fullName", "John");
         dtoInput.put("username", "johndoe");
         dtoInput.put("email", "johndoe@yahoo.com");
         dtoInput.put("password", "123");
@@ -296,8 +290,7 @@ public class UserServiceTest extends AbstractTestDataImport {
 
         Dto dtoInput = new Dto();
         dtoInput.put("id", 2L);
-        dtoInput.put("firstName", "Fulan");
-        dtoInput.put("lastName", "");
+        dtoInput.put("fullName", "Fulan");
         dtoInput.put("username", "fulan2");
         dtoInput.put("email", "fulan2@yahoo.com");
         dtoInput.put("password", "123");
@@ -323,8 +316,7 @@ public class UserServiceTest extends AbstractTestDataImport {
 
         Dto dtoInput = new Dto();
         dtoInput.put("id", 20L);
-        dtoInput.put("firstName", "Fulan");
-        dtoInput.put("lastName", "");
+        dtoInput.put("fullName", "Fulan");
         dtoInput.put("username", "fulan2");
         dtoInput.put("email", "fulan2@yahoo.com");
         dtoInput.put("password", "123");
@@ -351,8 +343,7 @@ public class UserServiceTest extends AbstractTestDataImport {
 
         Dto dtoInput = new Dto();
         dtoInput.put("id", 2L);
-        dtoInput.put("firstName", "John");
-        dtoInput.put("lastName", "Doe");
+        dtoInput.put("fullName", "John");
         dtoInput.put("username", "johndoe2");
         dtoInput.put("email", "johndoe@yahoo.com");
         dtoInput.put("password", "123");

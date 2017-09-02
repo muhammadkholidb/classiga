@@ -29,6 +29,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @Getter
 @Entity
 @Table(name = UserEntity.TABLE_NAME, uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"lower_full_name"}),
     @UniqueConstraint(columnNames = {"lower_username"}),
     @UniqueConstraint(columnNames = {"lower_email"})
 })
@@ -41,14 +42,11 @@ public class UserEntity extends BaseEntity implements Serializable {
      */
     private static final long serialVersionUID = 1L;
 
-    public static final String TABLE_NAME = "mn_user";
+    public static final String TABLE_NAME = "classiga_user";
 
-    @Column(name = "first_name", length = 128, nullable = false)
-    private String firstName;
-
-    @Column(name = "last_name", length = 128)
-    private String lastName;
-
+    @Column(name = "full_name", length = 256, nullable = false)
+    private String fullName;
+    
     @Column(name = "username", length = 128, nullable = false)
     private String username;
 
@@ -65,6 +63,10 @@ public class UserEntity extends BaseEntity implements Serializable {
 
     @Column(name = "active", length = 1, nullable = false)
     private String active;
+
+    @JsonIgnore
+    @Column(name = "lower_full_name", length = 256, nullable = false)
+    private String lowerFullName;
 
     @JsonIgnore
     @Column(name = "lower_username", length = 128, nullable = false)

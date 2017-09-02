@@ -30,8 +30,8 @@ public class DefaultUser {
         "Charlize Theron", 
         "Kate Winslet" };
     
-    public static String[] chooseName() {
-        return NAMES[new Random().nextInt(NAMES.length)].split(" ");
+    public static String chooseName() {
+        return NAMES[new Random().nextInt(NAMES.length)];
     }
 
 }

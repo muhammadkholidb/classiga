@@ -20,8 +20,7 @@ public interface ModelKeyConstants {
     public static final String TEMPLATE_CODE = "templateCode";
     public static final String ERROR_CODE = "errorCode";
     public static final String ERROR_MESSAGE = "errorMessage";
-    public static final String FIRST_NAME = "firstName";
-    public static final String LAST_NAME = "lastName";
+    public static final String FULL_NAME = "fullName";
     public static final String EMAIL = "email";
     public static final String USER_GROUPS = "userGroups";
     public static final String USER_GROUP_ID = "userGroupId";

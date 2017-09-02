@@ -307,11 +307,14 @@ public class UserGroupService extends AbstractServiceHelper {
 
         for (Long userGroupId : listUserGroupId) {
 
-            // Find users in this group
-            List<UserEntity> userList = userRepository.findByUserGroup(new UserGroupEntity(userGroupId));
-            if (userList != null && userList.size() > 0) {
+            // Count users in this group
+            Long countUsers = userRepository.countByUserGroup(new UserGroupEntity(userGroupId));
+            
+            log.debug("User group {}, count users: {}", userGroupId, countUsers);
+            
+            if (countUsers > 0) {
                 String userGroupName = userGroupRepository.findNameById(userGroupId);
-                throw new DataException(ExceptionCode.E1002, ErrorMessageConstants.CANT_REMOVE_USER_GROUP_CAUSE_USER_EXISTS, new Object[]{userGroupName, userList.size()});
+                throw new DataException(ExceptionCode.E1002, ErrorMessageConstants.CANT_REMOVE_USER_GROUP_CAUSE_USER_EXISTS, new Object[]{userGroupName, countUsers});
             }
 
             UserGroupEntity userGroup = new UserGroupEntity();

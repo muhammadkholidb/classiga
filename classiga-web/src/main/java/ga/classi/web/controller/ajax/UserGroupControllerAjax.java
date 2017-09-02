@@ -39,7 +39,7 @@ public class UserGroupControllerAjax extends HttpClientBaseController {
         
         httpClient.addParameter("start", httpServletRequest.getParameter("start").trim());
         httpClient.addParameter("length", httpServletRequest.getParameter("length").trim());
-        httpClient.addParameter("searchTerm", httpServletRequest.getParameter("searchTerm").trim());
+        httpClient.addParameter("searchTerm", httpServletRequest.getParameter("searchTerm"));
         httpClient.addParameter("sortOrder", httpServletRequest.getParameter("sortOrder").trim());
         httpClient.addParameter("sortColumn", getSortColumnName(httpServletRequest.getParameter("sortColumnIndex").trim()));
         

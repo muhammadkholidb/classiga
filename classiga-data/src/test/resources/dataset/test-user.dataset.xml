@@ -1,22 +1,22 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <dataset>
     
-    <mn_user_group id="1" 
+    <classiga_user_group id="1" 
         name="Administrator" 
         lower_name="administrator"
         active="y" 
         created_at="{currentMillis}" 
         modified_at="{currentMillis}" />
-    <mn_user_group id="2" 
+    <classiga_user_group id="2" 
         name="User"
         lower_name="user" 
         active="y" 
         created_at="{currentMillis}" 
         modified_at="{currentMillis}" />
     
-    <mn_user id="1"  
-        first_name="John" 
-        last_name="Doe" 
+    <classiga_user id="1"  
+        full_name="John" 
+        lower_full_name="john" 
         username="johndoe" 
         password="f353bbc4cf95f9592f98d6e3121a27f835b25f76985a1c87bc718d51358e77f5"  
         salt="Qbr6WrmI1z4gXnbNn3fHl5XqVKVSMc6Z" 
@@ -27,9 +27,9 @@
         lower_email="johndoe@yahoo.com" 
         created_at="{currentMillis}" 
         modified_at="{currentMillis}" />
-    <mn_user id="2" 
-        first_name="Fulan" 
-             
+    <classiga_user id="2" 
+        full_name="Fulan"
+        lower_full_name="fulan" 
         username="fulan" 
         password="54ef49870d57ce1d74df2657d8498f87219e623e726e91403281048c9db56519"   
         salt="kPJltIcsCGk17RZqWxNubAomtSkD82jw"
@@ -41,13 +41,13 @@
         created_at="{currentMillis}" 
         modified_at="{currentMillis}" />
     
-    <mn_menu_permission id="1" user_group_id="1" menu_code="menu.settings" can_view="y" can_modify="y" created_at="{currentMillis}" modified_at="{currentMillis}" />
-    <mn_menu_permission id="2" user_group_id="1" menu_code="menu.settings.system" can_view="y" can_modify="y" created_at="{currentMillis}" modified_at="{currentMillis}" />
-    <mn_menu_permission id="3" user_group_id="1" menu_code="menu.settings.user" can_view="y" can_modify="y" created_at="{currentMillis}" modified_at="{currentMillis}" />
-    <mn_menu_permission id="4" user_group_id="1" menu_code="menu.settings.usergroup" can_view="y" can_modify="y" created_at="{currentMillis}" modified_at="{currentMillis}" />
-    <mn_menu_permission id="5" user_group_id="2" menu_code="menu.settings" can_view="n" can_modify="n" created_at="{currentMillis}" modified_at="{currentMillis}" />
-    <mn_menu_permission id="6" user_group_id="2" menu_code="menu.settings.system" can_view="n" can_modify="n" created_at="{currentMillis}" modified_at="{currentMillis}" />
-    <mn_menu_permission id="7" user_group_id="2" menu_code="menu.settings.user" can_view="n" can_modify="n" created_at="{currentMillis}" modified_at="{currentMillis}" />
-    <mn_menu_permission id="8" user_group_id="2" menu_code="menu.settings.usergroup" can_view="n" can_modify="n" created_at="{currentMillis}" modified_at="{currentMillis}" />
+    <classiga_menu_permission id="1" user_group_id="1" menu_code="menu.settings" can_view="y" can_modify="y" created_at="{currentMillis}" modified_at="{currentMillis}" />
+    <classiga_menu_permission id="2" user_group_id="1" menu_code="menu.settings.system" can_view="y" can_modify="y" created_at="{currentMillis}" modified_at="{currentMillis}" />
+    <classiga_menu_permission id="3" user_group_id="1" menu_code="menu.settings.user" can_view="y" can_modify="y" created_at="{currentMillis}" modified_at="{currentMillis}" />
+    <classiga_menu_permission id="4" user_group_id="1" menu_code="menu.settings.usergroup" can_view="y" can_modify="y" created_at="{currentMillis}" modified_at="{currentMillis}" />
+    <classiga_menu_permission id="5" user_group_id="2" menu_code="menu.settings" can_view="n" can_modify="n" created_at="{currentMillis}" modified_at="{currentMillis}" />
+    <classiga_menu_permission id="6" user_group_id="2" menu_code="menu.settings.system" can_view="n" can_modify="n" created_at="{currentMillis}" modified_at="{currentMillis}" />
+    <classiga_menu_permission id="7" user_group_id="2" menu_code="menu.settings.user" can_view="n" can_modify="n" created_at="{currentMillis}" modified_at="{currentMillis}" />
+    <classiga_menu_permission id="8" user_group_id="2" menu_code="menu.settings.usergroup" can_view="n" can_modify="n" created_at="{currentMillis}" modified_at="{currentMillis}" />
     
 </dataset>

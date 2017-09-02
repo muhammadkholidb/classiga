@@ -6,7 +6,10 @@
 package ga.classi.data.helper;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -24,8 +27,9 @@ public class DtoUtils {
      * 
      * @param request
      * @return 
+     * @throws java.io.UnsupportedEncodingException 
      */
-    public static Dto fromServletRequest(ServletRequest request) {
+    public static Dto fromServletRequest(ServletRequest request) throws UnsupportedEncodingException {
         if (request == null) {
             return null;
         }
@@ -36,9 +40,9 @@ public class DtoUtils {
             if (values.length == 0) {
                 dto.put(key, ""); // Put empty string
             } else if (values.length == 1) {
-                dto.put(key, values[0]); // Put the first value
+                dto.put(key, URLDecoder.decode(String.valueOf(values[0]), "UTF-8")); // Put the first value
             } else {
-                dto.put(key, values); // Put all values
+                dto.put(key, URLDecoder.decode(Arrays.toString(values), "UTF-8")); // Put all values
             }
         }
         return dto;

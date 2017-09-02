@@ -9,7 +9,7 @@
         <div class="user-panel">
             <div class="pull-left image"><img class="img-circle" src="${contextPath}/res/${templateCode}/images/user.png" height="48" alt="User Image"></div>
             <div class="pull-left info">
-                <p>${user.firstName} ${user.lastName}</p>
+                <p>${user.fullName}</p>
                 <p class="designation">${userGroup.name}</p>
             </div>
         </div>

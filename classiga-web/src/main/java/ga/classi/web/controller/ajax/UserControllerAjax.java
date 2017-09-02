@@ -23,13 +23,13 @@ import lombok.extern.slf4j.Slf4j;
 public class UserControllerAjax extends HttpClientBaseController {
 
     private static final String[] SORT_COLUMN_NAME_BY_NUMBER = new String[] {
-            "firstName", 
-            "firstName", 
+            "fullName", 
+            "fullName", 
             "username", 
             "email", 
             "active", 
             "userGroup.lowerName", 
-            "firstName"}; 
+            "fullName"}; 
     
     @SuppressWarnings("unchecked")
     @GetMapping(value = "/ajax/settings/user", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -41,7 +41,7 @@ public class UserControllerAjax extends HttpClientBaseController {
         
         httpClient.addParameter("start", httpServletRequest.getParameter("start").trim());
         httpClient.addParameter("length", httpServletRequest.getParameter("length").trim());
-        httpClient.addParameter("searchTerm", httpServletRequest.getParameter("searchTerm").trim());
+        httpClient.addParameter("searchTerm", httpServletRequest.getParameter("searchTerm"));
         httpClient.addParameter("sortOrder", httpServletRequest.getParameter("sortOrder").trim());
         httpClient.addParameter("sortColumn", getSortColumnName(httpServletRequest.getParameter("sortColumnIndex").trim()));
         

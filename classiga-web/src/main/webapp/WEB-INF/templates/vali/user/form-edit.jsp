@@ -34,15 +34,9 @@
                             <div class="card-body">
                                 <form id="formAddUser" class="form-horizontal" method="post" action="${contextPath}/settings/user/edit/${userId}">
                                     <div class="form-group required">
-                                        <label class="control-label col-md-3" for="inputFirstName"><s:message code="label.firstname" /></label>
+                                        <label class="control-label col-md-3" for="inputFullName"><s:message code="label.fullname" /></label>
                                         <div class="col-md-9">
-                                            <input class="form-control" type="text" placeholder="<s:message code="label.firstname" />" name="firstName" value="${firstName}" id="inputFirstName" autofocus>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-3" for="inputLastName"><s:message code="label.lastname" /></label>
-                                        <div class="col-md-9">
-                                            <input class="form-control" type="text" placeholder="<s:message code="label.lastname" />" name="lastName" value="${lastName}" id="inputLastName" autofocus>
+                                            <input class="form-control" type="text" placeholder="<s:message code="label.fullname" />" name="fullName" value="${fullName}" id="inputFullName" autofocus>
                                         </div>
                                     </div>
                                     <div class="form-group required">

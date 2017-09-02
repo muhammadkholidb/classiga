@@ -44,7 +44,7 @@ public class UserService extends AbstractServiceHelper {
 
         String searchTerm = dtoInput.getStringValue("searchTerm");
 
-        PageRequest pageRequest = createPageRequest(dtoInput, Direction.ASC, "firstName");
+        PageRequest pageRequest = createPageRequest(dtoInput, Direction.ASC, "fullName");
         
         Page<UserEntity> pages;
 
@@ -171,10 +171,9 @@ public class UserService extends AbstractServiceHelper {
     public Dto addUser(Dto dtoInput) {
 
         // Validate dtoInput
-        DataValidation.containsRequiredData(dtoInput, "firstName", "email", "username", "password", "active", "userGroupId");
+        DataValidation.containsRequiredData(dtoInput, "fullName", "email", "username", "password", "active", "userGroupId");
 
-        String strFirstName = dtoInput.get("firstName");
-        String strLastName = dtoInput.get("lastName");
+        String strFullName = dtoInput.get("fullName");
         String strEmail = dtoInput.get("email");
         String strUsername = dtoInput.get("username");
         String strPassword = dtoInput.get("password");
@@ -182,7 +181,7 @@ public class UserService extends AbstractServiceHelper {
         String strUserGroupId = dtoInput.getStringValue("userGroupId");
 
         // Validate values
-        DataValidation.validateEmpty(strFirstName, "First Name");
+        DataValidation.validateEmpty(strFullName, "Full Name");
         DataValidation.validateEmpty(strPassword, "Password");
         DataValidation.validateEmail(strEmail);
         DataValidation.validateUsername(strUsername);
@@ -211,14 +210,14 @@ public class UserService extends AbstractServiceHelper {
         String stirredPassword = PasswordUtils.stirWithSalt(strPassword, salt);
 
         UserEntity addUser = new UserEntity();
-        addUser.setFirstName(strFirstName);
-        addUser.setLastName(strLastName);
+        addUser.setFullName(strFullName);
         addUser.setEmail(strEmail);
         addUser.setUsername(strUsername);
         addUser.setPassword(stirredPassword);
         addUser.setSalt(salt);
         addUser.setActive(strActive.toLowerCase());
         addUser.setUserGroup(userGroupById);
+        addUser.setLowerFullName(strFullName.toLowerCase());
         addUser.setLowerUsername(strUsername.toLowerCase());
         addUser.setLowerEmail(strEmail.toLowerCase());
 
@@ -231,11 +230,10 @@ public class UserService extends AbstractServiceHelper {
     public Dto editUser(Dto dtoInput) {
 
         // Validate dtoInput
-        DataValidation.containsRequiredData(dtoInput, "id", "firstName", "email", "username", "active", "userGroupId");
+        DataValidation.containsRequiredData(dtoInput, "id", "fullName", "email", "username", "active", "userGroupId");
 
         String strId = dtoInput.getStringValue("id");
-        String strFirstName = dtoInput.get("firstName");
-        String strLastName = dtoInput.get("lastName");
+        String strFullName = dtoInput.get("fullName");
         String strEmail = dtoInput.get("email");
         String strUsername = dtoInput.get("username");
         String strPassword = dtoInput.get("password");
@@ -244,7 +242,7 @@ public class UserService extends AbstractServiceHelper {
 
         // Validate values
         DataValidation.validateNumeric(strId, "User ID");
-        DataValidation.validateEmpty(strFirstName, "First Name");
+        DataValidation.validateEmpty(strFullName, "First Name");
         DataValidation.validateEmail(strEmail);
         DataValidation.validateUsername(strUsername);
         DataValidation.validateNumeric(strUserGroupId, "User Group ID");
@@ -273,15 +271,15 @@ public class UserService extends AbstractServiceHelper {
             throw new DataException(ExceptionCode.E1001, ErrorMessageConstants.USER_GROUP_NOT_FOUND);
         }
 
-        findUserById.setFirstName(strFirstName);
-        findUserById.setLastName(strLastName);
+        findUserById.setFullName(strFullName);
         findUserById.setUsername(strUsername);
         findUserById.setEmail(strEmail);
         findUserById.setActive(strActive.toLowerCase());
         findUserById.setUserGroup(userGroupById);
         findUserById.setLowerEmail(strEmail.toLowerCase());
         findUserById.setLowerUsername(strUsername.toLowerCase());
-
+        findUserById.setLowerFullName(strFullName.toLowerCase());
+        
         if ((strPassword != null) && !strPassword.trim().isEmpty()) {
             String newSalt = RandomStringUtils.randomAlphanumeric(32);
             String stirredPassword = PasswordUtils.stirWithSalt(strPassword, newSalt);

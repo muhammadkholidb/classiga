@@ -12,6 +12,7 @@ import ga.classi.data.helper.DtoUtils;
 import ga.classi.data.service.UserGroupService;
 import ga.classi.rest.controller.BaseController;
 import ga.classi.rest.helper.ResponseObject;
+import java.io.UnsupportedEncodingException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -23,7 +24,7 @@ public class UserGroupController extends BaseController {
     private UserGroupService userGroupService;
 
     @RequestMapping(value = "/user-group/list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseObject getAllUserGroup() {
+    public ResponseObject getAllUserGroup()  throws Exception {
         log.info("Get all user group ...");
         Dto result = userGroupService.getAllUserGroups(DtoUtils.fromServletRequest(request));
 

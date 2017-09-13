@@ -72,6 +72,29 @@ public class UserGroupController extends HttpClientBaseController {
             @RequestParam(name = "description", required = true, defaultValue = StringConstants.EMPTY) String description,
             @RequestParam(name = "menuPermissions", required = true, defaultValue = StringConstants.EMPTY) String encodedMenuPermissions) throws IOException {
 
+        String errorMessage = null;
+
+        if (isPost()) {
+
+            JSONObject jsonUserGroup = new JSONObject();
+            jsonUserGroup.put("name", name.trim());
+            jsonUserGroup.put("description", description.trim());
+            jsonUserGroup.put("active", CommonConstants.YES);
+
+            JSONObject parameters = new JSONObject();
+            parameters.put("userGroup", jsonUserGroup);
+            parameters.put("menuPermissions", decodedMenuPermissions);
+            
+            HttpClientResponse response = getDefinedHttpClient("/settings/user-group/add", parameters).post();
+
+            if (CommonConstants.SUCCESS.equals(response.getStatus())) {
+                return redirectAndNotifySuccess("/settings/user-group", response.getMessage());
+            } 
+            
+            // This is not success
+            errorMessage = response.getMessage();
+        }
+
         JSONArray availableMenus = (JSONArray) JSONValue.parse(getMenus(true).toString());
         
         List<JSONObject> menus = new ArrayList<JSONObject>();
@@ -105,24 +128,8 @@ public class UserGroupController extends HttpClientBaseController {
         model.put(ModelKeyConstants.DESCRIPTION, description);
         model.put(ModelKeyConstants.MENU_PERMISSIONS, menus);
 
-        if (isPost()) {
-
-            JSONObject jsonUserGroup = new JSONObject();
-            jsonUserGroup.put("name", name.trim());
-            jsonUserGroup.put("description", description.trim());
-            jsonUserGroup.put("active", CommonConstants.YES);
-
-            JSONObject parameters = new JSONObject();
-            parameters.put("userGroup", jsonUserGroup);
-            parameters.put("menuPermissions", decodedMenuPermissions);
-            
-            HttpClientResponse response = getDefinedHttpClient("/settings/user-group/add", parameters).post();
-
-            if (CommonConstants.SUCCESS.equals(response.getStatus())) {
-                return redirectAndNotifySuccess("/settings/user-group", response.getMessage());
-            } else {    // Fail or error
-                return viewAndNotifyError("user-group/form-add", model, response.getMessage());
-            }
+        if (errorMessage != null) {
+            return view("user-group/form-add", model, errorMessage);
         }
 
         return view("user-group/form-add", model);

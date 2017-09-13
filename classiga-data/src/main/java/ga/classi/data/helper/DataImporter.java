@@ -146,7 +146,7 @@ public class DataImporter {
                 String[] tables = ids.getTableNames();
                 for (String table : tables) {
                     try {
-                        String query = null;
+                        String query;
                         if ((sqlResetSequence != null) && !sqlResetSequence.isEmpty()) {
                             query = sqlResetSequence;
                         } else if ((sqlSequenceName != null) && !sqlSequenceName.isEmpty()) {

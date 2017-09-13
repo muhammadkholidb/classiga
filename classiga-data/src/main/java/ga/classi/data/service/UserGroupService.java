@@ -127,6 +127,7 @@ public class UserGroupService extends AbstractServiceHelper {
 
         String strGroupName = String.valueOf(jsonUserGroup.get("name"));
         String strGroupActive = String.valueOf(jsonUserGroup.get("active"));
+        String strGroupDescription = String.valueOf(jsonUserGroup.get("description"));
 
         // Validate values user group
         DataValidation.validateEmpty(strGroupName, "Name");
@@ -140,11 +141,11 @@ public class UserGroupService extends AbstractServiceHelper {
             JSONObject jsonMenuPermission = (JSONObject) object;
 
             // Validate dtoInput
-            DataValidation.containsRequiredData(jsonMenuPermission, "menuCode", "view", "modify");
+            DataValidation.containsRequiredData(jsonMenuPermission, "menuCode", "canView", "canModify");
 
             String strMenuCode = String.valueOf(jsonMenuPermission.get("menuCode"));
-            String strViewPermission = String.valueOf(jsonMenuPermission.get("view"));
-            String strModifyPermission = String.valueOf(jsonMenuPermission.get("modify"));
+            String strViewPermission = String.valueOf(jsonMenuPermission.get("canView"));
+            String strModifyPermission = String.valueOf(jsonMenuPermission.get("canModify"));
 
             // Validate values
             DataValidation.validateEmpty(strMenuCode, "Menu Code");
@@ -168,6 +169,7 @@ public class UserGroupService extends AbstractServiceHelper {
         // Save new user group
         UserGroupEntity userGroup = new UserGroupEntity();
         userGroup.setName(strGroupName);
+        userGroup.setDescription(strGroupDescription);
         userGroup.setActive(strGroupActive.toLowerCase());
         userGroup.setLowerName(strGroupName.toLowerCase());
         UserGroupEntity inserted = userGroupRepository.save(userGroup);
@@ -207,6 +209,7 @@ public class UserGroupService extends AbstractServiceHelper {
 
         String strId = String.valueOf(jsonUserGroup.get("id"));
         String strGroupName = String.valueOf(jsonUserGroup.get("name"));
+        String strGroupDescription = String.valueOf(jsonUserGroup.get("description"));
         String strGroupActive = String.valueOf(jsonUserGroup.get("active"));
 
         // Validate values user group
@@ -224,11 +227,11 @@ public class UserGroupService extends AbstractServiceHelper {
             JSONObject jsonMenuPermission = (JSONObject) object;
 
             // Validate dtoInput
-            DataValidation.containsRequiredData(jsonMenuPermission, "menuCode", "view", "modify");
+            DataValidation.containsRequiredData(jsonMenuPermission, "menuCode", "canView", "canModify");
 
             String strMenuCode = String.valueOf(jsonMenuPermission.get("menuCode"));
-            String strViewPermission = String.valueOf(jsonMenuPermission.get("view"));
-            String strModifyPermission = String.valueOf(jsonMenuPermission.get("modify"));
+            String strViewPermission = String.valueOf(jsonMenuPermission.get("canView"));
+            String strModifyPermission = String.valueOf(jsonMenuPermission.get("canModify"));
 
             // Validate values
             DataValidation.validateEmpty(strMenuCode, "Menu Code");
@@ -260,6 +263,7 @@ public class UserGroupService extends AbstractServiceHelper {
         }
 
         findUserGroupById.setName(strGroupName);
+        findUserGroupById.setDescription(strGroupDescription);
         findUserGroupById.setActive(strGroupActive.toLowerCase());
         findUserGroupById.setLowerName(strGroupName.toLowerCase());
 

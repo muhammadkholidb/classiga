@@ -42,7 +42,7 @@ public class UserEntity extends BaseEntity implements Serializable {
      */
     private static final long serialVersionUID = 1L;
 
-    public static final String TABLE_NAME = "classiga_user";
+    public static final String TABLE_NAME = "cg_user";
 
     @Column(name = "full_name", length = 256, nullable = false)
     private String fullName;

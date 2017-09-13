@@ -27,4 +27,7 @@ public interface ModelKeyConstants {
     public static final String ACTIVE = "active";
     public static final String USER_ID = "userId";
     public static final String CAN_MODIFY = "canModify";
+    public static final String NAME = "name";
+    public static final String DESCRIPTION = "description";
+    public static final String MENU_PERMISSIONS = "menuPermissions";
 }

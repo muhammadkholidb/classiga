@@ -277,8 +277,7 @@ public class HttpClient {
     /**
      * 
      * @param name
-     * @param value
-     * @return 
+     * @param value 
      */
     @SuppressWarnings("unchecked")
     public void addParameter(String name, Object value) {
@@ -303,8 +302,7 @@ public class HttpClient {
     /**
      * 
      * @param name
-     * @param value
-     * @return 
+     * @param value 
      */
     @SuppressWarnings("unchecked")
     public void setHeader(String name, Object value) {

@@ -10,21 +10,17 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
 import com.googlecode.htmlcompressor.compressor.HtmlCompressor;
 import javax.servlet.http.HttpServletRequest;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
-@WebFilter(filterName = "compress-response-filter", urlPatterns = "*")
+@Slf4j
 public class CompressResponseFilter implements Filter {
 
     // Read http://www.byteslounge.com/tutorials/how-to-compress-response-html-in-java-web-application
-
-    private static final Logger log = LoggerFactory.getLogger(CompressResponseFilter.class);
 
     private static final String RESOURCE_PATH = "/res/";
     private static final String AJAX_PATH = "/ajax/";

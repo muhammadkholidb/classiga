@@ -1,11 +1,11 @@
 [
     {
         "name": "Menu Settings",
-        "description": "",
+        "description": "Main menu to do some settings.",
         "code": "menu.settings",
         "label": "label.menu.settings",
         "faIcon": "fa fa-gear",
-        "page": "#",
+        "path": "",
         "sequence": 999
     }, {
         "name": "Menu System",

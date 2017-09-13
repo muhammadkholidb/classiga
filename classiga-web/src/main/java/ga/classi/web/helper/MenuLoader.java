@@ -50,13 +50,19 @@ public class MenuLoader {
                 flatMenus.addAll(array);
             }
             
+            String lastParentCode = null;
+            
             for (Object object : flatMenus) {
                 JSONObject menu = (JSONObject) object;
                 String code = (String) menu.get(MenuKeyConstants.CODE);
                 String parentCode = (String) menu.get(MenuKeyConstants.PARENT_CODE);
+                JSONObject nestedMenu = (JSONObject) menu.clone();
                 if (parentCode == null || parentCode.isEmpty()) {
-                    menu.put(MenuKeyConstants.SUBMENUS, getChildren(flatMenus, code));
-                    nestedMenus.add(menu);
+                    nestedMenu.put(MenuKeyConstants.SUBMENUS, getChildren(flatMenus, code));
+                    nestedMenus.add(nestedMenu);
+                    lastParentCode = code;
+                } else if (!parentCode.equals(lastParentCode)) {
+                    nestedMenus.add(nestedMenu);
                 }
             }
             

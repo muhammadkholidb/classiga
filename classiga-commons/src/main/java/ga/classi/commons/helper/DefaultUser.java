@@ -17,6 +17,7 @@ public class DefaultUser {
         "John Travolta", 
         "Sylvester Stallone", 
         "Christian Bale", 
+        "Dian Sastrowardoyo",
         "Morgan Freeman", 
         "Keanu Reeves", 
         "Katherine Heigl", 

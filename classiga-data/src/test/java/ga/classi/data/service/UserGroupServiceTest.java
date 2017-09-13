@@ -126,23 +126,23 @@ public class UserGroupServiceTest extends AbstractTestDataImport {
 
         JSONObject menu1 = new JSONObject();
         menu1.put("menuCode", "menu.settings");
-        menu1.put("view", CommonConstants.YES);
-        menu1.put("modify", CommonConstants.NO);
+        menu1.put("canView", CommonConstants.YES);
+        menu1.put("canModify", CommonConstants.NO);
 
         JSONObject menu2 = new JSONObject();
         menu2.put("menuCode", "menu.settings.system");
-        menu2.put("view", CommonConstants.YES);
-        menu2.put("modify", CommonConstants.NO);
+        menu2.put("canView", CommonConstants.YES);
+        menu2.put("canModify", CommonConstants.NO);
 
         JSONObject menu3 = new JSONObject();
         menu3.put("menuCode", "menu.settings.user");
-        menu3.put("view", CommonConstants.YES);
-        menu3.put("modify", CommonConstants.NO);
+        menu3.put("canView", CommonConstants.YES);
+        menu3.put("canModify", CommonConstants.NO);
 
         JSONObject menu4 = new JSONObject();
         menu4.put("menuCode", "menu.settings.usergroup");
-        menu4.put("view", CommonConstants.YES);
-        menu4.put("modify", CommonConstants.NO);
+        menu4.put("canView", CommonConstants.YES);
+        menu4.put("canModify", CommonConstants.NO);
 
         JSONArray menuPermissions = new JSONArray();
         menuPermissions.add(menu1);
@@ -214,23 +214,23 @@ public class UserGroupServiceTest extends AbstractTestDataImport {
 
         JSONObject menu1 = new JSONObject();
         menu1.put("menuCode", "menu.settings");
-        menu1.put("view", CommonConstants.YES);
-        menu1.put("modify", CommonConstants.NO);
+        menu1.put("canView", CommonConstants.YES);
+        menu1.put("canModify", CommonConstants.NO);
 
         JSONObject menu2 = new JSONObject();
         menu2.put("menuCode", "menu.settings.system");
-        menu2.put("view", CommonConstants.YES);
-        menu2.put("modify", CommonConstants.NO);
+        menu2.put("canView", CommonConstants.YES);
+        menu2.put("canModify", CommonConstants.NO);
 
         JSONObject menu3 = new JSONObject();
         menu3.put("menuCode", "menu.settings.user");
-        menu3.put("view", CommonConstants.YES);
-        menu3.put("modify", CommonConstants.NO);
+        menu3.put("canView", CommonConstants.YES);
+        menu3.put("canModify", CommonConstants.NO);
 
         JSONObject menu4 = new JSONObject();
         menu4.put("menuCode", "menu.settings.usergroup");
-        menu4.put("view", CommonConstants.YES);
-        menu4.put("modify", CommonConstants.NO);
+        menu4.put("canView", CommonConstants.YES);
+        menu4.put("canModify", CommonConstants.NO);
 
         JSONArray menuPermissions = new JSONArray();
         menuPermissions.add(menu1);

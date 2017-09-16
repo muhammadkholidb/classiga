@@ -82,7 +82,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "${contextPath}/ajax/settings/user",
+                    url: "${contextPath}/settings/user/list",
                     data: function(d) {
                         d.sortColumnIndex = d.order[0].column;
                         d.sortOrder = d.order[0].dir;
@@ -182,6 +182,7 @@
                         });    
                         form.appendTo("body");
                         form.submit();
+                        swal.close();
                     } else {
                         if(onCancel && (typeof onCancel === "function")) {
                             onCancel();

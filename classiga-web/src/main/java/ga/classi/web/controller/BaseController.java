@@ -295,7 +295,7 @@ public abstract class BaseController {
         messageHelper.setDefaultLocale(newLocale);
     }
     
-    private final List<String> ENDING_PATHS = Arrays.asList("/add", "/edit");
+    private final List<String> ENDING_PATHS = Arrays.asList("/add", "/edit", "/remove", "/list");
     
     private JSONObject getCurrentMenu() {
         String contextPath = httpServletRequest.getContextPath();

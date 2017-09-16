@@ -36,7 +36,7 @@
                                 <div class="form-group">
                                     <label class="col-lg-2 control-label" for="inputLanguage"><s:message code="label.language" /></label>
                                     <div class="col-lg-10">
-                                        <select class="form-control" id="inputLanguage" name="languageCode" disabled>
+                                        <select class="form-control" id="inputLanguage" name="languageCode" ${isEdit ? '' : 'disabled' }>
                                             <c:forEach items="${languages}" var="language">
                                                 <c:choose>
                                                     <c:when test="${language.code eq currentLanguageCode}">
@@ -72,7 +72,7 @@
                                 <div class="form-group">
                                     <label class="col-lg-2 control-label" for="inputOnline"><s:message code="label.online" /></label>
                                     <div class="col-lg-10">
-                                        <select class="form-control" id="inputOnline" name="online" disabled>
+                                        <select class="form-control" id="inputOnline" name="online" ${isEdit ? '' : 'disabled' }>
                                             <c:choose>
                                                 <c:when test="${currentOnline eq 'y'}">
                                                 <option value="y" selected><s:message code="label.yes" /></option>
@@ -87,12 +87,16 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <div class="col-lg-10 col-lg-offset-2" id="divEdit">
-                                        <button type="button" class="btn btn-primary icon-btn" id="btnEdit" ><s:message code="button.edit" /></button>
-                                    </div>
-                                    <div class="col-lg-10 col-lg-offset-2" id="divSave" style="display: none;">
-                                        <button type="submit" class="btn btn-primary icon-btn" id="btnSave" ><s:message code="button.save" /></button>
-                                        <button type="button" class="btn btn-default icon-btn" id="btnCancel" ><s:message code="button.cancel" /></button>
+                                    <div class="col-lg-10 col-lg-offset-2" >
+                                        <c:choose>
+                                            <c:when test="${isEdit}">
+                                                <button type="submit" class="btn btn-primary icon-btn" id="btnSave" ><s:message code="button.save" /></button>
+                                                <button type="button" class="btn btn-default icon-btn" id="btnCancel" ><s:message code="button.cancel" /></button>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <a href="${contextPath}/settings/system/edit" class="btn btn-primary" ><s:message code="button.edit" /></a>
+                                            </c:otherwise>
+                                        </c:choose>
                                     </div>
                                 </div>
                             </form>
@@ -106,23 +110,6 @@
 
     <jsp:include page="../includes/_4_inc_bottom.jsp" />
     <%-- Put your additional content (js) here --%>
-
-    <script>
-    $('button#btnEdit').on('click', function() {
-    	$('select#inputLanguage').attr('disabled', false);
-    	$('select#inputTemplate').attr('disabled', false);
-    	$('select#inputOnline').attr('disabled', false);
-    	$('div#divEdit').hide();
-    	$('div#divSave').show();
-    });
-    $('button#btnCancel').on('click', function() {
-    	$('select#inputLanguage').attr('disabled', true);
-    	$('select#inputTemplate').attr('disabled', true);
-    	$('select#inputOnline').attr('disabled', true);
-    	$('div#divEdit').show();
-    	$('div#divSave').hide();
-    });
-    </script>
 
 </body>
 </html>

@@ -21,6 +21,9 @@ import org.springframework.web.servlet.ModelAndView;
 import ga.classi.commons.helper.CommonConstants;
 import ga.classi.commons.helper.HttpClient;
 import ga.classi.commons.helper.HttpClientResponse;
+import ga.classi.commons.helper.StringConstants;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  *
@@ -33,6 +36,11 @@ public class SystemController extends HttpClientBaseController {
 
     @GetMapping(value = "/settings/system")
     public ModelAndView index() {
+        
+        return view("system/form", prepareForm(false));
+    }
+    
+    private Map<String, Object> prepareForm(boolean isEdit) {
         
         String currentLanguageCode = getSystem(CommonConstants.SYSTEM_KEY_LANGUAGE_CODE);
         String currentTemplateCode = getSystem(CommonConstants.SYSTEM_KEY_TEMPLATE_CODE);
@@ -62,57 +70,63 @@ public class SystemController extends HttpClientBaseController {
         model.put("currentLanguageCode", currentLanguageCode);
         model.put("currentTemplateCode", currentTemplateCode);
         model.put("currentOnline", currentOnline);
+        model.put("isEdit", isEdit);
         
-        return view("system/form", model);
+        return model;
     }
     
     @SuppressWarnings("unchecked")
-    @PostMapping(value = "/settings/system/edit")
+    @RequestMapping(value = "/settings/system/edit", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView edit(
-            @RequestParam(name = "languageCode", required = true) String languageCode, 
-            @RequestParam(name = "online", required = true) String online) throws IOException {
+            @RequestParam(name = "languageCode", required = true, defaultValue = StringConstants.EMPTY) String languageCode, 
+            @RequestParam(name = "online", required = true, defaultValue = StringConstants.EMPTY) String online) throws IOException {
 
-        JSONArray editSystems = new JSONArray();
-        
-        JSONArray systems = getSystems();
-        for (Object object : systems) {
-            JSONObject system = (JSONObject) object;
-            if (CommonConstants.SYSTEM_KEY_LANGUAGE_CODE.equals(system.get("dataKey"))) {
-                JSONObject data = new JSONObject();
-                data.put("id", system.get("id"));
-                data.put("dataValue", languageCode);
-                editSystems.add(data);
-            } else if (CommonConstants.SYSTEM_KEY_ONLINE.equals(system.get("dataKey"))) {
-                JSONObject data = new JSONObject();
-                data.put("id", system.get("id"));
-                data.put("dataValue", online);
-                editSystems.add(data);
+        if (isPost()) {
+            
+            JSONArray editSystems = new JSONArray();
+
+            JSONArray systems = getSystems();
+            for (Object object : systems) {
+                JSONObject system = (JSONObject) object;
+                if (CommonConstants.SYSTEM_KEY_LANGUAGE_CODE.equals(system.get("dataKey"))) {
+                    JSONObject data = new JSONObject();
+                    data.put("id", system.get("id"));
+                    data.put("dataValue", languageCode);
+                    editSystems.add(data);
+                } else if (CommonConstants.SYSTEM_KEY_ONLINE.equals(system.get("dataKey"))) {
+                    JSONObject data = new JSONObject();
+                    data.put("id", system.get("id"));
+                    data.put("dataValue", online);
+                    editSystems.add(data);
+                }
             }
+
+            JSONObject params = new JSONObject();
+            params.put("systems", editSystems);
+
+            HttpClient httpClient = getDefinedHttpClient();
+            httpClient.setPath("/settings/system/edit");
+            httpClient.setParameters(params);
+
+            String currentLanguageCode = getSystem(CommonConstants.SYSTEM_KEY_LANGUAGE_CODE);
+
+            // Update header Accept-Language in restClient if language changed
+            if (!languageCode.equals(currentLanguageCode)) {
+                log.debug("Language changed!");
+                httpClient.setHeader("Accept-Language", languageCode);
+            }
+
+            HttpClientResponse response = httpClient.post();
+
+            if (CommonConstants.SUCCESS.equals(response.getStatus())) {
+                loadSystems();
+                return redirectAndNotifySuccess("/settings/system", response.getMessage());
+            } else {    // Fail or error
+                return redirectAndNotifyError("/settings/system", response.getMessage());
+            }        
         }
-
-        JSONObject params = new JSONObject();
-        params.put("systems", editSystems);
-
-        HttpClient httpClient = getDefinedHttpClient();
-        httpClient.setPath("/settings/system/edit");
-        httpClient.setParameters(params);;
         
-        String currentLanguageCode = getSystem(CommonConstants.SYSTEM_KEY_LANGUAGE_CODE);
-        
-        // Update header Accept-Language in restClient if language changed
-        if (!languageCode.equals(currentLanguageCode)) {
-            log.debug("Language changed!");
-            httpClient.setHeader("Accept-Language", languageCode);
-        }
-
-        HttpClientResponse response = httpClient.post();
-
-        if (CommonConstants.SUCCESS.equals(response.getStatus())) {
-            loadSystems();
-            return redirectAndNotifySuccess("/settings/system", response.getMessage());
-        } else {    // Fail or error
-            return redirectAndNotifyError("/settings/system", response.getMessage());
-        }        
+        return view("system/form", prepareForm(true));
     }
     
 }

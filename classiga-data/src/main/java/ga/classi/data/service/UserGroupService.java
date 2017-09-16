@@ -277,8 +277,11 @@ public class UserGroupService extends AbstractServiceHelper {
         menuPermissionRepository.flush();
 
         // Save menus
-        log.debug("Save menu permissions ...");
-        menuPermissionRepository.save(listMenuPermission);
+        log.debug("Save menu permissions ...");        
+        for (MenuPermissionEntity menuPermission : listMenuPermission) {
+            menuPermission.setUserGroup(updated);
+            menuPermissionRepository.save(menuPermission);
+        }
 
         return buildResultByEntity(updated);
     }

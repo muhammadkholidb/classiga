@@ -21,12 +21,12 @@ import lombok.extern.slf4j.Slf4j;
 public class CompressResponseFilter implements Filter {
 
     // Read http://www.byteslounge.com/tutorials/how-to-compress-response-html-in-java-web-application
-
-    private static final String RESOURCE_PATH = "/res/";
-    private static final String AJAX_PATH = "/ajax/";
+    
+    private static final String PATH_RESOURCE = "/res";
+    private static final String PATH_LIST = "/list";
     
     private HtmlCompressor compressor;
-
+    
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 
@@ -35,10 +35,9 @@ public class CompressResponseFilter implements Filter {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         String contextPath = httpRequest.getContextPath();
         String requestUrl = httpRequest.getRequestURI();
-        String resourceUrl = contextPath + RESOURCE_PATH;
-        String ajaxUrl = contextPath + AJAX_PATH;
-
-        if (requestUrl.startsWith(resourceUrl) || requestUrl.startsWith(ajaxUrl)) {
+        String resourceUrl = contextPath + PATH_RESOURCE;
+        
+        if (requestUrl.startsWith(resourceUrl) || requestUrl.endsWith(PATH_LIST)) {
             chain.doFilter(request, response);
             return;
         }

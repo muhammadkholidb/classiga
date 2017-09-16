@@ -104,7 +104,7 @@ public class UserController extends HttpClientBaseController {
             @RequestParam(name = "email", required = true, defaultValue = StringConstants.EMPTY) String email,
             @RequestParam(name = "password", required = true, defaultValue = StringConstants.EMPTY) String password,
             @RequestParam(name = "userGroupId", required = true, defaultValue = StringConstants.EMPTY) String userGroupId,
-            @RequestParam(name = "active", required = true, defaultValue = StringConstants.EMPTY) String active) throws IOException {
+            @RequestParam(name = "active", required = true, defaultValue = CommonConstants.NO) String active) throws IOException {
 
         if (userId == null || userId.isEmpty()) {
             return redirectAndNotifyError("/settings/user", messageHelper.getMessage("error.usernotfound"));

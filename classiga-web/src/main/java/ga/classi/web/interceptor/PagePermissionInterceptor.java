@@ -18,6 +18,8 @@ import ga.classi.commons.helper.DefaultUser;
 import ga.classi.web.helper.MenuKeyConstants;
 import ga.classi.web.helper.SessionKeyConstants;
 import ga.classi.web.helper.SessionManager;
+import java.util.Arrays;
+import java.util.List;
 
 public class PagePermissionInterceptor extends HandlerInterceptorAdapter {
 
@@ -27,6 +29,13 @@ public class PagePermissionInterceptor extends HandlerInterceptorAdapter {
     @Qualifier("applicationProp")
     protected Properties applicationProp;
 
+    private static final String PATH_ADD = "/add";
+    private static final String PATH_EDIT = "/edit";
+    private static final String PATH_REMOVE = "/remove";
+    private static final String PATH_LIST = "/list";
+    
+    private final List<String> ENDING_PATHS = Arrays.asList(PATH_ADD, PATH_EDIT, PATH_REMOVE, PATH_LIST);
+    
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
@@ -44,56 +53,50 @@ public class PagePermissionInterceptor extends HandlerInterceptorAdapter {
 
         log.debug("Request URL: {}", requestUrl);
         
-        String menuCodeParent = null;
-        String menuCode = null;
+        JSONObject currentMenu = findInAvailableMenu(request, (JSONArray) SessionManager.get(SessionKeyConstants.FLAT_MENUS));
         
-        JSONArray flatMenus = SessionManager.get(SessionKeyConstants.FLAT_MENUS);
-        for (Object o : flatMenus) {
-            JSONObject menu = (JSONObject) o;
-            String path = (String) menu.get("path");
-            if ((path != null) && requestUrl.contains(path)) {
-                menuCode = (String) menu.get(MenuKeyConstants.CODE);
-                menuCodeParent = (String) menu.get(MenuKeyConstants.PARENT_CODE);
-                break;
-            }
-        }
-        
-        if (menuCode == null) {
+        if (currentMenu == null) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Page requested is not found in the menus");
             return false;
         }
         
-        log.debug("Menu code: {}", menuCode);
-        log.debug("Menu code parent: {}", menuCodeParent);
+        String menuCode = (String) currentMenu.get(MenuKeyConstants.CODE);
         
-        if (menuCodeParent != null && !menuCodeParent.isEmpty()) {
-            // Get permission for the parent menu first
-            if (!canView(menuCodeParent)) {
+        log.debug("Menu code: {}", menuCode);
+        
+        JSONArray menuPermissions = SessionManager.get(SessionKeyConstants.MENU_PERMISSIONS);
+
+        if (!canView(menuCode, menuPermissions)) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "User is not allowed to view this page");
+            return false;
+        }
+
+        if (requestUrl.contains(PATH_EDIT) 
+                || requestUrl.contains(PATH_ADD) 
+                || requestUrl.contains(PATH_REMOVE)) {
+            
+            if (!canModify(menuCode, menuPermissions)) {
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "User is not allowed to view this page");
                 return false;
             }
         }
         
-        // Check permission for the real menu
-        if (!canView(menuCode)) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "User is not allowed to view this page");
-            return false;
-        }
-        
         return true;
     }
 
-    private boolean canView(String code) {
-        JSONObject currentMenu = getMenuPermission(code);
+    private boolean canView(String code, JSONArray menuPermissions) {
+        JSONObject currentMenu = findInAllowedMenu(code, menuPermissions);
         log.debug("Current menu: {}", currentMenu);
-        if (currentMenu == null || !CommonConstants.YES.equals(currentMenu.get("canView"))) {
-            return false;
-        }
-        return true;
+        return !(currentMenu == null || !CommonConstants.YES.equals(currentMenu.get("canView")));
     }
     
-    private JSONObject getMenuPermission(String code) {
-        JSONArray menuPermissions = SessionManager.get(SessionKeyConstants.MENU_PERMISSIONS);
+    private boolean canModify(String code, JSONArray menuPermissions) {
+        JSONObject currentMenu = findInAllowedMenu(code, menuPermissions);
+        log.debug("Current menu: {}", currentMenu);
+        return !(currentMenu == null || !CommonConstants.YES.equals(currentMenu.get("canModify")));
+    }
+    
+    private JSONObject findInAllowedMenu(String code, JSONArray menuPermissions) {
         for (Object o : menuPermissions) {
             JSONObject menu = (JSONObject) o;
             if (code.equals(menu.get("menuCode"))) {
@@ -102,5 +105,24 @@ public class PagePermissionInterceptor extends HandlerInterceptorAdapter {
         }
         return null;
     }
-    
+ 
+    private JSONObject findInAvailableMenu(HttpServletRequest httpServletRequest, JSONArray flatMenus) {
+        String contextPath = httpServletRequest.getContextPath();
+        String requestUrl = httpServletRequest.getRequestURI(); // This method returns the path before URL query strings
+        for (String path : ENDING_PATHS) {
+            if (requestUrl.contains(path)) {
+                requestUrl = requestUrl.substring(0, requestUrl.indexOf(path));
+                break;
+            }
+        }
+        for (Object o : flatMenus) {
+            JSONObject menu = (JSONObject) o; 
+            String path = (String) menu.get(MenuKeyConstants.PATH);
+            if (path != null && requestUrl.substring(contextPath.length(), requestUrl.length()).equals(path)) {
+                return menu;
+            }
+        }
+        return null;
+    }
+       
 }

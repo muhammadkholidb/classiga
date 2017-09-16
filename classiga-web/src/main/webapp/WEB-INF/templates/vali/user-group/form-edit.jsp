@@ -35,7 +35,7 @@
                         <div class="card">
                             <h3 class="card-title"><s:message code="label.addusergroup" /></h3>
                             <div class="card-body">
-                                <form id="formAddUserGroup" class="form-horizontal" method="post" action="${contextPath}/settings/user-group/add">
+                                <form id="formEditUserGroup" class="form-horizontal" method="post" action="${contextPath}/settings/user-group/edit/${userGroupId}">
                                     <div class="form-group required">
                                         <label class="control-label col-md-3" for="inputName"><s:message code="label.name" /></label>
                                         <div class="col-md-9">
@@ -89,6 +89,23 @@
                                             </table>
                                         </div>
                                     </div>
+                                    <div class="form-group required">
+                                        <label class="col-md-3 control-label" for="inputActive"><s:message code="label.active" /></label>
+                                        <div class="col-md-9">
+                                            <select class="form-control" id="inputActive" name="active" >
+                                                <c:choose>
+                                                    <c:when test="${active eq 'y'}">
+                                                        <option value="y" selected><s:message code="label.yes" /></option>
+                                                        <option value="n"><s:message code="label.no" /></option>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <option value="y"><s:message code="label.yes" /></option>
+                                                        <option value="n" selected><s:message code="label.no" /></option>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </select>
+                                        </div>
+                                    </div>    
                                     <div class="form-group">
                                         <div class="col-md-9 col-md-offset-3" >
                                             <button type="submit" class="btn btn-primary icon-btn" ><s:message code="button.save" /></button>
@@ -142,7 +159,7 @@
                 }
             });
 
-            $("#formAddUserGroup").submit(function() {
+            $("#formEditUserGroup").submit(function() {
                 var menuPermissions = [];
                 $("#tableMenuPermissions tbody tr").each(function() {
                     menuPermissions.push({

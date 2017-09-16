@@ -1,4 +1,4 @@
-package ga.classi.web.controller.ajax;
+package ga.classi.web.controller;
 
 import java.io.IOException;
 
@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 import ga.classi.commons.helper.CommonConstants;
 import ga.classi.commons.helper.HttpClient;
 import ga.classi.commons.helper.HttpClientResponse;
-import ga.classi.web.controller.HttpClientBaseController;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -20,24 +19,22 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @RestController
-public class UserControllerAjax extends HttpClientBaseController {
+public class UserGroupControllerRest extends HttpClientBaseController {
 
     private static final String[] SORT_COLUMN_NAME_BY_NUMBER = new String[] {
-            "fullName", 
-            "fullName", 
-            "username", 
-            "email", 
+            "name", 
+            "name", 
+            "description", 
             "active", 
-            "userGroup.lowerName", 
-            "fullName"}; 
+            "name"}; 
     
     @SuppressWarnings("unchecked")
-    @GetMapping(value = "/ajax/settings/user", produces = MediaType.APPLICATION_JSON_VALUE)
-    public JSONObject getUser() throws IOException {
+    @GetMapping(value = "/settings/user-group/list", produces = MediaType.APPLICATION_JSON_VALUE)
+    public JSONObject getUserGroups() throws IOException {
 
-        log.debug("Get user data ...");
+        log.debug("Get user group data ...");
         
-        HttpClient httpClient = getDefinedHttpClient("/settings/user/list");
+        HttpClient httpClient = getDefinedHttpClient("/settings/user-group/list");
         
         httpClient.addParameter("start", httpServletRequest.getParameter("start").trim());
         httpClient.addParameter("length", httpServletRequest.getParameter("length").trim());

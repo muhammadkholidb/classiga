@@ -26,12 +26,14 @@
                         </h1>
                     </div>
                     <div>
+                        <c:if test="${canModify}">
                         <a class="btn btn-primary " href="${contextPath}/settings/user-group/add" data-toggle="tooltip" data-placement="top" title="<s:message code="button.add" />">
                             <i class="fa fa-lg fa-plus"></i>
                         </a>
                         <a id="btnDeleteSelected" class="btn btn-danger" href="" data-toggle="tooltip" data-placement="top" title="<s:message code="button.delete" />">
                             <i class="fa fa-lg fa-trash"></i>
                         </a>
+                        </c:if>
                     </div>
                 </div>
                 <div class="row">
@@ -113,9 +115,12 @@
                 { 
                     data: null, 
                     render: function ( data, type, row, meta ) {
+                    	<c:if test="${canModify}">
                         var btnEdit = '<a class="btn btn-success" href="${contextPath}/settings/user-group/edit/' + row.id + '" data-toggle="tooltip" data-placement="top" title="<s:message code="button.edit" />"><i class="fa fa-lg fa-pencil"></i></a>';
                         var btnDelete = '<a class="btn btn-danger btn-delete" href="" data-toggle="tooltip" data-placement="top" title="<s:message code="button.delete" />"><i class="fa fa-lg fa-trash"></i></a>';
                         return btnEdit + ' ' + btnDelete;
+                    	</c:if>
+                    	return '';
                     }, 
                     orderable: false 
                 }],

@@ -1,11 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"> 
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"> 
          
     <modelVersion>4.0.0</modelVersion>
     <groupId>ga.classi</groupId>
     <artifactId>classiga</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <name>${project.artifactId}</name>
     <description>Classiga Project Parent</description>
     <packaging>pom</packaging>
@@ -21,8 +19,11 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.6</maven.compiler.source>
         <maven.compiler.target>1.6</maven.compiler.target>
+        
+        <project.scm.id>gitlab</project.scm.id>
 
-        <version.classiga>${project.version}</version.classiga>
+        <version.classiga>1.0</version.classiga>
+        
         <version.spring>4.3.10.RELEASE</version.spring>
         <version.spring-data-jpa>1.11.0.RELEASE</version.spring-data-jpa>
         <version.hibernate>5.1.0.Final</version.hibernate>
@@ -69,7 +70,7 @@
         <url>https://gitlab.com/eatonmunoz/classiga</url>
         <connection>scm:git:https://eatonmunoz@gitlab.com/eatonmunoz/classiga.git</connection>
         <developerConnection>scm:git:git@gitlab.com:eatonmunoz/classiga.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>classiga-1.0</tag>
     </scm>
     
     <issueManagement>
@@ -490,7 +491,10 @@
                     </dependency>
                 </dependencies>
                 <configuration>
-                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                    <autoVersionSubmodules>true</autoVersionSubmodules> 
+                    <checkModificationExcludes>
+                        <checkModificationExclude>pom.xml</checkModificationExclude>
+                    </checkModificationExcludes>
                 </configuration>
             </plugin>
         </plugins>

@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>ga.classi</groupId>
     <artifactId>classiga</artifactId>
-    <version>1.0</version>
+    <version>1.1-SNAPSHOT</version>
     <name>${project.artifactId}</name>
     <description>Classiga Project Parent</description>
     <packaging>pom</packaging>
@@ -22,7 +22,7 @@
         
         <project.scm.id>gitlab</project.scm.id>
 
-        <version.classiga>1.0</version.classiga>
+        <version.classiga>1.1-SNAPSHOT</version.classiga>
         <version.spring>4.3.10.RELEASE</version.spring>
         <version.spring-data-jpa>1.11.0.RELEASE</version.spring-data-jpa>
         <version.hibernate>5.1.0.Final</version.hibernate>
@@ -69,7 +69,7 @@
         <url>https://gitlab.com/eatonmunoz/classiga</url>
         <connection>scm:git:https://eatonmunoz@gitlab.com/eatonmunoz/classiga.git</connection>
         <developerConnection>scm:git:https://eatonmunoz@gitlab.com/eatonmunoz/classiga.git</developerConnection>
-        <tag>classiga-1.0</tag>
+        <tag>HEAD</tag>
     </scm>
     
     <issueManagement>

@@ -69,7 +69,7 @@
     <scm>
         <url>https://gitlab.com/eatonmunoz/classiga</url>
         <connection>scm:git:https://eatonmunoz@gitlab.com/eatonmunoz/classiga.git</connection>
-        <developerConnection>scm:git:git@gitlab.com:eatonmunoz/classiga.git</developerConnection>
+        <developerConnection>scm:git:https://eatonmunoz@gitlab.com/eatonmunoz/classiga.git</developerConnection>
         <tag>classiga-1.0</tag>
     </scm>
     

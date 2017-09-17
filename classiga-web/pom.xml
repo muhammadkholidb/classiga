@@ -119,6 +119,14 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
+                    <webResources>
+                        <resource>
+                            <directory>src/main/resources</directory>
+                            <excludes>
+                                <exclude>logback.xml</exclude>
+                            </excludes>
+                        </resource>
+                    </webResources>
                     <attachClasses>true</attachClasses>
                 </configuration>
             </plugin>
@@ -167,7 +175,6 @@
     <properties>
         <rest.url.host>http://localhost:9091/classiga-rest</rest.url.host>
         <directory.path.images>${user.home}/Server/images</directory.path.images>
-        <directory.path.logs>${user.home}/Server/logs</directory.path.logs>
     </properties>
 
     <profiles>
@@ -179,6 +186,14 @@
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-war-plugin</artifactId>
                         <configuration>
+                            <webResources>
+                                <resource>
+                                    <directory>src/main/resources</directory>
+                                    <excludes>
+                                        <exclude>logback.xml</exclude>
+                                    </excludes>
+                                </resource>
+                            </webResources>
                             <packagingExcludes>WEB-INF/lib/*.jar</packagingExcludes>
                             <archive>
                                 <manifest>

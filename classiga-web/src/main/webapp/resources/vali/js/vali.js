@@ -110,7 +110,7 @@ $.tree = function (menu) {
 	  checkElement.slideDown(animationSpeed, function () {
 		//Add the class active to the parent li
 		checkElement.addClass('menu-open');
-		// parent.find('li.active').removeClass('active');
+		parent.children('li.active').removeClass('active');
 		parent_li.addClass('active');
 	  });
 	}

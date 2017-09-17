@@ -196,15 +196,4 @@
         <datasource.minpoolsize>10</datasource.minpoolsize>
     </properties>
 
-    <profiles>
-        <profile>
-            <id>openshift</id>
-            <properties>
-                <datasource.driver>org.postgresql.Driver</datasource.driver>
-                <datasource.url>jdbc:postgresql://localhost:5432/classigadb</datasource.url>
-                <datasource.username>postgres</datasource.username>
-                <datasource.password>postgres</datasource.password>
-            </properties>
-        </profile>
-    </profiles>
 </project>

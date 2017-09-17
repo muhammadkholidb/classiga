@@ -10,12 +10,14 @@ import org.json.simple.JSONValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ga.classi.commons.helper.StringCheck;
 import ga.classi.data.entity.MenuPermissionEntity;
-import ga.classi.data.entity.UserEntity;
 import ga.classi.data.entity.UserGroupEntity;
 import ga.classi.data.error.DataException;
 import ga.classi.data.error.ErrorMessageConstants;
@@ -26,9 +28,6 @@ import ga.classi.data.helper.DtoUtils;
 import ga.classi.data.repository.MenuPermissionRepository;
 import ga.classi.data.repository.UserGroupRepository;
 import ga.classi.data.repository.UserRepository;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 
 @Service
 public class UserGroupService extends AbstractServiceHelper {

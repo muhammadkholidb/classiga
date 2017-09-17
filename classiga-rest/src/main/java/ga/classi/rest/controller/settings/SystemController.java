@@ -1,6 +1,7 @@
 package ga.classi.rest.controller.settings;
 
 import java.io.InputStream;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -15,7 +16,6 @@ import ga.classi.data.helper.DtoUtils;
 import ga.classi.data.service.SystemService;
 import ga.classi.rest.controller.BaseController;
 import ga.classi.rest.helper.ResponseObject;
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -36,6 +36,7 @@ public class SystemController extends BaseController {
     @Autowired
     protected DataImporter dataImporter;
     
+    @SuppressWarnings("rawtypes")
     @RequestMapping(value = "/system/list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseObject getAllSystem() throws Exception {
         

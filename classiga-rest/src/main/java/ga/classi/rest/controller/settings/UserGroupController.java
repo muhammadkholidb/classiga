@@ -12,7 +12,6 @@ import ga.classi.data.helper.DtoUtils;
 import ga.classi.data.service.UserGroupService;
 import ga.classi.rest.controller.BaseController;
 import ga.classi.rest.helper.ResponseObject;
-import java.io.UnsupportedEncodingException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

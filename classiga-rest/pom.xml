@@ -169,10 +169,6 @@
         </resources>
     </build>
 
-    <properties>
-        <directory.path.Logs>${user.home}/Server/logs</directory.path.Logs>
-    </properties>
-
     <profiles>
         <profile>
             <id>skinny-war</id>
@@ -182,6 +178,14 @@
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-war-plugin</artifactId>
                         <configuration>
+                            <webResources>
+                                <resource>
+                                    <directory>src/main/resources</directory>
+                                    <excludes>
+                                        <exclude>logback.xml</exclude>
+                                    </excludes>
+                                </resource>
+                            </webResources>
                             <packagingExcludes>WEB-INF/lib/*.jar</packagingExcludes>
                             <archive>
                                 <manifest>

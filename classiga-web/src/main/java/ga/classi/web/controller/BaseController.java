@@ -157,12 +157,6 @@ public abstract class BaseController {
     @SuppressWarnings("unchecked")
     protected void loadAllowedMenus() {
         JSONArray menus = getMenus();
-        JSONObject userGroup = SessionManager.get(SessionKeyConstants.USER_GROUP);
-        // Allow all menus if login using default user
-        if (DefaultUser.USER_GROUP_ID.equals(userGroup.get("id"))) {
-            SessionManager.set(SessionKeyConstants.ALLOWED_MENUS, menus);
-            return;
-        }
         JSONArray allowedMenus = new JSONArray();
         for (Object o1 : menus) {
             JSONObject menu = (JSONObject) o1;
@@ -193,15 +187,19 @@ public abstract class BaseController {
     }
     
     private boolean isMenuAllowed(String can, String code) {
-         JSONArray menuPermissions = SessionManager.get(SessionKeyConstants.MENU_PERMISSIONS);
-         log.debug("Menu permissions: {}", menuPermissions);
-         for (Object o : menuPermissions) {
-             JSONObject menuPermission = (JSONObject) o;
-             if (menuPermission.get("menuCode").equals(code) && CommonConstants.YES.equals(menuPermission.get(can))) {
-                 return true;
-             }
-         }
-         return false;
+        JSONObject userGroup = SessionManager.get(SessionKeyConstants.USER_GROUP);
+        if (DefaultUser.USER_GROUP_ID.equals(userGroup.get("id"))) {
+            return true;
+        }
+        JSONArray menuPermissions = SessionManager.get(SessionKeyConstants.MENU_PERMISSIONS);
+        log.debug("Menu permissions: {}", menuPermissions);
+        for (Object o : menuPermissions) {
+            JSONObject menuPermission = (JSONObject) o;
+            if (menuPermission.get("menuCode").equals(code) && CommonConstants.YES.equals(menuPermission.get(can))) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private boolean isMenuViewAllowed(String code) {

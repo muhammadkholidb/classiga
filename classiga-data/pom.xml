@@ -113,6 +113,11 @@
         </dependency> 
         
         <dependency>
+            <groupId>com.github.springtestdbunit</groupId>
+            <artifactId>spring-test-dbunit</artifactId>
+        </dependency>
+        
+        <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
         </dependency>
@@ -153,7 +158,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
                     <excludes>
-                        <exclude>logback.xml</exclude>
+                        <exclude>**/logback.xml</exclude>
                     </excludes>
                 </configuration>      
             </plugin>   

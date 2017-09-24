@@ -90,7 +90,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
                     <excludes>
-                        <exclude>logback.xml</exclude>
+                        <exclude>**/logback.xml</exclude>
                     </excludes>
                 </configuration>
             </plugin>   

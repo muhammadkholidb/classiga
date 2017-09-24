@@ -42,7 +42,7 @@
                             <h3 class="card-title"><s:message code="label.usergrouplist" /></h3>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                <table class="table table-hover table-striped display nowrap" id="tableUserGroup" style="width: 100%">
+                                <table class="table table-hover table-striped display" id="tableUserGroup" style="width: 100%">
                                     <thead>
                                         <tr>
                                             <th class="align-center" >
@@ -54,7 +54,7 @@
                                                 </div>
                                             </th>
                                             <th><s:message code="label.name" /></th>
-                                            <th><s:message code="label.description" /></th>
+                                            <th style="max-width: 40%;"><s:message code="label.description" /></th>
                                             <th><s:message code="label.active" /></th>
                                             <th><s:message code="label.action" /></th>
                                         </tr>

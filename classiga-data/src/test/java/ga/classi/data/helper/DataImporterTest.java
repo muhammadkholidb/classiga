@@ -2,21 +2,18 @@ package ga.classi.data.helper;
 
 import java.io.File;
 import java.net.URL;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+@Slf4j
 @RunWith(SpringJUnit4ClassRunner.class) 
 @ContextConfiguration(locations = "classpath:classiga-data-context-test.xml")
 public class DataImporterTest {
 
-    private static final Logger log = LoggerFactory.getLogger(DataImporterTest.class);
-    
     @Autowired
     private DataImporter importer;
     

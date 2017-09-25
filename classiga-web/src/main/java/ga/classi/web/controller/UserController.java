@@ -157,12 +157,14 @@ public class UserController extends HttpClientBaseController {
             }
         }
 
+        JSONObject userGroup = (JSONObject) user.get("userGroup");
+        
         Map<String, Object> model = new HashMap<String, Object>();
         model.put(ModelKeyConstants.FULL_NAME, user.get("fullName"));
         model.put(ModelKeyConstants.USERNAME, user.get("username"));
         model.put(ModelKeyConstants.EMAIL, user.get("email"));
         model.put(ModelKeyConstants.PASSWORD, password);
-        model.put(ModelKeyConstants.USER_GROUP_ID, user.get("userGroupId"));
+        model.put(ModelKeyConstants.USER_GROUP_ID, userGroup.get("id"));
         model.put(ModelKeyConstants.ACTIVE, user.get("active"));
         model.put(ModelKeyConstants.USER_ID, user.get("id"));
         model.put(ModelKeyConstants.USER_GROUPS, userGroups);

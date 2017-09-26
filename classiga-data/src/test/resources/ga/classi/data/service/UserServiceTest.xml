@@ -1,20 +1,20 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <dataset>
     
-    <cg_user_group id="1" 
+    <t_user_group id="1" 
         name="Administrator" 
         lower_name="administrator"
         active="y" 
         created_at="{currentMillis}" 
         modified_at="{currentMillis}" />
-    <cg_user_group id="2" 
+    <t_user_group id="2" 
         name="User"
         lower_name="user" 
         active="y" 
         created_at="{currentMillis}" 
         modified_at="{currentMillis}" />
     
-    <cg_user id="1"  
+    <t_user id="1"  
         full_name="John" 
         lower_full_name="john" 
         username="johndoe" 
@@ -27,7 +27,7 @@
         lower_email="johndoe@yahoo.com" 
         created_at="{currentMillis}" 
         modified_at="{currentMillis}" />
-    <cg_user id="2" 
+    <t_user id="2" 
         full_name="Fulan"
         lower_full_name="fulan" 
         username="fulan" 
@@ -41,13 +41,13 @@
         created_at="{currentMillis}" 
         modified_at="{currentMillis}" />
     
-    <cg_menu_permission id="1" user_group_id="1" menu_code="menu.settings" can_view="y" can_modify="y" created_at="{currentMillis}" modified_at="{currentMillis}" />
-    <cg_menu_permission id="2" user_group_id="1" menu_code="menu.settings.system" can_view="y" can_modify="y" created_at="{currentMillis}" modified_at="{currentMillis}" />
-    <cg_menu_permission id="3" user_group_id="1" menu_code="menu.settings.user" can_view="y" can_modify="y" created_at="{currentMillis}" modified_at="{currentMillis}" />
-    <cg_menu_permission id="4" user_group_id="1" menu_code="menu.settings.usergroup" can_view="y" can_modify="y" created_at="{currentMillis}" modified_at="{currentMillis}" />
-    <cg_menu_permission id="5" user_group_id="2" menu_code="menu.settings" can_view="n" can_modify="n" created_at="{currentMillis}" modified_at="{currentMillis}" />
-    <cg_menu_permission id="6" user_group_id="2" menu_code="menu.settings.system" can_view="n" can_modify="n" created_at="{currentMillis}" modified_at="{currentMillis}" />
-    <cg_menu_permission id="7" user_group_id="2" menu_code="menu.settings.user" can_view="n" can_modify="n" created_at="{currentMillis}" modified_at="{currentMillis}" />
-    <cg_menu_permission id="8" user_group_id="2" menu_code="menu.settings.usergroup" can_view="n" can_modify="n" created_at="{currentMillis}" modified_at="{currentMillis}" />
+    <t_menu_permission id="1" user_group_id="1" menu_code="menu.settings" can_view="y" can_modify="y" created_at="{currentMillis}" modified_at="{currentMillis}" />
+    <t_menu_permission id="2" user_group_id="1" menu_code="menu.settings.system" can_view="y" can_modify="y" created_at="{currentMillis}" modified_at="{currentMillis}" />
+    <t_menu_permission id="3" user_group_id="1" menu_code="menu.settings.user" can_view="y" can_modify="y" created_at="{currentMillis}" modified_at="{currentMillis}" />
+    <t_menu_permission id="4" user_group_id="1" menu_code="menu.settings.usergroup" can_view="y" can_modify="y" created_at="{currentMillis}" modified_at="{currentMillis}" />
+    <t_menu_permission id="5" user_group_id="2" menu_code="menu.settings" can_view="n" can_modify="n" created_at="{currentMillis}" modified_at="{currentMillis}" />
+    <t_menu_permission id="6" user_group_id="2" menu_code="menu.settings.system" can_view="n" can_modify="n" created_at="{currentMillis}" modified_at="{currentMillis}" />
+    <t_menu_permission id="7" user_group_id="2" menu_code="menu.settings.user" can_view="n" can_modify="n" created_at="{currentMillis}" modified_at="{currentMillis}" />
+    <t_menu_permission id="8" user_group_id="2" menu_code="menu.settings.usergroup" can_view="n" can_modify="n" created_at="{currentMillis}" modified_at="{currentMillis}" />
     
 </dataset>

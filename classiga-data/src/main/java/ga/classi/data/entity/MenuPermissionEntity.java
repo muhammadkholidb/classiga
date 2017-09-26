@@ -38,7 +38,7 @@ public class MenuPermissionEntity extends BaseEntity implements Serializable {
      */
     private static final long serialVersionUID = 1L;
 
-    public static final String TABLE_NAME = "cg_menu_permission";
+    public static final String TABLE_NAME = "t_menu_permission";
 
     @Column(name = "menu_code", length = 64, nullable = false)
     private String menuCode;

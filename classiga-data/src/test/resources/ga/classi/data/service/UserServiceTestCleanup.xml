@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <dataset>
     
-    <cg_user_group />
+    <t_user_group />
     
-    <cg_user />
+    <t_user />
     
-    <cg_menu_permission />
+    <t_menu_permission />
     
 </dataset>

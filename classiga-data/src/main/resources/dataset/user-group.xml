@@ -1,14 +1,14 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <dataset>
     
-    <cg_user_group 
+    <t_user_group 
         name="Administrator" 
         lower_name="administrator"
         active="y" 
         created_at="{currentMillis}" 
         modified_at="{currentMillis}" />
     
-    <cg_user_group 
+    <t_user_group 
         name="User"
         lower_name="user" 
         active="y" 

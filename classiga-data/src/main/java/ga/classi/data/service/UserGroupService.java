@@ -7,8 +7,6 @@ import java.util.Objects;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,11 +26,11 @@ import ga.classi.data.helper.DtoUtils;
 import ga.classi.data.repository.MenuPermissionRepository;
 import ga.classi.data.repository.UserGroupRepository;
 import ga.classi.data.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 public class UserGroupService extends AbstractServiceHelper {
-
-    private static final Logger log = LoggerFactory.getLogger(UserGroupService.class);
 
     @Autowired
     private UserGroupRepository userGroupRepository;

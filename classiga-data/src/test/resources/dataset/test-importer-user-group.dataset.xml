@@ -1,19 +1,19 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <dataset>
     
-    <cg_user_group id="1"
+    <t_user_group id="1"
         name="Administrator" 
         lower_name="administrator" 
         active="y" 
         created_at="{currentMillis}" 
         modified_at="{currentMillis}" />
-    <cg_user_group id="2" 
+    <t_user_group id="2" 
         name="User" 
         lower_name="user" 
         active="y" 
         created_at="{currentMillis}" 
         modified_at="{currentMillis}" />
-    <cg_user_group id="3" 
+    <t_user_group id="3" 
         name="Marketing" 
         lower_name="marketing" 
         active="y" 

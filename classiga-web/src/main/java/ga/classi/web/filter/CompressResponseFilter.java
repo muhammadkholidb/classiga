@@ -1,6 +1,5 @@
 package ga.classi.web.filter;
 
-import java.io.CharArrayWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -14,6 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
 import com.googlecode.htmlcompressor.compressor.HtmlCompressor;
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStreamWriter;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.WriteListener;
 import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,32 +27,32 @@ public class CompressResponseFilter implements Filter {
     
     private static final String PATH_RESOURCE = "/res";
     private static final String PATH_LIST = "/list";
-    
+
     private HtmlCompressor compressor;
-    
+
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 
         log.debug("Do filter ...");
-        
+
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         String contextPath = httpRequest.getContextPath();
         String requestUrl = httpRequest.getRequestURI();
         String resourceUrl = contextPath + PATH_RESOURCE;
-        
+
         if (requestUrl.startsWith(resourceUrl) || requestUrl.endsWith(PATH_LIST)) {
             chain.doFilter(request, response);
             return;
         }
-        
-        CharResponseWrapper responseWrapper = new CharResponseWrapper((HttpServletResponse) response);
+
+        HtmlResponseWrapper responseWrapper = new HtmlResponseWrapper((HttpServletResponse) response);
 
         chain.doFilter(request, responseWrapper);
 
-        String servletResponse = responseWrapper.toString();
+        String servletResponse = responseWrapper.getCaptureAsString();
         response.getWriter().write(compressor.compress(servletResponse));
     }
-    
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         compressor = new HtmlCompressor();
@@ -62,23 +65,92 @@ public class CompressResponseFilter implements Filter {
 
     }
 
-    private class CharResponseWrapper extends HttpServletResponseWrapper {
+    // Read https://www.leveluplunch.com/java/tutorials/034-modify-html-response-using-filter/
+    
+    private class HtmlResponseWrapper extends HttpServletResponseWrapper {
 
-        private final CharArrayWriter output;
+        private final ByteArrayOutputStream capture;
+        private ServletOutputStream output;
+        private PrintWriter writer;
 
-        @Override
-        public String toString() {
-            return output.toString();
-        }
-
-        public CharResponseWrapper(HttpServletResponse response) {
+        public HtmlResponseWrapper(HttpServletResponse response) {
             super(response);
-            output = new CharArrayWriter();
+            capture = new ByteArrayOutputStream(response.getBufferSize());
         }
 
         @Override
-        public PrintWriter getWriter() {
-            return new PrintWriter(output);
+        public ServletOutputStream getOutputStream() {
+            if (writer != null) {
+                throw new IllegalStateException("getWriter() has already been called on this response.");
+            }
+
+            if (output == null) {
+                output = new ServletOutputStream() {
+                    @Override
+                    public void write(int b) throws IOException {
+                        capture.write(b);
+                    }
+
+                    @Override
+                    public void flush() throws IOException {
+                        capture.flush();
+                    }
+
+                    @Override
+                    public void close() throws IOException {
+                        capture.close();
+                    }
+
+                    @Override
+                    public boolean isReady() {
+                        return false;
+                    }
+
+                    @Override
+                    public void setWriteListener(WriteListener arg0) {
+                    }
+                };
+            }
+
+            return output;
+        }
+
+        @Override
+        public PrintWriter getWriter() throws IOException {
+            if (output != null) {
+                throw new IllegalStateException("getOutputStream() has already been called on this response.");
+            }
+
+            if (writer == null) {
+                writer = new PrintWriter(new OutputStreamWriter(capture, getCharacterEncoding()));
+            }
+
+            return writer;
+        }
+
+        @Override
+        public void flushBuffer() throws IOException {
+            super.flushBuffer();
+
+            if (writer != null) {
+                writer.flush();
+            } else if (output != null) {
+                output.flush();
+            }
+        }
+
+        public byte[] getCaptureAsBytes() throws IOException {
+            if (writer != null) {
+                writer.close();
+            } else if (output != null) {
+                output.close();
+            }
+
+            return capture.toByteArray();
+        }
+
+        public String getCaptureAsString() throws IOException {
+            return new String(getCaptureAsBytes(), getCharacterEncoding());
         }
 
     }

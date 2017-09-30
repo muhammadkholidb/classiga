@@ -18,6 +18,8 @@ import ga.classi.data.helper.DtoUtils;
  */
 public abstract class AbstractServiceHelper {
 
+    private static final Integer DEFAULT_MAX_ROWS = 100;    // Doesn't need to be configurable, just set the preferred value.
+    
     /**
      *
      * @param countRows
@@ -26,7 +28,7 @@ public abstract class AbstractServiceHelper {
      * @param content
      * @return
      */
-    protected static Dto buildResultByDtoList(int countRows, int totalRows, int totalPages, List<Dto> content) {
+    protected Dto buildResultByDtoList(int countRows, int totalRows, int totalPages, List<Dto> content) {
         Dto dto = new Dto();
         dto.put(CommonConstants.COUNT_ROWS, countRows);
         dto.put(CommonConstants.TOTAL_ROWS, totalRows); 
@@ -44,7 +46,7 @@ public abstract class AbstractServiceHelper {
      * @param excludeContentKeys
      * @return 
      */
-    protected static Dto buildResultByEntityList(int countRows, int totalRows, int totalPages, List<? extends BaseEntity> entities, String... excludeContentKeys) {
+    protected Dto buildResultByEntityList(int countRows, int totalRows, int totalPages, List<? extends BaseEntity> entities, String... excludeContentKeys) {
         return buildResultByDtoList(countRows, totalRows, totalPages, DtoUtils.toDtoList(entities, excludeContentKeys));
     }
     
@@ -53,7 +55,7 @@ public abstract class AbstractServiceHelper {
      * @param content
      * @return 
      */
-    protected static Dto buildResultByDtoList(List<Dto> content) {
+    protected Dto buildResultByDtoList(List<Dto> content) {
         Dto dto = new Dto();
         dto.put(CommonConstants.CONTENT, content);
         return dto;
@@ -65,7 +67,7 @@ public abstract class AbstractServiceHelper {
      * @param excludeContentKeys
      * @return 
      */
-    protected static Dto buildResultByEntityList(List<? extends BaseEntity> entities, String... excludeContentKeys) {
+    protected Dto buildResultByEntityList(List<? extends BaseEntity> entities, String... excludeContentKeys) {
         return buildResultByDtoList(DtoUtils.toDtoList(entities, excludeContentKeys));
     }
     
@@ -74,7 +76,7 @@ public abstract class AbstractServiceHelper {
      * @param content
      * @return
      */
-    protected static Dto buildResultByDto(Dto content) {
+    protected Dto buildResultByDto(Dto content) {
         Dto dto = new Dto();
         dto.put(CommonConstants.CONTENT, content);
         return dto;
@@ -87,7 +89,7 @@ public abstract class AbstractServiceHelper {
      * @param excludeContentKeys
      * @return 
      */
-    protected static <E extends BaseEntity> Dto buildResultByEntity(E entity, String... excludeContentKeys) {
+    protected <E extends BaseEntity> Dto buildResultByEntity(E entity, String... excludeContentKeys) {
         return buildResultByDto(DtoUtils.toDto(entity, excludeContentKeys));
     }
     
@@ -97,7 +99,7 @@ public abstract class AbstractServiceHelper {
      * @param excludeContentKeys
      * @return
      */
-    protected static Dto buildResultByPage(Page<? extends BaseEntity> page, String... excludeContentKeys) {
+    protected Dto buildResultByPage(Page<? extends BaseEntity> page, String... excludeContentKeys) {
         return buildResultByEntityList(
                 page.getNumberOfElements(),
                 (int) page.getTotalElements(),
@@ -139,7 +141,7 @@ public abstract class AbstractServiceHelper {
     protected PageRequest createPageRequest(Integer start, Integer length, String sortOrder, String sortColumn, Direction defaultSortDirection, String defaultSortColumn) {
         
         int page = (start == null) ? 0 : (start / length);
-        int size = (length == null) ? Integer.MAX_VALUE : length;   // Returns all rows
+        int size = (length == null) ? DEFAULT_MAX_ROWS : length;   // Returns default max rows
         Direction sortDirection = (sortOrder == null) ? defaultSortDirection : Direction.fromString(sortOrder);
         String sortColumnName = (sortColumn == null) ? defaultSortColumn : sortColumn;
         

@@ -18,7 +18,7 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
-    <!--
+    
     <filter>
         <filter-name>compress-response</filter-name>
         <filter-class>ga.classi.web.filter.CompressResponseFilter</filter-class>
@@ -27,7 +27,7 @@
         <filter-name>compress-response</filter-name>
         <servlet-name>classiga-web</servlet-name>
     </filter-mapping>
-    -->
+    
     
     <session-config>
         <session-timeout>30</session-timeout>

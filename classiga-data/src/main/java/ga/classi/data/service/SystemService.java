@@ -6,8 +6,6 @@ import java.util.List;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,11 +18,11 @@ import ga.classi.data.helper.DataValidation;
 import ga.classi.data.helper.Dto;
 import ga.classi.data.helper.DtoUtils;
 import ga.classi.data.repository.SystemRepository;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 public class SystemService extends AbstractServiceHelper {
-
-    private static final Logger log = LoggerFactory.getLogger(SystemService.class);
 
     @Autowired
     private SystemRepository systemRepository;

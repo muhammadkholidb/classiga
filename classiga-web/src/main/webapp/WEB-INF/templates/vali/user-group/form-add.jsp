@@ -11,8 +11,8 @@
         <jsp:include page="../includes/_1_inc_head_main.jsp" />
         <%-- Put your additional head content (css) here --%>
         
-        <link rel="stylesheet" type="text/css" href="${contextPath}/res/${templateCode}/css/responsive.dataTables.min.css" />
-        <link rel="stylesheet" type="text/css" href="${contextPath}/res/${templateCode}/css/select.dataTables.min.css" />
+        <link rel="stylesheet" type="text/css" href="${contextPath}/resources/vali/css/responsive.dataTables.min.css" />
+        <link rel="stylesheet" type="text/css" href="${contextPath}/resources/vali/css/select.dataTables.min.css" />
 
     </head>
 
@@ -107,8 +107,8 @@
         <jsp:include page="../includes/_4_inc_bottom.jsp" />
         <%-- Put your additional content (js) here --%>
 
-        <script src="${contextPath}/res/${templateCode}/js/jquery-validation/jquery.validate.js"></script>
-        <script src="${contextPath}/res/${templateCode}/js/jquery-validation/localization/messages_${languageCode}.js"></script>
+        <script src="${contextPath}/resources/vali/js/jquery-validation/jquery.validate.js"></script>
+        <script src="${contextPath}/resources/vali/js/jquery-validation/localization/messages_${languageCode}.js"></script>
         <script>
 
             $("#formAddUserGroup").validate({
@@ -281,9 +281,9 @@
             });
         </script>
         
-        <script src="${contextPath}/res/${templateCode}/js/plugins/jquery.dataTables.min.js"></script>
-        <script src="${contextPath}/res/${templateCode}/js/plugins/dataTables.bootstrap.min.js"></script>
-        <script src="${contextPath}/res/${templateCode}/js/plugins/dataTables.responsive.min.js"></script>
+        <script src="${contextPath}/resources/vali/js/plugins/jquery.dataTables.min.js"></script>
+        <script src="${contextPath}/resources/vali/js/plugins/dataTables.bootstrap.min.js"></script>
+        <script src="${contextPath}/resources/vali/js/plugins/dataTables.responsive.min.js"></script>
         <script>
             var table = $('#tableMenuPermissions').DataTable({
                 responsive: true,

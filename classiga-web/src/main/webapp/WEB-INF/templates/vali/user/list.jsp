@@ -73,9 +73,9 @@
         <jsp:include page="../includes/_4_inc_bottom.jsp" />
         <%-- Put your additional content (js) here --%>
 
-        <script src="${contextPath}/res/${templateCode}/js/plugins/jquery.dataTables.min.js"></script>
-        <script src="${contextPath}/res/${templateCode}/js/plugins/dataTables.bootstrap.min.js"></script>
-        <script src="${contextPath}/res/${templateCode}/js/plugins/sweetalert.min.js"></script>
+        <script src="${contextPath}/resources/vali/js/plugins/jquery.dataTables.min.js"></script>
+        <script src="${contextPath}/resources/vali/js/plugins/dataTables.bootstrap.min.js"></script>
+        <script src="${contextPath}/resources/vali/js/plugins/sweetalert.min.js"></script>
         <script>
             utils.dataTables.language['${languageCode}']['sInfoFiltered'] = "";
             utils.dataTables.language['${languageCode}']['sSearch'] = "";

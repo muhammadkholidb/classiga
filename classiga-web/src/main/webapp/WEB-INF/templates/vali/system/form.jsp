@@ -1,23 +1,23 @@
-<%@ page session="false"%>
-<%@ taglib prefix="s" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@page session="false"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags/vali" %>
+<%@taglib prefix="s" uri="http://www.springframework.org/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<c:set var="titleCode" value="title.system" scope="request" />
+<c:set var="titleCode" value="title.system" />
 
-<!DOCTYPE html>
-<html lang="${languageCode}">
-<head>
-<jsp:include page="../includes/_1_inc_head_main.jsp" />
-<%-- Put your additional head content (css) here --%>
-
-</head>
-
-<body class="sidebar-mini fixed">
-    <div class="wrapper">
-        <jsp:include page="../includes/_2_inc_top.jsp" />
-        <jsp:include page="../includes/_3_inc_side.jsp" />
-
+<t:layoutAdmin 
+    languageCode="${languageCode}" 
+    titleCode="${titleCode}" 
+    showAppInfo="${showAppInfo}" 
+    appName="${appName}" 
+    appVersion="${appVersion}" 
+    notify="${notify}" 
+    userName="${user.fullName}" 
+    userGroupName="${userGroup.name}" 
+    menus="${menus}" >
+    
+    <jsp:body>
         <div class="content-wrapper">
             <div class="page-title">
                 <div>
@@ -107,11 +107,6 @@
                 </div>
             </div>
         </div>
-    </div>
-
-
-    <jsp:include page="../includes/_4_inc_bottom.jsp" />
-    <%-- Put your additional content (js) here --%>
-
-</body>
-</html>
+    </jsp:body>
+    
+</t:layoutAdmin>

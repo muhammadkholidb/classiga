@@ -4,13 +4,13 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <!-- Javascripts-->
-<script src="${contextPath}/res/${templateCode}/js/jquery-2.1.4.min.js"></script>
-<script src="${contextPath}/res/${templateCode}/js/essential-plugins.js"></script>
-<script src="${contextPath}/res/${templateCode}/js/bootstrap.min.js"></script>
-<script src="${contextPath}/res/${templateCode}/js/plugins/pace.min.js"></script>
-<script src="${contextPath}/res/${templateCode}/js/plugins/bootstrap-notify.min.js"></script>
-<script src="${contextPath}/res/${templateCode}/js/vali.js"></script>
-<script src="${contextPath}/res/common/js/utils.js"></script>
+<script src="${contextPath}/resources/vali/js/jquery-2.1.4.min.js"></script>
+<script src="${contextPath}/resources/vali/js/essential-plugins.js"></script>
+<script src="${contextPath}/resources/vali/js/bootstrap.min.js"></script>
+<script src="${contextPath}/resources/vali/js/plugins/pace.min.js"></script>
+<script src="${contextPath}/resources/vali/js/plugins/bootstrap-notify.min.js"></script>
+<script src="${contextPath}/resources/vali/js/vali.js"></script>
+<script src="${contextPath}/resources/common/js/utils.js"></script>
 
 <script>
 	$(document).ready(function() {

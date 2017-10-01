@@ -95,8 +95,8 @@
         <jsp:include page="../includes/_4_inc_bottom.jsp" />
         <%-- Put your additional content (js) here --%>
 
-        <script src="${contextPath}/res/${templateCode}/js/jquery-validation/jquery.validate.js"></script>
-        <script src="${contextPath}/res/${templateCode}/js/jquery-validation/localization/messages_${languageCode}.js"></script>
+        <script src="${contextPath}/resources/vali/js/jquery-validation/jquery.validate.js"></script>
+        <script src="${contextPath}/resources/vali/js/jquery-validation/localization/messages_${languageCode}.js"></script>
         <script>
 
             $("#formAddUser").validate({

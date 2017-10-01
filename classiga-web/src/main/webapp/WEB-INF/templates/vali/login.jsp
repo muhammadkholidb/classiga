@@ -1,49 +1,22 @@
-<%@ page session="false"%>
-<%@ taglib prefix="s" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@page session="false"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags/vali" %>
+<%@taglib prefix="s" uri="http://www.springframework.org/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<c:set var="titleCode" value="title.login" scope="request" />
+<c:set var="titleCode" value="title.login" />
 
-<!DOCTYPE html>
-<html lang="${languageCode}" >
-    <head>
-        <jsp:include page="includes/_1_inc_head_main.jsp" />
-    </head>
-    <body>
-        <section class="material-half-bg">
-            <div class="cover"></div>
-        </section>
-        <section class="login-content">
-            <div class="logo">
-                <h1>${appName}</h1>
-            </div>
-            <div class="login-box">
-                <form class="login-form" id="loginForm" method="post" >
-                    <h3 class="login-head">
-                        <i class="fa fa-lg fa-fw fa-user"></i><s:message code="label.login" />
-                    </h3>
-                    <div class="form-group">
-                        <label class="control-label"><s:message code="label.usernameemail" /></label> 
-                        <input class="form-control" type="text" placeholder="<s:message code="label.usernameemail" />" name="username" value="${username}" autofocus>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label"><s:message code="label.password" /></label> 
-                        <input class="form-control" type="password" placeholder="<s:message code="label.password" />" value="${password}" name="password">
-                    </div>
-                    <div class="form-group btn-container">
-                        <button class="btn btn-primary btn-block">
-                            <s:message code="button.login" /> <i class="fa fa-sign-in fa-lg"></i>
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </section>
-
-        <jsp:include page="includes/_4_inc_bottom.jsp" />
-
-        <script src="${contextPath}/res/${templateCode}/js/jquery-validation/jquery.validate.js"></script>
-        <script src="${contextPath}/res/${templateCode}/js/jquery-validation/localization/messages_${languageCode}.js"></script>
+<t:layoutBasic 
+    languageCode="${languageCode}" 
+    titleCode="${titleCode}" 
+    showAppInfo="${showAppInfo}" 
+    appName="${appName}" 
+    appVersion="${appVersion}" 
+    notify="${notify}" >
+    
+    <jsp:attribute name="scripts">
+        <script src="${contextPath}/resources/vali/js/jquery-validation/jquery.validate.js"></script>
+        <script src="${contextPath}/resources/vali/js/jquery-validation/localization/messages_${languageCode}.js"></script>
         <script>
             $(document).ready(function () {
                 $("#loginForm").validate({
@@ -75,6 +48,37 @@
 
             });
         </script>
-
-    </body>
-</html>
+    </jsp:attribute>
+    
+    <jsp:body>
+        <section class="material-half-bg">
+            <div class="cover"></div>
+        </section>
+        <section class="login-content">
+            <div class="logo">
+                <h1>${appName}</h1>
+            </div>
+            <div class="login-box">
+                <form class="login-form" id="loginForm" method="post" >
+                    <h3 class="login-head">
+                        <i class="fa fa-lg fa-fw fa-user"></i><s:message code="label.login" />
+                    </h3>
+                    <div class="form-group">
+                        <label class="control-label"><s:message code="label.usernameemail" /></label> 
+                        <input class="form-control" type="text" placeholder="<s:message code="label.usernameemail" />" name="username" value="${username}" autofocus>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label"><s:message code="label.password" /></label> 
+                        <input class="form-control" type="password" placeholder="<s:message code="label.password" />" value="${password}" name="password">
+                    </div>
+                    <div class="form-group btn-container">
+                        <button class="btn btn-primary btn-block">
+                            <s:message code="button.login" /> <i class="fa fa-sign-in fa-lg"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </jsp:body>
+    
+</t:layoutBasic>

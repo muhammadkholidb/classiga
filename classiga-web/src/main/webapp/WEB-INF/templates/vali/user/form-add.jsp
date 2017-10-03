@@ -101,7 +101,7 @@
 
             $("#formAddUser").validate({
                 rules: {
-                    firstName: {
+                    fullName: {
                         required: true,
                         minlength: 4
                     },

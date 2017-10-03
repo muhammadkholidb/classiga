@@ -173,8 +173,8 @@
     </build>
 
     <properties>
-        <rest.url.host>http://localhost:9091/classiga-rest</rest.url.host>
-        <directory.path.images>${user.home}/Server/images</directory.path.images>
+        <rest.url.host>http://localhost:8081/classiga-rest</rest.url.host>
+        <directory.path.images>${user.home}/.classiga/images</directory.path.images>
     </properties>
 
     <profiles>

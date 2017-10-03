@@ -8,9 +8,9 @@
     </appender>
    
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${user.home}/Server/logs/classiga-commons/output.log</file>
+        <file>${user.home}/.classiga/logs/classiga-commons/output.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>${user.home}/Server/logs/classiga-commons/output.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>${user.home}/.classiga/logs/classiga-commons/output.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <maxFileSize>100MB</maxFileSize>    
         </rollingPolicy>
         <encoder>

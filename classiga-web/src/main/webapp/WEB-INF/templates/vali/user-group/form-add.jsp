@@ -39,17 +39,17 @@
                                     <div class="form-group required">
                                         <label class="control-label col-md-3" for="inputName"><s:message code="label.name" /></label>
                                         <div class="col-md-9">
-                                            <input class="form-control" type="text" placeholder="<s:message code="label.name" />" name="name" value="${name}" id="inputName" autofocus>
+                                            <input class="form-control" type="text" placeholder="<s:message code="label.name" />" name="name" value="${name}" id="inputName" >
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label col-md-3" for="inputDescription"><s:message code="label.description" /></label>
                                         <div class="col-md-9">
-                                            <textarea class="form-control" placeholder="<s:message code="label.description" />" name="description" id="inputDescription" autofocus>${description}</textarea>
+                                            <textarea class="form-control" placeholder="<s:message code="label.description" />" name="description" id="inputDescription" >${description}</textarea>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="control-label col-md-3" for="inputMenuPermissions"><s:message code="label.menupermissions" /></label>
+                                        <label class="control-label col-md-3" ><s:message code="label.menupermissions" /></label>
                                         <div class="col-md-9">
                                             <table class="table table-hover table-striped display " id="tableMenuPermissions" style="width: 100%">
                                                 <thead>

@@ -6,12 +6,7 @@
 <%@attribute name="styles" fragment="true" %>
 <%@attribute name="scripts" fragment="true" %>
 
-<%@attribute name="languageCode" required="true" %>
 <%@attribute name="titleCode" required="true" %>
-<%@attribute name="showAppInfo" required="true" %>
-<%@attribute name="appName" required="true" %>
-<%@attribute name="appVersion" required="true" %>
-<%@attribute name="notify" type="java.lang.Object" %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}" scope="request" />
 

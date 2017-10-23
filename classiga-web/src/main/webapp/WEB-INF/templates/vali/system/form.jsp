@@ -4,18 +4,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<c:set var="titleCode" value="title.system" />
-
-<t:layoutAdmin 
-    languageCode="${languageCode}" 
-    titleCode="${titleCode}" 
-    showAppInfo="${showAppInfo}" 
-    appName="${appName}" 
-    appVersion="${appVersion}" 
-    notify="${notify}" 
-    userName="${user.fullName}" 
-    userGroupName="${userGroup.name}" 
-    menus="${menus}" >
+<t:layoutAdmin titleCode="title.system" >
     
     <jsp:body>
         <div class="content-wrapper">

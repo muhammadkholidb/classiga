@@ -36,26 +36,26 @@
                                     <div class="form-group required">
                                         <label class="control-label col-md-3" for="inputFullName"><s:message code="label.fullname" /></label>
                                         <div class="col-md-9">
-                                            <input class="form-control" type="text" placeholder="<s:message code="label.fullname" />" name="fullName" value="${firstName}" id="inputFullName" autofocus>
+                                            <input class="form-control" type="text" placeholder="<s:message code="label.fullname" />" name="fullName" value="${firstName}" id="inputFullName" >
                                         </div>
                                     </div>
                                     <div class="form-group required">
                                         <label class="control-label col-md-3" for="inputUsername"><s:message code="label.username" /></label>
                                         <div class="col-md-9">
-                                            <input class="form-control" type="text" placeholder="<s:message code="label.username" />" name="username" value="${username}" id="inputUsername" autofocus>
+                                            <input class="form-control" type="text" placeholder="<s:message code="label.username" />" name="username" value="${username}" id="inputUsername" >
                                         </div>
                                     </div>
                                     <div class="form-group required">
                                         <label class="control-label col-md-3" for="inputEmail"><s:message code="label.email" /></label>
                                         <div class="col-md-9">
-                                            <input class="form-control" type="text" placeholder="<s:message code="label.email" />" name="email" value="${email}" id="inputEmail" autofocus>
+                                            <input class="form-control" type="text" placeholder="<s:message code="label.email" />" name="email" value="${email}" id="inputEmail" >
                                         </div>
                                     </div>
                                     <div class="form-group required">
                                         <label class="control-label col-md-3" for="inputPassword"><s:message code="label.password" /></label>
                                         <div class="col-md-9">
                                             <div class="input-group">
-                                                <input class="form-control" type="text" placeholder="<s:message code="label.password" />" name="password" value="${password}" id="inputPassword" autofocus />
+                                                <input class="form-control" type="text" placeholder="<s:message code="label.password" />" name="password" value="${password}" id="inputPassword" />
                                                 <span class="input-group-btn"><button class="btn btn-success" type="button" id="btnRandom" ><s:message code="button.random" /></button></span>
                                             </div>
                                         </div>

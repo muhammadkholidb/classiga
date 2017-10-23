@@ -4,29 +4,12 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="s" uri="http://www.springframework.org/tags"%>
 
-<%-- layoutBasic attributes --%>
 <%@attribute name="styles" fragment="true" %>
 <%@attribute name="scripts" fragment="true" %>
 
-<%@attribute name="languageCode" required="true" %>
 <%@attribute name="titleCode" required="true" %>
-<%@attribute name="showAppInfo" required="true" %>
-<%@attribute name="appName" required="true" %>
-<%@attribute name="appVersion" required="true" %>
-<%@attribute name="notify" type="java.lang.Object" %>
 
-<%-- layoutAdmin attributes --%>
-<%@attribute name="userName" required="true" %>
-<%@attribute name="userGroupName" required="true" %>
-<%@attribute name="menus" required="true" type="java.util.List" %>
-
-<t:layoutBasic 
-    languageCode="${languageCode}" 
-    titleCode="${titleCode}" 
-    showAppInfo="${showAppInfo}" 
-    appName="${appName}" 
-    appVersion="${appVersion}" 
-    notify="${notify}" >
+<t:layoutBasic titleCode="${titleCode}" >
 
     <jsp:attribute name="styles">
         <jsp:invoke fragment="styles"/>

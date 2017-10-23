@@ -4,15 +4,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<c:set var="titleCode" value="title.error" scope="request" />
-
-<t:layoutBasic 
-    languageCode="${languageCode}" 
-    titleCode="${titleCode}" 
-    showAppInfo="${showAppInfo}" 
-    appName="${appName}" 
-    appVersion="${appVersion}" 
-    notify="${notify}" >
+<t:layoutBasic titleCode="title.error" >
     
     <jsp:body>
         <div class="page-error">

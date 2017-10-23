@@ -4,15 +4,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<c:set var="titleCode" value="title.login" />
-
-<t:layoutBasic 
-    languageCode="${languageCode}" 
-    titleCode="${titleCode}" 
-    showAppInfo="${showAppInfo}" 
-    appName="${appName}" 
-    appVersion="${appVersion}" 
-    notify="${notify}" >
+<t:layoutBasic titleCode="title.login" >
     
     <jsp:attribute name="scripts">
         <script src="${contextPath}/resources/vali/js/jquery-validation/jquery.validate.js"></script>
@@ -65,7 +57,7 @@
                     </h3>
                     <div class="form-group">
                         <label class="control-label"><s:message code="label.usernameemail" /></label> 
-                        <input class="form-control" type="text" placeholder="<s:message code="label.usernameemail" />" name="username" value="${username}" autofocus>
+                        <input class="form-control" type="text" placeholder="<s:message code="label.usernameemail" />" name="username" value="${username}" >
                     </div>
                     <div class="form-group">
                         <label class="control-label"><s:message code="label.password" /></label> 

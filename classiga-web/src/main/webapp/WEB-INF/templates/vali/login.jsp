@@ -52,8 +52,12 @@
             </div>
             <div class="login-box">
                 <form class="login-form" id="loginForm" method="post" >
-                    <h3 class="login-head">
-                        <i class="fa fa-lg fa-fw fa-user"></i><s:message code="label.login" />
+                    <h3 class="login-head" style="text-transform: uppercase;">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-circle fa-stack-2x"></i>
+                            <i class="fa fa-user fa-stack-1x fa-inverse"></i>
+                        </span><br/>
+                        <s:message code="label.login" />
                     </h3>
                     <div class="form-group">
                         <label class="control-label"><s:message code="label.usernameemail" /></label> 

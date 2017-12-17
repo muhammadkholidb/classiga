@@ -45,5 +45,10 @@ public class SystemEntity extends BaseEntity implements Serializable {
     public SystemEntity(Long id) {
         super(id);
     }
+
+    @Override
+    protected void initValuesOnCreate() {
+        
+    }
     
 }

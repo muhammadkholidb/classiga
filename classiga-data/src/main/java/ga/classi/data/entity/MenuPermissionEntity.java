@@ -27,8 +27,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @Setter 
 @Getter 
 @Entity
-@Table(name = MenuPermissionEntity.TABLE_NAME, uniqueConstraints
-        = @UniqueConstraint(columnNames = {"user_group_id", "menu_code"})) // Let hibernate give its constraint name
+@Table(name = MenuPermissionEntity.TABLE_NAME, uniqueConstraints = @UniqueConstraint(columnNames = {"user_group_id", "menu_code"})) // Let hibernate give its constraint name
 @DynamicInsert
 @DynamicUpdate
 public class MenuPermissionEntity extends BaseEntity implements Serializable {
@@ -56,6 +55,11 @@ public class MenuPermissionEntity extends BaseEntity implements Serializable {
 
     public MenuPermissionEntity(Long id) {
         super(id);
+    }
+
+    @Override
+    protected void initValuesOnCreate() {
+        
     }
     
 }

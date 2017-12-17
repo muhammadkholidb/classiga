@@ -24,6 +24,12 @@ public class ActionResult {
 
     public ActionResult() {}
 
+    public ActionResult(String status, String message, JSONObject data) {
+        this.status = status;
+        this.message = message;
+        this.data = data;
+    }
+    
     public ActionResult parseData() {
 
         if (this.data != null) {

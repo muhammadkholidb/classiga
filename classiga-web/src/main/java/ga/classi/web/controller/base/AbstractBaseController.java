@@ -21,11 +21,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ModelAndView;
 
-import ga.classi.commons.data.error.DataException;
 import ga.classi.commons.helper.CommonConstants;
 import ga.classi.commons.helper.DefaultUser;
 import ga.classi.commons.helper.MessageHelper;
@@ -520,18 +518,6 @@ public abstract class AbstractBaseController implements IBaseController {
 
     public String getDefaultLanguageCode() {
         return DEFAULT_LANGUAGE_CODE;
-    }
-
-    @ExceptionHandler(DataException.class)
-    public JSONObject handleDataException(DataException e) {
-        log.debug("Data exception caught!");
-        return null;
-    }
-
-    @ExceptionHandler(Exception.class)
-    public JSONObject handleOtherException(Exception e) {
-        log.debug("Other exception caught!");
-        return null;
     }
     
 }

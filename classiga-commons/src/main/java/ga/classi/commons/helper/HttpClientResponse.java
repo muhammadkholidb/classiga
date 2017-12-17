@@ -19,28 +19,7 @@ public class HttpClientResponse extends ActionResult {
             this.status = (String) json.get(CommonConstants.STATUS);
             this.message = (String) json.get(CommonConstants.MESSAGE);
             this.data = (JSONObject) json.get(CommonConstants.DATA);
-            
-            if (this.data != null) {                
-                
-                Object countRows = this.data.get(CommonConstants.COUNT_ROWS);
-                Object totalRows = this.data.get(CommonConstants.TOTAL_ROWS);
-                Object totalPages = this.data.get(CommonConstants.TOTAL_PAGES);
-                
-                if (countRows != null) {                
-                    this.countRows = Integer.valueOf(countRows+ "");
-                }
-                
-                if (totalRows != null) {
-                    this.totalRows = Integer.valueOf(totalRows + "");
-                }
-                
-                if (totalPages != null) {
-                    this.totalPages = Integer.valueOf(totalPages + "");                
-                }
-
-                this.content = this.data.get(CommonConstants.CONTENT);
-            }
-            
+            parseData();
         } catch (Exception e) {
             log.error("Error parsing HttpClient response.", e); 
         }

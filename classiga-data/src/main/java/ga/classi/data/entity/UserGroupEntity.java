@@ -66,5 +66,10 @@ public class UserGroupEntity extends BaseEntity implements Serializable {
     public UserGroupEntity(Long id) {
         super(id);
     }
+
+    @Override
+    protected void initValuesOnCreate() {
+        
+    }
  
 }

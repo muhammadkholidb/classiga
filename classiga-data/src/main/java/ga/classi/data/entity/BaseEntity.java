@@ -14,6 +14,7 @@ import javax.persistence.Version;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import ga.classi.commons.helper.CommonConstants;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -42,6 +43,7 @@ public abstract class BaseEntity {
     @Column(name = "modified_at")
     private Date modifiedAt;
 
+    @JsonIgnore
     @Column(name = "deleted", length = 1)
     private String deleted;
 
@@ -52,6 +54,10 @@ public abstract class BaseEntity {
     @PrePersist
     public void onCreate() {
         createdAt = new Date();
+        deleted = CommonConstants.NO;
+        initValuesOnCreate();
     }
+
+    protected abstract void initValuesOnCreate();
     
 }

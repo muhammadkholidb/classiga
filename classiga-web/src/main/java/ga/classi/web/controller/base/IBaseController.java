@@ -5,10 +5,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.springframework.web.servlet.ModelAndView;
-
-import ga.classi.commons.data.error.DataException;
 
 /**
  *
@@ -117,9 +114,5 @@ public interface IBaseController extends IBaseControllerSystem, IBaseControllerU
     String getDefaultTemplateCode();
 
     String getDefaultLanguageCode();
-
-    JSONObject handleDataException(DataException e);
-
-    JSONObject handleOtherException(Exception e);
     
 }

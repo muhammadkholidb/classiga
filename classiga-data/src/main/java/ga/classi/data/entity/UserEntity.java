@@ -84,5 +84,10 @@ public class UserEntity extends BaseEntity implements Serializable {
     public UserEntity(Long id) {
         super(id);
     }
+
+    @Override
+    protected void initValuesOnCreate() {
+        
+    }
     
 }

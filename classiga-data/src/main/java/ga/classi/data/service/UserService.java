@@ -14,17 +14,17 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ga.classi.commons.data.error.DataException;
+import ga.classi.commons.data.error.ExceptionCode;
+import ga.classi.commons.data.helper.Dto;
+import ga.classi.commons.data.helper.DtoUtils;
 import ga.classi.commons.helper.CommonConstants;
 import ga.classi.commons.helper.PasswordUtils;
 import ga.classi.commons.helper.StringCheck;
 import ga.classi.data.entity.UserEntity;
 import ga.classi.data.entity.UserGroupEntity;
-import ga.classi.data.error.DataException;
 import ga.classi.data.error.ErrorMessageConstants;
-import ga.classi.data.error.ExceptionCode;
 import ga.classi.data.helper.DataValidation;
-import ga.classi.data.helper.Dto;
-import ga.classi.data.helper.DtoUtils;
 import ga.classi.data.repository.UserGroupRepository;
 import ga.classi.data.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -69,7 +69,12 @@ public class UserService extends AbstractServiceHelper {
         String strUserGroupId = dtoInput.getStringValue("userGroupId");
         DataValidation.validateNumeric(strUserGroupId, "User Group ID");
 
-        List<UserEntity> list = userRepository.findByUserGroup(new UserGroupEntity(Long.valueOf(strUserGroupId)));
+        UserGroupEntity userGroup = userGroupRepository.findOne(Long.valueOf(strUserGroupId));
+        if (userGroup == null) {
+            throw new DataException(ExceptionCode.E1001, ErrorMessageConstants.USER_GROUP_NOT_FOUND);
+        }
+        
+        List<UserEntity> list = userRepository.findByUserGroup(userGroup);
 
         return buildResultByEntityList(list);
     }

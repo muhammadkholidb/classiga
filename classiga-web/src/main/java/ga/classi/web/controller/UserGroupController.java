@@ -1,11 +1,5 @@
 package ga.classi.web.controller;
 
-import ga.classi.commons.helper.CommonConstants;
-import ga.classi.commons.helper.HttpClient;
-import ga.classi.commons.helper.HttpClientResponse;
-import ga.classi.commons.helper.StringConstants;
-import ga.classi.web.helper.JSONHelper;
-import ga.classi.web.helper.ModelKeyConstants;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
@@ -13,11 +7,10 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,15 +20,22 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import ga.classi.commons.helper.ActionResult;
+import ga.classi.commons.helper.CommonConstants;
+import ga.classi.commons.helper.StringConstants;
+import ga.classi.web.controller.base.BaseControllerAdapter;
+import ga.classi.web.helper.JSONHelper;
+import ga.classi.web.helper.ModelKeyConstants;
+import lombok.extern.slf4j.Slf4j;
+
 
 /**
  *
  * @author eatonmunoz
  */
+@Slf4j
 @Controller
-public class UserGroupController extends HttpClientBaseController {
-
-    private static final Logger log = LoggerFactory.getLogger(UserGroupController.class);
+public class UserGroupController extends BaseControllerAdapter {
 
     @GetMapping(value = "/settings/user-group")
     public ModelAndView index() throws IOException {
@@ -43,6 +43,7 @@ public class UserGroupController extends HttpClientBaseController {
         return view("user-group/list");
     }
 
+    @SuppressWarnings("unchecked")
     @PostMapping(value = "/settings/user-group/remove")
     public ModelAndView remove(@RequestParam(name = "selected", required = false) String[] selected) throws IOException {
 
@@ -50,19 +51,18 @@ public class UserGroupController extends HttpClientBaseController {
             return redirect("/settings/user-group");
         }
         
-        HttpClient httpClient = getDefinedHttpClient("/settings/user-group/remove");
+        JSONObject params = new JSONObject();
+        params.put("id", Arrays.toString(selected));
 
-        httpClient.addParameter("id", Arrays.toString(selected));
+        ActionResult result = removeUserGroup(params);
+        
+        if (CommonConstants.SUCCESS.equals(result.getStatus())) {
 
-        HttpClientResponse response = httpClient.post();
-
-        if (CommonConstants.SUCCESS.equals(response.getStatus())) {
-
-            return redirectAndNotifySuccess("/settings/user-group", response.getMessage());
+            return redirectAndNotifySuccess("/settings/user-group", result.getMessage());
 
         } else {    // Fail or error
 
-            return redirectAndNotifyError("/settings/user-group", response.getMessage());
+            return redirectAndNotifyError("/settings/user-group", result.getMessage());
         }
     }
 
@@ -88,14 +88,14 @@ public class UserGroupController extends HttpClientBaseController {
             parameters.put("userGroup", jsonUserGroup);
             parameters.put("menuPermissions", decodedMenuPermissions);
             
-            HttpClientResponse response = getDefinedHttpClient("/settings/user-group/add", parameters).post();
+            ActionResult result = addUserGroup(parameters);
 
-            if (CommonConstants.SUCCESS.equals(response.getStatus())) {
-                return redirectAndNotifySuccess("/settings/user-group", response.getMessage());
+            if (CommonConstants.SUCCESS.equals(result.getStatus())) {
+                return redirectAndNotifySuccess("/settings/user-group", result.getMessage());
             } 
             
             // This is not success
-            errorMessage = response.getMessage();
+            errorMessage = result.getMessage();
         }
 
         JSONArray availableMenus = (JSONArray) JSONValue.parse(getMenus(true).toString());
@@ -161,14 +161,14 @@ public class UserGroupController extends HttpClientBaseController {
             parameters.put("userGroup", jsonUserGroup);
             parameters.put("menuPermissions", decodedMenuPermissions);
             
-            HttpClientResponse response = getDefinedHttpClient("/settings/user-group/edit", parameters).post();
+            ActionResult result = editUserGroup(parameters);
 
-            if (CommonConstants.SUCCESS.equals(response.getStatus())) {
-                return redirectAndNotifySuccess("/settings/user-group", response.getMessage());
+            if (CommonConstants.SUCCESS.equals(result.getStatus())) {
+                return redirectAndNotifySuccess("/settings/user-group", result.getMessage());
             } 
             
             // This is not success
-            errorMessage = response.getMessage();
+            errorMessage = result.getMessage();
         }
 
         JSONObject userGroup;
@@ -177,12 +177,13 @@ public class UserGroupController extends HttpClientBaseController {
         JSONObject paramsFind = new JSONObject();
         paramsFind.put("id", userGroupId);
 
-        HttpClientResponse responseFind = getDefinedHttpClient("/settings/user-group/find", paramsFind).get();
-        if (CommonConstants.SUCCESS.equals(responseFind.getStatus())) {
-            userGroup = (JSONObject) responseFind.getContent();
+        ActionResult resultFind = findUserGroup(paramsFind);
+        
+        if (CommonConstants.SUCCESS.equals(resultFind.getStatus())) {
+            userGroup = (JSONObject) resultFind.getContent();
             userGroupMenuPermissions = (JSONArray) userGroup.get("menuPermissions");
         } else {    // Fail or error
-            return redirectAndNotifyError("/settings/user-group", responseFind.getMessage());
+            return redirectAndNotifyError("/settings/user-group", resultFind.getMessage());
         }
 
         JSONArray availableMenus = (JSONArray) JSONValue.parse(getMenus(true).toString());

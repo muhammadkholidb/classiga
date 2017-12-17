@@ -1,37 +1,35 @@
 package ga.classi.web.controller;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import ga.classi.commons.helper.ActionResult;
 import ga.classi.commons.helper.CommonConstants;
-import ga.classi.commons.helper.HttpClient;
-import ga.classi.commons.helper.HttpClientResponse;
 import ga.classi.commons.helper.StringConstants;
+import ga.classi.web.controller.base.BaseControllerAdapter;
 import ga.classi.web.helper.ModelKeyConstants;
-import java.util.Arrays;
-import org.springframework.web.bind.annotation.PostMapping;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  *
  * @author eatonmunoz
  */
+@Slf4j
 @Controller
-public class UserController extends HttpClientBaseController {
-
-    private static final Logger log = LoggerFactory.getLogger(UserController.class);
+public class UserController extends BaseControllerAdapter {
 
     @GetMapping(value = "/settings/user")
     public ModelAndView index() throws IOException {
@@ -40,11 +38,11 @@ public class UserController extends HttpClientBaseController {
     }
 
     private JSONArray getUserGroups() throws IOException {
-        log.info("Get user groups ...");
-        HttpClientResponse response = getDefinedHttpClient("/settings/user-group/list").get();
-        if (response != null) {
-            if (CommonConstants.SUCCESS.equals(response.getStatus())) {
-                return (JSONArray) response.getContent();
+        log.info("Get user groups ..."); 
+        ActionResult result = listUserGroup(null);
+        if (result != null) {
+            if (CommonConstants.SUCCESS.equals(result.getStatus())) {
+                return (JSONArray) result.getContent();
             }
         }
         return null;
@@ -79,12 +77,12 @@ public class UserController extends HttpClientBaseController {
             jsonUser.put("active", CommonConstants.YES);
             jsonUser.put("userGroupId", userGroupId);
 
-            HttpClientResponse response = getDefinedHttpClient("/settings/user/add", jsonUser).post();
-
-            if (CommonConstants.SUCCESS.equals(response.getStatus())) {
-                return redirectAndNotifySuccess("/settings/user", response.getMessage());
+            ActionResult result = addUser(jsonUser);
+            
+            if (CommonConstants.SUCCESS.equals(result.getStatus())) {
+                return redirectAndNotifySuccess("/settings/user", result.getMessage());
             } else {    // Fail or error
-                return viewAndNotifyError("user/form-add", model, response.getMessage());
+                return viewAndNotifyError("user/form-add", model, result.getMessage());
             }
         }
 
@@ -115,11 +113,12 @@ public class UserController extends HttpClientBaseController {
         JSONObject paramsFind = new JSONObject();
         paramsFind.put("id", userId);
 
-        HttpClientResponse responseFind = getDefinedHttpClient("/settings/user/find", paramsFind).get();
-        if (CommonConstants.SUCCESS.equals(responseFind.getStatus())) {
-            user = (JSONObject) responseFind.getContent();
+        ActionResult resultFind = findUser(paramsFind);
+        
+        if (CommonConstants.SUCCESS.equals(resultFind.getStatus())) {
+            user = (JSONObject) resultFind.getContent();
         } else {    // Fail or error
-            return redirectAndNotifyError("/settings/user", responseFind.getMessage());
+            return redirectAndNotifyError("/settings/user", resultFind.getMessage());
         }
 
         JSONArray userGroups = getUserGroups();
@@ -135,11 +134,11 @@ public class UserController extends HttpClientBaseController {
             jsonUser.put("userGroupId", userGroupId);
             jsonUser.put("id", userId);
 
-            HttpClientResponse response = getDefinedHttpClient("/settings/user/edit", jsonUser).post();
+            ActionResult result = editUser(jsonUser);
+            
+            if (CommonConstants.SUCCESS.equals(result.getStatus())) {
 
-            if (CommonConstants.SUCCESS.equals(response.getStatus())) {
-
-                return redirectAndNotifySuccess("/settings/user", response.getMessage());
+                return redirectAndNotifySuccess("/settings/user", result.getMessage());
 
             } else {    // Fail or error
 
@@ -153,7 +152,7 @@ public class UserController extends HttpClientBaseController {
                 model.put(ModelKeyConstants.USER_ID, userId);
                 model.put(ModelKeyConstants.USER_GROUPS, userGroups);
 
-                return viewAndNotifyError("user/form-edit", model, response.getMessage());
+                return viewAndNotifyError("user/form-edit", model, result.getMessage());
             }
         }
 
@@ -176,6 +175,7 @@ public class UserController extends HttpClientBaseController {
         return view("user/form-edit", model);
     }
 
+    @SuppressWarnings("unchecked")
     @PostMapping(value = "/settings/user/remove")
     public ModelAndView remove(@RequestParam(name = "selected", required = false) String[] selected) throws IOException {
 
@@ -183,19 +183,18 @@ public class UserController extends HttpClientBaseController {
             return redirect("/settings/user");
         }
         
-        HttpClient httpClient = getDefinedHttpClient("/settings/user/remove");
+        JSONObject params = new JSONObject();
+        params.put("id", Arrays.toString(selected));
 
-        httpClient.addParameter("id", Arrays.toString(selected));
+        ActionResult result = removeUser(params);
+        
+        if (CommonConstants.SUCCESS.equals(result.getStatus())) {
 
-        HttpClientResponse response = httpClient.post();
-
-        if (CommonConstants.SUCCESS.equals(response.getStatus())) {
-
-            return redirectAndNotifySuccess("/settings/user", response.getMessage());
+            return redirectAndNotifySuccess("/settings/user", result.getMessage());
 
         } else {    // Fail or error
 
-            return redirectAndNotifyError("/settings/user", response.getMessage());
+            return redirectAndNotifyError("/settings/user", result.getMessage());
         }
     }
 

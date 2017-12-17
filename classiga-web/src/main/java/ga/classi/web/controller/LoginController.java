@@ -7,35 +7,34 @@ import java.util.Map;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import ga.classi.commons.helper.ActionResult;
 import ga.classi.commons.helper.CommonConstants;
 import ga.classi.commons.helper.DefaultUser;
-import ga.classi.commons.helper.HttpClient;
-import ga.classi.commons.helper.HttpClientResponse;
 import ga.classi.commons.helper.PasswordUtils;
 import ga.classi.commons.helper.StringConstants;
+import ga.classi.web.controller.base.BaseControllerAdapter;
 import ga.classi.web.helper.JSONHelper;
 import ga.classi.web.helper.ModelKeyConstants;
 import ga.classi.web.helper.SessionKeyConstants;
 import ga.classi.web.helper.SessionManager;
 import ga.classi.web.helper.URLParameterKeyContants;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  *
  * @author eatonmunoz
  */
+@Slf4j
 @Controller
-public class LoginController extends HttpClientBaseController {
+public class LoginController extends BaseControllerAdapter {
 
-    private static final Logger log = LoggerFactory.getLogger(LoginController.class);
-
+    @SuppressWarnings("unchecked")
     @RequestMapping(value = {"/", "/login"}, method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView login(
             @RequestParam(name = "username", required = false, defaultValue = StringConstants.EMPTY) String username,
@@ -51,20 +50,20 @@ public class LoginController extends HttpClientBaseController {
 
             log.debug("Process login ...");
 
-            HttpClient httpClient = getDefinedHttpClient("/login");
-            httpClient.addParameter("username", username);
-            httpClient.addParameter("password", password);
+            JSONObject parameters = new JSONObject();
+            parameters.put("username", username);
+            parameters.put("password", password);
             
-            HttpClientResponse response = httpClient.post();
+            ActionResult result = login(parameters);
 
             JSONObject user;
             
-            if (response != null) {
+            if (result != null) {
                 
-                String status = response.getStatus();
+                String status = result.getStatus();
                 
                 if (CommonConstants.SUCCESS.equals(status)) {
-                    user = (JSONObject) response.getContent();
+                    user = (JSONObject) result.getContent();
                 } else {
                     // Check default user
                     user = checkDefaultUser(username, password);
@@ -72,7 +71,7 @@ public class LoginController extends HttpClientBaseController {
                 }
 
                 if (user == null) {
-                    return viewAndNotifyError("login", model, response.getMessage());
+                    return viewAndNotifyError("login", model, result.getMessage());
                 }
                 
                 JSONObject userGroup = (JSONObject) user.get("userGroup");
@@ -91,7 +90,7 @@ public class LoginController extends HttpClientBaseController {
                     return redirectAndNotifySuccess(URLDecoder.decode(redirect, "UTF-8"), messageHelper.getMessage("success.loginsuccessfully"));
                 }
                 
-                return redirectAndNotifySuccess(defaultRedirect, messageHelper.getMessage("success.loginsuccessfully"));
+                return redirectAndNotifySuccess(getDefaultRedirect(), messageHelper.getMessage("success.loginsuccessfully"));
             }
         }
 
@@ -101,7 +100,7 @@ public class LoginController extends HttpClientBaseController {
     @SuppressWarnings("unchecked")
     private JSONObject checkDefaultUser(String username, String password) {
         log.debug("Check default user ...");
-        String defaultUser = usersProp.getProperty(username);
+        String defaultUser = usersProperties.getProperty(username);
         if ((defaultUser == null) || defaultUser.trim().isEmpty()) {
             return null;
         }

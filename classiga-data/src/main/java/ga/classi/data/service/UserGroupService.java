@@ -14,15 +14,15 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ga.classi.commons.data.error.DataException;
+import ga.classi.commons.data.error.ExceptionCode;
+import ga.classi.commons.data.helper.Dto;
+import ga.classi.commons.data.helper.DtoUtils;
 import ga.classi.commons.helper.StringCheck;
 import ga.classi.data.entity.MenuPermissionEntity;
 import ga.classi.data.entity.UserGroupEntity;
-import ga.classi.data.error.DataException;
 import ga.classi.data.error.ErrorMessageConstants;
-import ga.classi.data.error.ExceptionCode;
 import ga.classi.data.helper.DataValidation;
-import ga.classi.data.helper.Dto;
-import ga.classi.data.helper.DtoUtils;
 import ga.classi.data.repository.MenuPermissionRepository;
 import ga.classi.data.repository.UserGroupRepository;
 import ga.classi.data.repository.UserRepository;
@@ -311,8 +311,13 @@ public class UserGroupService extends AbstractServiceHelper {
 
         for (Long userGroupId : listUserGroupId) {
 
+            UserGroupEntity findUserGroupById = userGroupRepository.findOne(userGroupId);
+            if (findUserGroupById == null) {
+                throw new DataException(ExceptionCode.E1001, ErrorMessageConstants.USER_GROUP_NOT_FOUND);
+            }
+
             // Count users in this group
-            Long countUsers = userRepository.countByUserGroup(new UserGroupEntity(userGroupId));
+            Long countUsers = userRepository.countByUserGroup(findUserGroupById);
             
             log.debug("User group {}, count users: {}", userGroupId, countUsers);
             
@@ -321,11 +326,8 @@ public class UserGroupService extends AbstractServiceHelper {
                 throw new DataException(ExceptionCode.E1002, ErrorMessageConstants.CANT_REMOVE_USER_GROUP_CAUSE_USER_EXISTS, new Object[]{userGroupName, countUsers});
             }
 
-            UserGroupEntity userGroup = new UserGroupEntity();
-            userGroup.setId(userGroupId);
-
             // Remove menus for this user group first to avoid foreign key constraint violation
-            List<MenuPermissionEntity> deletedPermissions = menuPermissionRepository.deleteByUserGroup(userGroup);
+            List<MenuPermissionEntity> deletedPermissions = menuPermissionRepository.deleteByUserGroup(findUserGroupById);
             log.debug("Deleted: {} menu permissions", deletedPermissions.size());
         }
 

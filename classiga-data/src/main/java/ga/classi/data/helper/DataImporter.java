@@ -22,9 +22,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import ga.classi.commons.data.error.DataException;
+import ga.classi.commons.data.error.ExceptionCode;
 import ga.classi.commons.helper.CommonUtils;
-import ga.classi.data.error.DataException;
-import ga.classi.data.error.ExceptionCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;

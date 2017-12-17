@@ -1,4 +1,4 @@
-package ga.classi.data.error;
+package ga.classi.commons.data.error;
 
 public enum ExceptionCode {
     

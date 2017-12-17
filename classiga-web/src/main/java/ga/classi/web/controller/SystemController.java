@@ -10,8 +10,6 @@ import java.util.Map;
 import org.apache.commons.lang3.text.WordUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,28 +17,28 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import ga.classi.commons.helper.ActionResult;
 import ga.classi.commons.helper.CommonConstants;
-import ga.classi.commons.helper.HttpClient;
-import ga.classi.commons.helper.HttpClientResponse;
 import ga.classi.commons.helper.StringConstants;
+import ga.classi.web.controller.base.BaseControllerAdapter;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  *
  * @author eatonmunoz
  */
+@Slf4j
 @Controller
-public class SystemController extends HttpClientBaseController {
-
-    private static final Logger log = LoggerFactory.getLogger(SystemController.class);
+public class SystemController extends BaseControllerAdapter {
 
     @GetMapping(value = "/settings/system")
     public ModelAndView index() {
-        
+        log.info("Index ...");
         return view("system/form", prepareForm(false));
     }
     
     private Map<String, Object> prepareForm(boolean isEdit) {
-        
+        log.info("Prepare form ...");
         String currentLanguageCode = getSystem(CommonConstants.SYSTEM_KEY_LANGUAGE_CODE);
         String currentTemplateCode = getSystem(CommonConstants.SYSTEM_KEY_TEMPLATE_CODE);
         String currentOnline = getSystem(CommonConstants.SYSTEM_KEY_ONLINE);
@@ -80,6 +78,8 @@ public class SystemController extends HttpClientBaseController {
             @RequestParam(name = "languageCode", required = true, defaultValue = StringConstants.EMPTY) String languageCode, 
             @RequestParam(name = "online", required = true, defaultValue = StringConstants.EMPTY) String online) throws IOException {
 
+        log.info("Edit ...");
+        
         if (isPost()) {
             
             JSONArray editSystems = new JSONArray();
@@ -101,27 +101,15 @@ public class SystemController extends HttpClientBaseController {
             }
 
             JSONObject params = new JSONObject();
-            params.put("systems", editSystems);
+            params.put("systems", editSystems.toJSONString());
 
-            HttpClient httpClient = getDefinedHttpClient();
-            httpClient.setPath("/settings/system/edit");
-            httpClient.setParameters(params);
-
-            String currentLanguageCode = getSystem(CommonConstants.SYSTEM_KEY_LANGUAGE_CODE);
-
-            // Update header Accept-Language in restClient if language changed
-            if (!languageCode.equals(currentLanguageCode)) {
-                log.debug("Language changed!");
-                httpClient.setHeader("Accept-Language", languageCode);
-            }
-
-            HttpClientResponse response = httpClient.post();
-
-            if (CommonConstants.SUCCESS.equals(response.getStatus())) {
+            ActionResult result = editSystems(params, languageCode);
+            
+            if (CommonConstants.SUCCESS.equals(result.getStatus())) {
                 loadSystems();
-                return redirectAndNotifySuccess("/settings/system", response.getMessage());
+                return redirectAndNotifySuccess("/settings/system", result.getMessage());
             } else {    // Fail or error
-                return redirectAndNotifyError("/settings/system", response.getMessage());
+                return redirectAndNotifyError("/settings/system", result.getMessage());
             }        
         }
         

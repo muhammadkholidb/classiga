@@ -8,9 +8,9 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ga.classi.commons.helper.ActionResult;
 import ga.classi.commons.helper.CommonConstants;
-import ga.classi.commons.helper.HttpClient;
-import ga.classi.commons.helper.HttpClientResponse;
+import ga.classi.web.controller.base.BaseControllerAdapter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @RestController
-public class UserGroupControllerRest extends HttpClientBaseController {
+public class UserGroupControllerRest extends BaseControllerAdapter {
 
     private static final String[] SORT_COLUMN_NAME_BY_NUMBER = new String[] {
             "name", 
@@ -32,17 +32,16 @@ public class UserGroupControllerRest extends HttpClientBaseController {
     @GetMapping(value = "/settings/user-group/list", produces = MediaType.APPLICATION_JSON_VALUE)
     public JSONObject getUserGroups() throws IOException {
 
-        log.debug("Get user group data ...");
+        log.info("Get user groups ...");
         
-        HttpClient httpClient = getDefinedHttpClient("/settings/user-group/list");
+        JSONObject params = new JSONObject();
+        params.put("start", httpServletRequest.getParameter("start").trim());
+        params.put("length", httpServletRequest.getParameter("length").trim());
+        params.put("searchTerm", httpServletRequest.getParameter("searchTerm"));
+        params.put("sortOrder", httpServletRequest.getParameter("sortOrder").trim());
+        params.put("sortColumn", getSortColumnName(httpServletRequest.getParameter("sortColumnIndex").trim()));
         
-        httpClient.addParameter("start", httpServletRequest.getParameter("start").trim());
-        httpClient.addParameter("length", httpServletRequest.getParameter("length").trim());
-        httpClient.addParameter("searchTerm", httpServletRequest.getParameter("searchTerm"));
-        httpClient.addParameter("sortOrder", httpServletRequest.getParameter("sortOrder").trim());
-        httpClient.addParameter("sortColumn", getSortColumnName(httpServletRequest.getParameter("sortColumnIndex").trim()));
-        
-        HttpClientResponse response = httpClient.get();
+        ActionResult response = listUserGroup(params);
 
         JSONObject json = new JSONObject();
         

@@ -19,6 +19,13 @@
             <artifactId>classiga-commons</artifactId>
         </dependency>
 
+        <!-- Classiga -->
+        <dependency>
+            <groupId>ga.classi</groupId>
+            <artifactId>classiga-data</artifactId>
+            <classifier>h2</classifier>
+        </dependency>
+
         <!-- Spring 4 dependencies -->
         <dependency>
             <groupId>org.springframework</groupId>
@@ -106,6 +113,12 @@
             <artifactId>lombok</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.codehaus.janino</groupId>
+            <artifactId>janino</artifactId>
+            <version>3.0.6</version>
+        </dependency>
+        
     </dependencies>
 
     <build>

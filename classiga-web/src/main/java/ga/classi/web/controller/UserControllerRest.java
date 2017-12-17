@@ -8,9 +8,9 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ga.classi.commons.helper.ActionResult;
 import ga.classi.commons.helper.CommonConstants;
-import ga.classi.commons.helper.HttpClient;
-import ga.classi.commons.helper.HttpClientResponse;
+import ga.classi.web.controller.base.BaseControllerAdapter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @RestController
-public class UserControllerRest extends HttpClientBaseController {
+public class UserControllerRest extends BaseControllerAdapter {
 
     private static final String[] SORT_COLUMN_NAME_BY_NUMBER = new String[] {
             "fullName", 
@@ -34,27 +34,26 @@ public class UserControllerRest extends HttpClientBaseController {
     @GetMapping(value = "/settings/user/list", produces = MediaType.APPLICATION_JSON_VALUE)
     public JSONObject getUser() throws IOException {
 
-        log.debug("Get user data ...");
+        log.info("Get users ...");
         
-        HttpClient httpClient = getDefinedHttpClient("/settings/user/list");
+        JSONObject params = new JSONObject();
+        params.put("start", httpServletRequest.getParameter("start").trim());
+        params.put("length", httpServletRequest.getParameter("length").trim());
+        params.put("searchTerm", httpServletRequest.getParameter("searchTerm"));
+        params.put("sortOrder", httpServletRequest.getParameter("sortOrder").trim());
+        params.put("sortColumn", getSortColumnName(httpServletRequest.getParameter("sortColumnIndex").trim()));
         
-        httpClient.addParameter("start", httpServletRequest.getParameter("start").trim());
-        httpClient.addParameter("length", httpServletRequest.getParameter("length").trim());
-        httpClient.addParameter("searchTerm", httpServletRequest.getParameter("searchTerm"));
-        httpClient.addParameter("sortOrder", httpServletRequest.getParameter("sortOrder").trim());
-        httpClient.addParameter("sortColumn", getSortColumnName(httpServletRequest.getParameter("sortColumnIndex").trim()));
-        
-        HttpClientResponse response = httpClient.get();
+        ActionResult result = listUser(params);
 
         JSONObject json = new JSONObject();
         
-        if (CommonConstants.SUCCESS.equals(response.getStatus())) {
-            json.put("recordsFiltered", response.getTotalRows());
-            json.put("data", (JSONArray) response.getContent());
+        if (CommonConstants.SUCCESS.equals(result.getStatus())) {
+            json.put("recordsFiltered", result.getTotalRows());
+            json.put("data", (JSONArray) result.getContent());
         } else {
             json.put("recordsFiltered", 0);
             json.put("data", new JSONArray());
-            json.put("error", response.getMessage());
+            json.put("error", result.getMessage());
         }
         
         return json;

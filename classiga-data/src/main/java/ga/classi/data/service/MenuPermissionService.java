@@ -6,15 +6,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ga.classi.commons.data.error.DataException;
+import ga.classi.commons.data.error.ExceptionCode;
+import ga.classi.commons.data.helper.Dto;
 import ga.classi.data.entity.MenuPermissionEntity;
 import ga.classi.data.entity.UserGroupEntity;
+import ga.classi.data.error.ErrorMessageConstants;
 import ga.classi.data.helper.DataValidation;
-import ga.classi.data.helper.Dto;
 import ga.classi.data.repository.MenuPermissionRepository;
+import ga.classi.data.repository.UserGroupRepository;
 
 @Service
 public class MenuPermissionService extends AbstractServiceHelper {
 
+    @Autowired
+    private UserGroupRepository userGroupRepository;
+    
     @Autowired
     private MenuPermissionRepository userGroupMenuPermissionRepository;
 
@@ -38,8 +45,10 @@ public class MenuPermissionService extends AbstractServiceHelper {
         // Validate values
         DataValidation.validateNumeric(strUserGroupId, "User Group ID");
 
-        UserGroupEntity userGroup = new UserGroupEntity();
-        userGroup.setId(Long.valueOf(strUserGroupId));
+        UserGroupEntity userGroup = userGroupRepository.findOne(Long.valueOf(strUserGroupId));
+        if (userGroup == null) {
+            throw new DataException(ExceptionCode.E1001, ErrorMessageConstants.USER_GROUP_NOT_FOUND);
+        }
 
         List<MenuPermissionEntity> list = userGroupMenuPermissionRepository.findByUserGroup(userGroup);
         

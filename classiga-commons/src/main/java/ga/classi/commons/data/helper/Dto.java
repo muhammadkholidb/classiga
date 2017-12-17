@@ -1,9 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package ga.classi.data.helper;
+package ga.classi.commons.data.helper;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +14,10 @@ public class Dto extends HashMap<Object, Object> {
     }
     
     public Dto(Map<? extends Object, ? extends Object> map) {
-        super(map);
+        super();
+        if (map != null) {    
+            putAll(map);   
+        }
     }
     
     /**

@@ -7,10 +7,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import ga.classi.web.controller.base.BaseControllerAdapter;
 import ga.classi.web.helper.ModelKeyConstants;
 
 @Controller
-public class ErrorController extends HttpClientBaseController {
+public class ErrorController extends BaseControllerAdapter {
 
     @RequestMapping(value = "/error")
     public ModelAndView error() {

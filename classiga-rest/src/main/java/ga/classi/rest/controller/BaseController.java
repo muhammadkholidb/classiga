@@ -8,12 +8,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.LocaleResolver;
 
-import ga.classi.data.error.DataException;
+import ga.classi.commons.data.error.DataException;
 import ga.classi.commons.helper.CommonConstants;
 import ga.classi.commons.helper.MessageHelper;
 import ga.classi.rest.helper.ResponseObject;
-import org.springframework.web.servlet.LocaleResolver;
 
 public abstract class BaseController {
 

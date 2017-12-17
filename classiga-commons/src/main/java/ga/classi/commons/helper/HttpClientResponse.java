@@ -8,16 +8,9 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Getter
-public class HttpClientResponse {
+public class HttpClientResponse extends ActionResult {
 
     private String response;
-    private String status;
-    private String message;
-    private JSONObject data;
-    private Object content;
-    private Integer countRows;
-    private Integer totalRows;
-    private Integer totalPages;
 
     public HttpClientResponse(String response) {
         this.response = response;

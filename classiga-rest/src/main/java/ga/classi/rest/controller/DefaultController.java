@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import ga.classi.commons.data.helper.Dto;
+import ga.classi.commons.data.helper.DtoUtils;
 import ga.classi.commons.helper.CommonConstants;
-import ga.classi.data.helper.Dto;
-import ga.classi.data.helper.DtoUtils;
 import ga.classi.data.service.UserService;
 import ga.classi.rest.helper.ResponseObject;
 

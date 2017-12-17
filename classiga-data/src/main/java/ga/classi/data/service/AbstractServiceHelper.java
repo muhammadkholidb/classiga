@@ -7,10 +7,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 
+import ga.classi.commons.data.helper.Dto;
+import ga.classi.commons.data.helper.DtoUtils;
 import ga.classi.commons.helper.CommonConstants;
 import ga.classi.data.entity.BaseEntity;
-import ga.classi.data.helper.Dto;
-import ga.classi.data.helper.DtoUtils;
 
 /**
  *
@@ -18,7 +18,7 @@ import ga.classi.data.helper.DtoUtils;
  */
 public abstract class AbstractServiceHelper {
 
-    private static final Integer DEFAULT_MAX_ROWS = 100;    // Doesn't need to be configurable, just set the preferred value.
+    private static final Integer DEFAULT_MAX_ROWS = 1000;    // Doesn't need to be configurable, just set the preferred value.
     
     /**
      *

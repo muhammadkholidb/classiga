@@ -49,7 +49,7 @@ public class UserGroupEntity extends BaseEntity implements Serializable {
     @Column(name = "lower_name", length = 128, nullable = false)
     private String lowerName;
 
-    @Column(name = "description", length = 512)
+    @Column(name = "description", length = 256)
     private String description;
 
     @Column(name = "active", length = 1, nullable = false)

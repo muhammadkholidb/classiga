@@ -44,7 +44,7 @@ public class UserEntity extends BaseEntity implements Serializable {
 
     public static final String TABLE_NAME = "t_user";
 
-    @Column(name = "full_name", length = 256, nullable = false)
+    @Column(name = "full_name", length = 128, nullable = false)
     private String fullName;
     
     @Column(name = "username", length = 128, nullable = false)
@@ -65,7 +65,7 @@ public class UserEntity extends BaseEntity implements Serializable {
     private String active;
 
     @JsonIgnore
-    @Column(name = "lower_full_name", length = 256, nullable = false)
+    @Column(name = "lower_full_name", length = 128, nullable = false)
     private String lowerFullName;
 
     @JsonIgnore

@@ -3,9 +3,10 @@
     
     <appender name="STDOUT_COLOR" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%magenta(%d{yyyy-MM-dd HH:mm:ss.SSS}) %gray([%thread]) %highlight(%-5level) %cyan(%logger -) %msg%n</pattern>
+            <pattern>%magenta(%d{yyyy-MM-dd HH:mm:ss.SSS}) [%thread] %highlight(%-5level) %cyan(%logger) - %msg%n</pattern>
         </encoder>
     </appender>
+    
     <appender name="STDOUT_NO_COLOR" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n</pattern>
@@ -38,13 +39,12 @@
     <logger name="org.hibernate.loader.plan.build.internal" level="ERROR"/>
    
     <root level="DEBUG">
-        <!-- to use enable this mode pass -Dcolor to jvm -->
-        <if condition='isDefined("color")'>
+        <if condition='property("os.name").toLowerCase().contains("windows")'>
             <then>
-                <appender-ref ref="STDOUT_COLOR"/>
+                <appender-ref ref="STDOUT_NO_COLOR"/>
             </then>
             <else>
-                <appender-ref ref="STDOUT_NO_COLOR"/>
+                <appender-ref ref="STDOUT_COLOR"/>
             </else>
         </if>
         <appender-ref ref="FILE" />

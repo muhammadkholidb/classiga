@@ -24,13 +24,12 @@
     </appender> 
    
     <root level="DEBUG">
-        <!-- to use enable this mode pass -Dcolor to jvm -->
-        <if condition='isDefined("color")'>
+        <if condition='property("os.name").toLowerCase().contains("windows")'>
             <then>
-                <appender-ref ref="STDOUT_COLOR"/>
+                <appender-ref ref="STDOUT_NO_COLOR"/>
             </then>
             <else>
-                <appender-ref ref="STDOUT_NO_COLOR"/>
+                <appender-ref ref="STDOUT_COLOR"/>
             </else>
         </if>
         <appender-ref ref="FILE" />

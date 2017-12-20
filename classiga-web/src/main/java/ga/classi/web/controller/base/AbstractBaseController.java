@@ -84,6 +84,7 @@ public abstract class AbstractBaseController implements IBaseController {
 
     protected abstract void postConstruct();
  
+    @Override
     public ModelAndView view(ModelAndView mav) {
         if (userHasLoggedIn()) {            
             mav.addObject(ModelKeyConstants.USER, SessionManager.get(SessionKeyConstants.USER));
@@ -112,95 +113,116 @@ public abstract class AbstractBaseController implements IBaseController {
         return mav;
     }
 
+    @Override
     public ModelAndView view(String view, Map<String, Object> model) {
         ModelAndView mav = new ModelAndView(view);
         mav.addAllObjects(model);
         return view(mav);
     }
 
+    @Override
     public ModelAndView view(String view) {
         return view(view, null);
     }
 
+    @Override
     public ModelAndView viewAndNotify(ModelAndView mav, String message, String notificationType) {
         ModelAndView mav1 = view(mav);
         mav1.addObject(ModelKeyConstants.NOTIFY, UIHelper.createNotification(StringConstants.EMPTY, message, notificationType));
         return mav1;
     }
 
+    @Override
     public ModelAndView viewAndNotify(String view, Map<String, Object> model, String message, String notificationType) {
         ModelAndView mav = new ModelAndView(view);
         mav.addAllObjects(model);
         return viewAndNotify(mav, message, notificationType);
     }
 
+    @Override
     public ModelAndView viewAndNotify(String view, String message, String notificationType) {
         return viewAndNotify(view, null, message, notificationType);
     }
 
+    @Override
     public ModelAndView viewAndNotifyError(ModelAndView mav, String message) {
         return viewAndNotify(mav, message, Notify.DANGER);
     }
 
+    @Override
     public ModelAndView viewAndNotifyError(String view, Map<String, Object> model, String message) {
         return viewAndNotify(view, model, message, Notify.DANGER);
     }
 
+    @Override
     public ModelAndView viewAndNotifyError(String view, String message) {
         return viewAndNotify(view, message, Notify.DANGER);
     }
 
+    @Override
     public ModelAndView viewAndNotifyInfo(ModelAndView mav, String message) {
         return viewAndNotify(mav, message, Notify.INFO);
     }
 
+    @Override
     public ModelAndView viewAndNotifyInfo(String view, Map<String, Object> model, String message) {
         return viewAndNotify(view, model, message, Notify.INFO);
     }
 
+    @Override
     public ModelAndView viewAndNotifyInfo(String view, String message) {
         return viewAndNotify(view, message, Notify.INFO);
     }
 
+    @Override
     public ModelAndView viewAndNotifyWarning(ModelAndView mav, String message) {
         return viewAndNotify(mav, message, Notify.WARNING);
     }
 
+    @Override
     public ModelAndView viewAndNotifyWarning(String view, Map<String, Object> model, String message) {
         return viewAndNotify(view, model, message, Notify.WARNING);
     }
 
+    @Override
     public ModelAndView viewAndNotifyWarning(String view, String message) {
         return viewAndNotify(view, message, Notify.WARNING);
     }
 
+    @Override
     public ModelAndView viewAndNotifySuccess(ModelAndView mav, String message) {
         return viewAndNotify(mav, message, Notify.SUCCESS);
     }
 
+    @Override
     public ModelAndView viewAndNotifySuccess(String view, Map<String, Object> model, String message) {
         return viewAndNotify(view, model, message, Notify.SUCCESS);
     }
 
+    @Override
     public ModelAndView viewAndNotifySuccess(String view, String message) {
         return viewAndNotify(view, message, Notify.SUCCESS);
     }
 
+    @Override
     public ModelAndView redirect(String path) {
         return redirect(path, null);
     }
 
+    @Override
     public ModelAndView redirect(String path, Map<String, Object> flashModel) {
         SessionManager.set(SessionKeyConstants.FLASH, flashModel);
         return new ModelAndView("redirect:" + path);
     }
 
+    @Override
     public ModelAndView redirectAndNotify(String path, String message, String notificationType) {
         Map<String, Object> flashModel = new HashMap<String, Object>();
         flashModel.put(ModelKeyConstants.NOTIFY, UIHelper.createNotification(StringConstants.EMPTY, message, notificationType));
         return redirect(path, flashModel);
     }
 
+    @Override
     public ModelAndView redirectAndNotify(String path, Map<String, Object> flashModel, String message, String notificationType) {
         if (flashModel != null) {
             flashModel.put(ModelKeyConstants.NOTIFY, UIHelper.createNotification(StringConstants.EMPTY, message, notificationType));
@@ -209,34 +231,42 @@ public abstract class AbstractBaseController implements IBaseController {
         return redirectAndNotify(path, message, notificationType);
     }
 
+    @Override
     public ModelAndView redirectAndNotifyError(String path, String message) {
         return redirectAndNotify(path, message, Notify.DANGER);
     }
 
+    @Override
     public ModelAndView redirectAndNotifyError(String path, Map<String, Object> flashModel, String message) {
         return redirectAndNotify(path, flashModel, message, Notify.DANGER);
     }
 
+    @Override
     public ModelAndView redirectAndNotifyInfo(String path, String message) {
         return redirectAndNotify(path, message, Notify.INFO);
     }
 
+    @Override
     public ModelAndView redirectAndNotifyInfo(String path, Map<String, Object> flashModel, String message) {
         return redirectAndNotify(path, flashModel, message, Notify.INFO);
     }
 
+    @Override
     public ModelAndView redirectAndNotifySuccess(String path, String message) {
         return redirectAndNotify(path, message, Notify.SUCCESS);
     }
 
+    @Override
     public ModelAndView redirectAndNotifySuccess(String path, Map<String, Object> flashModel, String message) {
         return redirectAndNotify(path, flashModel, message, Notify.SUCCESS);
     }
 
+    @Override
     public ModelAndView redirectAndNotifyWarning(String path, String message) {
         return redirectAndNotify(path, message, Notify.WARNING);
     }
 
+    @Override
     public ModelAndView redirectAndNotifyWarning(String path, Map<String, Object> flashModel, String message) {
         return redirectAndNotify(path, flashModel, message, Notify.WARNING);
     }
@@ -269,6 +299,7 @@ public abstract class AbstractBaseController implements IBaseController {
      * @param flat
      * @return
      */
+    @Override
     public JSONArray getMenus(boolean flat) {
         String key = flat ? SessionKeyConstants.FLAT_MENUS : SessionKeyConstants.MENUS;
         JSONArray menus = SessionManager.get(key);
@@ -284,6 +315,7 @@ public abstract class AbstractBaseController implements IBaseController {
      *
      * @return
      */
+    @Override
     public JSONArray getMenus() {
         return getMenus(false);
     }
@@ -292,6 +324,7 @@ public abstract class AbstractBaseController implements IBaseController {
      * 
      * @return
      */
+    @Override
     public JSONArray getAllowedMenus() { 
         JSONArray allowedMenus = SessionManager.get(SessionKeyConstants.ALLOWED_MENUS);
         if (allowedMenus == null) {
@@ -302,6 +335,7 @@ public abstract class AbstractBaseController implements IBaseController {
     }
     
     @SuppressWarnings("unchecked")
+    @Override
     public void loadAllowedMenus() {
         JSONArray menus = getMenus();
         JSONArray allowedMenus = new JSONArray();
@@ -324,7 +358,7 @@ public abstract class AbstractBaseController implements IBaseController {
             }
             // Remove the original submenus from allowed menu
             JSONObject allowedMenu = JSONHelper.remove(menu, MenuKeyConstants.SUBMENUS);
-            if (allowedSubmenus != null && !allowedSubmenus.isEmpty()) {
+            if (!allowedSubmenus.isEmpty()) {
                 // Set new allowed submenus
                 allowedMenu.put(MenuKeyConstants.SUBMENUS, allowedSubmenus);
             }
@@ -333,6 +367,7 @@ public abstract class AbstractBaseController implements IBaseController {
         SessionManager.set(SessionKeyConstants.ALLOWED_MENUS, allowedMenus);
     }
     
+    @Override
     public boolean isMenuAllowed(String can, String code) {
         JSONObject userGroup = SessionManager.get(SessionKeyConstants.USER_GROUP);
         if (DefaultUser.USER_GROUP_ID.equals(userGroup.get("id"))) {
@@ -349,10 +384,12 @@ public abstract class AbstractBaseController implements IBaseController {
         return false;
     }
 
+    @Override
     public boolean isMenuViewAllowed(String code) {
         return isMenuAllowed("canView", code);
     }
     
+    @Override
     public boolean isMenuModifyAllowed(String code) {
         return isMenuAllowed("canModify", code);
     }
@@ -362,6 +399,9 @@ public abstract class AbstractBaseController implements IBaseController {
     private JSONObject getCurrentMenu() {
         String contextPath = httpServletRequest.getContextPath();
         String requestUrl = httpServletRequest.getRequestURI(); // This method returns the path before URL query strings
+        if (requestUrl.endsWith("/")) {
+            requestUrl = requestUrl.substring(0, requestUrl.lastIndexOf("/"));  // Remove last character "/"
+        }
         for (String path : ENDING_PATHS) {
             if (requestUrl.contains(path)) {
                 requestUrl = requestUrl.substring(0, requestUrl.indexOf(path));
@@ -384,6 +424,7 @@ public abstract class AbstractBaseController implements IBaseController {
      * @return
      */
     // Modification from https://stackoverflow.com/questions/5380534/dynamically-generate-a-list-of-available-languages-in-spring-mvc
+    @Override
     public List<Locale> getSupportedLocales(String key) {
         log.info("Get supported locales ...");
         List<Locale> supportedLocales = SessionManager.get(SessionKeyConstants.SUPPORTED_LOCALES);
@@ -422,6 +463,7 @@ public abstract class AbstractBaseController implements IBaseController {
      * 
      * @return
      */
+    @Override
     public List<String> getAvailableTemplates() {
         log.info("Get available templates ...");
         List<String> templates = SessionManager.get(SessionKeyConstants.AVAILABLE_TEMPLATES);
@@ -440,29 +482,35 @@ public abstract class AbstractBaseController implements IBaseController {
         return templates;
     }
     
+    @Override
     public boolean isGet() {
         return "GET".equals(httpServletRequest.getMethod());
     }
 
+    @Override
     public boolean isPost() {
         return "POST".equals(httpServletRequest.getMethod());
     }
 
+    @Override
     public void updateLocale(String languageCode) {
         updateLocale(StringUtils.parseLocaleString(languageCode));
     }
 
+    @Override
     public void updateLocale(Locale newLocale) {
         localeResolver.setLocale(httpServletRequest, httpServletResponse, newLocale);
         messageHelper.setDefaultLocale(newLocale);
     }
 
+    @Override
     public String getFullRequestURL() {
         return httpServletRequest.getRequestURL() + (httpServletRequest.getQueryString() != null ? "?" + httpServletRequest.getQueryString() : "");
     }
 
     // Implements IBaseControllerSystem
     
+    @Override
     public JSONArray getSystems() {
         log.debug("Get systems ...");
         JSONArray systems = SessionManager.get(SessionKeyConstants.SYSTEMS);
@@ -473,6 +521,7 @@ public abstract class AbstractBaseController implements IBaseController {
         return systems;
     }
 
+    @Override
     public String getSystem(String key) {
         log.debug("Get system: {}", key);
         JSONArray systems = getSystems();
@@ -492,30 +541,37 @@ public abstract class AbstractBaseController implements IBaseController {
 
     // Implements IBaseControllerUser
     
+    @Override
     public boolean userHasLoggedIn() {
         return SessionManager.get(SessionKeyConstants.USER) != null;
     }
 
+    @Override
     public String getApplicationName() {
         return applicationName;
     }
 
+    @Override
     public String getApplicationVersion() {
         return applicationVersion;
     }
 
+    @Override
     public boolean isShowApplicationInfo() {
         return showApplicationInfo;
     }
 
+    @Override
     public String getDefaultRedirect() {
         return defaultRedirect;
     }
 
+    @Override
     public String getDefaultTemplateCode() {
         return DEFAULT_TEMPLATE_CODE;
     }
 
+    @Override
     public String getDefaultLanguageCode() {
         return DEFAULT_LANGUAGE_CODE;
     }

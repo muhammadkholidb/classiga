@@ -1,11 +1,8 @@
 package ga.classi.web.controller.base;
 
 import java.io.IOException;
-import java.util.Properties;
 
 import org.json.simple.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 import ga.classi.commons.helper.ActionResult;
 import ga.classi.commons.helper.CommonConstants;
@@ -22,10 +19,6 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class HttpClientBaseController extends AbstractBaseController implements IBaseController {
-
-    @Autowired
-    @Qualifier("applicationProp")
-    protected Properties applicationProperties;
 
     protected String hostUrl;
 
@@ -67,6 +60,7 @@ public class HttpClientBaseController extends AbstractBaseController implements 
         return httpClient;
     }
     
+    @Override
     public void loadSystems() {
         log.debug("Load systems to session ...");
         try {
@@ -87,52 +81,64 @@ public class HttpClientBaseController extends AbstractBaseController implements 
         }
     }
 
+    @Override
     public ActionResult editSystems(JSONObject parameters, String languageCode) throws IOException {
         HttpClient httpClient = getPredefinedHttpClient("/settings/system/edit", parameters);
         httpClient.setHeader("Accept-Language", languageCode);
         return httpClient.post();
     }
 
+    @Override
     public ActionResult login(JSONObject parameters) throws IOException {   
         return getPredefinedHttpClient("/login", parameters).post();
     }
 
+    @Override
     public ActionResult listUser(JSONObject parameters) throws IOException {
         return getPredefinedHttpClient("/settings/user/list", parameters).get();
     }
 
+    @Override
     public ActionResult findUser(JSONObject parameters) throws IOException {
         return getPredefinedHttpClient("/settings/user/find", parameters).get();
     }
 
+    @Override
     public ActionResult addUser(JSONObject parameters) throws IOException {
         return getPredefinedHttpClient("/settings/user/add", parameters).post();
     }
 
+    @Override
     public ActionResult editUser(JSONObject parameters) throws IOException {
         return getPredefinedHttpClient("/settings/user/edit", parameters).post();
     }
 
+    @Override
     public ActionResult removeUser(JSONObject parameters) throws IOException {
         return getPredefinedHttpClient("/settings/user/remove", parameters).post();
     }
 
+    @Override
     public ActionResult listUserGroup(JSONObject parameters) throws IOException {
         return getPredefinedHttpClient("/settings/user-group/list", parameters).get();
     }
 
+    @Override
     public ActionResult findUserGroup(JSONObject parameters) throws IOException {
         return getPredefinedHttpClient("/settings/user-group/find", parameters).get();
     }
 
+    @Override
     public ActionResult addUserGroup(JSONObject parameters) throws IOException {
         return getPredefinedHttpClient("/settings/user-group/add", parameters).post();
     }
 
+    @Override
     public ActionResult editUserGroup(JSONObject parameters) throws IOException {
         return getPredefinedHttpClient("/settings/user-group/edit", parameters).post();
     }
 
+    @Override
     public ActionResult removeUserGroup(JSONObject parameters) throws IOException {
         return getPredefinedHttpClient("/settings/user-group/remove", parameters).post();
     }

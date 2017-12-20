@@ -57,46 +57,55 @@
                             <c:forEach items="${menus}" var="menu">
 
                                 <c:if test="${not empty menu.submenus}">
+                                    <c:choose>
+                                        <c:when test="${menu.code eq currentMenu.parentCode}">
+                                        <li class="treeview active">
+                                            <a href="#"><i class="${menu.faIcon}"></i><span><s:message code="${menu.label}" /></span><i class="fa fa-angle-right"></i></a>
+                                            <ul class="treeview-menu menu-open">
+                                                <c:forEach items="${menu.submenus}" var="submenu">
+                                                    <c:if test="${submenu.code eq currentMenu.code}">
+                                                    <li class="active">
+                                                        <a href="${contextPath}${submenu.path}"><i class="fa fa-circle-o"></i><s:message code="${submenu.label}" /></a>
+                                                    </li>
+                                                    </c:if>
+                                                    <c:if test="${submenu.code ne currentMenu.code}">
+                                                    <li>
+                                                        <a href="${contextPath}${submenu.path}"><i class="fa fa-circle-o"></i><s:message code="${submenu.label}" /></a>
+                                                    </li>
+                                                    </c:if>
 
-                                    <c:if test="${menu.code eq currentMenu.parentCode}">
-                                    <li class="treeview active">
-                                    </c:if>
-
-                                    <c:if test="${menu.code ne currentMenu.parentCode}">
-                                    <li class="treeview">
-                                    </c:if>
-
-                                        <a href="#"><i class="${menu.faIcon}"></i><span><s:message code="${menu.label}" /></span><i class="fa fa-angle-right"></i></a>
-
-                                        <c:if test="${menu.code eq currentMenu.parentCode}">
-                                        <ul class="treeview-menu menu-open">
-                                        </c:if>
-
-                                        <c:if test="${menu.code ne currentMenu.parentCode}">
-                                        <ul class="treeview-menu">
-                                        </c:if>
-
-                                            <c:forEach items="${menu.submenus}" var="submenu">
-
-                                                <c:if test="${submenu.code eq currentMenu.code}">
-                                                <li class="active">
-                                                </c:if>
-
-                                                <c:if test="${submenu.code ne currentMenu.code}">
-                                                <li>
-                                                </c:if>
-
-                                                    <a href="${contextPath}${submenu.path}"><i class="fa fa-circle-o"></i><s:message code="${submenu.label}" /></a>
-                                                </li>
-                                            </c:forEach>
-                                        </ul>
-                                    </li>
+                                                </c:forEach>
+                                            </ul>
+                                        </li>
+                                        </c:when>
+                                        <c:otherwise>
+                                        <li class="treeview">
+                                            <a href="#"><i class="${menu.faIcon}"></i><span><s:message code="${menu.label}" /></span><i class="fa fa-angle-right"></i></a>
+                                            <ul class="treeview-menu">
+                                                <c:forEach items="${menu.submenus}" var="submenu">
+                                                    <li>
+                                                        <a href="${contextPath}${submenu.path}"><i class="fa fa-circle-o"></i><s:message code="${submenu.label}" /></a>
+                                                    </li>
+                                                </c:forEach>
+                                            </ul>
+                                        </li>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </c:if>
 
                                 <c:if test="${empty menu.submenus}">
-                                <li>
-                                    <a href="${contextPath}${menu.path}"><i class="${menu.faIcon}"></i><span><s:message code="${menu.label}" /></span></a>
-                                </li>
+                                    <c:choose>
+                                        <c:when test="${menu.code eq currentMenu.code}">
+                                        <li class="active">
+                                            <a href="${contextPath}${menu.path}"><i class="${menu.faIcon}"></i><span><s:message code="${menu.label}" /></span></a>
+                                        </li>
+                                        </c:when>
+                                        <c:otherwise>
+                                        <li>
+                                            <a href="${contextPath}${menu.path}"><i class="${menu.faIcon}"></i><span><s:message code="${menu.label}" /></span></a>
+                                        </li>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </c:if>
 
                             </c:forEach>

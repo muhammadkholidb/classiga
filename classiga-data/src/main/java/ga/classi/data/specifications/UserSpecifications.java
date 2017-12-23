@@ -17,23 +17,12 @@ import ga.classi.data.entity.UserGroupEntity;
 import ga.classi.data.helper.QueryHelper;
 import lombok.extern.slf4j.Slf4j;
 
-/**
- *
- * @author eatonmunoz
- */
 @Slf4j
 public class UserSpecifications {
 
     private Join<UserEntity, UserGroupEntity> joinUserGroup;
     private Fetch<UserEntity, UserGroupEntity> fetchUserGroup;
 
-    /**
-     * Require once join to {@link UserGroupEntity} to always eagerly fetch it.
-     * Make sure the join process only occurred once in a query statement.
-     * 
-     * @param root
-     * @param query
-     */
     private void requireOnceJoinUserGroup(Root<UserEntity> root, CriteriaQuery<?> query) {
 
         if (QueryHelper.isQueryCount(query)) {
@@ -102,11 +91,6 @@ public class UserSpecifications {
         };
     }
     
-    /**
-     * 
-     * @param firstName
-     * @return
-     */
     public Specification<UserEntity> hasFirstNameLike(final String firstName) {
 
         return new Specification<UserEntity>() {
@@ -124,11 +108,6 @@ public class UserSpecifications {
         };
     }
 
-    /**
-     * 
-     * @param lastName
-     * @return
-     */
     public Specification<UserEntity> hasLastNameLike(final String lastName) {
 
         return new Specification<UserEntity>() {
@@ -146,11 +125,6 @@ public class UserSpecifications {
         };
     }
 
-    /**
-     * 
-     * @param username
-     * @return
-     */
     public Specification<UserEntity> hasUsernameLike(final String username) {
 
         return new Specification<UserEntity>() {
@@ -168,11 +142,6 @@ public class UserSpecifications {
         };
     }
 
-    /**
-     * 
-     * @param email
-     * @return
-     */
     public Specification<UserEntity> hasEmailLike(final String email) {
 
         return new Specification<UserEntity>() {
@@ -190,11 +159,6 @@ public class UserSpecifications {
         };
     }
 
-    /**
-     * 
-     * @param userGroupName
-     * @return
-     */
     public Specification<UserEntity> hasUserGroupNameLike(final String userGroupName) {
 
         return new Specification<UserEntity>() {

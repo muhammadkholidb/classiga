@@ -26,7 +26,7 @@ public abstract class AbstractTestDataImport {
      * Process the dataset XML file(s).
      *
      * @param paths Dataset path relative to directory /src/test/resources
-     * @throws java.lang.Exception
+     * @throws java.lang.Exception If an error occurred.
      */
     protected void setDataSets(String... paths) throws Exception {
         dataSets = new ArrayList<File>();

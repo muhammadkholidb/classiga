@@ -10,25 +10,25 @@ import ga.classi.data.entity.UserEntity;
 import ga.classi.data.entity.UserGroupEntity;
 
 /**
- *
+ * Repository for UserEntity.
  * @author eatonmunoz
  */
 public interface UserRepository extends BaseDataRepository<UserEntity, Long>, UserRepositoryCustom {
 
     /**
-     * 
-     * @param pageable
-     * @return 
+     * Returns all UserEntity data with its UserGroupEntity.
+     * @param pageable The pagination data.
+     * @return A page of UserEntity.
      */
     @Query(value = "SELECT u FROM UserEntity u INNER JOIN FETCH u.userGroup ug ", 
-            countQuery = "SELECT count(u) FROM UserEntity u INNER JOIN u.userGroup ug ")
+            countQuery = "SELECT COUNT(u) FROM UserEntity u INNER JOIN u.userGroup ug ")
     Page<UserEntity> findAllFetchUserGroup(Pageable pageable);
 
     /**
-     * 
-     * @param lowerSearchTerm
-     * @param pageable
-     * @return 
+     * Returns filtered UserEntity data with its UserGroupEntity.
+     * @param lowerSearchTerm The search term to filter the data of UserEntity.
+     * @param pageable The pagination data.
+     * @return A page of UserEntity.
      */
     @Query(value = "SELECT u FROM UserEntity u INNER JOIN FETCH u.userGroup ug "
             + " WHERE u.lowerFullName LIKE CONCAT('%',?1,'%') "
@@ -43,38 +43,38 @@ public interface UserRepository extends BaseDataRepository<UserEntity, Long>, Us
     Page<UserEntity> findAllFetchUserGroupFiltered(String lowerSearchTerm, Pageable pageable);
 
     /**
-     * 
-     * @param userGroup
-     * @return 
+     * Finds UserEntity by UserGroupEntity.
+     * @param userGroup The UserGroupEntity for finding the UserEntity.
+     * @return List of UserEntity for specified UserGroupEntity.
      */
     List<UserEntity> findByUserGroup(UserGroupEntity userGroup);
 
     /**
-     * 
-     * @param userGroup
-     * @return 
+     * Counts UserEntity by UserGroupEntity.
+     * @param userGroup The UserGroupEntity for counting the UserEntity.
+     * @return The total number of UserEntity for specified UserGroupEntity.
      */
     Long countByUserGroup(UserGroupEntity userGroup);
     
     /**
-     * 
-     * @param lowerUsername
-     * @return 
+     * Finds one UserEntity by lowercased username.
+     * @param lowerUsername The lowercased username.
+     * @return The UserEntity by specified lowercased username.
      */
     UserEntity findOneByLowerUsername(String lowerUsername);
 
     /**
-     * 
-     * @param lowerEmail
-     * @return 
+     * Finds one UserEntity by lowercased email.
+     * @param lowerEmail The lowercased email.
+     * @return The UserEntity by specified lowercased email.
      */
     UserEntity findOneByLowerEmail(String lowerEmail);
 
     /**
-     * 
-     * @param lowerEmail
-     * @param lowerUsername
-     * @return 
+     * Finds one UserEntity by lowercased email or lowercased username.
+     * @param lowerEmail The lowercased email.
+     * @param lowerUsername The lowercased username.
+     * @return The UserEntity with the specified lowercased email or lowercased username.
      */
     UserEntity findOneByLowerEmailOrLowerUsername(String lowerEmail, String lowerUsername);
     

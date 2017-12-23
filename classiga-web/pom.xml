@@ -94,11 +94,6 @@
         </dependency>
 
         <dependency>
-            <groupId>net.sf.dozer</groupId>
-            <artifactId>dozer</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>com.googlecode.htmlcompressor</groupId>
             <artifactId>htmlcompressor</artifactId>
         </dependency>
@@ -200,7 +195,12 @@
 
     <profiles>
         <profile>
-            <id>skinny-war</id>
+            <id>skinnywar</id>
+            <activation>
+                <property>
+                    <name>deploy</name>
+                </property>
+            </activation>
             <build>
                 <plugins>
                     <plugin>

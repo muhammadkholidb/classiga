@@ -6,23 +6,23 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 /**
- *
+ * Repository for MenuPermissionEntity.
  * @author eatonmunoz
  */
 @Repository
 public interface MenuPermissionRepository extends BaseDataRepository<MenuPermissionEntity, Long> {
 
     /**
-     * 
-     * @param userGroup
-     * @return 
+     * Finds MenuPermissionEntity by UserGroupEntity.
+     * @param userGroup UserGroupEntity to be used to get list of MenuPermissionsEntity.
+     * @return List of MenuPermissionsEntity.
      */
     List<MenuPermissionEntity> findByUserGroup(UserGroupEntity userGroup);
 
     /**
-     * 
-     * @param userGroup
-     * @return 
+     * Deletes MenuPermissionsEntity by UserGroupEntity.
+     * @param userGroup UserGroupEntity to be used to remove the related MenuPermissionsEntity.
+     * @return List of removed MenuPermissionEntity.
      */
     List<MenuPermissionEntity> deleteByUserGroup(UserGroupEntity userGroup);
     

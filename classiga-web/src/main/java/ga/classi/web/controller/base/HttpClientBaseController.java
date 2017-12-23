@@ -29,7 +29,7 @@ public class HttpClientBaseController extends AbstractBaseController implements 
 
     /**
      * Returns {@link HttpClient} with host defined in project properties file.
-     * @return
+     * @return The HttpClient with predefined configuration.
      */
     protected HttpClient getPredefinedHttpClient() {
         HttpClient httpClient = new HttpClient(hostUrl);
@@ -39,8 +39,8 @@ public class HttpClientBaseController extends AbstractBaseController implements 
 
     /**
      * Returns {@link HttpClient} with host defined in project properties file for specified path.
-     * @param path
-     * @return
+     * @param path The path of the API to access.
+     * @return The HttpClient with predefined configuration.
      */
     protected HttpClient getPredefinedHttpClient(String path) {
         HttpClient httpClient = getPredefinedHttpClient();
@@ -50,9 +50,9 @@ public class HttpClientBaseController extends AbstractBaseController implements 
     
     /**
      * Returns {@link HttpClient} with host defined in project properties file for specified path and parameters.
-     * @param path
-     * @param parameters
-     * @return
+     * @param path The path of the API to access.
+     * @param parameters The parameters for the API.
+     * @return The HttpClient with predefined configuration.
      */
     protected HttpClient getPredefinedHttpClient(String path, JSONObject parameters) {
         HttpClient httpClient = getPredefinedHttpClient(path);

@@ -5,8 +5,52 @@
     <artifactId>classiga</artifactId>
     <version>1.1-SNAPSHOT</version>
     <name>${project.artifactId}</name>
-    <description>Classiga Project Parent</description>
+    <description>Classiga Parent POM</description>
     <packaging>pom</packaging>
+
+    <url>http://classi.ga</url>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+    
+    <developers>
+        <developer>
+            <id>eatonmunoz</id>
+            <name>Eaton Munoz</name>
+            <roles>
+                <role>owner</role>
+                <role>developer</role>
+            </roles>
+            <url>http://eatonmunoz.pe.hu</url>
+        </developer>
+    </developers>
+
+    <scm>
+        <url>https://gitlab.com/eatonmunoz/classiga</url>
+        <connection>scm:git:https://gitlab.com/eatonmunoz/classiga.git</connection>
+        <developerConnection>scm:git:https://gitlab.com/eatonmunoz/classiga.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+    
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+    
+    <issueManagement>
+        <system>GitLab Issues</system>
+        <url>https://gitlab.com/eatonmunoz/classiga/issues</url>
+    </issueManagement>
 
     <modules>
         <module>classiga-commons</module>
@@ -15,14 +59,13 @@
         <module>classiga-web</module>
     </modules>
 
-    <properties>
+    <properties>        
+        <project.scm.id>gitlab</project.scm.id>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.6</maven.compiler.source>
         <maven.compiler.target>1.6</maven.compiler.target>
         
-        <project.scm.id>gitlab</project.scm.id>
-
-        <version.classiga>1.1-SNAPSHOT</version.classiga>
+        <version.classiga>${project.version}</version.classiga>
         <version.spring>4.3.10.RELEASE</version.spring>
         <version.spring-data-jpa>1.11.0.RELEASE</version.spring-data-jpa>
         <version.hibernate>5.1.0.Final</version.hibernate>
@@ -44,7 +87,6 @@
         <version.cdi>1.2</version.cdi>
         <version.h2database>1.4.191</version.h2database>
         <version.omnifaces>1.13</version.omnifaces>
-        <version.dozer>5.4.0</version.dozer>
         <version.commons-io>2.5</version.commons-io>
         <version.commons-codec>1.10</version.commons-codec>
         <version.commons-lang>3.4</version.commons-lang>
@@ -65,30 +107,6 @@
         <version.maven-source-plugin>2.1.2</version.maven-source-plugin>
         <version.maven-javadoc-plugin>2.7</version.maven-javadoc-plugin>
     </properties>
-    
-    <scm>
-        <url>https://gitlab.com/eatonmunoz/classiga</url>
-        <connection>scm:git:https://eatonmunoz@gitlab.com/eatonmunoz/classiga.git</connection>
-        <developerConnection>scm:git:https://eatonmunoz@gitlab.com/eatonmunoz/classiga.git</developerConnection>
-        <tag>HEAD</tag>
-    </scm>
-    
-    <issueManagement>
-        <system>GitLab Issues</system>
-        <url>https://gitlab.com/eatonmunoz/classiga/issues</url>
-    </issueManagement>
-
-    <developers>
-        <developer>
-            <id>eatonmunoz</id>
-            <name>Eaton Munoz</name>
-            <email>eaton.munoz@gmail.com</email>
-            <roles>
-                <role>owner</role>
-                <role>developer</role>
-            </roles>
-        </developer>
-    </developers>
 
     <dependencyManagement>
         <dependencies>
@@ -327,18 +345,6 @@
             </dependency>
 
             <dependency>
-                <groupId>net.sf.dozer</groupId>
-                <artifactId>dozer</artifactId>
-                <version>${version.dozer}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.slf4j</groupId>
-                        <artifactId>slf4j-log4j12</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-
-            <dependency>
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
                 <version>${version.commons-io}</version>
@@ -387,18 +393,6 @@
             </dependency>
 
             <dependency>
-                <groupId>org.apache.velocity</groupId>
-                <artifactId>velocity</artifactId>
-                <version>1.7</version>
-            </dependency>
-         
-            <dependency>
-                <groupId>org.apache.velocity</groupId>
-                <artifactId>velocity-tools</artifactId>
-                <version>2.0</version>
-            </dependency>
-
-            <dependency>
                 <groupId>org.codehaus.janino</groupId>
                 <artifactId>janino</artifactId>
                 <version>3.0.6</version>
@@ -441,29 +435,6 @@
         </dependencies>
     </dependencyManagement>
 
-    <distributionManagement>
-        <repository>
-            <id>classiga</id>
-            <url>ftp://files.000webhost.com/public_html/maven</url>
-        </repository>
-    </distributionManagement>
-
-    <repositories>
-
-        <repository>
-            <id>maven-central</id>
-            <name>Central Repository</name>
-            <url>http://repo1.maven.org/maven2</url>
-        </repository>
-
-        <repository>
-            <id>classiga</id>
-            <name>Classiga Repository</name>
-            <url>http://classi.ga/maven</url>
-        </repository>
-
-    </repositories>
-
     <build>
         <pluginManagement>
             <plugins>
@@ -494,11 +465,13 @@
                     <artifactId>jetty-maven-plugin</artifactId>
                     <version>${version.maven-jetty-plugin}</version>
                 </plugin>
+                
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-source-plugin</artifactId>
                     <version>${version.maven-source-plugin}</version>
                 </plugin>
+                
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
@@ -506,37 +479,61 @@
                 </plugin>
             </plugins>
         </pluginManagement>
-
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>2.4.2</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.apache.maven.scm</groupId>
-                        <artifactId>maven-scm-provider-gitexe</artifactId>
-                        <version>1.9</version>
-                    </dependency>
-                </dependencies>
-                <configuration>
-                    <autoVersionSubmodules>true</autoVersionSubmodules>
-                    <checkModificationExcludes>
-                        <checkModificationExclude>pom.xml</checkModificationExclude>
-                        <checkModificationExclude>*/pom.xml</checkModificationExclude>
-                    </checkModificationExcludes>
-                </configuration>
-            </plugin>
-        </plugins>
-        
-        <extensions>
-            <extension>
-                <groupId>org.apache.maven.wagon</groupId>
-                <artifactId>wagon-ftp</artifactId>
-                <version>${version.maven-wagon-ftp}</version>
-            </extension>
-        </extensions>
-        
     </build>
 
+    <profiles>
+        <profile>
+            <id>deploy</id>
+            <activation>
+                <property>
+                    <name>deploy</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.5</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>${version.maven-source-plugin}</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>${version.maven-javadoc-plugin}</version>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+    
 </project>

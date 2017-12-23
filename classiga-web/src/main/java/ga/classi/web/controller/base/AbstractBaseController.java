@@ -296,8 +296,8 @@ public abstract class AbstractBaseController implements IBaseController {
     /**
      * Returns menus in nested or flat format.
      *
-     * @param flat
-     * @return
+     * @param flat Set true to return menus in flat format.
+     * @return The menus in nested or flat format.
      */
     @Override
     public JSONArray getMenus(boolean flat) {
@@ -313,7 +313,7 @@ public abstract class AbstractBaseController implements IBaseController {
     /**
      * Returns menus in nested format.
      *
-     * @return
+     * @return The menus in nested format.
      */
     @Override
     public JSONArray getMenus() {
@@ -321,8 +321,8 @@ public abstract class AbstractBaseController implements IBaseController {
     }
 
     /**
-     * 
-     * @return
+     * Returns allowed menus for currently logged in user.
+     * @return The menus for currently logged in user.
      */
     @Override
     public JSONArray getAllowedMenus() { 
@@ -421,7 +421,7 @@ public abstract class AbstractBaseController implements IBaseController {
     /**
      * Returns supported languages based on properties files in application.
      * @param key key in .properties files to check.
-     * @return
+     * @return List of supported locales.
      */
     // Modification from https://stackoverflow.com/questions/5380534/dynamically-generate-a-list-of-available-languages-in-spring-mvc
     @Override
@@ -460,8 +460,8 @@ public abstract class AbstractBaseController implements IBaseController {
     }
 
     /**
-     * 
-     * @return
+     * Returns available templates in the application.
+     * @return List of available templates.
      */
     @Override
     public List<String> getAvailableTemplates() {

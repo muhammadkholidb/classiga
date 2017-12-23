@@ -12,8 +12,9 @@ public class JSONHelper {
 
     /**
      * Get value from the specified JSONObject for the specified key. No need to cast the value.
-     * @param key key of the JSONObject to get the value from.
-     * @param json the source of JSONObject.
+     * @param <T> The return type.
+     * @param key Key of the JSONObject to get the value from.
+     * @param json The source of JSONObject.
      * @return The value from the JSONObject for specified key.
      */
     @SuppressWarnings("unchecked")
@@ -26,9 +27,9 @@ public class JSONHelper {
     
     /**
      * Set JSONObject with the specified key and value.
-     * @param key key to set to the specified JSONObject.
-     * @param value value of the key.
-     * @param json the source of JSONObject.
+     * @param key Key to set to the specified JSONObject.
+     * @param value Value of the key.
+     * @param json The source of JSONObject.
      */
     @SuppressWarnings("unchecked")
     public static void set(JSONObject json, String key, Object value) {
@@ -40,8 +41,8 @@ public class JSONHelper {
     
     /**
      * Remove object for the specified key from the specified JSONObject.
-     * @param keys key of the object to remove.
-     * @param json the source of JSONObject.
+     * @param keys Key of the object to remove.
+     * @param json The source of JSONObject.
      * @return The source of JSONObject without the removed object.
      */
     public static JSONObject remove(JSONObject json, String... keys) {
@@ -56,9 +57,10 @@ public class JSONHelper {
     
     /**
      * Get object in the specified index of the specified JSONArray. No need to cast the value. 
-     * @param arr
-     * @param index
-     * @return
+     * @param <T> The return type.
+     * @param arr The source of JSONArray.
+     * @param index The index of JSONArray to get the value from.
+     * @return The value in the specified index of the JSONArray.
      */
     @SuppressWarnings("unchecked")
     public static <T> T get(JSONArray arr, int index) {

@@ -17,7 +17,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * 
+ * The client for processing HTTP based requests.
  * @author eatonmunoz
  */
 @Slf4j
@@ -44,57 +44,24 @@ public class HttpClient {
     private JSONObject headers;
     private boolean secure;
 
-    /**
-     * 
-     */
     public HttpClient() {}
 
-    /**
-     * 
-     * @param host
-     */
     public HttpClient(String host) {
         this(host, null, null);
     }
 
-    /**
-     * 
-     * @param host
-     * @param path 
-     */
     public HttpClient(String host, String path) {
         this(host, path, null);
     }
 
-    /**
-     * 
-     * @param host
-     * @param path
-     * @param parameters 
-     */
     public HttpClient(String host, String path, JSONObject parameters) {
         this(host, path, parameters, null);
     }
 
-    /**
-     * 
-     * @param host
-     * @param path
-     * @param parameters
-     * @param headers 
-     */
     public HttpClient(String host, String path, JSONObject parameters, JSONObject headers) {
         this(host, path, parameters, headers, false);
     }
 
-    /**
-     * 
-     * @param host
-     * @param path
-     * @param parameters
-     * @param headers
-     * @param secure 
-     */
     public HttpClient(String host, String path, JSONObject parameters, JSONObject headers, boolean secure) {
         this.host = host;
         this.path = path;
@@ -108,11 +75,6 @@ public class HttpClient {
         }
     }
 
-    /**
-     * 
-     * @return
-     * @throws IOException 
-     */
     public HttpClientResponse request() throws IOException {
         if (POST.equals(method)) {
             return post();
@@ -123,9 +85,9 @@ public class HttpClient {
     }
 
     /**
-     * 
-     * @param parameters
-     * @return 
+     * Builds a URL query string parameters from a JSONObject.
+     * @param parameters The parameters in JSONObject format.
+     * @return An URL query string parameters.
      */
     private String buildQueryStrings(JSONObject parameters) throws UnsupportedEncodingException {
         if ((parameters != null) && !parameters.isEmpty()) {
@@ -146,9 +108,9 @@ public class HttpClient {
     }
 
     /**
-     * 
-     * @return
-     * @throws IOException 
+     * Sends an HTTP GET request.
+     * @return The response from the HTTP GET request.
+     * @throws IOException If an error occurred during the request.
      */
     public HttpClientResponse get() throws IOException {
 
@@ -207,9 +169,9 @@ public class HttpClient {
     }
 
     /**
-     * 
-     * @return
-     * @throws IOException 
+     * Sends an HTTP POST request.
+     * @return The response from the HTTP POST request.
+     * @throws IOException If an error occurred during the request.
      */
     public HttpClientResponse post() throws IOException {
 
@@ -275,9 +237,9 @@ public class HttpClient {
     }
 
     /**
-     * 
-     * @param name
-     * @param value 
+     * Adds a parameter to the HTTP request.
+     * @param name The name of the parameter.
+     * @param value The value of the parameter.
      */
     @SuppressWarnings("unchecked")
     public void addParameter(String name, Object value) {
@@ -288,9 +250,9 @@ public class HttpClient {
     }
 
     /**
-     * 
-     * @param name
-     * @return 
+     * Returns the value of the specified parameter name.
+     * @param name The name of the parameter.
+     * @return The value of the specified parameter name.
      */
     public Object getParameter(String name) {
         if (parameters != null) {
@@ -300,9 +262,9 @@ public class HttpClient {
     }
 
     /**
-     * 
-     * @param name
-     * @param value 
+     * Sets the request header or adds a new header data.
+     * @param name The name of the header.
+     * @param value The value of the header.
      */
     @SuppressWarnings("unchecked")
     public void setHeader(String name, Object value) {
@@ -313,9 +275,9 @@ public class HttpClient {
     }
 
     /**
-     * 
-     * @param name
-     * @return 
+     * Returns the value of the specified header name.
+     * @param name The name of the header.
+     * @return The value of the header.
      */
     public Object getHeader(String name) {
         if (headers != null) {

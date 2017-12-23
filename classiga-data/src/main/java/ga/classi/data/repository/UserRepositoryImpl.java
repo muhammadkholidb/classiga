@@ -14,12 +14,6 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
     @PersistenceContext
     private EntityManager em;
 
-    /**
-     *
-     * @param email
-     * @param username
-     * @return
-     */
     @SuppressWarnings("unchecked")
     @Override
     public Object[] findOneByEmailOrUsernameJoinUserGroup(String email, String username) {

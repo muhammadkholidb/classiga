@@ -20,8 +20,8 @@ public class SessionManager {
     private SessionManager() {}
     
     /**
-     * Return the session of current request, create one if the request has not had it yet.
-     * @return 
+     * Returns the session of current request, create one if the request has not had it yet.
+     * @return The session of current request.
      */
     public static HttpSession getSession() {
         return getSession(true);

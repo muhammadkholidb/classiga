@@ -8,24 +8,24 @@ import ga.classi.commons.helper.StringCheck;
 import ga.classi.data.error.ErrorMessageConstants;
 
 /**
- *
+ * Data validation helper class.
  * @author eatonmunoz
  */
 public class DataValidation {
 
     /**
-     *
-     * @param map
-     * @param keys
-     * @throws DataException
+     * Checks if the specified keys exist in the specified parameter.
+     * @param parameter The parameter to check.
+     * @param keys The keys which the existence to be checked in the parameter.
+     * @throws DataException If some or all of the keys are not found in the parameter.
      */
-    public static void containsRequiredData(Map<Object, Object> map, String... keys) throws DataException {
+    public static void containsRequiredData(Map<Object, Object> parameter, String... keys) throws DataException {
         if (keys != null && keys.length > 0) {
-            if (map == null || map.isEmpty()) {
+            if (parameter == null || parameter.isEmpty()) {
                 throw new DataException(ExceptionCode.E1004, ErrorMessageConstants.REQUIRED_PARAMETERS_NOT_FOUND);
             }
             for (String key : keys) {
-                if (!map.containsKey(key) || (map.get(key) == null)) {
+                if (!parameter.containsKey(key) || (parameter.get(key) == null)) {
                     throw new DataException(ExceptionCode.E1004, ErrorMessageConstants.REQUIRED_PARAMETER_NOT_FOUND, new Object[]{key});
                 }
             }
@@ -33,9 +33,9 @@ public class DataValidation {
     }
 
     /**
-     *
-     * @param email
-     * @throws DataException
+     * Validates the email.
+     * @param email The email to validate.
+     * @throws DataException If the email is not valid.
      */
     public static void validateEmail(String email) throws DataException {
         validateEmpty(email, "Email");
@@ -45,9 +45,9 @@ public class DataValidation {
     }
 
     /**
-     *
-     * @param username
-     * @throws DataException
+     * Validates the username. A valid username must not be null or empty, and have minimum length of 4.
+     * @param username The username to validate.
+     * @throws DataException If the username is not valid.
      */
     public static void validateUsername(String username) throws DataException {
         validateEmpty(username, "Username");
@@ -60,10 +60,10 @@ public class DataValidation {
     }
 
     /**
-     *
-     * @param string
-     * @param name
-     * @throws DataException
+     * Validates if the string is a number.
+     * @param string The string to validate.
+     * @param name The validated component name.
+     * @throws DataException If the string is not a number.
      */
     public static void validateNumeric(String string, String name) throws DataException {
         validateEmpty(string, name);
@@ -73,10 +73,10 @@ public class DataValidation {
     }
 
     /**
-     *
-     * @param string
-     * @param name
-     * @throws DataException
+     * Validates if the string is a case insensitive "Y" or "N".
+     * @param string The string to validate.
+     * @param name The validated component name.
+     * @throws DataException If the string is not a case insensitive "Y" or "N".
      */
     public static void validateYesNo(String string, String name) throws DataException {
         validateEmpty(string, name);
@@ -86,10 +86,10 @@ public class DataValidation {
     }
 
     /**
-     *
-     * @param string
-     * @param name
-     * @throws DataException
+     * Validates if the string is JSON array.
+     * @param string The string to validate.
+     * @param name The validated component name.
+     * @throws DataException If the string is not a valid JSON array.
      */
     public static void validateJSONArray(String string, String name) throws DataException {
         validateEmpty(string, name);
@@ -99,10 +99,10 @@ public class DataValidation {
     }
 
     /**
-     *
-     * @param string
-     * @param name
-     * @throws DataException
+     * Validates if the string is JSON object.
+     * @param string The string to validate.
+     * @param name The validated component name.
+     * @throws DataException If the string is not a valid JSON object.
      */
     public static void validateJSONObject(String string, String name) throws DataException {
         validateEmpty(string, name);
@@ -112,10 +112,10 @@ public class DataValidation {
     }
 
     /**
-     *
-     * @param string
-     * @param name
-     * @throws DataException
+     * Validates if the string is not null or empty.
+     * @param string The string to validate.
+     * @param name The validated component name.
+     * @throws DataException If the string is null or empty.
      */
     public static void validateEmpty(String string, String name) throws DataException {
         if (StringCheck.isEmpty(string)) {

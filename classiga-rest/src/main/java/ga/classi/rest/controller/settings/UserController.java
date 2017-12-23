@@ -22,11 +22,6 @@ public class UserController extends BaseController {
     @Autowired
     private UserService userService;
 
-    /**
-     * 
-     * @return
-     * @throws Exception
-     */
     @RequestMapping(value = "/user/list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseObject getAllUser() throws Exception {
         log.info("Get all user ...");
@@ -36,11 +31,6 @@ public class UserController extends BaseController {
         return new ResponseObject(CommonConstants.SUCCESS, result);
     }
 
-    /**
-     * 
-     * @return
-     * @throws Exception
-     */
     @RequestMapping(value = "/user/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseObject addUser() throws Exception {
         
@@ -49,11 +39,6 @@ public class UserController extends BaseController {
         return new ResponseObject(CommonConstants.SUCCESS, getResponseMessage("success.SuccessfullyAddUser"), added);
     }
 
-    /**
-     * 
-     * @return
-     * @throws Exception
-     */
     @RequestMapping(value = "/user/remove", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseObject removeUser() throws Exception {
         
@@ -62,11 +47,6 @@ public class UserController extends BaseController {
         return new ResponseObject(CommonConstants.SUCCESS, getResponseMessage("success.SuccessfullyRemoveUser"));
     }
 
-    /**
-     * 
-     * @return
-     * @throws Exception
-     */
     @RequestMapping(value = "/user/find", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseObject getUser() throws Exception {
         
@@ -75,11 +55,6 @@ public class UserController extends BaseController {
         return new ResponseObject(CommonConstants.SUCCESS, user);
     }
 
-    /**
-     * 
-     * @return
-     * @throws Exception
-     */
     @RequestMapping(value = "/user/edit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseObject editUser() throws Exception {
         

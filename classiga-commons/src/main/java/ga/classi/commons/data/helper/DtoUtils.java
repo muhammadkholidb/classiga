@@ -11,7 +11,7 @@ import java.util.Map;
 import javax.servlet.ServletRequest;
 
 /**
- *
+ * A utility class for Dto processing.
  * @author eatonmunoz
  */
 public class DtoUtils {
@@ -19,10 +19,10 @@ public class DtoUtils {
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
     /**
-     * 
-     * @param request
-     * @return 
-     * @throws java.io.UnsupportedEncodingException 
+     * Converts request parameters to Dto object.
+     * @param request Servlet request to get the parameters from.
+     * @return Dto object from the request parameters.
+     * @throws java.io.UnsupportedEncodingException When the parameter value cannot be URL decoded.
      */
     public static Dto fromServletRequest(ServletRequest request) throws UnsupportedEncodingException {
         if (request == null) {
@@ -32,22 +32,26 @@ public class DtoUtils {
         Map<String, String[]> parameters = request.getParameterMap();
         for (String key : parameters.keySet()) {
             String[] values = parameters.get(key);
-            if (values.length == 0) {
-                dto.put(key, ""); // Put empty string
-            } else if (values.length == 1) {
-                dto.put(key, URLDecoder.decode(String.valueOf(values[0]), "UTF-8")); // Put the first value
-            } else {
-                dto.put(key, URLDecoder.decode(Arrays.toString(values), "UTF-8")); // Put all values
+            switch (values.length) {
+                case 0:
+                    dto.put(key, ""); // Put empty string
+                    break;
+                case 1:
+                    dto.put(key, URLDecoder.decode(String.valueOf(values[0]), "UTF-8")); // Put the first value
+                    break;
+                default:
+                    dto.put(key, URLDecoder.decode(Arrays.toString(values), "UTF-8")); // Put all values
+                    break;
             }
         }
         return dto;
     }
 
     /**
-     * 
-     * @param list
-     * @param excludeKeys
-     * @return 
+     * Converts list of object to list of Dto. 
+     * @param list List of object to be converted.
+     * @param excludeKeys Keys to be excluded from the Dto. These keys will not be available in the result Dto.
+     * @return A new list of Dto.
      */
     public static List<Dto> toDtoList(List<?> list, String... excludeKeys) {
         if (list == null) {
@@ -64,10 +68,10 @@ public class DtoUtils {
     }
 
     /**
-     * 
-     * @param object
-     * @param excludeKeys
-     * @return 
+     * Converts any kind of object to Dto. The conversion is done with the help of ObjectMapper from the Jackson library.
+     * @param object Object to convert.
+     * @param excludeKeys Keys to be excluded from the Dto. These keys will not be available in the result Dto.
+     * @return A Dto from the given object.
      */
     public static Dto toDto(Object object, String... excludeKeys) {
         if (object == null) {
@@ -77,11 +81,11 @@ public class DtoUtils {
     }
 
     /**
-     * 
-     * @param <T>
-     * @param dto
-     * @param t
-     * @return 
+     * Converts a Dto to the specified object. The conversion is done with the help of ObjectMapper from the Jackson library.
+     * @param <T> Any type of object.
+     * @param dto A Dto to convert.
+     * @param t An object type as the type of the final result.
+     * @return A new object with the specified type.
      */
     public static <T> T toObject(Dto dto, Class<T> t) {
         if (dto == null) {
@@ -91,10 +95,10 @@ public class DtoUtils {
     }
 
     /**
-     * 
-     * @param dto
-     * @param keys
-     * @return 
+     * Omits the specified keys from a Dto.
+     * @param dto A Dto to process.
+     * @param keys The keys to be removed from the given Dto.
+     * @return The same Dto with the keys removed.
      */
     public static Dto omit(Dto dto, String... keys) {
         if (dto == null) {

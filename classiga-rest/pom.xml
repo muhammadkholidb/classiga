@@ -17,7 +17,6 @@
         <dependency>
             <groupId>ga.classi</groupId>
             <artifactId>classiga-data</artifactId>
-            <classifier>h2</classifier>
         </dependency>
 
         <!-- Spring 4 dependencies -->

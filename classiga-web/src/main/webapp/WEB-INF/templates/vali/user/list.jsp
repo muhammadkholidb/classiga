@@ -42,7 +42,7 @@
                             <h3 class="card-title"><s:message code="label.userlist" /></h3>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                <table class="table table-hover table-striped display nowrap" id="tableUser" style="width: 100%">
+                                <table class="table table-bordered table-hover table-striped display nowrap" id="tableUser" style="width: 100%">
                                     <thead>
                                         <tr>
                                             <th class="align-center" >

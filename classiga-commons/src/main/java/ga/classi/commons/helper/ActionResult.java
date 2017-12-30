@@ -1,6 +1,7 @@
 package ga.classi.commons.helper;
 
 import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -50,7 +51,8 @@ public class ActionResult {
                 this.totalPages = Integer.valueOf(totalPages + "");
             }
 
-            this.content = this.data.get(CommonConstants.CONTENT);
+            String toJSONString = JSONValue.toJSONString(this.data.get(CommonConstants.CONTENT));
+            this.content = JSONValue.parse(toJSONString);
         }
         
         return this;

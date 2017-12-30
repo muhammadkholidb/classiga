@@ -256,6 +256,34 @@ public abstract class BaseControllerAdapter {
         return baseController.getDefaultLanguageCode();
     }
 
+    protected String createMessage(String code, Object[] arguments) {
+        return baseController.createMessage(code, arguments);
+    }
+
+    protected String createMessage(String code) {
+        return baseController.createMessage(code);
+    }
+
+    protected ActionResult createActionResult(String status, String message, JSONObject data) {
+        return baseController.createActionResult(status, message, data);
+    }
+
+    protected ActionResult successActionResult(String message, JSONObject data) {
+        return baseController.successActionResult(message, data);
+    }
+
+    protected ActionResult successActionResult(JSONObject data) {
+        return baseController.successActionResult(data);
+    }
+
+    protected ActionResult failActionResult(String message) {
+        return baseController.failActionResult(message);
+    }
+
+    protected ActionResult errorActionResult() {
+        return baseController.errorActionResult();
+    }
+        
     // Adapter for IBaseControllerUser
     
     protected ActionResult login(JSONObject parameters) throws IOException {

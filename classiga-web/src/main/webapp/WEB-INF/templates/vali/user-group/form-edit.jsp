@@ -51,7 +51,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-md-3" ><s:message code="label.menupermissions" /></label>
                                         <div class="col-md-9">
-                                            <table class="table table-hover table-striped display " id="tableMenuPermissions" style="width: 100%">
+                                            <table class="table table-bordered table-hover table-striped display " id="tableMenuPermissions" style="width: 100%">
                                                 <thead>
                                                     <tr>
                                                         <th data-priority="1"><s:message code="label.name" /></th>

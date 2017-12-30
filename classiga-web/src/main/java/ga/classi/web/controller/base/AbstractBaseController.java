@@ -24,6 +24,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ModelAndView;
 
+import ga.classi.commons.helper.ActionResult;
 import ga.classi.commons.helper.CommonConstants;
 import ga.classi.commons.helper.DefaultUser;
 import ga.classi.commons.helper.MessageHelper;
@@ -575,5 +576,48 @@ public abstract class AbstractBaseController implements IBaseController {
     public String getDefaultLanguageCode() {
         return DEFAULT_LANGUAGE_CODE;
     }
-    
+
+    @Override
+    public String createMessage(String code, Object[] arguments) {
+        Locale locale = localeResolver.resolveLocale(httpServletRequest);
+        if (locale != null) {
+            return messageHelper.getMessage(code, arguments, locale);
+        }
+        return messageHelper.getMessage(code, arguments);
+    }
+
+    @Override
+    public String createMessage(String code) {
+        return createMessage(code, null);
+    }
+
+    @Override
+    public ActionResult createActionResult(String status, String message, JSONObject data) {
+        ActionResult result = new ActionResult();
+        result.setStatus(status);
+        result.setMessage(message);
+        result.setData(data);
+        return result.parseData();
+    }
+
+    @Override
+    public ActionResult successActionResult(String message, JSONObject data) {
+        return createActionResult(CommonConstants.SUCCESS, message, data);
+    }
+
+    @Override
+    public ActionResult successActionResult(JSONObject data) {
+        return successActionResult(StringConstants.EMPTY, data);
+    }
+
+    @Override
+    public ActionResult failActionResult(String message) {
+        return createActionResult(CommonConstants.FAIL, message, new JSONObject());
+    }
+
+    @Override
+    public ActionResult errorActionResult() {
+        return createActionResult(CommonConstants.ERROR, createMessage("error.ServerError"), new JSONObject());
+    }
+        
 }

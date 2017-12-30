@@ -5,7 +5,10 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.web.servlet.ModelAndView;
+
+import ga.classi.commons.helper.ActionResult;
 
 /**
  *
@@ -114,5 +117,19 @@ public interface IBaseController extends IBaseControllerSystem, IBaseControllerU
     String getDefaultTemplateCode();
 
     String getDefaultLanguageCode();
+
+    String createMessage(String code, Object[] arguments);
+
+    String createMessage(String code);
+
+    ActionResult createActionResult(String status, String message, JSONObject data);
+    
+    ActionResult successActionResult(String message, JSONObject data);
+
+    ActionResult successActionResult(JSONObject data); 
+    
+    ActionResult failActionResult(String message);
+
+    ActionResult errorActionResult();
     
 }

@@ -1,7 +1,5 @@
 package ga.classi.web.controller.base;
 
-import java.io.IOException;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -19,6 +17,6 @@ public interface IBaseControllerSystem {
     
     void loadSystems();
 
-    ActionResult editSystems(JSONObject parameters, String languageCode) throws IOException;
+    ActionResult editSystems(JSONObject parameters, String languageCode);
     
 }

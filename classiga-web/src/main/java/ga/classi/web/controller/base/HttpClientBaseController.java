@@ -1,7 +1,5 @@
 package ga.classi.web.controller.base;
 
-import java.io.IOException;
-
 import org.json.simple.JSONObject;
 
 import ga.classi.commons.helper.ActionResult;
@@ -76,71 +74,131 @@ public class HttpClientBaseController extends AbstractBaseController implements 
                     log.error(response.getMessage());
                 }
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             log.error(CommonUtils.getExceptionMessage(e));
         }
     }
 
     @Override
-    public ActionResult editSystems(JSONObject parameters, String languageCode) throws IOException {
-        HttpClient httpClient = getPredefinedHttpClient("/settings/system/edit", parameters);
-        httpClient.setHeader("Accept-Language", languageCode);
-        return httpClient.post();
+    public ActionResult editSystems(JSONObject parameters, String languageCode) {
+        try {            
+            HttpClient httpClient = getPredefinedHttpClient("/settings/system/edit", parameters);
+            httpClient.setHeader("Accept-Language", languageCode);
+            return httpClient.post();
+        } catch (Exception e) {
+            log.error(CommonUtils.getExceptionMessage(e), e);
+            return errorActionResult();
+        }
     }
 
     @Override
-    public ActionResult login(JSONObject parameters) throws IOException {   
-        return getPredefinedHttpClient("/login", parameters).post();
+    public ActionResult login(JSONObject parameters) {   
+        try {            
+            return getPredefinedHttpClient("/login", parameters).post();
+        } catch (Exception e) {
+            log.error(CommonUtils.getExceptionMessage(e), e);
+            return errorActionResult();
+        }
     }
 
     @Override
-    public ActionResult listUser(JSONObject parameters) throws IOException {
-        return getPredefinedHttpClient("/settings/user/list", parameters).get();
+    public ActionResult listUser(JSONObject parameters) {
+        try {            
+            return getPredefinedHttpClient("/settings/user/list", parameters).get();
+        } catch (Exception e) {
+            log.error(CommonUtils.getExceptionMessage(e), e);
+            return errorActionResult();
+        }
     }
 
     @Override
-    public ActionResult findUser(JSONObject parameters) throws IOException {
-        return getPredefinedHttpClient("/settings/user/find", parameters).get();
+    public ActionResult findUser(JSONObject parameters) {
+        try {            
+            return getPredefinedHttpClient("/settings/user/find", parameters).get();
+        } catch (Exception e) {
+            log.error(CommonUtils.getExceptionMessage(e), e);
+            return errorActionResult();
+        }
     }
 
     @Override
-    public ActionResult addUser(JSONObject parameters) throws IOException {
-        return getPredefinedHttpClient("/settings/user/add", parameters).post();
+    public ActionResult addUser(JSONObject parameters) {
+        try {            
+            return getPredefinedHttpClient("/settings/user/add", parameters).post();
+        } catch (Exception e) {
+            log.error(CommonUtils.getExceptionMessage(e), e);
+            return errorActionResult();
+        }
     }
 
     @Override
-    public ActionResult editUser(JSONObject parameters) throws IOException {
-        return getPredefinedHttpClient("/settings/user/edit", parameters).post();
+    public ActionResult editUser(JSONObject parameters) {
+        try {            
+            return getPredefinedHttpClient("/settings/user/edit", parameters).post();
+        } catch (Exception e) {
+            log.error(CommonUtils.getExceptionMessage(e), e);
+            return errorActionResult();
+        }
     }
 
     @Override
-    public ActionResult removeUser(JSONObject parameters) throws IOException {
-        return getPredefinedHttpClient("/settings/user/remove", parameters).post();
+    public ActionResult removeUser(JSONObject parameters) {
+        try {            
+            return getPredefinedHttpClient("/settings/user/remove", parameters).post();
+        } catch (Exception e) {
+            log.error(CommonUtils.getExceptionMessage(e), e);
+            return errorActionResult();
+        }
     }
 
     @Override
-    public ActionResult listUserGroup(JSONObject parameters) throws IOException {
-        return getPredefinedHttpClient("/settings/user-group/list", parameters).get();
+    public ActionResult listUserGroup(JSONObject parameters) {
+        try {            
+            return getPredefinedHttpClient("/settings/user-group/list", parameters).get();
+        } catch (Exception e) {
+            log.error(CommonUtils.getExceptionMessage(e), e);
+            return errorActionResult();
+        }
     }
 
     @Override
-    public ActionResult findUserGroup(JSONObject parameters) throws IOException {
-        return getPredefinedHttpClient("/settings/user-group/find", parameters).get();
+    public ActionResult findUserGroup(JSONObject parameters) {
+        try {            
+            return getPredefinedHttpClient("/settings/user-group/find", parameters).get();
+        } catch (Exception e) {
+            log.error(CommonUtils.getExceptionMessage(e), e);
+            return errorActionResult();
+        }
     }
 
     @Override
-    public ActionResult addUserGroup(JSONObject parameters) throws IOException {
-        return getPredefinedHttpClient("/settings/user-group/add", parameters).post();
+    public ActionResult addUserGroup(JSONObject parameters) {
+        try {            
+            return getPredefinedHttpClient("/settings/user-group/add", parameters).post();
+        } catch (Exception e) {
+            log.error(CommonUtils.getExceptionMessage(e), e);
+            return errorActionResult();
+        }
     }
 
     @Override
-    public ActionResult editUserGroup(JSONObject parameters) throws IOException {
-        return getPredefinedHttpClient("/settings/user-group/edit", parameters).post();
+    public ActionResult editUserGroup(JSONObject parameters) {
+        try {            
+            return getPredefinedHttpClient("/settings/user-group/edit", parameters).post();
+        } catch (Exception e) {
+            log.error(CommonUtils.getExceptionMessage(e), e);
+            return errorActionResult();
+        }
     }
 
     @Override
-    public ActionResult removeUserGroup(JSONObject parameters) throws IOException {
-        return getPredefinedHttpClient("/settings/user-group/remove", parameters).post();
+    public ActionResult removeUserGroup(JSONObject parameters) {
+        try {            
+            return getPredefinedHttpClient("/settings/user-group/remove", parameters).post();
+        } catch (Exception e) {
+            log.error(CommonUtils.getExceptionMessage(e), e);
+            return errorActionResult();
+        }
     }
 
 }

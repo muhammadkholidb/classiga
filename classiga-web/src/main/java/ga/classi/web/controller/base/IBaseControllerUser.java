@@ -1,7 +1,5 @@
 package ga.classi.web.controller.base;
 
-import java.io.IOException;
-
 import org.json.simple.JSONObject;
 
 import ga.classi.commons.helper.ActionResult;
@@ -14,16 +12,16 @@ public interface IBaseControllerUser {
 
     boolean userHasLoggedIn();
     
-    ActionResult login(JSONObject parameters) throws IOException;
+    ActionResult login(JSONObject parameters);
     
-    ActionResult listUser(JSONObject parameters) throws IOException;
+    ActionResult listUser(JSONObject parameters);
 
-    ActionResult findUser(JSONObject parameters) throws IOException;
+    ActionResult findUser(JSONObject parameters);
     
-    ActionResult addUser(JSONObject parameters) throws IOException;
+    ActionResult addUser(JSONObject parameters);
     
-    ActionResult editUser(JSONObject parameters) throws IOException;
+    ActionResult editUser(JSONObject parameters);
     
-    ActionResult removeUser(JSONObject parameters) throws IOException;
+    ActionResult removeUser(JSONObject parameters);
     
 }

@@ -3,6 +3,8 @@ package ga.classi.commons.data.helper;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.json.simple.JSONObject;
+
 /**
  *
  * @author eatonmunoz
@@ -74,7 +76,11 @@ public class Dto extends HashMap<Object, Object> {
             return null;
         }
     }
-            
+    
+    public JSONObject toJSONObject() {
+        return new JSONObject(this);
+    }
+    
     @Override
     public Dto put(Object k, Object v) {
         super.put(k, v);

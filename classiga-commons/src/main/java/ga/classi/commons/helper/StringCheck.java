@@ -11,6 +11,10 @@ import org.json.simple.JSONValue;
  */
 public class StringCheck {
     
+    private StringCheck() {
+        // Set static class constructor to private
+    }
+    
     /**
      * Returns true if the given text is null or empty.
      * @param text The string to check.

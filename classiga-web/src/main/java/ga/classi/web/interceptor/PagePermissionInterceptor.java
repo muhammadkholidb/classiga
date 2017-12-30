@@ -7,8 +7,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -20,10 +18,10 @@ import ga.classi.web.helper.SessionKeyConstants;
 import ga.classi.web.helper.SessionManager;
 import java.util.Arrays;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class PagePermissionInterceptor extends HandlerInterceptorAdapter {
-
-    private static final Logger log = LoggerFactory.getLogger(PagePermissionInterceptor.class);
 
     @Autowired
     @Qualifier("applicationProp")
@@ -34,7 +32,7 @@ public class PagePermissionInterceptor extends HandlerInterceptorAdapter {
     private static final String PATH_REMOVE = "/remove";
     private static final String PATH_LIST = "/list";
     
-    private final List<String> ENDING_PATHS = Arrays.asList(PATH_ADD, PATH_EDIT, PATH_REMOVE, PATH_LIST);
+    private static final List<String> ENDING_PATHS = Arrays.asList(PATH_ADD, PATH_EDIT, PATH_REMOVE, PATH_LIST);
     
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)

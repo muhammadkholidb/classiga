@@ -42,7 +42,7 @@ public class DataAccessBaseController extends AbstractBaseController implements 
     
     @Override
     protected void postConstruct() {
-        
+        // Post construct
     }
 
     @SuppressWarnings("rawtypes")
@@ -65,7 +65,7 @@ public class DataAccessBaseController extends AbstractBaseController implements 
                 dto = systemService.getAllSystem(new Dto());
             }
 
-            SessionManager.set(SessionKeyConstants.SYSTEMS, JSONValue.parse(JSONArray.toJSONString((List) dto.get(CommonConstants.CONTENT))));
+            SessionManager.set(SessionKeyConstants.SYSTEMS, (JSONArray) JSONValue.parse(JSONArray.toJSONString((List) dto.get(CommonConstants.CONTENT))));
             updateLocale(getSystem(CommonConstants.SYSTEM_KEY_LANGUAGE_CODE));
             
         } catch (DataException e) {

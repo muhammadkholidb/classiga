@@ -16,6 +16,7 @@ import ga.classi.data.helper.DataImporter;
 import ga.classi.data.service.SystemService;
 import ga.classi.rest.controller.BaseController;
 import ga.classi.rest.helper.ResponseObject;
+import java.io.UnsupportedEncodingException;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -38,7 +39,7 @@ public class SystemController extends BaseController {
     
     @SuppressWarnings("rawtypes")
     @RequestMapping(value = "/system/list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseObject getAllSystem() throws Exception {
+    public ResponseObject getAllSystem() {
         
         Dto dto = systemService.getAllSystem(new Dto());
 
@@ -58,7 +59,7 @@ public class SystemController extends BaseController {
     }
 
     @RequestMapping(value = "/system/edit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseObject editSystemList() throws Exception {
+    public ResponseObject editSystemList() throws UnsupportedEncodingException {
 
         Dto dto = systemService.editSystemList(DtoUtils.fromServletRequest(request));
 

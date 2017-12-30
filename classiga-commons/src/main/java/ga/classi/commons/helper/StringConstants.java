@@ -6,24 +6,25 @@ import java.io.File;
  *
  * @author eatonmunoz
  */
-public interface StringConstants {
+public class StringConstants {
 
-    // Read https://stackoverflow.com/questions/1417190/should-a-static-final-logger-be-declared-in-upper-case#answer-12069687
-
-    static final String fileSeparator = File.separator;
-    static final String lineBreak = System.lineSeparator();
+    public static final String FILE_SEPARATOR = File.separator;
+    public static final String LINE_BREAK = System.lineSeparator();
     
-    static final String EMPTY = "";
-    static final String SPACE = " ";
-    static final String TAB = "\t";
-    static final String SINGLE_QUOTE = "'";
-    static final String DOUBLE_QUOTE = "\"";
-    static final String DOT = ".";
-    static final String COMMA = ",";
-    static final String COLON = ":";
-    static final String SEMICOLON = ";";
-    static final String PLUS = "+";
-    static final String MINUS = "-";
-    static final String UNDERSCORE = "_";
+    public static final String EMPTY = "";
+    public static final String SPACE = " ";
+    public static final String TAB = "\t";
+    public static final String SINGLE_QUOTE = "'";
+    public static final String DOUBLE_QUOTE = "\"";
+    public static final String DOT = ".";
+    public static final String COMMA = ",";
+    public static final String COLON = ":";
+    public static final String SEMICOLON = ";";
+    public static final String PLUS = "+";
+    public static final String MINUS = "-";
+    public static final String UNDERSCORE = "_";
 
+    private StringConstants() {
+        // Set static class constructor to private
+    }
 }

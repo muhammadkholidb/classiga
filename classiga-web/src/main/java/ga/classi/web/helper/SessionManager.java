@@ -1,5 +1,6 @@
 package ga.classi.web.helper;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -17,7 +18,9 @@ import org.springframework.web.context.request.ServletRequestAttributes;
  */
 public class SessionManager {
 
-    private SessionManager() {}
+    private SessionManager() {
+        // Set static class constructor to private
+    }
     
     /**
      * Returns the session of current request, create one if the request has not had it yet.
@@ -40,7 +43,7 @@ public class SessionManager {
         return (T) getSession().getAttribute(key);
     } 
     
-    public static void set(String key, Object value) {
+    public static void set(String key, Serializable value) {
         getSession().setAttribute(key, value);
     }
     

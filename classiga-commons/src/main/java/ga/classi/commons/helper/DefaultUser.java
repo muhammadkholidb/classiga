@@ -31,6 +31,10 @@ public class DefaultUser {
         "Charlize Theron", 
         "Kate Winslet" };
     
+    private DefaultUser() {
+        // Set static class constructor to private
+    }
+    
     public static String chooseName() {
         return NAMES[new Random().nextInt(NAMES.length)];
     }

@@ -4,6 +4,10 @@ import javax.persistence.criteria.CriteriaQuery;
 
 public class QueryHelper {
 
+    private QueryHelper() {
+        // Set static class constructor to private
+    }
+    
     // Read https://stackoverflow.com/questions/29348742/spring-data-jpa-creating-specification-query-fetch-joins
     /**
      * Checks whether the query is for "COUNT" query. 

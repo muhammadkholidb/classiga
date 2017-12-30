@@ -4,7 +4,7 @@ package ga.classi.web.helper;
  *
  * @author eatonmunoz
  */
-public interface ModelKeyConstants {
+public class ModelKeyConstants {
 
     public static final String NOTIFY = "notify";
     public static final String MENUS = "menus";
@@ -30,4 +30,8 @@ public interface ModelKeyConstants {
     public static final String NAME = "name";
     public static final String DESCRIPTION = "description";
     public static final String MENU_PERMISSIONS = "menuPermissions";
+    
+    private ModelKeyConstants() {
+        // Set static class constructor to private
+    }
 }

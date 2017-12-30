@@ -1,6 +1,5 @@
 package ga.classi.web.controller;
 
-import java.io.IOException;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -30,7 +29,7 @@ public class UserGroupControllerRest extends BaseControllerAdapter {
     
     @SuppressWarnings("unchecked")
     @GetMapping(value = "/settings/user-group/list", produces = MediaType.APPLICATION_JSON_VALUE)
-    public JSONObject getUserGroups() throws IOException {
+    public JSONObject getUserGroups() {
 
         log.info("Get user groups ...");
         

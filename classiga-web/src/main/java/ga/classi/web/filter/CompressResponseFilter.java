@@ -62,7 +62,7 @@ public class CompressResponseFilter implements Filter {
 
     @Override
     public void destroy() {
-
+        // Filter destroy
     }
 
     // Read https://www.leveluplunch.com/java/tutorials/034-modify-html-response-using-filter/
@@ -108,6 +108,7 @@ public class CompressResponseFilter implements Filter {
 
                     @Override
                     public void setWriteListener(WriteListener arg0) {
+                        // Set writer listener
                     }
                 };
             }

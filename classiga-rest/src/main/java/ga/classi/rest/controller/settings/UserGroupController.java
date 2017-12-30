@@ -12,6 +12,7 @@ import ga.classi.commons.helper.CommonConstants;
 import ga.classi.data.service.UserGroupService;
 import ga.classi.rest.controller.BaseController;
 import ga.classi.rest.helper.ResponseObject;
+import java.io.UnsupportedEncodingException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -23,7 +24,7 @@ public class UserGroupController extends BaseController {
     private UserGroupService userGroupService;
 
     @RequestMapping(value = "/user-group/list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseObject getAllUserGroup()  throws Exception {
+    public ResponseObject getAllUserGroup() throws UnsupportedEncodingException  {
         log.info("Get all user group ...");
         Dto result = userGroupService.getAllUserGroups(DtoUtils.fromServletRequest(request));
 
@@ -31,7 +32,7 @@ public class UserGroupController extends BaseController {
     }
 
     @RequestMapping(value = "/user-group/find", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseObject getUserGroup() throws Exception {
+    public ResponseObject getUserGroup() throws UnsupportedEncodingException {
 
         Dto dto = userGroupService.getOneUserGroupWithMenuPermissions(DtoUtils.fromServletRequest(request));
 
@@ -39,7 +40,7 @@ public class UserGroupController extends BaseController {
     }
 
     @RequestMapping(value = "/user-group/remove", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseObject removeUserGroup() throws Exception {
+    public ResponseObject removeUserGroup() throws UnsupportedEncodingException {
 
         userGroupService.removeUserGroup(DtoUtils.fromServletRequest(request));
 
@@ -47,7 +48,7 @@ public class UserGroupController extends BaseController {
     }
 
     @RequestMapping(value = "/user-group/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseObject addUserGroup() throws Exception {
+    public ResponseObject addUserGroup() throws UnsupportedEncodingException {
 
         Dto added = userGroupService.addUserGroup(DtoUtils.fromServletRequest(request));
 
@@ -55,7 +56,7 @@ public class UserGroupController extends BaseController {
     }
 
     @RequestMapping(value = "/user-group/edit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseObject editUserGroup() throws Exception {
+    public ResponseObject editUserGroup() throws UnsupportedEncodingException {
 
         Dto updated = userGroupService.editUserGroup(DtoUtils.fromServletRequest(request));
 

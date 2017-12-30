@@ -24,10 +24,10 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
         query.setParameter("email", email);
         query.setParameter("username", username);
         List<Object[]> list = query.getResultList();
-        if (list != null && list.size() > 0) {
+        if (list != null && !list.isEmpty()) {
             return list.get(0);
         }
-        return null;
+        return new Object[0];
     }
 
 }

@@ -1,6 +1,5 @@
 package ga.classi.web.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -76,7 +75,7 @@ public class SystemController extends BaseControllerAdapter {
     @RequestMapping(value = "/settings/system/edit", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView edit(
             @RequestParam(name = "languageCode", required = true, defaultValue = StringConstants.EMPTY) String languageCode, 
-            @RequestParam(name = "online", required = true, defaultValue = StringConstants.EMPTY) String online) throws IOException {
+            @RequestParam(name = "online", required = true, defaultValue = StringConstants.EMPTY) String online) {
 
         log.info("Edit ...");
         

@@ -7,6 +7,10 @@ public class PasswordUtils {
 
     public static final int DEFAULT_LEGTH = 64;
     
+    private PasswordUtils() {
+        // Set static class constructor to private
+    }
+    
     public static String stirWithSalt(String actual, String salt, int length) {
         String sha1 = DigestUtils.sha1Hex(DigestUtils.md5Hex(actual) + DigestUtils.md5Hex(salt)); // 40 characters
         String rightPad = StringUtils.rightPad(sha1, length, DigestUtils.sha1Hex(salt));

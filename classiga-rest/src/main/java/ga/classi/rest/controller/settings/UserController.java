@@ -12,6 +12,7 @@ import ga.classi.commons.helper.CommonConstants;
 import ga.classi.data.service.UserService;
 import ga.classi.rest.controller.BaseController;
 import ga.classi.rest.helper.ResponseObject;
+import java.io.UnsupportedEncodingException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -23,7 +24,7 @@ public class UserController extends BaseController {
     private UserService userService;
 
     @RequestMapping(value = "/user/list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseObject getAllUser() throws Exception {
+    public ResponseObject getAllUser() throws UnsupportedEncodingException {
         log.info("Get all user ...");
         
         Dto result = userService.getAllUserWithGroup(DtoUtils.fromServletRequest(request)); 
@@ -32,7 +33,7 @@ public class UserController extends BaseController {
     }
 
     @RequestMapping(value = "/user/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseObject addUser() throws Exception {
+    public ResponseObject addUser() throws UnsupportedEncodingException {
         
         Dto added = userService.addUser(DtoUtils.fromServletRequest(request));
         
@@ -40,7 +41,7 @@ public class UserController extends BaseController {
     }
 
     @RequestMapping(value = "/user/remove", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseObject removeUser() throws Exception {
+    public ResponseObject removeUser() throws UnsupportedEncodingException {
         
         userService.removeUser(DtoUtils.fromServletRequest(request));
         
@@ -48,7 +49,7 @@ public class UserController extends BaseController {
     }
 
     @RequestMapping(value = "/user/find", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseObject getUser() throws Exception {
+    public ResponseObject getUser() throws UnsupportedEncodingException {
         
         Dto user = userService.getUserById(DtoUtils.fromServletRequest(request));
         
@@ -56,7 +57,7 @@ public class UserController extends BaseController {
     }
 
     @RequestMapping(value = "/user/edit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseObject editUser() throws Exception {
+    public ResponseObject editUser() throws UnsupportedEncodingException {
         
         Dto updated = userService.editUser(DtoUtils.fromServletRequest(request));
         

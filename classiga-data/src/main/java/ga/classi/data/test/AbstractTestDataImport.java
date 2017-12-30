@@ -26,9 +26,8 @@ public abstract class AbstractTestDataImport {
      * Process the dataset XML file(s).
      *
      * @param paths Dataset path relative to directory /src/test/resources
-     * @throws java.lang.Exception If an error occurred.
      */
-    protected void setDataSets(String... paths) throws Exception {
+    protected void setDataSets(String... paths) {
         dataSets = new ArrayList<File>();
         for (String path : paths) {
             URL url = getClass().getClassLoader().getResource(path);
@@ -36,23 +35,13 @@ public abstract class AbstractTestDataImport {
             dataSets.add(file);
             log.debug("Dataset file: " + file.getAbsolutePath());
         }
-        try {
-            importer.setFileDataSets(dataSets);
-            importer.importAll();
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-            throw e;
-        }
+        importer.setFileDataSets(dataSets);
+        importer.importAll();
     }
 
-    protected void clearDataSets() throws Exception {
-        try {
-            importer.setFileDataSets(dataSets);
-            importer.deleteAll();
-        } catch (Exception e) {
-            log.debug(e.getMessage(), e);
-            throw e;
-        }
+    protected void clearDataSets() {
+        importer.setFileDataSets(dataSets);
+        importer.deleteAll();
     }
 
 }

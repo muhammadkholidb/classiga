@@ -1,6 +1,5 @@
 package ga.classi.web.controller.base;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -21,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import ga.classi.commons.helper.ActionResult;
 import ga.classi.commons.helper.MessageHelper;
+import java.util.HashMap;
 
 public abstract class BaseControllerAdapter {
 
@@ -132,7 +132,7 @@ public abstract class BaseControllerAdapter {
         return baseController.redirect(path);
     }
 
-    protected ModelAndView redirect(String path, Map<String, Object> flashModel) {
+    protected ModelAndView redirect(String path, HashMap<String, Object> flashModel) {
         return baseController.redirect(path, flashModel);
     }
 
@@ -140,7 +140,7 @@ public abstract class BaseControllerAdapter {
         return baseController.redirectAndNotify(path, message, notificationType);
     }
 
-    protected ModelAndView redirectAndNotify(String path, Map<String, Object> flashModel, String message, String notificationType) {
+    protected ModelAndView redirectAndNotify(String path, HashMap<String, Object> flashModel, String message, String notificationType) {
         return baseController.redirectAndNotify(path, flashModel, message, notificationType);
     }
 
@@ -148,7 +148,7 @@ public abstract class BaseControllerAdapter {
         return baseController.redirectAndNotifyError(path, message);
     }
 
-    protected ModelAndView redirectAndNotifyError(String path, Map<String, Object> flashModel, String message) {
+    protected ModelAndView redirectAndNotifyError(String path, HashMap<String, Object> flashModel, String message) {
         return baseController.redirectAndNotifyError(path, flashModel, message);
     }
 
@@ -156,7 +156,7 @@ public abstract class BaseControllerAdapter {
         return baseController.redirectAndNotifyInfo(path, message);
     }
 
-    protected ModelAndView redirectAndNotifyInfo(String path, Map<String, Object> flashModel, String message) {
+    protected ModelAndView redirectAndNotifyInfo(String path, HashMap<String, Object> flashModel, String message) {
         return baseController.redirectAndNotifyInfo(path, flashModel, message);
     }
 
@@ -164,7 +164,7 @@ public abstract class BaseControllerAdapter {
         return baseController.redirectAndNotifySuccess(path, message);
     }
 
-    protected ModelAndView redirectAndNotifySuccess(String path, Map<String, Object> flashModel, String message) {
+    protected ModelAndView redirectAndNotifySuccess(String path, HashMap<String, Object> flashModel, String message) {
         return baseController.redirectAndNotifySuccess(path, flashModel, message);
     }
 
@@ -172,7 +172,7 @@ public abstract class BaseControllerAdapter {
         return baseController.redirectAndNotifyWarning(path, message);
     }
 
-    protected ModelAndView redirectAndNotifyWarning(String path, Map<String, Object> flashModel, String message) {
+    protected ModelAndView redirectAndNotifyWarning(String path, HashMap<String, Object> flashModel, String message) {
         return baseController.redirectAndNotifyWarning(path, flashModel, message);
     }
 
@@ -286,27 +286,27 @@ public abstract class BaseControllerAdapter {
         
     // Adapter for IBaseControllerUser
     
-    protected ActionResult login(JSONObject parameters) throws IOException {
+    protected ActionResult login(JSONObject parameters) {
         return baseController.login(parameters);
     }
 
-    protected ActionResult listUser(JSONObject parameters) throws IOException {
+    protected ActionResult listUser(JSONObject parameters) {
         return baseController.listUser(parameters);
     }
 
-    protected ActionResult findUser(JSONObject parameters) throws IOException {
+    protected ActionResult findUser(JSONObject parameters) {
         return baseController.findUser(parameters);
     }
 
-    protected ActionResult addUser(JSONObject parameters) throws IOException {
+    protected ActionResult addUser(JSONObject parameters) {
         return baseController.addUser(parameters);
     }
 
-    protected ActionResult editUser(JSONObject parameters) throws IOException {
+    protected ActionResult editUser(JSONObject parameters) {
         return baseController.editUser(parameters);
     }
 
-    protected ActionResult removeUser(JSONObject parameters) throws IOException {
+    protected ActionResult removeUser(JSONObject parameters) {
         return baseController.removeUser(parameters);
     }
 
@@ -324,29 +324,29 @@ public abstract class BaseControllerAdapter {
         baseController.loadSystems();
     }
 
-    protected ActionResult editSystems(JSONObject parameters, String languageCode) throws IOException {
+    protected ActionResult editSystems(JSONObject parameters, String languageCode) {
         return baseController.editSystems(parameters, languageCode);
     }
 
     // Adapter for IBaseControllerUserGroup
     
-    protected ActionResult listUserGroup(JSONObject parameters) throws IOException {
+    protected ActionResult listUserGroup(JSONObject parameters) {
         return baseController.listUserGroup(parameters);
     }
 
-    protected ActionResult findUserGroup(JSONObject parameters) throws IOException {
+    protected ActionResult findUserGroup(JSONObject parameters) {
         return baseController.findUserGroup(parameters);
     }
 
-    protected ActionResult addUserGroup(JSONObject parameters) throws IOException {
+    protected ActionResult addUserGroup(JSONObject parameters) {
         return baseController.addUserGroup(parameters);
     }
 
-    protected ActionResult editUserGroup(JSONObject parameters) throws IOException {
+    protected ActionResult editUserGroup(JSONObject parameters) {
         return baseController.editUserGroup(parameters);
     } 
 
-    protected ActionResult removeUserGroup(JSONObject parameters) throws IOException {
+    protected ActionResult removeUserGroup(JSONObject parameters) {
         return baseController.removeUserGroup(parameters);
     }
 

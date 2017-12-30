@@ -10,6 +10,10 @@ import org.json.simple.JSONObject;
  */
 public class JSONHelper {
 
+    private JSONHelper() {
+        // Set static class constructor to private
+    }
+    
     /**
      * Get value from the specified JSONObject for the specified key. No need to cast the value.
      * @param <T> The return type.

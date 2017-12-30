@@ -33,4 +33,7 @@ public class ErrorMessageConstants {
     // User Group Menu Permission
     public static final String USER_GROUP_MENU_PERMISSION_NOT_FOUND = "error.commondata.UserGroupMenuPermissionNotFound";
     
+    private ErrorMessageConstants() {
+        // Set static class constructor to private
+    }
 }

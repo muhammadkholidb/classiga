@@ -211,20 +211,20 @@ public abstract class AbstractBaseController implements IBaseController {
     }
 
     @Override
-    public ModelAndView redirect(String path, Map<String, Object> flashModel) {
+    public ModelAndView redirect(String path, HashMap<String, Object> flashModel) {
         SessionManager.set(SessionKeyConstants.FLASH, flashModel);
         return new ModelAndView("redirect:" + path);
     }
 
     @Override
     public ModelAndView redirectAndNotify(String path, String message, String notificationType) {
-        Map<String, Object> flashModel = new HashMap<String, Object>();
+        HashMap<String, Object> flashModel = new HashMap<String, Object>();
         flashModel.put(ModelKeyConstants.NOTIFY, UIHelper.createNotification(StringConstants.EMPTY, message, notificationType));
         return redirect(path, flashModel);
     }
 
     @Override
-    public ModelAndView redirectAndNotify(String path, Map<String, Object> flashModel, String message, String notificationType) {
+    public ModelAndView redirectAndNotify(String path, HashMap<String, Object> flashModel, String message, String notificationType) {
         if (flashModel != null) {
             flashModel.put(ModelKeyConstants.NOTIFY, UIHelper.createNotification(StringConstants.EMPTY, message, notificationType));
             return redirect(path, flashModel);
@@ -238,7 +238,7 @@ public abstract class AbstractBaseController implements IBaseController {
     }
 
     @Override
-    public ModelAndView redirectAndNotifyError(String path, Map<String, Object> flashModel, String message) {
+    public ModelAndView redirectAndNotifyError(String path, HashMap<String, Object> flashModel, String message) {
         return redirectAndNotify(path, flashModel, message, Notify.DANGER);
     }
 
@@ -248,7 +248,7 @@ public abstract class AbstractBaseController implements IBaseController {
     }
 
     @Override
-    public ModelAndView redirectAndNotifyInfo(String path, Map<String, Object> flashModel, String message) {
+    public ModelAndView redirectAndNotifyInfo(String path, HashMap<String, Object> flashModel, String message) {
         return redirectAndNotify(path, flashModel, message, Notify.INFO);
     }
 
@@ -258,7 +258,7 @@ public abstract class AbstractBaseController implements IBaseController {
     }
 
     @Override
-    public ModelAndView redirectAndNotifySuccess(String path, Map<String, Object> flashModel, String message) {
+    public ModelAndView redirectAndNotifySuccess(String path, HashMap<String, Object> flashModel, String message) {
         return redirectAndNotify(path, flashModel, message, Notify.SUCCESS);
     }
 
@@ -268,7 +268,7 @@ public abstract class AbstractBaseController implements IBaseController {
     }
 
     @Override
-    public ModelAndView redirectAndNotifyWarning(String path, Map<String, Object> flashModel, String message) {
+    public ModelAndView redirectAndNotifyWarning(String path, HashMap<String, Object> flashModel, String message) {
         return redirectAndNotify(path, flashModel, message, Notify.WARNING);
     }
 
@@ -395,13 +395,13 @@ public abstract class AbstractBaseController implements IBaseController {
         return isMenuAllowed("canModify", code);
     }
 
-    private final List<String> ENDING_PATHS = Arrays.asList("/add", "/edit", "/remove", "/list");
+    private static final List<String> ENDING_PATHS = Arrays.asList("/add", "/edit", "/remove", "/list");
     
     private JSONObject getCurrentMenu() {
         String contextPath = httpServletRequest.getContextPath();
         String requestUrl = httpServletRequest.getRequestURI(); // This method returns the path before URL query strings
         if (requestUrl.endsWith("/")) {
-            requestUrl = requestUrl.substring(0, requestUrl.lastIndexOf("/"));  // Remove last character "/"
+            requestUrl = requestUrl.substring(0, requestUrl.lastIndexOf('/'));  // Remove last character "/"
         }
         for (String path : ENDING_PATHS) {
             if (requestUrl.contains(path)) {
@@ -428,12 +428,12 @@ public abstract class AbstractBaseController implements IBaseController {
     @Override
     public List<Locale> getSupportedLocales(String key) {
         log.info("Get supported locales ...");
-        List<Locale> supportedLocales = SessionManager.get(SessionKeyConstants.SUPPORTED_LOCALES);
+        ArrayList<Locale> supportedLocales = SessionManager.get(SessionKeyConstants.SUPPORTED_LOCALES);
         if (supportedLocales != null && !supportedLocales.isEmpty()) {
             return supportedLocales;
         }
         if (key == null || key.isEmpty()) {
-            return null;
+            return new ArrayList<Locale>();
         }
         Locale[] availableLocales = Locale.getAvailableLocales();
         Arrays.sort(availableLocales, new Comparator<Locale>() {
@@ -467,7 +467,7 @@ public abstract class AbstractBaseController implements IBaseController {
     @Override
     public List<String> getAvailableTemplates() {
         log.info("Get available templates ...");
-        List<String> templates = SessionManager.get(SessionKeyConstants.AVAILABLE_TEMPLATES);
+        ArrayList<String> templates = SessionManager.get(SessionKeyConstants.AVAILABLE_TEMPLATES);
         if (templates != null && !templates.isEmpty()) {
             return templates;
         }

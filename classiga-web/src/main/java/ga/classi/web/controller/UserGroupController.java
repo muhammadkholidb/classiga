@@ -1,6 +1,5 @@
 package ga.classi.web.controller;
 
-import java.io.IOException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,6 +25,7 @@ import ga.classi.commons.helper.StringConstants;
 import ga.classi.web.controller.base.BaseControllerAdapter;
 import ga.classi.web.helper.JSONHelper;
 import ga.classi.web.helper.ModelKeyConstants;
+import java.io.UnsupportedEncodingException;
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -38,14 +38,14 @@ import lombok.extern.slf4j.Slf4j;
 public class UserGroupController extends BaseControllerAdapter {
 
     @GetMapping(value = "/settings/user-group")
-    public ModelAndView index() throws IOException {
+    public ModelAndView index() {
         log.info("Index ...");
         return view("user-group/list");
     }
 
     @SuppressWarnings("unchecked")
     @PostMapping(value = "/settings/user-group/remove")
-    public ModelAndView remove(@RequestParam(name = "selected", required = false) String[] selected) throws IOException {
+    public ModelAndView remove(@RequestParam(name = "selected", required = false) String[] selected) {
 
         if (selected == null || selected.length == 0) {
             return redirect("/settings/user-group");
@@ -71,7 +71,7 @@ public class UserGroupController extends BaseControllerAdapter {
     public ModelAndView add(
             @RequestParam(name = "name", required = true, defaultValue = StringConstants.EMPTY) String name,
             @RequestParam(name = "description", required = true, defaultValue = StringConstants.EMPTY) String description,
-            @RequestParam(name = "menuPermissions", required = true, defaultValue = StringConstants.EMPTY) String encodedMenuPermissions) throws IOException {
+            @RequestParam(name = "menuPermissions", required = true, defaultValue = StringConstants.EMPTY) String encodedMenuPermissions) throws UnsupportedEncodingException {
 
         String decodedMenuPermissions = URLDecoder.decode(encodedMenuPermissions, "UTF-8");
         
@@ -98,30 +98,10 @@ public class UserGroupController extends BaseControllerAdapter {
             errorMessage = result.getMessage();
         }
 
-        JSONArray availableMenus = (JSONArray) JSONValue.parse(getMenus(true).toString());
-        
         List<JSONObject> menus = new ArrayList<JSONObject>();
-        for (Object ob : availableMenus) {
-            JSONObject menu = JSONHelper.remove((JSONObject) ob, "label", "faIcon", "path", "sequence");
-            menu.put("canView", false);
-            menu.put("canModify", false);
-            menus.add(menu);
-        }
         
         if (!StringConstants.EMPTY.equals(decodedMenuPermissions)) {
-            JSONArray submittedMenuPermissions = (JSONArray) JSONValue.parse(decodedMenuPermissions);
-            if (submittedMenuPermissions != null) {
-                for (JSONObject menu : menus) {
-                    for (Object ob : submittedMenuPermissions) {
-                        JSONObject submittedMenu = (JSONObject) ob;
-                        if (menu.get("code").equals(submittedMenu.get("menuCode"))) {
-                            menu.put("canView", CommonConstants.YES.equals(submittedMenu.get("canView")));
-                            menu.put("canModify", CommonConstants.YES.equals(submittedMenu.get("canModify")));
-                            break;
-                        }
-                    }
-                }
-            }
+            menus = loadCheckedMenuPermissions((JSONArray) JSONValue.parse(decodedMenuPermissions));
         }
 
         Map<String, Object> model = new HashMap<String, Object>();
@@ -143,7 +123,7 @@ public class UserGroupController extends BaseControllerAdapter {
             @RequestParam(name = "name", required = true, defaultValue = StringConstants.EMPTY) String name,
             @RequestParam(name = "description", required = true, defaultValue = StringConstants.EMPTY) String description,
             @RequestParam(name = "menuPermissions", required = true, defaultValue = StringConstants.EMPTY) String encodedMenuPermissions,
-            @RequestParam(name = "active", required = true, defaultValue = CommonConstants.NO) String active) throws IOException {
+            @RequestParam(name = "active", required = true, defaultValue = CommonConstants.NO) String active) throws UnsupportedEncodingException {
 
         String decodedMenuPermissions = URLDecoder.decode(encodedMenuPermissions, "UTF-8");
 
@@ -186,30 +166,10 @@ public class UserGroupController extends BaseControllerAdapter {
             return redirectAndNotifyError("/settings/user-group", resultFind.getMessage());
         }
 
-        JSONArray availableMenus = (JSONArray) JSONValue.parse(getMenus(true).toString());
-        
         List<JSONObject> menus = new ArrayList<JSONObject>();
-        for (Object ob : availableMenus) {
-            JSONObject menu = JSONHelper.remove((JSONObject) ob, "label", "faIcon", "path", "sequence");
-            menu.put("canView", false);
-            menu.put("canModify", false);
-            menus.add(menu);
-        }
         
         if (!StringConstants.EMPTY.equals(decodedMenuPermissions)) {
-            JSONArray submittedMenuPermissions = (JSONArray) JSONValue.parse(decodedMenuPermissions);
-            if (submittedMenuPermissions != null) {
-                for (JSONObject menu : menus) {
-                    for (Object ob : submittedMenuPermissions) {
-                        JSONObject submittedMenu = (JSONObject) ob;
-                        if (menu.get("code").equals(submittedMenu.get("menuCode"))) {
-                            menu.put("canView", CommonConstants.YES.equals(submittedMenu.get("canView")));
-                            menu.put("canModify", CommonConstants.YES.equals(submittedMenu.get("canModify")));
-                            break;
-                        }
-                    }
-                }
-            }
+            menus = loadCheckedMenuPermissions((JSONArray) JSONValue.parse(decodedMenuPermissions));            
         } else if (userGroupMenuPermissions != null) {
             for (JSONObject menu : menus) {
                 for (Object ob : userGroupMenuPermissions) {
@@ -245,4 +205,29 @@ public class UserGroupController extends BaseControllerAdapter {
         return view("user-group/form-edit", model);
     }
 
+    @SuppressWarnings("unchecked")
+    private List<JSONObject> loadCheckedMenuPermissions(JSONArray submittedMenuPermissions) {
+        JSONArray availableMenus = (JSONArray) JSONValue.parse(getMenus(true).toString());
+        List<JSONObject> menus = new ArrayList<JSONObject>();
+        for (Object ob : availableMenus) {
+            JSONObject menu = JSONHelper.remove((JSONObject) ob, "label", "faIcon", "path", "sequence");
+            menu.put("canView", false);
+            menu.put("canModify", false);
+            menus.add(menu);
+        }
+        if (submittedMenuPermissions != null) {
+            for (JSONObject menu : menus) {
+                for (Object ob : submittedMenuPermissions) {
+                    JSONObject submittedMenu = (JSONObject) ob;
+                    if (menu.get("code").equals(submittedMenu.get("menuCode"))) {
+                        menu.put("canView", CommonConstants.YES.equals(submittedMenu.get("canView")));
+                        menu.put("canModify", CommonConstants.YES.equals(submittedMenu.get("canModify")));
+                        break;
+                    }
+                }
+            }
+        }
+        return menus;
+    }
+    
 }

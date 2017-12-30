@@ -1,6 +1,6 @@
 package ga.classi.commons.helper;
 
-public final class CommonConstants {
+public class CommonConstants {
 
     public static final String SUCCESS = "success";
     public static final String FAIL = "fail";
@@ -32,4 +32,8 @@ public final class CommonConstants {
     public static final String SORT_ORDER = "sortOrder";
     public static final String SORT_COLUMN = "sortColumn";
 
+    private CommonConstants() {
+        // Set static class constructor to private
+    }
+    
 }

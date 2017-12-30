@@ -9,6 +9,7 @@ import org.json.simple.JSONObject;
 import org.springframework.web.servlet.ModelAndView;
 
 import ga.classi.commons.helper.ActionResult;
+import java.util.HashMap;
 
 /**
  *
@@ -56,27 +57,27 @@ public interface IBaseController extends IBaseControllerSystem, IBaseControllerU
 
     ModelAndView redirect(String path);
 
-    ModelAndView redirect(String path, Map<String, Object> flashModel);
+    ModelAndView redirect(String path, HashMap<String, Object> flashModel);
 
     ModelAndView redirectAndNotify(String path, String message, String notificationType);
 
-    ModelAndView redirectAndNotify(String path, Map<String, Object> flashModel, String message, String notificationType);
+    ModelAndView redirectAndNotify(String path, HashMap<String, Object> flashModel, String message, String notificationType);
 
     ModelAndView redirectAndNotifyError(String path, String message);
 
-    ModelAndView redirectAndNotifyError(String path, Map<String, Object> flashModel, String message);
+    ModelAndView redirectAndNotifyError(String path, HashMap<String, Object> flashModel, String message);
 
     ModelAndView redirectAndNotifyInfo(String path, String message);
 
-    ModelAndView redirectAndNotifyInfo(String path, Map<String, Object> flashModel, String message);
+    ModelAndView redirectAndNotifyInfo(String path, HashMap<String, Object> flashModel, String message);
 
     ModelAndView redirectAndNotifySuccess(String path, String message);
 
-    ModelAndView redirectAndNotifySuccess(String path, Map<String, Object> flashModel, String message);
+    ModelAndView redirectAndNotifySuccess(String path, HashMap<String, Object> flashModel, String message);
 
     ModelAndView redirectAndNotifyWarning(String path, String message);
 
-    ModelAndView redirectAndNotifyWarning(String path, Map<String, Object> flashModel, String message);
+    ModelAndView redirectAndNotifyWarning(String path, HashMap<String, Object> flashModel, String message);
 
     JSONArray getMenus(boolean flat);
 

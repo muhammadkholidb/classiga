@@ -11,6 +11,7 @@ import ga.classi.commons.data.helper.DtoUtils;
 import ga.classi.commons.helper.CommonConstants;
 import ga.classi.data.service.UserService;
 import ga.classi.rest.helper.ResponseObject;
+import java.io.UnsupportedEncodingException;
 
 @RestController
 public class DefaultController extends BaseController {
@@ -19,7 +20,7 @@ public class DefaultController extends BaseController {
     private UserService userService;
 
     @RequestMapping(value = "/login", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseObject login() throws Exception {
+    public ResponseObject login() throws UnsupportedEncodingException {
         
         Dto dtoUser = userService.login(DtoUtils.fromServletRequest(request));
 

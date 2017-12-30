@@ -62,7 +62,7 @@ public class DataImporter {
 
     private List<InputStream> streamDataSets;
 
-    public void importAll() throws DataException {
+    public void importAll() {
         log.debug("Import dataset ...");
         try {
             if ((fileDataSets != null) && !fileDataSets.isEmpty()) {
@@ -104,7 +104,7 @@ public class DataImporter {
         this.streamDataSets.add(inputStreamDataSet);
     }
 
-    public void deleteAll() throws DataException {
+    public void deleteAll() {
         try {
             if ((fileDataSets != null) && !fileDataSets.isEmpty()) {
                 for (File file : fileDataSets) {
@@ -129,8 +129,8 @@ public class DataImporter {
 
     private class CleanInsertOperation extends DatabaseOperation {
 
-        private final String REPLACEMENT_KEY_DATE = "currentDate";
-        private final String REPLACEMENT_KEY_MILLISECOND = "currentMillis";
+        private static final String REPLACEMENT_KEY_DATE = "currentDate";
+        private static final String REPLACEMENT_KEY_MILLISECOND = "currentMillis";
 
         @Override
         public void execute(IDatabaseConnection idc, IDataSet ids) throws DatabaseUnitException, SQLException {
@@ -143,9 +143,9 @@ public class DataImporter {
             if (doResetSequence) {
                 // Reset sequences
                 Statement statement = idc.getConnection().createStatement();
-                String[] tables = ids.getTableNames();
-                for (String table : tables) {
-                    try {
+                try {
+                    String[] tables = ids.getTableNames();
+                    for (String table : tables) {
                         String query;
                         if ((sqlResetSequence != null) && !sqlResetSequence.isEmpty()) {
                             query = sqlResetSequence;
@@ -155,8 +155,12 @@ public class DataImporter {
                             query = String.format(sqlResetSequence, (sqlSequencePrefix + table + sqlSequencePostfix));
                         }
                         statement.execute(query);
-                    } catch (Exception e) {
-                        log.error(e.toString(), e);
+                    }
+                } catch (Exception e) {
+                    log.error(e.toString(), e);
+                } finally {
+                    if (statement != null) {
+                        statement.close();
                     }
                 }
             }

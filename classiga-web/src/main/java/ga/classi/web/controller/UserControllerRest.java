@@ -1,6 +1,5 @@
 package ga.classi.web.controller;
 
-import java.io.IOException;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -32,7 +31,7 @@ public class UserControllerRest extends BaseControllerAdapter {
     
     @SuppressWarnings("unchecked")
     @GetMapping(value = "/settings/user/list", produces = MediaType.APPLICATION_JSON_VALUE)
-    public JSONObject getUser() throws IOException {
+    public JSONObject getUsers() {
 
         log.info("Get users ...");
         

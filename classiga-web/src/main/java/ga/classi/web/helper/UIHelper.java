@@ -8,6 +8,10 @@ import ga.classi.web.ui.Notify;
  */
 public class UIHelper {
 
+    private UIHelper() {
+        // Set static class constructor to private
+    }
+    
     public static Notify createNotification(String title, String message, String notificationType) {
         return new Notify(title, message, notificationType);
     }

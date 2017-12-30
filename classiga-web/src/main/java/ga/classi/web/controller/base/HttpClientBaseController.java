@@ -10,6 +10,7 @@ import ga.classi.commons.helper.HttpClientResponse;
 import ga.classi.web.helper.SessionKeyConstants;
 import ga.classi.web.helper.SessionManager;
 import lombok.extern.slf4j.Slf4j;
+import org.json.simple.JSONArray;
 
 /**
  * 
@@ -68,7 +69,7 @@ public class HttpClientBaseController extends AbstractBaseController implements 
             HttpClientResponse response = new HttpClient(hostUrl, "/settings/system/list").get();
             if (response != null) {
                 if (CommonConstants.SUCCESS.equals(response.getStatus())) {
-                    SessionManager.set(SessionKeyConstants.SYSTEMS, response.getContent());
+                    SessionManager.set(SessionKeyConstants.SYSTEMS, (JSONArray) response.getContent());
                     updateLocale(getSystem(CommonConstants.SYSTEM_KEY_LANGUAGE_CODE));
                 } else {    
                     log.error(response.getMessage());

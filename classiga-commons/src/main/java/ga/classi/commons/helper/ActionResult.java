@@ -35,20 +35,20 @@ public class ActionResult {
 
         if (this.data != null) {
 
-            Object countRows = this.data.get(CommonConstants.COUNT_ROWS);
-            Object totalRows = this.data.get(CommonConstants.TOTAL_ROWS);
-            Object totalPages = this.data.get(CommonConstants.TOTAL_PAGES);
+            Object oCountRows = this.data.get(CommonConstants.COUNT_ROWS);
+            Object oTotalRows = this.data.get(CommonConstants.TOTAL_ROWS);
+            Object oTotalPages = this.data.get(CommonConstants.TOTAL_PAGES);
 
-            if (countRows != null) {
-                this.countRows = Integer.valueOf(countRows + "");
+            if (oCountRows != null) {
+                this.countRows = Integer.valueOf(oCountRows + "");
             }
 
-            if (totalRows != null) {
-                this.totalRows = Integer.valueOf(totalRows + "");
+            if (oTotalRows != null) {
+                this.totalRows = Integer.valueOf(oTotalRows + "");
             }
 
-            if (totalPages != null) {
-                this.totalPages = Integer.valueOf(totalPages + "");
+            if (oTotalPages != null) {
+                this.totalPages = Integer.valueOf(oTotalPages + "");
             }
 
             String toJSONString = JSONValue.toJSONString(this.data.get(CommonConstants.CONTENT));

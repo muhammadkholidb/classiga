@@ -1,6 +1,6 @@
 package ga.classi.web.helper;
 
-public interface SessionKeyConstants {
+public class SessionKeyConstants {
 
     public static final String USER                     = "session.user";
     public static final String USER_GROUP               = "session.usergroup";
@@ -14,4 +14,8 @@ public interface SessionKeyConstants {
     public static final String ALLOWED_MENUS            = "session.allowedmenus";
     public static final String SUPPORTED_LOCALES        = "session.supportedlocales";
     public static final String AVAILABLE_TEMPLATES      = "session.availabletemplates";
+    
+    private SessionKeyConstants() {
+        // Set static class constructor to private
+    }
 }

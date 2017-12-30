@@ -1,6 +1,6 @@
 package ga.classi.web.helper;
 
-public interface MenuKeyConstants {
+public class MenuKeyConstants {
 
     public static final String NAME = "name";
     public static final String DESCRIPTION = "description";
@@ -11,5 +11,9 @@ public interface MenuKeyConstants {
     public static final String PAGE = "page";
     public static final String PATH = "path";
     public static final String SUBMENUS = "submenus";
+    
+    private MenuKeyConstants() {
+        // Set static class constructor to private
+    }
     
 }

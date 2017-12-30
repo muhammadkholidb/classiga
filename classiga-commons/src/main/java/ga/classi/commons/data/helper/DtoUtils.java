@@ -5,6 +5,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +19,10 @@ public class DtoUtils {
 
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
+    private DtoUtils() {
+        // Set static class constructor to private
+    }
+    
     /**
      * Converts request parameters to Dto object.
      * @param request Servlet request to get the parameters from.
@@ -30,8 +35,9 @@ public class DtoUtils {
         }
         Dto dto = new Dto();
         Map<String, String[]> parameters = request.getParameterMap();
-        for (String key : parameters.keySet()) {
-            String[] values = parameters.get(key);
+        for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
+            String key = entry.getKey();
+            String[] values = entry.getValue();
             switch (values.length) {
                 case 0:
                     dto.put(key, ""); // Put empty string
@@ -55,7 +61,7 @@ public class DtoUtils {
      */
     public static List<Dto> toDtoList(List<?> list, String... excludeKeys) {
         if (list == null) {
-            return null;
+            return Collections.emptyList();
         }
         List<Dto> listDto = new ArrayList<Dto>();
         for (Object o : list) {

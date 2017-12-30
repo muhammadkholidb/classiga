@@ -69,7 +69,7 @@ public class UserGroupEntity extends BaseEntity implements Serializable {
 
     @Override
     protected void initValuesOnCreate() {
-        
+        // Initialize values on create 
     }
  
 }

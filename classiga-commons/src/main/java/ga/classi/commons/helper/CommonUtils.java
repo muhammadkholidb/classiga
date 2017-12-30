@@ -6,5 +6,9 @@ public class CommonUtils {
         String message = exception.getMessage();
         return ((message == null) || "".equals(message)) ? exception.toString() : message;
     }
+
+    private CommonUtils() {
+        // Set static class constructor to private
+    }
     
 }

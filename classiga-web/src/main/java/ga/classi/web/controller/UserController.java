@@ -1,6 +1,5 @@
 package ga.classi.web.controller;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,18 +31,16 @@ import lombok.extern.slf4j.Slf4j;
 public class UserController extends BaseControllerAdapter {
 
     @GetMapping(value = "/settings/user")
-    public ModelAndView index() throws IOException {
+    public ModelAndView index() {
         log.info("Index ...");
         return view("user/list");
     }
 
-    private JSONArray getUserGroups() throws IOException {
+    private JSONArray getUserGroups() {
         log.info("Get user groups ..."); 
         ActionResult result = listUserGroup(null);
-        if (result != null) {
-            if (CommonConstants.SUCCESS.equals(result.getStatus())) {
-                return (JSONArray) result.getContent();
-            }
+        if (result != null && CommonConstants.SUCCESS.equals(result.getStatus())) {
+            return (JSONArray) result.getContent();
         }
         return null;
     }
@@ -55,7 +52,7 @@ public class UserController extends BaseControllerAdapter {
             @RequestParam(name = "username", required = true, defaultValue = StringConstants.EMPTY) String username,
             @RequestParam(name = "email", required = true, defaultValue = StringConstants.EMPTY) String email,
             @RequestParam(name = "password", required = true, defaultValue = StringConstants.EMPTY) String password,
-            @RequestParam(name = "userGroupId", required = true, defaultValue = StringConstants.EMPTY) String userGroupId) throws IOException {
+            @RequestParam(name = "userGroupId", required = true, defaultValue = StringConstants.EMPTY) String userGroupId) {
 
         Map<String, Object> model = new HashMap<String, Object>();
         model.put(ModelKeyConstants.FULL_NAME, fullName);
@@ -102,7 +99,7 @@ public class UserController extends BaseControllerAdapter {
             @RequestParam(name = "email", required = true, defaultValue = StringConstants.EMPTY) String email,
             @RequestParam(name = "password", required = true, defaultValue = StringConstants.EMPTY) String password,
             @RequestParam(name = "userGroupId", required = true, defaultValue = StringConstants.EMPTY) String userGroupId,
-            @RequestParam(name = "active", required = true, defaultValue = CommonConstants.NO) String active) throws IOException {
+            @RequestParam(name = "active", required = true, defaultValue = CommonConstants.NO) String active) {
 
         if (userId == null || userId.isEmpty()) {
             return redirectAndNotifyError("/settings/user", messageHelper.getMessage("error.usernotfound"));
@@ -177,7 +174,7 @@ public class UserController extends BaseControllerAdapter {
 
     @SuppressWarnings("unchecked")
     @PostMapping(value = "/settings/user/remove")
-    public ModelAndView remove(@RequestParam(name = "selected", required = false) String[] selected) throws IOException {
+    public ModelAndView remove(@RequestParam(name = "selected", required = false) String[] selected) {
 
         if (selected == null || selected.length == 0) {
             return redirect("/settings/user");

@@ -9,10 +9,10 @@ import org.json.simple.JSONValue;
  * A utility class for string checking.
  * @author eatonmunoz
  */
-public class StringCheck {
+public final class StringCheck {
     
     private StringCheck() {
-        // Set static class constructor to private
+        // Restrict instantiation
     }
     
     /**

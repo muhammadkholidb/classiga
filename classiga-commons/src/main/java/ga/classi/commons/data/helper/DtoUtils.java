@@ -20,7 +20,7 @@ public class DtoUtils {
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
     private DtoUtils() {
-        // Set static class constructor to private
+        // Restrict instantiation
     }
     
     /**

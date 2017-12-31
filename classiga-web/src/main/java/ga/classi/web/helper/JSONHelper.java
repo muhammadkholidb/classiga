@@ -11,7 +11,7 @@ import org.json.simple.JSONObject;
 public class JSONHelper {
 
     private JSONHelper() {
-        // Set static class constructor to private
+        // Restrict instantiation
     }
     
     /**

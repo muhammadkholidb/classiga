@@ -2,7 +2,7 @@ package ga.classi.commons.helper;
 
 import java.util.Random;
 
-public class DefaultUser {
+public final class DefaultUser {
 
     public static final Long USER_GROUP_ID = -1L;
     public static final String USER_GROUP_NAME = "Default Group";
@@ -32,7 +32,7 @@ public class DefaultUser {
         "Kate Winslet" };
     
     private DefaultUser() {
-        // Set static class constructor to private
+        // Restrict instantiation
     }
     
     public static String chooseName() {

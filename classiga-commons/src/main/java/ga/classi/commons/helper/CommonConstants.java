@@ -1,39 +1,37 @@
 package ga.classi.commons.helper;
 
-public class CommonConstants {
+public interface CommonConstants {
 
-    public static final String SUCCESS = "success";
-    public static final String FAIL = "fail";
-    public static final String ERROR = "error";
+    // https://stackoverflow.com/questions/1372991/should-a-collection-of-constants-be-placed-in-a-class-or-interface#answer-1446119
 
-    public static final String LANGUAGE_CODE_INDONESIA = "in";
-    public static final String LANGUAGE_CODE_ENGLISH = "en";
+    String SUCCESS                  = "success";
+    String FAIL                     = "fail";
+    String ERROR                    = "error";
 
-    public static final String YES = "y";
-    public static final String NO = "n";
+    String LANGUAGE_CODE_INDONESIA  = "in";
+    String LANGUAGE_CODE_ENGLISH    = "en";
 
-    public static final String SYSTEM_KEY_LANGUAGE_CODE = "languageCode";
-    public static final String SYSTEM_KEY_TEMPLATE_CODE = "templateCode";
-    public static final String SYSTEM_KEY_ONLINE = "online";
-    public static final String SYSTEM_KEY_IMAGE = "image";
+    String YES                      = "y";
+    String NO                       = "n";
 
-    public static final String LIMIT = "limit";
-    public static final String OFFSET = "offset";
+    String SYSTEM_KEY_LANGUAGE_CODE = "languageCode";
+    String SYSTEM_KEY_TEMPLATE_CODE = "templateCode";
+    String SYSTEM_KEY_ONLINE        = "online";
+    String SYSTEM_KEY_IMAGE         = "image";
 
-    public static final String STATUS = "status";
-    public static final String MESSAGE = "message";
-    public static final String DATA = "data";
-    public static final String COUNT_ROWS = "countRows";
-    public static final String TOTAL_ROWS = "totalRows";
-    public static final String TOTAL_PAGES = "totalPages";
-    public static final String CONTENT = "content";
-    public static final String START = "start";
-    public static final String LENGTH = "length";
-    public static final String SORT_ORDER = "sortOrder";
-    public static final String SORT_COLUMN = "sortColumn";
+    String LIMIT                    = "limit";
+    String OFFSET                   = "offset";
 
-    private CommonConstants() {
-        // Set static class constructor to private
-    }
-    
+    String STATUS                   = "status";
+    String MESSAGE                  = "message";
+    String DATA                     = "data";
+    String COUNT_ROWS               = "countRows";
+    String TOTAL_ROWS               = "totalRows";
+    String TOTAL_PAGES              = "totalPages";
+    String CONTENT                  = "content";
+    String START                    = "start";
+    String LENGTH                   = "length";
+    String SORT_ORDER               = "sortOrder";
+    String SORT_COLUMN              = "sortColumn";
+
 }

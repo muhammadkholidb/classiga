@@ -3,12 +3,12 @@ package ga.classi.commons.helper;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 
-public class PasswordUtils {
+public final class PasswordUtils {
 
     public static final int DEFAULT_LEGTH = 64;
     
     private PasswordUtils() {
-        // Set static class constructor to private
+        // Restrict instantiation
     }
     
     public static String stirWithSalt(String actual, String salt, int length) {

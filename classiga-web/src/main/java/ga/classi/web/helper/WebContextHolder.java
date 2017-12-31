@@ -33,7 +33,9 @@ public final class WebContextHolder {
 
     private static final Logger log = LoggerFactory.getLogger(WebContextHolder.class);
 
-    private WebContextHolder() {}
+    private WebContextHolder() {
+        // Restrict instantiation
+    }
 
     public static HttpServletRequest getRequest() {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();

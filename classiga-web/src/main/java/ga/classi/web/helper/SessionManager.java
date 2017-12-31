@@ -19,7 +19,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 public class SessionManager {
 
     private SessionManager() {
-        // Set static class constructor to private
+        // Restrict instantiation
     }
     
     /**

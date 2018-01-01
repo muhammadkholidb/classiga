@@ -21,6 +21,8 @@ public interface ModelKeyConstants {
     String ERROR_CODE       = "errorCode";
     String ERROR_MESSAGE    = "errorMessage";
     String FULL_NAME        = "fullName";
+    String FIRST_NAME       = "firstName";
+    String LAST_NAME        = "lastName";
     String EMAIL            = "email";
     String USER_GROUPS      = "userGroups";
     String USER_GROUP_ID    = "userGroupId";

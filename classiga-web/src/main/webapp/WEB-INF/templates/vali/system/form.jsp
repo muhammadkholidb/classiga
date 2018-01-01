@@ -21,7 +21,7 @@
                     <div class="card">
                         <h3 class="card-title"><s:message code="label.systemsetting" /></h3>
                         <div class="card-body">
-                            <form class="form-horizontal" method="post" action="${contextPath}/settings/system/edit">
+                            <form class="form-horizontal" method="post" action="${contextPath}/settings/system/edit" accept-charset="utf-8">
                                 <div class="form-group">
                                     <label class="col-lg-2 control-label" for="inputLanguage"><s:message code="label.language" /></label>
                                     <div class="col-lg-10">

@@ -126,8 +126,8 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
                     <excludes>
-                        <exclude>**/*.xml</exclude>
-                        <exclude>**/*.properties</exclude>
+                        <exclude>**/logback.xml</exclude>
+                        <exclude>**/application.properties</exclude>
                     </excludes>
                     <classifier>classes</classifier>
                 </configuration>
@@ -144,16 +144,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <configuration>
-                    <webResources>
-                        <resource>
-                            <directory>src/main/resources</directory>
-                            <excludes>
-                                <exclude>logback.xml</exclude>
-                            </excludes>
-                        </resource>
-                    </webResources>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -216,18 +206,12 @@
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-war-plugin</artifactId>
                         <configuration>
-                            <webResources>
-                                <resource>
-                                    <directory>src/main/resources</directory>
-                                    <excludes>
-                                        <exclude>logback.xml</exclude>
-                                        <exclude>application.properties</exclude>
-                                    </excludes>
-                                </resource>
-                            </webResources>
                             <packagingExcludes>
                                 WEB-INF/lib/**,
-                                WEB-INF/classes/**
+                                WEB-INF/classes/**,
+                                logback.xml,
+                                application.properties,
+                                users.properties
                             </packagingExcludes>
                             <archive>
                                 <manifest>

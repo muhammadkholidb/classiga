@@ -35,6 +35,13 @@ public class CompressResponseFilter implements Filter {
 
         log.debug("Do filter ...");
 
+        String mode = System.getProperty("mode");
+
+        if (mode != null && "dev".equalsIgnoreCase(mode)) { 
+            chain.doFilter(request, response);
+            return;
+        }
+        
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         String contextPath = httpRequest.getContextPath();
         String requestUrl = httpRequest.getRequestURI();

@@ -51,7 +51,7 @@
                 <h1>${appName}</h1>
             </div>
             <div class="login-box">
-                <form class="login-form" id="loginForm" method="post" >
+                <form class="login-form" id="loginForm" method="post" accept-charset="utf-8" > 
                     <h3 class="login-head" style="text-transform: uppercase;">
                         <span class="fa-stack fa-lg">
                             <i class="fa fa-circle fa-stack-2x"></i>

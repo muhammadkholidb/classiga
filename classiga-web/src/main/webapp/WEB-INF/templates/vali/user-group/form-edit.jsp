@@ -35,7 +35,7 @@
                         <div class="card">
                             <h3 class="card-title"><s:message code="label.addusergroup" /></h3>
                             <div class="card-body">
-                                <form id="formEditUserGroup" class="form-horizontal" method="post" action="${contextPath}/settings/user-group/edit/${userGroupId}">
+                                <form id="formEditUserGroup" class="form-horizontal" method="post" action="${contextPath}/settings/user-group/edit/${userGroupId}" accept-charset="utf-8">
                                     <div class="form-group required">
                                         <label class="control-label col-md-3" for="inputName"><s:message code="label.name" /></label>
                                         <div class="col-md-9">

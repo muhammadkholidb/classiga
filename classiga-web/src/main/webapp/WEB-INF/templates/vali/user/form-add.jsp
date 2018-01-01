@@ -32,7 +32,7 @@
                         <div class="card">
                             <h3 class="card-title"><s:message code="label.adduser" /></h3>
                             <div class="card-body">
-                                <form id="formAddUser" class="form-horizontal" method="post" action="${contextPath}/settings/user/add">
+                                <form id="formAddUser" class="form-horizontal" method="post" action="${contextPath}/settings/user/add" accept-charset="utf-8">
                                     <div class="form-group required">
                                         <label class="control-label col-md-3" for="inputFullName"><s:message code="label.fullname" /></label>
                                         <div class="col-md-9">

@@ -49,6 +49,18 @@ public class DataValidation {
     }
 
     /**
+     * Validates the email valid or empty.
+     * @param email The email to validate.
+     * @throws DataException If the email is not valid.
+     */
+    public static void validateEmailOrEmpty(String email) {
+        if (email == null || email.isEmpty()) {
+            return;
+        }
+        validateEmail(email);
+    }
+
+    /**
      * Validates the username. A valid username must not be null or empty, and have minimum length of 4.
      * @param username The username to validate.
      * @throws DataException If the username is not valid.
@@ -77,6 +89,19 @@ public class DataValidation {
     }
 
     /**
+     * Validates if the string is a number or empty.
+     * @param string The string to validate.
+     * @param name The validated component name.
+     * @throws DataException If the string is not a number.
+     */
+    public static void validateNumericOrEmpty(String string, String name) {
+        if (string == null || string.isEmpty()) {
+            return;
+        }
+        validateNumeric(string, name);
+    }
+
+    /**
      * Validates if the string is a case insensitive "Y" or "N".
      * @param string The string to validate.
      * @param name The validated component name.
@@ -87,6 +112,19 @@ public class DataValidation {
         if (!StringCheck.isYesNo(string)) {
             throw new DataException(ExceptionCode.E1005, ErrorMessageConstants.INVALID_YES_NO, new Object[]{string, name});
         }
+    }
+
+    /**
+     * Validates if the string is a case insensitive "Y" or "N" or empty.
+     * @param string The string to validate.
+     * @param name The validated component name.
+     * @throws DataException If the string is not a case insensitive "Y" or "N".
+     */
+    public static void validateYesNoOrEmpty(String string, String name) {
+        if (string == null || string.isEmpty()) {
+            return;
+        }
+        validateYesNo(string, name);
     }
 
     /**
@@ -103,6 +141,19 @@ public class DataValidation {
     }
 
     /**
+     * Validates if the string is JSON array or empty.
+     * @param string The string to validate.
+     * @param name The validated component name.
+     * @throws DataException If the string is not a valid JSON array.
+     */
+    public static void validateJSONArrayOrEmpty(String string, String name) {
+        if (string == null || string.isEmpty()) {
+            return;
+        }
+        validateJSONArray(string, name);
+    }
+
+    /**
      * Validates if the string is JSON object.
      * @param string The string to validate.
      * @param name The validated component name.
@@ -113,6 +164,20 @@ public class DataValidation {
         if (!StringCheck.isJSONObject(string)) {
             throw new DataException(ExceptionCode.E1005, ErrorMessageConstants.INVALID_JSON_OBJECT, new Object[]{string, name});
         }
+ 
+    }
+
+    /**
+     * Validates if the string is JSON object or empty.
+     * @param string The string to validate.
+     * @param name The validated component name.
+     * @throws DataException If the string is not a valid JSON object.
+     */
+    public static void validateJSONObjectOrEmpty(String string, String name) {
+        if (string == null || string.isEmpty()) {
+            return;
+        }
+        validateJSONObject(string, name); 
     }
 
     /**
@@ -127,4 +192,10 @@ public class DataValidation {
         }
     }
 
+    public static void validateEmpty(String[] strings, String[] names) {
+        for (int i = 0; i < strings.length; i++) {
+            validateEmpty(strings[i], names[i]);
+        }
+    };
+    
 }

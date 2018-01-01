@@ -120,7 +120,9 @@
                         var btnDelete = '<a class="btn btn-danger btn-delete" href="" data-toggle="tooltip" data-placement="top" title="<s:message code="button.delete" />"><i class="fa fa-lg fa-trash"></i></a>';
                         return btnEdit + ' ' + btnDelete;
                     	</c:if>
-                    	return '';
+                        <c:if test="not ${canModify}">
+                        return '';
+                        </c:if>
                     }, 
                     orderable: false 
                 }],

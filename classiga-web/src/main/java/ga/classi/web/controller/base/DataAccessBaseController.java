@@ -246,7 +246,7 @@ public class DataAccessBaseController extends AbstractBaseController implements 
     public ActionResult removeUserGroup(JSONObject parameters) {
         try {
             userGroupService.removeUserGroup(new Dto(parameters));
-            return successActionResult(createMessage("success.SuccessfullyAddUserGroup"), new JSONObject());
+            return successActionResult(createMessage("success.SuccessfullyRemoveUserGroup"), new JSONObject());
         } catch (DataException e) {
             log.error(CommonUtils.getExceptionMessage(e), e);
             return failActionResult(createMessage(e.getMessage(), e.getData()));

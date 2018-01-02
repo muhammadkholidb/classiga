@@ -98,12 +98,8 @@ public class UserGroupController extends BaseControllerAdapter {
             errorMessage = result.getMessage();
         }
 
-        List<JSONObject> menus = new ArrayList<JSONObject>();
+        List<JSONObject> menus = loadCheckedMenuPermissions((JSONArray) JSONValue.parse(decodedMenuPermissions), null);            
         
-        if (!StringConstants.EMPTY.equals(decodedMenuPermissions)) {
-            menus = loadCheckedMenuPermissions((JSONArray) JSONValue.parse(decodedMenuPermissions));
-        }
-
         Map<String, Object> model = new HashMap<String, Object>();
         model.put(ModelKeyConstants.NAME, name);
         model.put(ModelKeyConstants.DESCRIPTION, description);
@@ -166,23 +162,8 @@ public class UserGroupController extends BaseControllerAdapter {
             return redirectAndNotifyError("/settings/user-group", resultFind.getMessage());
         }
 
-        List<JSONObject> menus = new ArrayList<JSONObject>();
+        List<JSONObject> menus = loadCheckedMenuPermissions((JSONArray) JSONValue.parse(decodedMenuPermissions), userGroupMenuPermissions);            
         
-        if (!StringConstants.EMPTY.equals(decodedMenuPermissions)) {
-            menus = loadCheckedMenuPermissions((JSONArray) JSONValue.parse(decodedMenuPermissions));            
-        } else if (userGroupMenuPermissions != null) {
-            for (JSONObject menu : menus) {
-                for (Object ob : userGroupMenuPermissions) {
-                    JSONObject ugMenu = (JSONObject) ob;
-                    if (menu.get("code").equals(ugMenu.get("menuCode"))) {
-                        menu.put("canView", CommonConstants.YES.equals(ugMenu.get("canView")));
-                        menu.put("canModify", CommonConstants.YES.equals(ugMenu.get("canModify")));
-                        break;
-                    }
-                }
-            }
-        }
-
         if (errorMessage != null) {
             
             Map<String, Object> model = new HashMap<String, Object>();
@@ -206,15 +187,19 @@ public class UserGroupController extends BaseControllerAdapter {
     }
 
     @SuppressWarnings("unchecked")
-    private List<JSONObject> loadCheckedMenuPermissions(JSONArray submittedMenuPermissions) {
+    private List<JSONObject> loadCheckedMenuPermissions(JSONArray submittedMenuPermissions, JSONArray userGroupMenuPermissions) {
+        
         JSONArray availableMenus = (JSONArray) JSONValue.parse(getMenus(true).toString());
+        
         List<JSONObject> menus = new ArrayList<JSONObject>();
+        
         for (Object ob : availableMenus) {
             JSONObject menu = JSONHelper.remove((JSONObject) ob, "label", "faIcon", "path", "sequence");
             menu.put("canView", false);
             menu.put("canModify", false);
             menus.add(menu);
         }
+        
         if (submittedMenuPermissions != null) {
             for (JSONObject menu : menus) {
                 for (Object ob : submittedMenuPermissions) {
@@ -226,7 +211,23 @@ public class UserGroupController extends BaseControllerAdapter {
                     }
                 }
             }
+            return menus;
+        } 
+        
+        if (userGroupMenuPermissions != null) {
+            for (JSONObject menu : menus) {
+                for (Object ob : userGroupMenuPermissions) {
+                    JSONObject ugMenu = (JSONObject) ob;
+                    if (menu.get("code").equals(ugMenu.get("menuCode"))) {
+                        menu.put("canView", CommonConstants.YES.equals(ugMenu.get("canView")));
+                        menu.put("canModify", CommonConstants.YES.equals(ugMenu.get("canModify")));
+                        break;
+                    }
+                }
+            }
+            return menus;
         }
+
         return menus;
     }
     

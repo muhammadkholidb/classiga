@@ -2,6 +2,9 @@ package ga.classi.data.repository;
 
 import java.io.Serializable;
 import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.NoRepositoryBean;
@@ -24,5 +27,9 @@ public interface BaseDataRepository<T, ID extends Serializable> extends JpaRepos
      * @return List of entities for the specified IDs.
      */
     List<T> findByIdIn(List<ID> ids);
-    
+
+    Page<T> findByDeleted(String deleted, Pageable pageable);
+
+    T findOneByIdAndDeleted(Long id, String deleted);
+
 }

@@ -26,7 +26,7 @@ public class UserGroupController extends BaseController {
     @RequestMapping(value = "/user-group/list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseObject getAllUserGroup() throws UnsupportedEncodingException  {
         log.info("Get all user group ...");
-        Dto result = userGroupService.getAllUserGroups(DtoUtils.fromServletRequest(request));
+        Dto result = userGroupService.getAll(DtoUtils.fromServletRequest(request));
 
         return new ResponseObject(CommonConstants.SUCCESS, result);
     }
@@ -34,7 +34,7 @@ public class UserGroupController extends BaseController {
     @RequestMapping(value = "/user-group/find", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseObject getUserGroup() throws UnsupportedEncodingException {
 
-        Dto dto = userGroupService.getOneUserGroupWithMenuPermissions(DtoUtils.fromServletRequest(request));
+        Dto dto = userGroupService.getOneWithMenuPermissions(DtoUtils.fromServletRequest(request));
 
         return new ResponseObject(CommonConstants.SUCCESS, dto);
     }
@@ -42,7 +42,7 @@ public class UserGroupController extends BaseController {
     @RequestMapping(value = "/user-group/remove", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseObject removeUserGroup() throws UnsupportedEncodingException {
 
-        userGroupService.removeUserGroup(DtoUtils.fromServletRequest(request));
+        userGroupService.remove(DtoUtils.fromServletRequest(request));
 
         return new ResponseObject(CommonConstants.SUCCESS, getResponseMessage("success.SuccessfullyRemoveUserGroup"));
     }
@@ -50,7 +50,7 @@ public class UserGroupController extends BaseController {
     @RequestMapping(value = "/user-group/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseObject addUserGroup() throws UnsupportedEncodingException {
 
-        Dto added = userGroupService.addUserGroup(DtoUtils.fromServletRequest(request));
+        Dto added = userGroupService.add(DtoUtils.fromServletRequest(request));
 
         return new ResponseObject(CommonConstants.SUCCESS, getResponseMessage("success.SuccessfullyAddUserGroup"), added);
     }
@@ -58,7 +58,7 @@ public class UserGroupController extends BaseController {
     @RequestMapping(value = "/user-group/edit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseObject editUserGroup() throws UnsupportedEncodingException {
 
-        Dto updated = userGroupService.editUserGroup(DtoUtils.fromServletRequest(request));
+        Dto updated = userGroupService.edit(DtoUtils.fromServletRequest(request));
 
         return new ResponseObject(CommonConstants.SUCCESS, getResponseMessage("success.SuccessfullyEditUserGroup"), updated);
     }

@@ -4,19 +4,19 @@
     <t_user_group id="1"
         name="Administrator" 
         lower_name="administrator" 
-        active="y" 
+        active="y" deleted="n" 
         created_at="{currentMillis}" 
         modified_at="{currentMillis}" />
     <t_user_group id="2" 
         name="User" 
         lower_name="user" 
-        active="y" 
+        active="y" deleted="n" 
         created_at="{currentMillis}" 
         modified_at="{currentMillis}" />
     <t_user_group id="3" 
         name="Marketing" 
         lower_name="marketing" 
-        active="y" 
+        active="y" deleted="n" 
         created_at="{currentMillis}" 
         modified_at="{currentMillis}" />
     
@@ -27,7 +27,7 @@
         password="abc"   
         salt="123" 
         email="johndoe@yahoo.com" 
-        active="y" 
+        active="y" deleted="n" 
         user_group_id="1" 
         lower_username="johndoe" 
         lower_email="johndoe@yahoo.com" 
@@ -40,24 +40,24 @@
         password="abc"   
         salt="123" 
         email="fulan@yahoo.com" 
-        active="y" 
+        active="y" deleted="n" 
         user_group_id="2" 
         lower_username="fulan" 
         lower_email="fulan@yahoo.com" 
         created_at="{currentMillis}" 
         modified_at="{currentMillis}" />
     
-    <t_menu_permission id="1" user_group_id="1" menu_code="menu.settings" can_view="y" can_modify="y" created_at="{currentMillis}" modified_at="{currentMillis}" />
-    <t_menu_permission id="2" user_group_id="1" menu_code="menu.settings.system" can_view="y" can_modify="y" created_at="{currentMillis}" modified_at="{currentMillis}" />
-    <t_menu_permission id="3" user_group_id="1" menu_code="menu.settings.user" can_view="y" can_modify="y" created_at="{currentMillis}" modified_at="{currentMillis}" />
-    <t_menu_permission id="4" user_group_id="1" menu_code="menu.settings.usergroup" can_view="y" can_modify="y" created_at="{currentMillis}" modified_at="{currentMillis}" />
-    <t_menu_permission id="5" user_group_id="2" menu_code="menu.settings" can_view="n" can_modify="n" created_at="{currentMillis}" modified_at="{currentMillis}" />
-    <t_menu_permission id="6" user_group_id="2" menu_code="menu.settings.system" can_view="n" can_modify="n" created_at="{currentMillis}" modified_at="{currentMillis}" />
-    <t_menu_permission id="7" user_group_id="2" menu_code="menu.settings.user" can_view="n" can_modify="n" created_at="{currentMillis}" modified_at="{currentMillis}" />
-    <t_menu_permission id="8" user_group_id="2" menu_code="menu.settings.usergroup" can_view="n" can_modify="n" created_at="{currentMillis}" modified_at="{currentMillis}" />
-    <t_menu_permission id="9" user_group_id="3" menu_code="menu.settings" can_view="n" can_modify="n" created_at="{currentMillis}" modified_at="{currentMillis}" />
-    <t_menu_permission id="10" user_group_id="3" menu_code="menu.settings.system" can_view="n" can_modify="n" created_at="{currentMillis}" modified_at="{currentMillis}" />
-    <t_menu_permission id="11" user_group_id="3" menu_code="menu.settings.user" can_view="n" can_modify="n" created_at="{currentMillis}" modified_at="{currentMillis}" />
-    <t_menu_permission id="12" user_group_id="3" menu_code="menu.settings.usergroup" can_view="n" can_modify="n" created_at="{currentMillis}" modified_at="{currentMillis}" />
+    <t_menu_permission id="1" user_group_id="1" menu_code="menu.settings" can_view="y" can_modify="y" created_at="{currentMillis}" modified_at="{currentMillis}" deleted="n" />
+    <t_menu_permission id="2" user_group_id="1" menu_code="menu.settings.system" can_view="y" can_modify="y" created_at="{currentMillis}" modified_at="{currentMillis}" deleted="n" />
+    <t_menu_permission id="3" user_group_id="1" menu_code="menu.settings.user" can_view="y" can_modify="y" created_at="{currentMillis}" modified_at="{currentMillis}" deleted="n" />
+    <t_menu_permission id="4" user_group_id="1" menu_code="menu.settings.usergroup" can_view="y" can_modify="y" created_at="{currentMillis}" modified_at="{currentMillis}" deleted="n" />
+    <t_menu_permission id="5" user_group_id="2" menu_code="menu.settings" can_view="n" can_modify="n" created_at="{currentMillis}" modified_at="{currentMillis}" deleted="n" />
+    <t_menu_permission id="6" user_group_id="2" menu_code="menu.settings.system" can_view="n" can_modify="n" created_at="{currentMillis}" modified_at="{currentMillis}" deleted="n" />
+    <t_menu_permission id="7" user_group_id="2" menu_code="menu.settings.user" can_view="n" can_modify="n" created_at="{currentMillis}" modified_at="{currentMillis}" deleted="n" />
+    <t_menu_permission id="8" user_group_id="2" menu_code="menu.settings.usergroup" can_view="n" can_modify="n" created_at="{currentMillis}" modified_at="{currentMillis}" deleted="n" />
+    <t_menu_permission id="9" user_group_id="3" menu_code="menu.settings" can_view="n" can_modify="n" created_at="{currentMillis}" modified_at="{currentMillis}" deleted="n" />
+    <t_menu_permission id="10" user_group_id="3" menu_code="menu.settings.system" can_view="n" can_modify="n" created_at="{currentMillis}" modified_at="{currentMillis}" deleted="n" />
+    <t_menu_permission id="11" user_group_id="3" menu_code="menu.settings.user" can_view="n" can_modify="n" created_at="{currentMillis}" modified_at="{currentMillis}" deleted="n" />
+    <t_menu_permission id="12" user_group_id="3" menu_code="menu.settings.usergroup" can_view="n" can_modify="n" created_at="{currentMillis}" modified_at="{currentMillis}" deleted="n" />
     
 </dataset>

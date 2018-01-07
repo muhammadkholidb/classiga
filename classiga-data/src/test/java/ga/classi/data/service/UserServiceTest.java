@@ -46,7 +46,7 @@ public class UserServiceTest extends DefaultSpringTestDbUnitConfiguration {
         Dto dtoInput = new Dto();
         dtoInput.put("searchTerm", "yahoo");
         try {
-            Dto result = userService.getAllUserWithGroup(dtoInput);
+            Dto result = userService.getAll(dtoInput);
             log.debug("Result: {}", result);
             List<Dto> list = result.get(CommonConstants.CONTENT);
             assertEquals(2, list.size());
@@ -81,7 +81,7 @@ public class UserServiceTest extends DefaultSpringTestDbUnitConfiguration {
         Dto dtoInput = new Dto();
         dtoInput.put("userGroupId", 1L);
         try {
-            List<Dto> list = userService.getUserListByUserGroupId(dtoInput).get(CommonConstants.CONTENT);
+            List<Dto> list = userService.getAllByUserGroupId(dtoInput).get(CommonConstants.CONTENT);
             log.debug("Result: {}", list);
             assertEquals(1, list.size());
             Dto dtoUser = list.get(0);
@@ -103,7 +103,7 @@ public class UserServiceTest extends DefaultSpringTestDbUnitConfiguration {
         Dto dtoInput = new Dto();
         dtoInput.put("id", 1L);
         try {
-            Dto dtoUser = userService.getUserById(dtoInput).get(CommonConstants.CONTENT);
+            Dto dtoUser = userService.getOne(dtoInput).get(CommonConstants.CONTENT);
             Dto dtoUserGroup = dtoUser.getDto("userGroup");
             assertEquals(1L, dtoUser.get("id"));
             assertEquals("John", dtoUser.get("fullName"));
@@ -122,7 +122,7 @@ public class UserServiceTest extends DefaultSpringTestDbUnitConfiguration {
         Dto dtoInput = new Dto();
         dtoInput.put("id", 20L);
         try {
-            userService.getUserById(dtoInput);
+            userService.getOne(dtoInput);
             fail("User should not be found.");
         } catch (DataException ex) {
             log.debug(ex.toString());
@@ -165,7 +165,7 @@ public class UserServiceTest extends DefaultSpringTestDbUnitConfiguration {
         Dto dtoInput = new Dto();
         dtoInput.put("email", "johndoe@yahoo.com");
         try {
-            Dto dtoUser = userService.getUserByEmail(dtoInput).get(CommonConstants.CONTENT);
+            Dto dtoUser = userService.getByEmail(dtoInput).get(CommonConstants.CONTENT);
             Dto dtoUserGroup = dtoUser.getDto("userGroup");
             assertEquals(1L, dtoUser.get("id"));
             assertEquals("John", dtoUser.get("fullName"));
@@ -184,7 +184,7 @@ public class UserServiceTest extends DefaultSpringTestDbUnitConfiguration {
         Dto dtoInput = new Dto();
         dtoInput.put("email", "xxxxx@yahoo.com");
         try {
-            userService.getUserByEmail(dtoInput);
+            userService.getByEmail(dtoInput);
             fail("User should not found.");
         } catch (DataException ex) {
             log.debug(ex.toString());
@@ -201,7 +201,7 @@ public class UserServiceTest extends DefaultSpringTestDbUnitConfiguration {
         Dto dtoInput = new Dto();
         dtoInput.put("username", "fulan");
         try {
-            Dto dtoUser = userService.getUserByUsername(dtoInput).get(CommonConstants.CONTENT);
+            Dto dtoUser = userService.getByUsername(dtoInput).get(CommonConstants.CONTENT);
             Dto dtoUserGroup = dtoUser.getDto("userGroup");
             assertEquals(2L, dtoUser.get("id"));
             assertEquals("Fulan", dtoUser.get("fullName"));
@@ -220,7 +220,7 @@ public class UserServiceTest extends DefaultSpringTestDbUnitConfiguration {
         Dto dtoInput = new Dto();
         dtoInput.put("username", "xxxxx");
         try {
-            userService.getUserByUsername(dtoInput);
+            userService.getByUsername(dtoInput);
             fail("User should not found.");
         } catch (DataException ex) {
             log.debug(ex.toString());
@@ -245,7 +245,7 @@ public class UserServiceTest extends DefaultSpringTestDbUnitConfiguration {
         dtoInput.put("userGroupId", 1L);
 
         try {
-            Dto result = userService.addUser(dtoInput).get(CommonConstants.CONTENT);
+            Dto result = userService.add(dtoInput).get(CommonConstants.CONTENT);
             log.debug("Result: {}", result);
         } catch (Exception e) {
             log.error(e.toString(), e);
@@ -267,7 +267,7 @@ public class UserServiceTest extends DefaultSpringTestDbUnitConfiguration {
         dtoInput.put("userGroupId", 1L);
 
         try {
-            userService.addUser(dtoInput);
+            userService.add(dtoInput);
             fail();
         } catch (DataException e) {
             log.debug(e.toString());
@@ -294,7 +294,7 @@ public class UserServiceTest extends DefaultSpringTestDbUnitConfiguration {
         dtoInput.put("userGroupId", 1L);
 
         try {
-            Dto result = userService.editUser(dtoInput).get(CommonConstants.CONTENT);
+            Dto result = userService.edit(dtoInput).get(CommonConstants.CONTENT);
             log.debug("Result: {}", result);
             assertEquals("fulan2", result.get("username"));
             assertEquals("fulan2@yahoo.com", result.get("email"));
@@ -320,7 +320,7 @@ public class UserServiceTest extends DefaultSpringTestDbUnitConfiguration {
         dtoInput.put("userGroupId", 1L);
 
         try {
-            userService.editUser(dtoInput);
+            userService.edit(dtoInput);
             fail();
         } catch (DataException e) {
             log.debug(e.toString());
@@ -347,7 +347,7 @@ public class UserServiceTest extends DefaultSpringTestDbUnitConfiguration {
         dtoInput.put("userGroupId", 1L);
 
         try {
-            userService.editUser(dtoInput);
+            userService.edit(dtoInput);
             fail();
         } catch (DataException e) {
             log.debug(e.toString());
@@ -367,7 +367,20 @@ public class UserServiceTest extends DefaultSpringTestDbUnitConfiguration {
         dtoInput.put("id", 2L);
 
         try {
-            userService.removeUser(dtoInput);
+            userService.remove(dtoInput);
+        } catch (Exception e) {
+            log.error(e.toString(), e);
+            fail(e.toString());
+        }
+
+        // Find removed user
+        try {
+            userService.getOne(dtoInput);
+            fail();
+        } catch (DataException e) {
+            log.debug(e.toString());
+            assertEquals(ExceptionCode.E1001, e.getCode());
+            assertEquals(ErrorMessageConstants.USER_NOT_FOUND, e.getMessage());
         } catch (Exception e) {
             log.error(e.toString(), e);
             fail(e.toString());
@@ -387,10 +400,27 @@ public class UserServiceTest extends DefaultSpringTestDbUnitConfiguration {
         dtoInput.put("id", array.toString());
 
         try {
-            userService.removeUser(dtoInput);
+            userService.remove(dtoInput);
         } catch (Exception e) {
             log.error(e.toString(), e);
             fail(e.toString());
+        }
+        
+        for (Object objId : array) {
+
+            // Find removed user
+            try {
+                userService.getOne(new Dto().put("id", objId));
+                fail();
+            } catch (DataException e) {
+                log.debug(e.toString());
+                assertEquals(ExceptionCode.E1001, e.getCode());
+                assertEquals(ErrorMessageConstants.USER_NOT_FOUND, e.getMessage());
+            } catch (Exception e) {
+                log.error(e.toString(), e);
+                fail(e.toString());
+            }
+
         }
     }
 

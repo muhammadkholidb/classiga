@@ -40,7 +40,7 @@ public class UserService extends AbstractServiceHelper {
     private UserGroupRepository userGroupRepository;
 
     @Transactional(readOnly = true)
-    public Dto getAllUserWithGroup(Dto dtoInput) {
+    public Dto getAll(Dto dtoInput) {
 
         String searchTerm = dtoInput.getStringValue("searchTerm");
 
@@ -49,18 +49,16 @@ public class UserService extends AbstractServiceHelper {
         Page<UserEntity> pages;
 
         if (searchTerm == null || searchTerm.isEmpty()) {
-            log.debug("Not filtered ...");
-            pages = userRepository.findAllFetchUserGroup(pageRequest);
+            pages = userRepository.findByDeletedFetchUserGroup(CommonConstants.NO, pageRequest);
         } else {
-            log.debug("Filtered ...");
-            pages = userRepository.findAllFetchUserGroupFiltered(searchTerm.toLowerCase(), pageRequest);
+            pages = userRepository.findByDeletedFetchUserGroupSearch(searchTerm.toLowerCase(), CommonConstants.NO, pageRequest);
         }
         
         return buildResultByPage(pages);
     }
 
     @Transactional(readOnly = true)
-    public Dto getUserListByUserGroupId(Dto dtoInput) {
+    public Dto getAllByUserGroupId(Dto dtoInput) {
 
         // Validate dtoInput
         DataValidation.containsRequiredData(dtoInput, "userGroupId");
@@ -69,7 +67,7 @@ public class UserService extends AbstractServiceHelper {
         String strUserGroupId = dtoInput.getStringValue("userGroupId");
         DataValidation.validateNumeric(strUserGroupId, "User Group ID");
 
-        UserGroupEntity userGroup = userGroupRepository.findOne(Long.valueOf(strUserGroupId));
+        UserGroupEntity userGroup = userGroupRepository.findOneByIdAndDeleted(Long.valueOf(strUserGroupId), CommonConstants.NO);
         if (userGroup == null) {
             throw new DataException(ExceptionCode.E1001, ErrorMessageConstants.USER_GROUP_NOT_FOUND);
         }
@@ -80,7 +78,7 @@ public class UserService extends AbstractServiceHelper {
     }
 
     @Transactional(readOnly = true)
-    public Dto getUserById(Dto dtoInput) {
+    public Dto getOne(Dto dtoInput) {
 
         // Validate dtoInput
         DataValidation.containsRequiredData(dtoInput, "id");
@@ -89,7 +87,7 @@ public class UserService extends AbstractServiceHelper {
         String strUserId = dtoInput.getStringValue("id");
         DataValidation.validateNumeric(strUserId, "User ID");
 
-        UserEntity user = userRepository.findOne(Long.valueOf(strUserId));
+        UserEntity user = userRepository.findOneByIdAndDeleted(Long.valueOf(strUserId), CommonConstants.NO);
         if (user == null) {
             throw new DataException(ExceptionCode.E1001, ErrorMessageConstants.USER_NOT_FOUND);
         }
@@ -106,7 +104,7 @@ public class UserService extends AbstractServiceHelper {
         String strPassword = dtoInput.get("password");
         String strUsername = dtoInput.get("username");
 
-        UserEntity loginUser = userRepository.findOneByLowerEmailOrLowerUsername(strUsername.toLowerCase(), strUsername.toLowerCase());
+        UserEntity loginUser = userRepository.findOneByLowerEmailOrLowerUsernameAndDeleted(strUsername.toLowerCase(), strUsername.toLowerCase(), CommonConstants.NO);
         if (loginUser == null) {
             throw new DataException(ExceptionCode.E1001, ErrorMessageConstants.USER_NOT_FOUND);
         }
@@ -135,7 +133,7 @@ public class UserService extends AbstractServiceHelper {
     }
 
     @Transactional(readOnly = true)
-    public Dto getUserByEmail(Dto dtoInput) {
+    public Dto getByEmail(Dto dtoInput) {
 
         // Validate dtoInput
         DataValidation.containsRequiredData(dtoInput, "email");
@@ -145,7 +143,7 @@ public class UserService extends AbstractServiceHelper {
         // Validate values
         DataValidation.validateEmail(strEmail);
 
-        UserEntity user = userRepository.findOneByLowerEmail(strEmail.toLowerCase());
+        UserEntity user = userRepository.findOneByLowerEmailAndDeleted(strEmail.toLowerCase(), CommonConstants.NO);
         if (user == null) {
             throw new DataException(ExceptionCode.E1001, ErrorMessageConstants.USER_NOT_FOUND, new Object[]{strEmail});
         }
@@ -154,7 +152,7 @@ public class UserService extends AbstractServiceHelper {
     }
 
     @Transactional(readOnly = true)
-    public Dto getUserByUsername(Dto dtoInput) {
+    public Dto getByUsername(Dto dtoInput) {
 
         // Validate dtoInput
         DataValidation.containsRequiredData(dtoInput, "username");
@@ -164,7 +162,7 @@ public class UserService extends AbstractServiceHelper {
         // Validate values
         DataValidation.validateUsername(strUsername);
 
-        UserEntity user = userRepository.findOneByLowerUsername(strUsername.toLowerCase());
+        UserEntity user = userRepository.findOneByLowerUsernameAndDeleted(strUsername.toLowerCase(), CommonConstants.NO);
         if (user == null) {
             throw new DataException(ExceptionCode.E1001, ErrorMessageConstants.USER_NOT_FOUND, new Object[]{strUsername});
         }
@@ -173,7 +171,7 @@ public class UserService extends AbstractServiceHelper {
     }
 
     @Transactional
-    public Dto addUser(Dto dtoInput) {
+    public Dto add(Dto dtoInput) {
 
         // Validate dtoInput
         DataValidation.containsRequiredData(dtoInput, "fullName", "email", "username", "password", "active", "userGroupId");
@@ -194,19 +192,19 @@ public class UserService extends AbstractServiceHelper {
         DataValidation.validateYesNo(strActive, "Active");
 
         // Find user by username
-        UserEntity userByUsername = userRepository.findOneByLowerUsername(strUsername.toLowerCase());
+        UserEntity userByUsername = userRepository.findOneByLowerUsernameAndDeleted(strUsername.toLowerCase(), CommonConstants.NO);
         if (userByUsername != null) {
             throw new DataException(ExceptionCode.E1003, ErrorMessageConstants.USER_ALREADY_EXISTS_WITH_USERNAME, new Object[]{strUsername});
         }
 
         // Find user by email
-        UserEntity userByEmail = userRepository.findOneByLowerEmail(strEmail.toLowerCase());
+        UserEntity userByEmail = userRepository.findOneByLowerEmailAndDeleted(strEmail.toLowerCase(), CommonConstants.NO);
         if (userByEmail != null) {
             throw new DataException(ExceptionCode.E1003, ErrorMessageConstants.USER_ALREADY_EXISTS_WITH_EMAIL, new Object[]{strEmail});
         }
 
         // Find user group by ID
-        UserGroupEntity userGroupById = userGroupRepository.findOne(Long.valueOf(strUserGroupId));
+        UserGroupEntity userGroupById = userGroupRepository.findOneByIdAndDeleted(Long.valueOf(strUserGroupId), CommonConstants.NO);
         if (userGroupById == null) {
             throw new DataException(ExceptionCode.E1001, ErrorMessageConstants.USER_GROUP_NOT_FOUND);
         }
@@ -232,7 +230,7 @@ public class UserService extends AbstractServiceHelper {
     }
 
     @Transactional
-    public Dto editUser(Dto dtoInput) {
+    public Dto edit(Dto dtoInput) {
 
         // Validate dtoInput
         DataValidation.containsRequiredData(dtoInput, "id", "fullName", "email", "username", "active", "userGroupId");
@@ -253,25 +251,25 @@ public class UserService extends AbstractServiceHelper {
         DataValidation.validateNumeric(strUserGroupId, "User Group ID");
         DataValidation.validateYesNo(strActive, "Active");
 
-        UserEntity findUserById = userRepository.findOne(Long.valueOf(strId));
+        UserEntity findUserById = userRepository.findOneByIdAndDeleted(Long.valueOf(strId), CommonConstants.NO);
         if (findUserById == null) {
             throw new DataException(ExceptionCode.E1001, ErrorMessageConstants.USER_NOT_FOUND);
         }
 
         // Find other user by username
-        UserEntity userByUsername = userRepository.findOneByLowerUsername(strUsername.toLowerCase());
+        UserEntity userByUsername = userRepository.findOneByLowerUsernameAndDeleted(strUsername.toLowerCase(), CommonConstants.NO);
         if (userByUsername != null && !Objects.equals(userByUsername.getId(), Long.valueOf(strId))) {
             throw new DataException(ExceptionCode.E1003, ErrorMessageConstants.USER_ALREADY_EXISTS_WITH_USERNAME, new Object[]{strUsername});
         }
 
         // Find other user by email
-        UserEntity userByEmail = userRepository.findOneByLowerEmail(strEmail.toLowerCase());
+        UserEntity userByEmail = userRepository.findOneByLowerEmailAndDeleted(strEmail.toLowerCase(), CommonConstants.NO);
         if (userByEmail != null && !Objects.equals(userByEmail.getId(), Long.valueOf(strId))) {
             throw new DataException(ExceptionCode.E1003, ErrorMessageConstants.USER_ALREADY_EXISTS_WITH_EMAIL, new Object[]{strEmail});
         }
 
         // Find user group by ID
-        UserGroupEntity userGroupById = userGroupRepository.findOne(Long.valueOf(strUserGroupId));
+        UserGroupEntity userGroupById = userGroupRepository.findOneByIdAndDeleted(Long.valueOf(strUserGroupId), CommonConstants.NO);
         if (userGroupById == null) {
             throw new DataException(ExceptionCode.E1001, ErrorMessageConstants.USER_GROUP_NOT_FOUND);
         }
@@ -298,7 +296,7 @@ public class UserService extends AbstractServiceHelper {
     }
 
     @Transactional
-    public void removeUser(Dto dtoInput) {
+    public void remove(Dto dtoInput) {
 
         // Validate dtoInput
         DataValidation.containsRequiredData(dtoInput, "id");
@@ -306,7 +304,7 @@ public class UserService extends AbstractServiceHelper {
         // Validate values
         String strUserId = dtoInput.getStringValue("id");
 
-        List<Long> listUserId = new ArrayList<Long>();
+        List<UserEntity> listUser = new ArrayList<UserEntity>();
 
         if (StringCheck.isJSONArray(strUserId)) {
 
@@ -315,18 +313,27 @@ public class UserService extends AbstractServiceHelper {
             for (Object id : arr) {
                 String strId = String.valueOf(id);
                 DataValidation.validateNumeric(strId, "User ID");
-                listUserId.add(Long.valueOf(strId));
+                UserEntity findUserById = userRepository.findOneByIdAndDeleted(Long.valueOf(strId), CommonConstants.NO);
+                if (findUserById == null) {
+                    throw new DataException(ExceptionCode.E1001, ErrorMessageConstants.USER_NOT_FOUND);
+                }
+                findUserById.setDeleted();
+                listUser.add(findUserById);
             }
 
         } else {
 
             DataValidation.validateNumeric(strUserId, "User ID");
-            listUserId.add(Long.valueOf(strUserId));
+            UserEntity findUserById = userRepository.findOneByIdAndDeleted(Long.valueOf(strUserId), CommonConstants.NO);
+            if (findUserById == null) {
+                throw new DataException(ExceptionCode.E1001, ErrorMessageConstants.USER_NOT_FOUND);
+            }
+            findUserById.setDeleted();
+            listUser.add(findUserById);
         }
 
-        List<UserEntity> deleted = userRepository.deleteByIdIn(listUserId);
-
-        log.debug("Deleted: {} users", deleted.size());
+        List<UserEntity> updated = userRepository.save(listUser);
+        log.debug("Updated: {} users", updated.size());
     }
 
 }

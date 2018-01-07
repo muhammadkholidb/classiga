@@ -53,3 +53,13 @@ ul.pagination {
 ul.pagination > li > a, .pagination > li > span {
     margin-bottom: 5px;
 }
+.sweet-overlay {
+    background-color: rgba(0,0,0,0.5);
+}
+.select2-container--default .select2-search--dropdown .select2-search__field {
+    border: 1px solid #ccc;
+}
+.has-error .select2-container--default .select2-selection--single {
+    border-width: 2px;
+    border-color: #a94442;
+}

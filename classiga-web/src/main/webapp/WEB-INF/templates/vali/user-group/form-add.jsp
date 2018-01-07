@@ -110,38 +110,16 @@
         <script src="${contextPath}/resources/vali/js/jquery-validation/jquery.validate.js"></script>
         <script src="${contextPath}/resources/vali/js/jquery-validation/localization/messages_${languageCode}.js"></script>
         <script>
-
-            $("#formAddUserGroup").validate({
-                rules: {
-                    name: {
-                        required: true,
-                        minlength: 4
-                    },
-                    description: {
-                        maxlength: 512
-                    }
+			utils.jqueryValidate("#formAddUserGroup", {
+                name: {
+                    required: true,
+                    minlength: 4
                 },
-                errorElement: "em",
-                errorPlacement: function (error, element) {
-                    // Add the 'help-block' class to the error element
-                    error.addClass("help-block");
-
-                    if (element.prop("type") === "checkbox") {
-                        error.insertAfter(element.parent("label"));
-                    } else if(element.parent().attr('class').indexOf('input-group') !== -1) {
-                        error.insertAfter(element.parent());
-                    } else {
-                        error.insertAfter(element);
-                    }
-                },
-                highlight: function (element, errorClass, validClass) {
-                    $(element).parents(".form-group").addClass("has-error");
-                },
-                unhighlight: function (element, errorClass, validClass) {
-                    $(element).parents(".form-group").removeClass("has-error");
+                description: {
+                    maxlength: 512
                 }
             });
-
+            
             $("#formAddUserGroup").submit(function() {
                 var menuPermissions = [];
                 $("#tableMenuPermissions tbody tr").each(function() {

@@ -132,12 +132,25 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-
+        
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
         </dependency>
+         
+        <!-- 
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+         -->
         
+        <!-- 
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+        </dependency>
+         -->
     </dependencies>
 
     <build>
@@ -174,24 +187,29 @@
     </build>
 
     <properties>
+
         <datasource.driver>org.h2.Driver</datasource.driver>
         <datasource.url>jdbc:h2:~/.classiga/h2/classigadb</datasource.url>
         <datasource.username>sa</datasource.username>
         <datasource.password>sa</datasource.password>
         <hibernate.dialect>org.hibernate.dialect.H2Dialect</hibernate.dialect>
-<!--
+
+        <!--  
         <datasource.driver>com.mysql.jdbc.Driver</datasource.driver>
         <datasource.url>jdbc:mysql://localhost:3306/classigadb</datasource.url>
         <datasource.username>root</datasource.username>
         <datasource.password></datasource.password>
         <hibernate.dialect>org.hibernate.dialect.MySQL5Dialect</hibernate.dialect>
-
+        -->        
+        
+        <!--
         <datasource.driver>org.postgresql.Driver</datasource.driver> 
         <datasource.url>jdbc:postgresql://localhost:5432/classigadb</datasource.url> 
         <datasource.username>postgres</datasource.username> 
         <datasource.password>postgres</datasource.password> 
         <hibernate.dialect>org.hibernate.dialect.PostgreSQL9Dialect</hibernate.dialect> 
--->
+        -->
+        
         <hibernate.hbm2ddl.auto>update</hibernate.hbm2ddl.auto>
         <datasource.maxstatements>100</datasource.maxstatements>
         <datasource.maxpoolsize>100</datasource.maxpoolsize>

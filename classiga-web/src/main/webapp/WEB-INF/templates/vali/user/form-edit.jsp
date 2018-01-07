@@ -32,7 +32,7 @@
                         <div class="card">
                             <h3 class="card-title"><s:message code="label.edituser" /></h3>
                             <div class="card-body">
-                                <form id="formAddUser" class="form-horizontal" method="post" action="${contextPath}/settings/user/edit/${userId}" accept-charset="utf-8">
+                                <form id="formEditUser" class="form-horizontal" method="post" action="${contextPath}/settings/user/edit/${userId}" accept-charset="utf-8">
                                     <div class="form-group required">
                                         <label class="control-label col-md-3" for="inputFullName"><s:message code="label.fullname" /></label>
                                         <div class="col-md-9">
@@ -115,45 +115,26 @@
         <script src="${contextPath}/resources/vali/js/jquery-validation/jquery.validate.js"></script>
         <script src="${contextPath}/resources/vali/js/jquery-validation/localization/messages_${languageCode}.js"></script>
         <script>
-
-            $("#formAddUser").validate({
-                rules: {
-                    fullName: {
-                        required: true,
-                        minlength: 4
-                    },
-                    username: {
-                        required: true,
-                        minlength: 4
-                    },
-                    email: {
-                        required: true,
-                        email: true
-                    },
-                    password: {
-                        minlength: 4
-                    },
-                    userGroupId: "required"
+            utils.jqueryValidate("#formEditUser", {
+                fullName: {
+                    required: true,
+                    minlength: 4
                 },
-                errorElement: "em",
-                errorPlacement: function (error, element) {
-                    // Add the 'help-block' class to the error element
-                    error.addClass("help-block");
-
-                    if (element.prop("type") === "checkbox") {
-                        error.insertAfter(element.parent("label"));
-                    } else {
-                        error.insertAfter(element);
-                    }
+                username: {
+                    required: true,
+                    minlength: 4
                 },
-                highlight: function (element, errorClass, validClass) {
-                    $(element).parents(".form-group").addClass("has-error");
+                email: {
+                    required: true,
+                    email: true
                 },
-                unhighlight: function (element, errorClass, validClass) {
-                    $(element).parents(".form-group").removeClass("has-error");
-                }
+                password: {
+                    required: true,
+                    minlength: 4
+                },
+                userGroupId: "required"
             });
-
+            
             $('#btnRandom').on('click', function () {
                 $('#inputPassword').val(utils.randomAlphanumeric(8));
                 $('#inputPassword').trigger('keyup');

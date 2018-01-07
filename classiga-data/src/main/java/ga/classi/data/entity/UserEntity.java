@@ -1,5 +1,17 @@
 package ga.classi.data.entity;
 
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Index;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -7,17 +19,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.io.Serializable;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
 
 /**
  *
@@ -28,11 +29,17 @@ import org.hibernate.annotations.DynamicUpdate;
 @Setter 
 @Getter
 @Entity
-@Table(name = UserEntity.TABLE_NAME, uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"lower_full_name"}),
-    @UniqueConstraint(columnNames = {"lower_username"}),
-    @UniqueConstraint(columnNames = {"lower_email"})
-})
+@Table(name = UserEntity.TABLE_NAME, 
+    indexes = {
+        @Index(columnList = "deleted"),
+        @Index(columnList = "deleted, id"),
+        @Index(columnList = "deleted, lower_full_name"),
+        @Index(columnList = "deleted, lower_username"),
+        @Index(columnList = "deleted, lower_email"),
+        @Index(columnList = "lower_full_name"),
+        @Index(columnList = "lower_username"),
+        @Index(columnList = "lower_email")
+    })
 @DynamicInsert
 @DynamicUpdate
 public class UserEntity extends BaseEntity implements Serializable {

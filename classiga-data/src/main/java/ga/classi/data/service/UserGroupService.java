@@ -18,6 +18,7 @@ import ga.classi.commons.data.error.DataException;
 import ga.classi.commons.data.error.ExceptionCode;
 import ga.classi.commons.data.helper.Dto;
 import ga.classi.commons.data.helper.DtoUtils;
+import ga.classi.commons.helper.CommonConstants;
 import ga.classi.commons.helper.StringCheck;
 import ga.classi.data.entity.MenuPermissionEntity;
 import ga.classi.data.entity.UserGroupEntity;
@@ -42,7 +43,7 @@ public class UserGroupService extends AbstractServiceHelper {
     private MenuPermissionRepository menuPermissionRepository;
 
     @Transactional(readOnly = true)
-    public Dto getAllUserGroups(Dto dtoInput) {
+    public Dto getAll(Dto dtoInput) {
 
         String searchTerm = dtoInput.getStringValue("searchTerm");
 
@@ -51,16 +52,16 @@ public class UserGroupService extends AbstractServiceHelper {
         Page<UserGroupEntity> pages;
 
         if (searchTerm == null || searchTerm.isEmpty()) {
-            pages = userGroupRepository.findAll(pageRequest);
+            pages = userGroupRepository.findByDeleted(CommonConstants.NO, pageRequest);
         } else {
-            pages = userGroupRepository.findAllFiltered(searchTerm.toLowerCase(), pageRequest);
+            pages = userGroupRepository.findByDeletedSearch(CommonConstants.NO, searchTerm.toLowerCase(), pageRequest);
         }
         
         return buildResultByPage(pages);
     }
 
     @Transactional(readOnly = true)
-    public Dto getOneUserGroup(Dto dtoInput) {
+    public Dto getOne(Dto dtoInput) {
 
         // Validate dtoInput
         DataValidation.containsRequiredData(dtoInput, "id");
@@ -70,7 +71,7 @@ public class UserGroupService extends AbstractServiceHelper {
         // Validate values
         DataValidation.validateNumeric(strId, "User Group ID");
 
-        UserGroupEntity userGroup = userGroupRepository.findOne(Long.valueOf(strId));
+        UserGroupEntity userGroup = userGroupRepository.findOneByIdAndDeleted(Long.valueOf(strId), CommonConstants.NO);
         if (userGroup == null) {
             throw new DataException(ExceptionCode.E1001, ErrorMessageConstants.USER_GROUP_NOT_FOUND);
         }
@@ -79,7 +80,7 @@ public class UserGroupService extends AbstractServiceHelper {
     }
 
     @Transactional(readOnly = true)
-    public Dto getOneUserGroupWithMenuPermissions(Dto dtoInput) {
+    public Dto getOneWithMenuPermissions(Dto dtoInput) {
 
         // Validate dtoInput
         DataValidation.containsRequiredData(dtoInput, "id");
@@ -89,7 +90,7 @@ public class UserGroupService extends AbstractServiceHelper {
         // Validate values
         DataValidation.validateNumeric(strId, "User Group ID");
 
-        UserGroupEntity userGroup = userGroupRepository.findByIdFetchMenuPermissions(Long.valueOf(strId));
+        UserGroupEntity userGroup = userGroupRepository.findByIdAndDeletedFetchMenuPermissions(Long.valueOf(strId), CommonConstants.NO);
         if (userGroup == null) {
             throw new DataException(ExceptionCode.E1001, ErrorMessageConstants.USER_GROUP_NOT_FOUND);
         }
@@ -104,7 +105,7 @@ public class UserGroupService extends AbstractServiceHelper {
 
     @SuppressWarnings("unchecked")
     @Transactional
-    public Dto addUserGroup(Dto dtoInput) {
+    public Dto add(Dto dtoInput) {
 
         // Validate dtoInput
         DataValidation.containsRequiredData(dtoInput, "userGroup", "menuPermissions");
@@ -158,7 +159,7 @@ public class UserGroupService extends AbstractServiceHelper {
         }
 
         // Find other user group with name
-        UserGroupEntity findUserGroup = userGroupRepository.findOneByLowerName(strGroupName.toLowerCase());
+        UserGroupEntity findUserGroup = userGroupRepository.findOneByLowerNameAndDeleted(strGroupName.toLowerCase(), CommonConstants.NO);
         if (findUserGroup != null) {
             throw new DataException(ExceptionCode.E1003, ErrorMessageConstants.USER_GROUP_ALREADY_EXISTS, new Object[]{strGroupName});
         }
@@ -182,18 +183,15 @@ public class UserGroupService extends AbstractServiceHelper {
 
     @SuppressWarnings("unchecked")
     @Transactional
-    public Dto editUserGroup(Dto dtoInput) {
-        log.info("Edit user group ...");
+    public Dto edit(Dto dtoInput) {
 
         // Validate dtoInput
-        log.debug("Validate input ...");
         DataValidation.containsRequiredData(dtoInput, "userGroup", "menuPermissions");
 
         String strUserGroup = dtoInput.getStringValue("userGroup");
         String strMenuPermissions = dtoInput.getStringValue("menuPermissions");
 
         // Validate values
-        log.debug("Validate values ...");
         DataValidation.validateJSONObject(strUserGroup, "User Group");
         DataValidation.validateJSONArray(strMenuPermissions, "Menu Permissions");
 
@@ -201,7 +199,6 @@ public class UserGroupService extends AbstractServiceHelper {
         JSONArray arrMenuPermissions = (JSONArray) JSONValue.parse(strMenuPermissions);
 
         // Validate parameter user group
-        log.debug("Validate user group parameters ...");
         DataValidation.containsRequiredData(jsonUserGroup, "id", "name", "active");
 
         String strId = String.valueOf(jsonUserGroup.get("id"));
@@ -210,15 +207,27 @@ public class UserGroupService extends AbstractServiceHelper {
         String strGroupActive = String.valueOf(jsonUserGroup.get("active"));
 
         // Validate values user group
-        log.debug("Validate user group parameter values");
         DataValidation.validateNumeric(strId, "User Group ID");
         DataValidation.validateEmpty(strId, "Name");
         DataValidation.validateYesNo(strGroupActive, "Active");
 
+        Long userGroupId = Long.valueOf(strId);
+
+        // Find by ID
+        UserGroupEntity findUserGroupById = userGroupRepository.findOneByIdAndDeleted(userGroupId, CommonConstants.NO);
+        if (findUserGroupById == null) {
+            throw new DataException(ExceptionCode.E1001, ErrorMessageConstants.USER_GROUP_NOT_FOUND);
+        }
+
+        // Find another user group having the same name
+        UserGroupEntity findUserGroupByName = userGroupRepository.findOneByLowerNameAndDeleted(strGroupName.toLowerCase(), CommonConstants.NO);
+        if ((findUserGroupByName != null) && (!Objects.equals(findUserGroupByName.getId(), userGroupId))) {
+            throw new DataException(ExceptionCode.E1003, ErrorMessageConstants.USER_GROUP_ALREADY_EXISTS, new Object[]{strGroupName});
+        }
+
         List<MenuPermissionEntity> listMenuPermission = new ArrayList<MenuPermissionEntity>();
 
         // Validate parameter menu permissions
-        log.debug("Validate parameter menu permissions ...");
         for (Object object : arrMenuPermissions) {
 
             JSONObject jsonMenuPermission = (JSONObject) object;
@@ -243,38 +252,19 @@ public class UserGroupService extends AbstractServiceHelper {
             listMenuPermission.add(menuPermission);
         }
 
-        Long userGroupId = Long.valueOf(strId);
-
-        // Find by ID
-        log.debug("Find user group by ID ...");
-        UserGroupEntity findUserGroupById = userGroupRepository.findOne(userGroupId);
-        if (findUserGroupById == null) {
-            throw new DataException(ExceptionCode.E1001, ErrorMessageConstants.USER_GROUP_NOT_FOUND);
-        }
-
-        // Find another user group having the same name
-        log.debug("Find another user group having the same name: {}", strGroupName);
-        UserGroupEntity findUserGroupByName = userGroupRepository.findOneByLowerName(strGroupName.toLowerCase());
-        if ((findUserGroupByName != null) && (!Objects.equals(findUserGroupByName.getId(), userGroupId))) {
-            throw new DataException(ExceptionCode.E1003, ErrorMessageConstants.USER_GROUP_ALREADY_EXISTS, new Object[]{strGroupName});
-        }
-
         findUserGroupById.setName(strGroupName);
         findUserGroupById.setDescription(strGroupDescription);
         findUserGroupById.setActive(strGroupActive.toLowerCase());
         findUserGroupById.setLowerName(strGroupName.toLowerCase());
 
         // Update user group
-        log.debug("Save edited user group ...");
         UserGroupEntity updated = userGroupRepository.save(findUserGroupById);
 
         // Remove all menus for this user group
-        log.debug("Delete menu permissions by user group ID ...");
         menuPermissionRepository.deleteByUserGroup(updated);
         menuPermissionRepository.flush();
 
-        // Save menus
-        log.debug("Save menu permissions ...");        
+        // Save menus        
         for (MenuPermissionEntity menuPermission : listMenuPermission) {
             menuPermission.setUserGroup(updated);
             menuPermissionRepository.save(menuPermission);
@@ -284,7 +274,7 @@ public class UserGroupService extends AbstractServiceHelper {
     }
 
     @Transactional
-    public void removeUserGroup(Dto dtoInput) {
+    public void remove(Dto dtoInput) {
 
         // Validate dtoInput
         DataValidation.containsRequiredData(dtoInput, "id");
@@ -309,31 +299,37 @@ public class UserGroupService extends AbstractServiceHelper {
             listUserGroupId.add(Long.valueOf(strUserGroupId));
         }
 
+        List<UserGroupEntity> listUserGroup = new ArrayList<UserGroupEntity>();
+        
         for (Long userGroupId : listUserGroupId) {
 
-            UserGroupEntity findUserGroupById = userGroupRepository.findOne(userGroupId);
+            UserGroupEntity findUserGroupById = userGroupRepository.findOneByIdAndDeleted(userGroupId, CommonConstants.NO);
             if (findUserGroupById == null) {
                 throw new DataException(ExceptionCode.E1001, ErrorMessageConstants.USER_GROUP_NOT_FOUND);
             }
 
             // Count users in this group
-            Long countUsers = userRepository.countByUserGroup(findUserGroupById);
+            Long countUsers = userRepository.countByUserGroupAndDeleted(findUserGroupById, CommonConstants.NO);
             
             log.debug("User group {}, count users: {}", userGroupId, countUsers);
             
             if (countUsers > 0) {
-                String userGroupName = userGroupRepository.findNameById(userGroupId);
-                throw new DataException(ExceptionCode.E1002, ErrorMessageConstants.CANT_REMOVE_USER_GROUP_CAUSE_USER_EXISTS, new Object[]{userGroupName, countUsers});
+                throw new DataException(ExceptionCode.E1002, 
+                        ErrorMessageConstants.CANT_REMOVE_USER_GROUP_CAUSE_USER_EXISTS, 
+                        new Object[] { findUserGroupById.getName(), countUsers } );
             }
 
-            // Remove menus for this user group first to avoid foreign key constraint violation
+            // Remove menus for this user group
             List<MenuPermissionEntity> deletedPermissions = menuPermissionRepository.deleteByUserGroup(findUserGroupById);
             log.debug("Deleted: {} menu permissions", deletedPermissions.size());
+            
+            findUserGroupById.setDeleted();
+            listUserGroup.add(findUserGroupById);
         }
 
         // Remove user group
-        List<UserGroupEntity> deleted = userGroupRepository.deleteByIdIn(listUserGroupId);
-        log.debug("Deleted: {} user groups", deleted.size());
+        List<UserGroupEntity> updated = userGroupRepository.save(listUserGroup);
+        log.debug("Updated: {} user groups", updated.size());
     }
 
 }

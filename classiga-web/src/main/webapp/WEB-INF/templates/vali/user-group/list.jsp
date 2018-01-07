@@ -30,7 +30,7 @@
                         <a class="btn btn-primary " href="${contextPath}/settings/user-group/add" data-toggle="tooltip" data-placement="top" title="<s:message code="button.add" />">
                             <i class="fa fa-lg fa-plus"></i>
                         </a>
-                        <a id="btnDeleteSelected" class="btn btn-danger" href="" data-toggle="tooltip" data-placement="top" title="<s:message code="button.delete" />">
+                        <a id="btnDeleteMultiple" class="btn btn-danger" href="" data-toggle="tooltip" data-placement="top" title="<s:message code="button.delete" />">
                             <i class="fa fa-lg fa-trash"></i>
                         </a>
                         </c:if>
@@ -48,7 +48,7 @@
                                             <th class="align-center" >
                                                 <div class="animated-checkbox">
                                                     <label>
-                                                        <input type="checkbox" onclick="$('input[name=\'selected\']').prop('checked', this.checked);" >
+                                                        <input type="checkbox" onclick="$('input[name=\'selected\']').prop('checked', this.checked);" id="checkAll" >
                                                         <span class="label-text"></span>
                                                     </label>
                                                 </div>
@@ -146,52 +146,44 @@
                 }
             });
     	
+            var confirmationOptions = {
+            	title: '<s:message code="dialog.message.areyousure" />',
+                text: '<s:message code="dialog.message.areyousure.description" />',
+                confirmButtonText: '<s:message code="button.yes" />',
+                cancelButtonText: '<s:message code="button.no" />',
+            };
+            
             $(document).delegate("a.btn-delete", "click", function (e) {
                 e.preventDefault();
                 // Make all checkboxes unchecked first
                 $("input[name=selected]").prop("checked", false);
                 // Then make this row checkbox checked
                 $(this).closest("tr").find("input[name=selected]").prop("checked", true);
-                showDeleteConfirmation(function() {
-                    $("input[name=selected]").prop("checked", false);
-                });
+                utils.sweetAlert.confirmation(confirmationOptions, submitDelete, cancelDelete);
             });
                 
-            $("a#btnDeleteSelected").on("click", function(e) {
+            $("a#btnDeleteMultiple").on("click", function(e) {
                 e.preventDefault();
-                showDeleteConfirmation();
+                utils.sweetAlert.confirmation(confirmationOptions, submitDelete, cancelDelete);
             });
         
-            function showDeleteConfirmation(onCancel) {
-                swal({
-                    title: "<s:message code="dialog.message.areyousure" />",
-                    text: "<s:message code="dialog.message.areyousure.description" />",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonText: "<s:message code="button.yes" />",
-                    cancelButtonText: "<s:message code="button.no" />",
-                    closeOnConfirm: false
-                }, function(confirmed) {
-                    if (confirmed) {
-                        var form = $("<form></form>");
-                        form.prop("action", "${contextPath}/settings/user-group/remove");
-                        form.prop("method", "post");
-                        $("input[name=selected]:checked").each(function() {
-                            var input = $("<input />");
-                            input.prop("name", "selected");
-                            input.prop("type", "hidden");
-                            input.prop("value", $(this).val());
-                            form.append(input);
-                        });    
-                        form.appendTo("body");
-                        form.submit();
-                        swal.close();
-                    } else {
-                        if(onCancel && (typeof onCancel === "function")) {
-                            onCancel();
-                        }
-                    }
-                });
+            var cancelDelete = function() {
+            	$("input[name=selected], input[id=checkAll]").prop("checked", false);
+            }
+            
+            var submitDelete = function() {
+            	var form = $("<form></form>");
+                form.prop("action", "${contextPath}/settings/user-group/remove");
+                form.prop("method", "post");
+                $("input[name=selected]:checked").each(function() {
+                    var input = $("<input />");
+                    input.prop("name", "selected");
+                    input.prop("type", "hidden");
+                    input.prop("value", $(this).val());
+                    form.append(input);
+                });    
+                form.appendTo("body");
+                form.submit();
             }
         </script>
     </body>

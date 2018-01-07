@@ -1,6 +1,18 @@
 package ga.classi.data.entity;
 
 
+import java.io.Serializable;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Index;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -8,18 +20,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.io.Serializable;
-import java.util.List;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
-
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
 
 /**
  * 
@@ -30,7 +30,13 @@ import org.hibernate.annotations.DynamicUpdate;
 @Setter 
 @Getter 
 @Entity
-@Table(name = UserGroupEntity.TABLE_NAME, uniqueConstraints = @UniqueConstraint(columnNames = { "lower_name" }))
+@Table(name = UserGroupEntity.TABLE_NAME, 
+    indexes = {
+        @Index(columnList = "deleted"),
+        @Index(columnList = "deleted, id"),
+        @Index(columnList = "deleted, lower_name"),
+        @Index(columnList = "lower_name")
+    })
 @DynamicInsert
 @DynamicUpdate
 public class UserGroupEntity extends BaseEntity implements Serializable {

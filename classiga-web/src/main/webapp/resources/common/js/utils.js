@@ -110,19 +110,6 @@ var utils = {
             }
         }
     },
-    jQuery: {
-        getArrayValues: function (selectorArray, attributeName) {
-            var values = [];
-            $.each(selectorArray, function () {
-                if (attributeName !== undefined && attributeName !== '') {
-                    values.push($(this).attr(attributeName));
-                } else {
-                    values.push($(this).val());
-                }
-            });
-            return values;
-        }
-    },
     randomAlphanumeric: function (length) {
         var text = "";
         var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -130,5 +117,70 @@ var utils = {
             text += possible.charAt(Math.floor(Math.random() * possible.length));
         }
         return text;
+    },
+    jqueryValidate: function(selector, rules) {
+    	if (typeof $(selector).validate === 'function') {
+    		$(selector).validate({
+    			rules: rules,
+    			errorElement: "em",
+    			errorPlacement: function (error, element) {
+    				// Add the 'help-block' class to the error element
+    				error.addClass("help-block");
+    				
+    				if (element.prop("type") === "checkbox") {
+    					error.insertAfter(element.parent("label"));
+    				} else if(element.parent().attr('class').indexOf('input-group') !== -1) {
+    					error.insertAfter(element.parent());
+    				} else if(element.attr('class').indexOf('select2') !== -1) {
+    					error.appendTo(element.parent());
+    				} else {
+    					error.insertAfter(element);
+    				}
+    			},
+    			highlight: function (element, errorClass, validClass) {
+    				$(element).parents(".form-group").addClass("has-error");
+    			},
+    			unhighlight: function (element, errorClass, validClass) {
+    				$(element).parents(".form-group").removeClass("has-error");
+    			}
+    		});
+    	} else {
+    		alert("Script required: jQuery validation plugin.");
+    	}
+    },
+    sweetAlert: {
+    	options: {
+    		title: "Success",
+            text: "Success!",
+            type: "success",
+            showCancelButton: true,
+            confirmButtonText: "Yes",
+            cancelButtonText: "No",
+            closeOnConfirm: false
+    	},
+    	confirmation: function(options, onConfirm, onCancel) {
+    		if (typeof swal === "function") {
+    			if (options !== undefined) {
+        			for (var key in options) {
+        				utils.sweetAlert.options[key] = options[key];	
+        			}	
+        		}
+    			utils.sweetAlert.options.type = "warning";
+    			swal(utils.sweetAlert.options, function(confirmed) {
+    				if (confirmed) {
+                    	if(onConfirm && (typeof onConfirm === "function")) {
+                    		onConfirm();
+                        }
+                        swal.close();
+                    } else {
+                        if(onCancel && (typeof onCancel === "function")) {
+                            onCancel();
+                        }
+                    }
+                });
+    		} else {
+    			alert("Script required: SweetAlert.");
+    		}
+    	}
     }
 };

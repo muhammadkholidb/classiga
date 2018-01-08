@@ -129,7 +129,6 @@
                     email: true
                 },
                 password: {
-                    required: true,
                     minlength: 4
                 },
                 userGroupId: "required"

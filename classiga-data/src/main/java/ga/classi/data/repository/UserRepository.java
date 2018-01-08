@@ -84,6 +84,7 @@ public interface UserRepository extends BaseDataRepository<UserEntity, Long>, Us
      * @param lowerUsername The lowercased username.
      * @return The UserEntity with the specified lowercased email or lowercased username.
      */
+    @Query(value = "SELECT u FROM UserEntity u WHERE (u.lowerEmail = ?1 OR u.lowerUsername = ?2) AND u.deleted = ?3 ")
     UserEntity findOneByLowerEmailOrLowerUsernameAndDeleted(String lowerEmail, String lowerUsername, String deleted);
     
 }

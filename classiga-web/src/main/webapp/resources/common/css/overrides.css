@@ -7,6 +7,18 @@
 .align-right {
     text-align: right;
 }
+.table > tbody > tr > td.text-right-body {
+    text-align: right;
+}
+.table > tbody > tr > td.text-center-body {
+    text-align: center;
+}
+.table > thead > tr > th.text-right-head {
+    text-align: right;
+}
+.table > thead > tr > th.text-center-head {
+    text-align: center;
+}
 .sidebar-menu .treeview-menu > li > a:hover, 
 .sidebar-menu .treeview-menu > li.active > a {
     color: #d199ff;

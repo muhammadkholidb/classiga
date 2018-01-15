@@ -60,20 +60,23 @@ public abstract class BaseEntity {
         return CommonConstants.YES.equals(this.deleted);
     }
 
-    protected abstract void initValuesOnCreate();
+    protected abstract void setValuesOnCreate();
+    
+    protected abstract void setValuesOnUpdate();
     
     @PrePersist
     public void onCreate() {
         log.debug("Execute onCreate() ..."); 
         modifiedAt = createdAt = System.currentTimeMillis();
         deleted = CommonConstants.NO;
-        initValuesOnCreate();
+        setValuesOnCreate();
     }
 
     @PreUpdate
     public void onUpdate() {
         log.debug("Execute onUpdate() ..."); 
         modifiedAt = System.currentTimeMillis();
+        setValuesOnUpdate();
     }
     
 }

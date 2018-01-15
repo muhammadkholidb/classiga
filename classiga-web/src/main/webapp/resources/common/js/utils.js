@@ -81,7 +81,9 @@ var utils = {
                 oAria: {
                     sSortAscending: ": activate to sort column ascending",
                     sSortDescending: ": activate to sort column descending"
-                }
+                },
+                decimal: ".",
+                thousands: ","
             },
             "in": {
                 sEmptyTable: "Tidak ada data pada tabel",
@@ -106,7 +108,9 @@ var utils = {
                 oAria: {
                     sSortAscending: ": aktifkan untuk mengurutkan kolom secara meningkat",
                     sSortDescending: ": aktifkan untuk mengurutkan kolom secara menurun"
-                }
+                },
+                decimal: ",",
+                thousands: "."
             }
         }
     },

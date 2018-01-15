@@ -74,8 +74,15 @@ public class UserGroupEntity extends BaseEntity implements Serializable {
     }
 
     @Override
-    protected void initValuesOnCreate() {
-        // Initialize values on create 
+    protected void setValuesOnCreate() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    protected void setValuesOnUpdate() {
+        // TODO Auto-generated method stub
+        
     }
  
 }

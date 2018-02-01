@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <dataset>
-    <t_system id="1" data_key='languageCode' data_value='en' created_at="{currentMillis}" modified_at="{currentMillis}" />
-    <t_system id="2" data_key='templateCode' data_value='common' created_at="{currentMillis}" modified_at="{currentMillis}" />
-    <t_system id="3" data_key='image' data_value='sample.png' created_at="{currentMillis}" modified_at="{currentMillis}" />
-    <t_system id="4" data_key='online' data_value='n' created_at="{currentMillis}" modified_at="{currentMillis}" />
+    <t_system id="1" data_key='languageCode' data_value='en' created_at="{currentMillis}" modified_at="{currentMillis}" deleted="n" version="0" />
+    <t_system id="2" data_key='templateCode' data_value='common' created_at="{currentMillis}" modified_at="{currentMillis}" deleted="n" version="0" />
+    <t_system id="3" data_key='image' data_value='sample.png' created_at="{currentMillis}" modified_at="{currentMillis}" deleted="n" version="0" />
+    <t_system id="4" data_key='online' data_value='n' created_at="{currentMillis}" modified_at="{currentMillis}" deleted="n" version="0" />
 </dataset>

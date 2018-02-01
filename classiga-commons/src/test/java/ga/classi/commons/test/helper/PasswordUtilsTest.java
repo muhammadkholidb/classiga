@@ -9,9 +9,9 @@ import org.slf4j.LoggerFactory;
 
 import ga.classi.commons.helper.PasswordUtils;
 
-public class TestPasswordUtils {
+public class PasswordUtilsTest {
 
-    private static final Logger log = LoggerFactory.getLogger(TestPasswordUtils.class);
+    private static final Logger log = LoggerFactory.getLogger(PasswordUtilsTest.class);
     
     @Test
     public void testStirWithSalt() {
@@ -20,7 +20,7 @@ public class TestPasswordUtils {
         String salt = RandomStringUtils.randomAlphanumeric(32);
         log.debug("Password: " + password);
         log.debug("Salt: " + salt);
-        String result = PasswordUtils.stirWithSalt(password, salt);
+        String result = PasswordUtils.stir(password, salt);
         log.debug("Result: " + result);
         assertEquals(PasswordUtils.DEFAULT_LEGTH, result.length());
     }
@@ -28,7 +28,7 @@ public class TestPasswordUtils {
     @Test
     public void testStirWithoutSalt() {
         log.debug("Test stir without salt ...");
-        String password = "pwd!@#A";
+        String password = "12345678";
         log.debug("Password: " + password);
         String result = PasswordUtils.stir(password);
         log.debug("Result: " + result);

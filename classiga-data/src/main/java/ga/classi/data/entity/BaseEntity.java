@@ -9,6 +9,9 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Version;
 
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.RandomStringUtils;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import ga.classi.commons.helper.CommonConstants;
@@ -25,7 +28,14 @@ import lombok.extern.slf4j.Slf4j;
 public abstract class BaseEntity {
 
     // Read http://www.baeldung.com/intro-to-project-lombok
-    
+
+    public static final String F_ID          = "id";
+    public static final String F_VERSION     = "version";
+    public static final String F_CREATED_AT  = "createdAt";
+    public static final String F_MODIFIED_AT = "modifiedAt";
+    public static final String F_DELETED     = "deleted";
+    public static final String F_ROW_HASH    = "rowHash";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -33,7 +43,7 @@ public abstract class BaseEntity {
     
     @JsonIgnore
     @Version
-    @Column(name = "version", columnDefinition = "INT NOT NULL DEFAULT 0")
+    @Column(name = "version", nullable = false)
     private Integer version;
 
     @JsonIgnore
@@ -47,6 +57,10 @@ public abstract class BaseEntity {
     @JsonIgnore
     @Column(name = "deleted", length = 1, nullable = false)
     private String deleted;
+
+    @JsonIgnore
+    @Column(name = "row_hash", length = 32)
+    private String rowHash;
 
     public BaseEntity(Long id) {
         this.id = id;
@@ -69,6 +83,8 @@ public abstract class BaseEntity {
         log.debug("Execute onCreate() ..."); 
         modifiedAt = createdAt = System.currentTimeMillis();
         deleted = CommonConstants.NO;
+        // RandomStringUtils.random() returns non letter characters such as: 锪椢獬ꃅ諔諔궏ꃅ뚱뇉여獬ﻄ蚹㙰ﻄ
+        rowHash = DigestUtils.md5Hex(RandomStringUtils.random(16) + createdAt); 
         setValuesOnCreate();
     }
 
@@ -76,6 +92,7 @@ public abstract class BaseEntity {
     public void onUpdate() {
         log.debug("Execute onUpdate() ..."); 
         modifiedAt = System.currentTimeMillis();
+        rowHash = DigestUtils.md5Hex(RandomStringUtils.random(16) + modifiedAt);
         setValuesOnUpdate();
     }
     

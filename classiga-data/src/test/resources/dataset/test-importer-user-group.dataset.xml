@@ -6,18 +6,18 @@
         lower_name="administrator" 
         active="y" 
         created_at="{currentMillis}" 
-        modified_at="{currentMillis}" />
+        modified_at="{currentMillis}" deleted="n" version="0" />
     <t_user_group id="2" 
         name="User" 
         lower_name="user" 
         active="y" 
         created_at="{currentMillis}" 
-        modified_at="{currentMillis}" />
+        modified_at="{currentMillis}" deleted="n" version="0" />
     <t_user_group id="3" 
         name="Marketing" 
         lower_name="marketing" 
         active="y" 
         created_at="{currentMillis}" 
-        modified_at="{currentMillis}" />
+        modified_at="{currentMillis}" deleted="n" version="0" />
 
 </dataset>

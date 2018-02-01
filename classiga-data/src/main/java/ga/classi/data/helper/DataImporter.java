@@ -131,6 +131,7 @@ public class DataImporter {
 
         private static final String REPLACEMENT_KEY_DATE = "currentDate";
         private static final String REPLACEMENT_KEY_MILLISECOND = "currentMillis";
+        private static final String REPLACEMENT_KEY_NULL = "null";
 
         @Override
         public void execute(IDatabaseConnection idc, IDataSet ids) throws DatabaseUnitException, SQLException {
@@ -139,6 +140,7 @@ public class DataImporter {
 
             rds.addReplacementObject("{" + REPLACEMENT_KEY_DATE + "}", new Date());
             rds.addReplacementObject("{" + REPLACEMENT_KEY_MILLISECOND + "}", System.currentTimeMillis());
+            rds.addReplacementObject("{" + REPLACEMENT_KEY_NULL + "}", null);
 
             if (doResetSequence) {
                 // Reset sequences

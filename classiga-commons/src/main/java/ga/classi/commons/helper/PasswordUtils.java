@@ -11,20 +11,24 @@ public final class PasswordUtils {
         // Restrict instantiation
     }
     
-    public static String stirWithSalt(String actual, String salt, int length) {
-        String sha1 = DigestUtils.sha1Hex(DigestUtils.md5Hex(actual) + DigestUtils.md5Hex(salt)); // 40 characters
-        String rightPad = StringUtils.rightPad(sha1, length, DigestUtils.sha1Hex(salt));
-        return rightPad.substring(0, length); 
+    public static String stir(String actual, String salt, int length) {
+        if (salt != null) {
+            String sha1 = DigestUtils.sha1Hex(DigestUtils.md5Hex(actual) + DigestUtils.md5Hex(salt));
+            String rightPad = StringUtils.rightPad(sha1, length, DigestUtils.sha1Hex(salt));
+            return StringUtils.reverse(rightPad);
+        } else {            
+            String sha1 = DigestUtils.sha1Hex(DigestUtils.md5Hex(actual));
+            String rightPad = StringUtils.rightPad(sha1, length, DigestUtils.sha1Hex(actual));
+            return StringUtils.reverse(rightPad);
+        }
     }
-    
-    public static String stirWithSalt(String actual, String salt) {
-        return stirWithSalt(actual, salt, DEFAULT_LEGTH);
+
+    public static String stir(String actual, String salt) {
+        return stir(actual, salt, DEFAULT_LEGTH);
     }
     
     public static String stir(String actual, int length) {
-        String sha1 = DigestUtils.sha1Hex(DigestUtils.md5Hex(actual)); // 40 characters
-        String rightPad = StringUtils.rightPad(sha1, length, DigestUtils.sha1Hex(actual));
-        return rightPad.substring(0, length);
+        return stir(actual, null, length);
     }
     
     public static String stir(String actual) {

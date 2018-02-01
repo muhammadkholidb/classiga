@@ -109,7 +109,7 @@ public class UserService extends AbstractServiceHelper {
             throw new DataException(ExceptionCode.E1001, ErrorMessageConstants.USER_NOT_FOUND);
         }
 
-        String stirredPassword = PasswordUtils.stirWithSalt(strPassword, loginUser.getSalt());
+        String stirredPassword = PasswordUtils.stir(strPassword, loginUser.getSalt());
 
         if (!loginUser.getPassword().equals(stirredPassword)) {
             throw new DataException(ExceptionCode.E1001, ErrorMessageConstants.USER_NOT_FOUND);
@@ -210,7 +210,7 @@ public class UserService extends AbstractServiceHelper {
         }
 
         String salt = RandomStringUtils.randomAlphanumeric(32);
-        String stirredPassword = PasswordUtils.stirWithSalt(strPassword, salt);
+        String stirredPassword = PasswordUtils.stir(strPassword, salt);
 
         UserEntity addUser = new UserEntity();
         addUser.setFullName(strFullName);
@@ -285,7 +285,7 @@ public class UserService extends AbstractServiceHelper {
         
         if ((strPassword != null) && !strPassword.trim().isEmpty()) {
             String newSalt = RandomStringUtils.randomAlphanumeric(32);
-            String stirredPassword = PasswordUtils.stirWithSalt(strPassword, newSalt);
+            String stirredPassword = PasswordUtils.stir(strPassword, newSalt);
             findUserById.setSalt(newSalt);
             findUserById.setPassword(stirredPassword);
         }

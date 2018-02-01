@@ -38,6 +38,8 @@
     <logger name="org.hibernate.loader.plan.exec.internal" level="ERROR"/>
     <logger name="org.hibernate.loader.plan.build.internal" level="ERROR"/>
    
+    <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE"/>
+    
     <root level="DEBUG">
         <if condition='property("os.name").toLowerCase().contains("windows")'>
             <then>

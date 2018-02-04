@@ -75,3 +75,6 @@ ul.pagination > li > a, .pagination > li > span {
     border-width: 2px;
     border-color: #a94442;
 }
+.form-control[readonly] {
+    background-color: #fff;
+}

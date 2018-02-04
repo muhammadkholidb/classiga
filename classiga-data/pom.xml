@@ -190,7 +190,7 @@
     <properties>
 
         <datasource.driver>org.h2.Driver</datasource.driver>
-        <datasource.url>jdbc:h2:~/.classiga/h2/classigadb;AUTO_SERVER=TRUE</datasource.url>
+        <datasource.url>jdbc:h2:~/.classiga/h2/classigadb;AUTO_SERVER=TRUE;DB_CLOSE_ON_EXIT=FALSE</datasource.url>
         <datasource.username>sa</datasource.username>
         <datasource.password>sa</datasource.password>
         <hibernate.dialect>org.hibernate.dialect.H2Dialect</hibernate.dialect>

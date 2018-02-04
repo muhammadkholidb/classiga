@@ -65,7 +65,7 @@ public class UserEntity extends BaseEntity implements Serializable {
     private String password;
 
     @JsonIgnore
-    @Column(name = "salt", length = 32, nullable = false)
+    @Column(name = "salt", length = 32)
     private String salt;
 
     @Column(name = "active", length = 1, nullable = false)

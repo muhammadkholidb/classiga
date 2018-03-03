@@ -57,7 +57,7 @@
                                                         <th data-priority="1"><s:message code="label.name" /></th>
                                                         <th data-priority="4"><s:message code="label.description" /></th>
                                                         <th data-priority="2" class="align-center"><s:message code="label.view" /></th>
-                                                        <th data-priority="3" class="align-center"><s:message code="label.modify" /></th>
+                                                        <th data-priority="3" class="align-center"><span data-toggle="tooltip" title="" data-original-title="<s:message code="label.modify.info" />"><s:message code="label.modify" /></span></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>

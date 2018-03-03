@@ -1,4 +1,7 @@
 var utils = {
+    isValidDate: function(d) {
+    	return (new Date(d).toString() !== 'Invalid Date');
+    },
     json: {
         getKeys: function (data) {
             return Object.keys(data);

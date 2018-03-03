@@ -52,6 +52,14 @@ div.required .control-label:not(span)::before, td.required::before {
     color: #F00;
     font-weight: bold;
 }
+.table thead th span[data-toggle="tooltip"]:after,
+.table thead td span[data-toggle="tooltip"]:after, 
+label.control-label span:after {
+    font-family: FontAwesome;
+    color: blue;
+    content: "\f059";
+    margin-left: 4px;
+}
 .animated-checkbox label {
     margin-bottom: 0;
 }

@@ -24,12 +24,14 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import ga.classi.commons.helper.ActionResult;
 import ga.classi.commons.helper.CommonConstants;
 import ga.classi.commons.helper.DefaultUser;
 import ga.classi.commons.helper.MessageHelper;
 import ga.classi.commons.helper.StringConstants;
-import ga.classi.web.helper.JSONHelper;
+import ga.classi.commons.web.helper.JSON;
 import ga.classi.web.helper.MenuKeyConstants;
 import ga.classi.web.helper.MenuLoader;
 import ga.classi.web.helper.ModelKeyConstants;
@@ -59,13 +61,21 @@ public abstract class AbstractBaseController implements IBaseController {
 
     @Autowired
     protected LocaleResolver localeResolver;
-
+    
     @Autowired
     @Qualifier("applicationProp")
     protected Properties applicationProperties;
 
+    @Autowired
+    @Qualifier("usersProp")
+    protected Properties usersProperties;
+
+    @Autowired
+    protected ObjectMapper objectMapper;
+    
     protected String applicationName;
     protected String applicationVersion;
+    protected String applicationFavicon;
     protected boolean showApplicationInfo;
     protected String defaultRedirect;
     
@@ -78,6 +88,7 @@ public abstract class AbstractBaseController implements IBaseController {
         log.debug("Initialize {} ...", getClass()); 
         applicationName = applicationProperties.getProperty("application.info.name");
         applicationVersion = applicationProperties.getProperty("application.info.version");
+        applicationFavicon = applicationProperties.getProperty("application.info.favicon");
         showApplicationInfo = Boolean.valueOf(applicationProperties.getProperty("application.info.showinpagetitle"));
         defaultRedirect = applicationProperties.getProperty("login.redirect.path.default");
         postConstruct();
@@ -99,6 +110,7 @@ public abstract class AbstractBaseController implements IBaseController {
         }
         mav.addObject(ModelKeyConstants.APP_NAME, applicationName);
         mav.addObject(ModelKeyConstants.APP_VERSION, applicationVersion);
+        mav.addObject(ModelKeyConstants.APP_FAVICON, applicationFavicon);
         mav.addObject(ModelKeyConstants.SHOW_APP_INFO, showApplicationInfo);
         
         String templateCode = getSystem(CommonConstants.SYSTEM_KEY_TEMPLATE_CODE);
@@ -358,7 +370,7 @@ public abstract class AbstractBaseController implements IBaseController {
                 }
             }
             // Remove the original submenus from allowed menu
-            JSONObject allowedMenu = JSONHelper.remove(menu, MenuKeyConstants.SUBMENUS);
+            JSONObject allowedMenu = JSON.remove(menu, MenuKeyConstants.SUBMENUS);
             if (!allowedSubmenus.isEmpty()) {
                 // Set new allowed submenus
                 allowedMenu.put(MenuKeyConstants.SUBMENUS, allowedSubmenus);

@@ -15,11 +15,11 @@ import javax.servlet.ServletRequest;
  * A utility class for Dto processing.
  * @author eatonmunoz
  */
-public class DtoUtils {
+public class DTOUtils {
 
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
-    private DtoUtils() {
+    private DTOUtils() {
         // Restrict instantiation
     }
     
@@ -29,11 +29,11 @@ public class DtoUtils {
      * @return Dto object from the request parameters.
      * @throws java.io.UnsupportedEncodingException When the parameter value cannot be URL decoded.
      */
-    public static Dto fromServletRequest(ServletRequest request) throws UnsupportedEncodingException {
+    public static DTO fromServletRequest(ServletRequest request) throws UnsupportedEncodingException {
         if (request == null) {
             return null;
         }
-        Dto dto = new Dto();
+        DTO dto = new DTO();
         Map<String, String[]> parameters = request.getParameterMap();
         for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
             String key = entry.getKey();
@@ -59,16 +59,16 @@ public class DtoUtils {
      * @param excludeKeys Keys to be excluded from the Dto. These keys will not be available in the result Dto.
      * @return A new list of Dto.
      */
-    public static List<Dto> toDtoList(List<?> list, String... excludeKeys) {
+    public static List<DTO> toDTOList(List<?> list, String... excludeKeys) {
         if (list == null) {
             return Collections.emptyList();
         }
-        List<Dto> listDto = new ArrayList<Dto>();
+        List<DTO> listDto = new ArrayList<DTO>();
         for (Object o : list) {
             if (o == null) {
                 continue;
             }
-            listDto.add(omit(MAPPER.convertValue(o, Dto.class), excludeKeys));
+            listDto.add(omit(MAPPER.convertValue(o, DTO.class), excludeKeys));
         }
         return listDto;
     }
@@ -79,11 +79,11 @@ public class DtoUtils {
      * @param excludeKeys Keys to be excluded from the Dto. These keys will not be available in the result Dto.
      * @return A Dto from the given object.
      */
-    public static Dto toDto(Object object, String... excludeKeys) {
+    public static DTO toDTO(Object object, String... excludeKeys) {
         if (object == null) {
             return null;
         }
-        return omit(MAPPER.convertValue(object, Dto.class), excludeKeys);
+        return omit(MAPPER.convertValue(object, DTO.class), excludeKeys);
     }
 
     /**
@@ -93,7 +93,7 @@ public class DtoUtils {
      * @param t An object type as the type of the final result.
      * @return A new object with the specified type.
      */
-    public static <T> T toObject(Dto dto, Class<T> t) {
+    public static <T> T toObject(DTO dto, Class<T> t) {
         if (dto == null) {
             return null;
         }
@@ -106,7 +106,7 @@ public class DtoUtils {
      * @param keys The keys to be removed from the given Dto.
      * @return The same Dto with the keys removed.
      */
-    public static Dto omit(Dto dto, String... keys) {
+    public static DTO omit(DTO dto, String... keys) {
         if (dto == null) {
             return null;
         }

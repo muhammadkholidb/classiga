@@ -36,7 +36,7 @@
                                     <div class="form-group required">
                                         <label class="control-label col-md-3" for="inputFullName"><s:message code="label.fullname" /></label>
                                         <div class="col-md-9">
-                                            <input class="form-control" type="text" placeholder="<s:message code="label.fullname" />" name="fullName" value="${firstName}" id="inputFullName" >
+                                            <input class="form-control" type="text" placeholder="<s:message code="label.fullname" />" name="fullName" value="${fullName}" id="inputFullName" >
                                         </div>
                                     </div>
                                     <div class="form-group required">

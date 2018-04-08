@@ -16,8 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ga.classi.commons.data.error.DataException;
 import ga.classi.commons.data.error.ExceptionCode;
-import ga.classi.commons.data.helper.Dto;
-import ga.classi.commons.data.helper.DtoUtils;
+import ga.classi.commons.data.helper.DTO;
+import ga.classi.commons.data.helper.DTOUtils;
 import ga.classi.commons.helper.CommonConstants;
 import ga.classi.commons.helper.PasswordUtils;
 import ga.classi.commons.helper.StringCheck;
@@ -40,7 +40,7 @@ public class UserService extends AbstractServiceHelper {
     private UserGroupRepository userGroupRepository;
 
     @Transactional(readOnly = true)
-    public Dto getAll(Dto dtoInput) {
+    public DTO getAll(DTO dtoInput) {
 
         String searchTerm = dtoInput.getStringValue("searchTerm");
 
@@ -58,7 +58,7 @@ public class UserService extends AbstractServiceHelper {
     }
 
     @Transactional(readOnly = true)
-    public Dto getAllByUserGroupId(Dto dtoInput) {
+    public DTO getAllByUserGroupId(DTO dtoInput) {
 
         // Validate dtoInput
         DataValidation.containsRequiredData(dtoInput, "userGroupId");
@@ -78,7 +78,7 @@ public class UserService extends AbstractServiceHelper {
     }
 
     @Transactional(readOnly = true)
-    public Dto getOne(Dto dtoInput) {
+    public DTO getOne(DTO dtoInput) {
 
         // Validate dtoInput
         DataValidation.containsRequiredData(dtoInput, "id");
@@ -96,7 +96,7 @@ public class UserService extends AbstractServiceHelper {
     }
 
     @Transactional(readOnly = true)
-    public Dto login(Dto dtoInput) {
+    public DTO login(DTO dtoInput) {
 
         // Validate dtoInput
         DataValidation.containsRequiredData(dtoInput, "password", "username");
@@ -125,15 +125,15 @@ public class UserService extends AbstractServiceHelper {
             throw new DataException(ExceptionCode.E1008, ErrorMessageConstants.CANT_LOGIN_CAUSE_USER_GROUP_NOT_ACTIVE);
         }
 
-        List<Dto> menuPermissions = DtoUtils.toDtoList(userGroup.getMenuPermissions(), "userGroup");
-        Dto dtoUserGroup = DtoUtils.toDto(userGroup).put("menuPermissions", menuPermissions);
-        Dto dtoUser = DtoUtils.toDto(loginUser).put("userGroup", dtoUserGroup);
+        List<DTO> menuPermissions = DTOUtils.toDTOList(userGroup.getMenuPermissions(), "userGroup");
+        DTO dtoUserGroup = DTOUtils.toDTO(userGroup).put("menuPermissions", menuPermissions);
+        DTO dtoUser = DTOUtils.toDTO(loginUser).put("userGroup", dtoUserGroup);
 
         return buildResultByDto(dtoUser);
     }
 
     @Transactional(readOnly = true)
-    public Dto getByEmail(Dto dtoInput) {
+    public DTO getByEmail(DTO dtoInput) {
 
         // Validate dtoInput
         DataValidation.containsRequiredData(dtoInput, "email");
@@ -152,7 +152,7 @@ public class UserService extends AbstractServiceHelper {
     }
 
     @Transactional(readOnly = true)
-    public Dto getByUsername(Dto dtoInput) {
+    public DTO getByUsername(DTO dtoInput) {
 
         // Validate dtoInput
         DataValidation.containsRequiredData(dtoInput, "username");
@@ -171,7 +171,7 @@ public class UserService extends AbstractServiceHelper {
     }
 
     @Transactional
-    public Dto add(Dto dtoInput) {
+    public DTO add(DTO dtoInput) {
 
         // Validate dtoInput
         DataValidation.containsRequiredData(dtoInput, "fullName", "email", "username", "password", "active", "userGroupId");
@@ -230,7 +230,7 @@ public class UserService extends AbstractServiceHelper {
     }
 
     @Transactional
-    public Dto edit(Dto dtoInput) {
+    public DTO edit(DTO dtoInput) {
 
         // Validate dtoInput
         DataValidation.containsRequiredData(dtoInput, "id", "fullName", "email", "username", "active", "userGroupId");
@@ -296,7 +296,7 @@ public class UserService extends AbstractServiceHelper {
     }
 
     @Transactional
-    public void remove(Dto dtoInput) {
+    public void remove(DTO dtoInput) {
 
         // Validate dtoInput
         DataValidation.containsRequiredData(dtoInput, "id");

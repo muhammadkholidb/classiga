@@ -9,7 +9,7 @@ import org.json.simple.JSONValue;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import ga.classi.commons.data.error.DataException;
-import ga.classi.commons.data.helper.Dto;
+import ga.classi.commons.data.helper.DTO;
 import ga.classi.commons.helper.ActionResult;
 import ga.classi.commons.helper.CommonConstants;
 import ga.classi.commons.helper.CommonUtils;
@@ -51,7 +51,7 @@ public class DataAccessBaseController extends AbstractBaseController implements 
         log.debug("Load systems to session ...");
         try {
             
-            Dto dto = systemService.getAllSystem(new Dto());
+            DTO dto = systemService.getAllSystem(new DTO());
             
             // Import default system data when no data returned
             if ((dto == null) || dto.isEmpty() || dto.get(CommonConstants.CONTENT) == null || ((List) dto.get(CommonConstants.CONTENT)).isEmpty() ) {
@@ -62,7 +62,7 @@ public class DataAccessBaseController extends AbstractBaseController implements 
                 dataImporter.importAll();
                 
                 // Find again
-                dto = systemService.getAllSystem(new Dto());
+                dto = systemService.getAllSystem(new DTO());
             }
 
             SessionManager.set(SessionKeyConstants.SYSTEMS, (JSONArray) JSONValue.parse(JSONArray.toJSONString((List) dto.get(CommonConstants.CONTENT))));
@@ -79,7 +79,7 @@ public class DataAccessBaseController extends AbstractBaseController implements 
     @Override
     public ActionResult editSystems(JSONObject parameters, String languageCode) {
         try {
-            Dto dto = systemService.editSystemList(new Dto(parameters));
+            DTO dto = systemService.editSystemList(new DTO(parameters));
             updateLocale(languageCode);
             return successActionResult(createMessage("success.SuccessfullyEditSystem"), dto.toJSONObject());
         } catch (DataException e) {
@@ -95,7 +95,7 @@ public class DataAccessBaseController extends AbstractBaseController implements 
     @Override
     public ActionResult login(JSONObject parameters) {
         try {
-            Dto dto = userService.login(new Dto(parameters));
+            DTO dto = userService.login(new DTO(parameters));
             return successActionResult(dto.toJSONObject());
         } catch (DataException e) {
             log.error(CommonUtils.getExceptionMessage(e), e);
@@ -110,7 +110,7 @@ public class DataAccessBaseController extends AbstractBaseController implements 
     @Override
     public ActionResult listUser(JSONObject parameters) {
         try {
-            Dto dto = userService.getAll(new Dto(parameters));
+            DTO dto = userService.getAll(new DTO(parameters));
             return successActionResult(dto.toJSONObject());
         } catch (DataException e) {
             log.error(CommonUtils.getExceptionMessage(e), e);
@@ -125,7 +125,7 @@ public class DataAccessBaseController extends AbstractBaseController implements 
     @Override
     public ActionResult findUser(JSONObject parameters) {
         try {
-            Dto dto = userService.getOne(new Dto(parameters));
+            DTO dto = userService.getOne(new DTO(parameters));
             return successActionResult(dto.toJSONObject());
         } catch (DataException e) {
             log.error(CommonUtils.getExceptionMessage(e), e);
@@ -140,7 +140,7 @@ public class DataAccessBaseController extends AbstractBaseController implements 
     @Override
     public ActionResult addUser(JSONObject parameters) {
         try {
-            Dto dto = userService.add(new Dto(parameters));
+            DTO dto = userService.add(new DTO(parameters));
             return successActionResult(createMessage("success.SuccessfullyAddUser"), dto.toJSONObject());
         } catch (DataException e) {
             log.error(CommonUtils.getExceptionMessage(e), e);
@@ -155,7 +155,7 @@ public class DataAccessBaseController extends AbstractBaseController implements 
     @Override
     public ActionResult editUser(JSONObject parameters) {
         try {
-            Dto dto = userService.edit(new Dto(parameters));
+            DTO dto = userService.edit(new DTO(parameters));
             return successActionResult(createMessage("success.SuccessfullyEditUser"), dto.toJSONObject());
         } catch (DataException e) {
             log.error(CommonUtils.getExceptionMessage(e), e);
@@ -170,7 +170,7 @@ public class DataAccessBaseController extends AbstractBaseController implements 
     @Override
     public ActionResult removeUser(JSONObject parameters) {
         try {
-            userService.remove(new Dto(parameters));
+            userService.remove(new DTO(parameters));
             return successActionResult(createMessage("success.SuccessfullyRemoveUser"), new JSONObject());
         } catch (DataException e) {
             log.error(CommonUtils.getExceptionMessage(e), e);
@@ -185,7 +185,7 @@ public class DataAccessBaseController extends AbstractBaseController implements 
     @Override
     public ActionResult listUserGroup(JSONObject parameters) {
         try {
-            Dto dto = userGroupService.getAll(new Dto(parameters));
+            DTO dto = userGroupService.getAll(new DTO(parameters));
             return successActionResult(dto.toJSONObject());
         } catch (DataException e) {
             log.error(CommonUtils.getExceptionMessage(e), e);
@@ -200,7 +200,7 @@ public class DataAccessBaseController extends AbstractBaseController implements 
     @Override
     public ActionResult findUserGroup(JSONObject parameters) {
         try {
-            Dto dto = userGroupService.getOneWithMenuPermissions(new Dto(parameters));
+            DTO dto = userGroupService.getOneWithMenuPermissions(new DTO(parameters));
             return successActionResult(dto.toJSONObject());
         } catch (DataException e) {
             log.error(CommonUtils.getExceptionMessage(e), e);
@@ -215,7 +215,7 @@ public class DataAccessBaseController extends AbstractBaseController implements 
     @Override
     public ActionResult addUserGroup(JSONObject parameters) {
         try {
-            Dto dto = userGroupService.add(new Dto(parameters));
+            DTO dto = userGroupService.add(new DTO(parameters));
             return successActionResult(createMessage("success.SuccessfullyAddUserGroup"), dto.toJSONObject());
         } catch (DataException e) {
             log.error(CommonUtils.getExceptionMessage(e), e);
@@ -230,7 +230,7 @@ public class DataAccessBaseController extends AbstractBaseController implements 
     @Override
     public ActionResult editUserGroup(JSONObject parameters) {
         try {
-            Dto dto = userGroupService.edit(new Dto(parameters));
+            DTO dto = userGroupService.edit(new DTO(parameters));
             return successActionResult(createMessage("success.SuccessfullyEditUserGroup"), dto.toJSONObject());
         } catch (DataException e) {
             log.error(CommonUtils.getExceptionMessage(e), e);
@@ -245,7 +245,7 @@ public class DataAccessBaseController extends AbstractBaseController implements 
     @Override
     public ActionResult removeUserGroup(JSONObject parameters) {
         try {
-            userGroupService.remove(new Dto(parameters));
+            userGroupService.remove(new DTO(parameters));
             return successActionResult(createMessage("success.SuccessfullyRemoveUserGroup"), new JSONObject());
         } catch (DataException e) {
             log.error(CommonUtils.getExceptionMessage(e), e);

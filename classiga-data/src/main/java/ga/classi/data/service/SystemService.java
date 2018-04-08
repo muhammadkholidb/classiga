@@ -12,8 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ga.classi.commons.data.error.DataException;
 import ga.classi.commons.data.error.ExceptionCode;
-import ga.classi.commons.data.helper.Dto;
-import ga.classi.commons.data.helper.DtoUtils;
+import ga.classi.commons.data.helper.DTO;
+import ga.classi.commons.data.helper.DTOUtils;
 import ga.classi.data.entity.SystemEntity;
 import ga.classi.data.error.ErrorMessageConstants;
 import ga.classi.data.helper.DataValidation;
@@ -28,7 +28,7 @@ public class SystemService extends AbstractServiceHelper {
     private SystemRepository systemRepository;
 
     @Transactional(readOnly = true)
-    public Dto getAllSystem(Dto dtoInput) {
+    public DTO getAllSystem(DTO dtoInput) {
         log.info("Get all system ...");
 
         // No validation
@@ -38,7 +38,7 @@ public class SystemService extends AbstractServiceHelper {
     }
 
     @Transactional(readOnly = true)
-    public Dto getSystemByDataKey(Dto dtoInput) {
+    public DTO getSystemByDataKey(DTO dtoInput) {
 
         // Validate parameters
         DataValidation.containsRequiredData(dtoInput, "dataKey");
@@ -54,7 +54,7 @@ public class SystemService extends AbstractServiceHelper {
     }
 
     @Transactional(readOnly = true)
-    public Dto getSystemById(Dto dtoInput) {
+    public DTO getSystemById(DTO dtoInput) {
 
         // Validate parameters
         DataValidation.containsRequiredData(dtoInput, "id");
@@ -74,7 +74,7 @@ public class SystemService extends AbstractServiceHelper {
 
     @SuppressWarnings("unchecked")
     @Transactional
-    public Dto editSystemList(Dto dtoInput) {
+    public DTO editSystemList(DTO dtoInput) {
 
         // Validate parameters
         DataValidation.containsRequiredData(dtoInput, "systems");
@@ -86,7 +86,7 @@ public class SystemService extends AbstractServiceHelper {
 
         JSONArray arrSystems = (JSONArray) JSONValue.parse(strSystems);
 
-        List<Dto> updatedList = new ArrayList<Dto>();
+        List<DTO> updatedList = new ArrayList<DTO>();
 
         for (Object object : arrSystems) {
 
@@ -111,8 +111,8 @@ public class SystemService extends AbstractServiceHelper {
 
             SystemEntity updated = systemRepository.save(findSystem);
 
-            Dto dtoSystemUpdated = DtoUtils.toDto(updated);
-            Dto dto = DtoUtils.omit(dtoSystemUpdated, "createdAt", "modifiedAt");
+            DTO dtoSystemUpdated = DTOUtils.toDTO(updated);
+            DTO dto = DTOUtils.omit(dtoSystemUpdated, "createdAt", "modifiedAt");
 
             updatedList.add(dto);
         }

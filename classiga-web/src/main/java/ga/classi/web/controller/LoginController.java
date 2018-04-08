@@ -18,8 +18,8 @@ import ga.classi.commons.helper.CommonConstants;
 import ga.classi.commons.helper.DefaultUser;
 import ga.classi.commons.helper.PasswordUtils;
 import ga.classi.commons.helper.StringConstants;
+import ga.classi.commons.web.helper.JSON;
 import ga.classi.web.controller.base.BaseControllerAdapter;
-import ga.classi.web.helper.JSONHelper;
 import ga.classi.web.helper.ModelKeyConstants;
 import ga.classi.web.helper.SessionKeyConstants;
 import ga.classi.web.helper.SessionManager;
@@ -77,8 +77,8 @@ public class LoginController extends BaseControllerAdapter {
                 JSONObject userGroup = (JSONObject) user.get("userGroup");
                 JSONArray menuPermissions = (JSONArray) userGroup.get("menuPermissions");
                 
-                SessionManager.set(SessionKeyConstants.USER, JSONHelper.remove(user, "userGroup"));
-                SessionManager.set(SessionKeyConstants.USER_GROUP, JSONHelper.remove(userGroup, "menuPermissions"));
+                SessionManager.set(SessionKeyConstants.USER, JSON.remove(user, "userGroup"));
+                SessionManager.set(SessionKeyConstants.USER_GROUP, JSON.remove(userGroup, "menuPermissions"));
                 SessionManager.set(SessionKeyConstants.MENU_PERMISSIONS, menuPermissions);
 
                 // Trigger menu loading

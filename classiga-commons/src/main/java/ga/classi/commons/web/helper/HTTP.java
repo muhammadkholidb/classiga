@@ -1,4 +1,4 @@
-package ga.classi.commons.helper;
+package ga.classi.commons.web.helper;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -12,6 +12,7 @@ import java.net.URLEncoder;
 
 import org.json.simple.JSONObject;
 
+import ga.classi.commons.helper.StringConstants;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Setter
 @Getter
-public class HttpClient {
+public class HTTP {
 
     // Read
     // https://stackoverflow.com/questions/3842823/should-logger-be-private-static-or-not
@@ -44,25 +45,25 @@ public class HttpClient {
     private JSONObject headers;
     private boolean secure;
 
-    public HttpClient() {}
+    public HTTP() {}
 
-    public HttpClient(String host) {
+    public HTTP(String host) {
         this(host, null, null);
     }
 
-    public HttpClient(String host, String path) {
+    public HTTP(String host, String path) {
         this(host, path, null);
     }
 
-    public HttpClient(String host, String path, JSONObject parameters) {
+    public HTTP(String host, String path, JSONObject parameters) {
         this(host, path, parameters, null);
     }
 
-    public HttpClient(String host, String path, JSONObject parameters, JSONObject headers) {
+    public HTTP(String host, String path, JSONObject parameters, JSONObject headers) {
         this(host, path, parameters, headers, false);
     }
 
-    public HttpClient(String host, String path, JSONObject parameters, JSONObject headers, boolean secure) {
+    public HTTP(String host, String path, JSONObject parameters, JSONObject headers, boolean secure) {
         this.host = host;
         this.path = path;
         this.parameters = parameters;
@@ -75,7 +76,7 @@ public class HttpClient {
         }
     }
 
-    public HttpClientResponse request() throws IOException {
+    public HTTPResponse request() throws IOException {
         if (POST.equals(method)) {
             return post();
         } else if (GET.equals(method)) {
@@ -112,7 +113,7 @@ public class HttpClient {
      * @return The response from the HTTP GET request.
      * @throws IOException If an error occurred during the request.
      */
-    public HttpClientResponse get() throws IOException {
+    public HTTPResponse get() throws IOException {
 
         method = GET;
 
@@ -162,7 +163,7 @@ public class HttpClient {
             }
             in.close();
             log.debug("Response: {}", response);
-            return new HttpClientResponse(response.toString());
+            return new HTTPResponse(response.toString());
         }
 
         throw new IOException("Unexpected response code: " + responseCode + " (" + con.getResponseMessage() + ")");
@@ -173,7 +174,7 @@ public class HttpClient {
      * @return The response from the HTTP POST request.
      * @throws IOException If an error occurred during the request.
      */
-    public HttpClientResponse post() throws IOException {
+    public HTTPResponse post() throws IOException {
 
         method = POST;
 
@@ -230,7 +231,7 @@ public class HttpClient {
             }
             in.close();
             log.debug("Response: {}", response);
-            return new HttpClientResponse(response.toString());
+            return new HTTPResponse(response.toString());
         }
 
         throw new IOException("Unexpected response code: " + responseCode + " (" + con.getResponseMessage() + ")");

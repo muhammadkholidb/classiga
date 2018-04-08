@@ -1,5 +1,6 @@
 package ga.classi.data.helper;
 
+import java.util.List;
 import java.util.Map;
 
 import ga.classi.commons.data.error.DataException;
@@ -54,7 +55,7 @@ public class DataValidation {
      * @throws DataException If the email is not valid.
      */
     public static void validateEmailOrEmpty(String email) {
-        if (email == null || email.isEmpty()) {
+        if (StringCheck.isEmpty(email)) {
             return;
         }
         validateEmail(email);
@@ -66,8 +67,7 @@ public class DataValidation {
      * @throws DataException If the username is not valid.
      */
     public static void validateUsername(String username) {
-        validateEmpty(username, "Username");
-        if ((username == null) || username.isEmpty()) {
+        if (StringCheck.isEmpty(username)) {
             throw new DataException(ExceptionCode.E1005, ErrorMessageConstants.EMPTY_USERNAME, new Object[]{username});
         }
         if (username.length() < 4) {
@@ -81,9 +81,9 @@ public class DataValidation {
      * @param name The validated component name.
      * @throws DataException If the string is not a number.
      */
-    public static void validateNumeric(String string, String name) {
+    public static void validateNumeric(Object string, String name) {
         validateEmpty(string, name);
-        if (!StringCheck.isNumeric(string)) {
+        if (!StringCheck.isNumeric(string.toString())) {
             throw new DataException(ExceptionCode.E1005, ErrorMessageConstants.INVALID_NUMERIC, new Object[]{string, name});
         }
     }
@@ -94,8 +94,8 @@ public class DataValidation {
      * @param name The validated component name.
      * @throws DataException If the string is not a number.
      */
-    public static void validateNumericOrEmpty(String string, String name) {
-        if (string == null || string.isEmpty()) {
+    public static void validateNumericOrEmpty(Object string, String name) {
+        if ((string == null) || StringCheck.isEmpty(string.toString())) {
             return;
         }
         validateNumeric(string, name);
@@ -121,7 +121,7 @@ public class DataValidation {
      * @throws DataException If the string is not a case insensitive "Y" or "N".
      */
     public static void validateYesNoOrEmpty(String string, String name) {
-        if (string == null || string.isEmpty()) {
+        if (StringCheck.isEmpty(string)) {
             return;
         }
         validateYesNo(string, name);
@@ -147,7 +147,7 @@ public class DataValidation {
      * @throws DataException If the string is not a valid JSON array.
      */
     public static void validateJSONArrayOrEmpty(String string, String name) {
-        if (string == null || string.isEmpty()) {
+        if (StringCheck.isEmpty(string)) {
             return;
         }
         validateJSONArray(string, name);
@@ -174,7 +174,7 @@ public class DataValidation {
      * @throws DataException If the string is not a valid JSON object.
      */
     public static void validateJSONObjectOrEmpty(String string, String name) {
-        if (string == null || string.isEmpty()) {
+        if (StringCheck.isEmpty(string)) {
             return;
         }
         validateJSONObject(string, name); 
@@ -198,4 +198,22 @@ public class DataValidation {
         }
     };
     
+    @SuppressWarnings("rawtypes")
+    public static void validateEmpty(Object object, String name) {
+        if ((object == null) 
+                || ((object instanceof List) && ((List) object).isEmpty()) 
+                || ((object instanceof Map) && ((Map) object).isEmpty()) 
+                || ((object instanceof String) && object.toString().isEmpty())) {
+            
+            throw new DataException(ExceptionCode.E1006, ErrorMessageConstants.EMPTY_VALUE, new Object[] {name} );
+        }
+    }
+
+    public static void validateDate(String string, String pattern, String name) {
+        validateEmpty(string, name);
+        if (!StringCheck.isDate(string, pattern)) {
+            throw new DataException(ExceptionCode.E1005, ErrorMessageConstants.INVALID_DATE, new Object[]{string, name});
+        }
+    }
+
 }

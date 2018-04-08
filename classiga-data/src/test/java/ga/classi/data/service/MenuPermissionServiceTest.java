@@ -17,7 +17,7 @@ import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DatabaseTearDown;
 
-import ga.classi.commons.data.helper.Dto;
+import ga.classi.commons.data.helper.DTO;
 import ga.classi.commons.helper.CommonConstants;
 import ga.classi.data.test.DefaultSpringTestDbUnitConfiguration;
 import lombok.extern.slf4j.Slf4j;
@@ -38,21 +38,21 @@ public class MenuPermissionServiceTest extends DefaultSpringTestDbUnitConfigurat
     @Test
     public void testGetAllMenuPermissions() {
         log.debug("Test get all menu permission ...");
-        Dto result = menuPermissionService.getAllMenuPermissions(null);
+        DTO result = menuPermissionService.getAllMenuPermissions(null);
         log.debug("Result: {}", result);
-        List<Dto> list = result.get(CommonConstants.CONTENT);
+        List<DTO> list = result.get(CommonConstants.CONTENT);
         assertEquals(8, list.size());
     }
 
     @Test
     public void testGetMenuPermissionListByUserGroupId() {
         log.debug("Test get menu permission list by user group id ...");
-        Dto dtoInput = new Dto();
+        DTO dtoInput = new DTO();
         dtoInput.put("userGroupId", 1L);
         try {
-            Dto result = menuPermissionService.getMenuPermissionListByUserGroupId(dtoInput);
+            DTO result = menuPermissionService.getMenuPermissionListByUserGroupId(dtoInput);
             log.debug("Result: {}", result);
-            List<Dto> list = result.get(CommonConstants.CONTENT);
+            List<DTO> list = result.get(CommonConstants.CONTENT);
             assertEquals(4, list.size());
         } catch (Exception e) {
             log.error(e.toString(), e);

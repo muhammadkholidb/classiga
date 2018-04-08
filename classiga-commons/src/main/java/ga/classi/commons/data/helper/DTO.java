@@ -9,25 +9,22 @@ import org.json.simple.JSONObject;
  *
  * @author eatonmunoz
  */
-public class Dto extends HashMap<Object, Object> {
-    
-    public Dto() {
+public class DTO extends HashMap<Object, Object> {
+
+    private static final long serialVersionUID = 1L;
+
+    public DTO() {
         super();
     }
     
-    public Dto(Map<? extends Object, ? extends Object> map) {
+    public DTO(Map<? extends Object, ? extends Object> map) {
         super();
         if (map != null) {    
             putAll(map);   
         }
     }
     
-    /**
-     * 
-     */
-    private static final long serialVersionUID = 1L;
-
-    public Dto omit(String... keys) {
+    public DTO omit(String... keys) {
         for (String key : keys) {
             super.remove(key);
         }
@@ -40,8 +37,8 @@ public class Dto extends HashMap<Object, Object> {
     }
 
     @SuppressWarnings("unchecked")
-    public Dto getDto(String key) {
-        return new Dto((Map<? extends Object, ? extends Object>) super.get(key));
+    public DTO getDto(String key) {
+        return new DTO((Map<? extends Object, ? extends Object>) super.get(key));
     }
 
     public String getString(String key) {
@@ -76,13 +73,13 @@ public class Dto extends HashMap<Object, Object> {
             return null;
         }
     }
-    
+        
     public JSONObject toJSONObject() {
         return new JSONObject(this);
     }
     
     @Override
-    public Dto put(Object k, Object v) {
+    public DTO put(Object k, Object v) {
         super.put(k, v);
         return this;
     }

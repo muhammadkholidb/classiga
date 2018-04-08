@@ -5,8 +5,8 @@ import org.json.simple.JSONObject;
 import ga.classi.commons.helper.ActionResult;
 import ga.classi.commons.helper.CommonConstants;
 import ga.classi.commons.helper.CommonUtils;
-import ga.classi.commons.helper.HttpClient;
-import ga.classi.commons.helper.HttpClientResponse;
+import ga.classi.commons.web.helper.HTTP;
+import ga.classi.commons.web.helper.HTTPResponse;
 import ga.classi.web.helper.SessionKeyConstants;
 import ga.classi.web.helper.SessionManager;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +17,7 @@ import org.json.simple.JSONArray;
  * @author eatonmunoz
  */
 @Slf4j
-public class HttpClientBaseController extends AbstractBaseController implements IBaseController {
+public class HTTPAccessBaseController extends AbstractBaseController implements IBaseController {
 
     protected String hostUrl;
 
@@ -27,34 +27,34 @@ public class HttpClientBaseController extends AbstractBaseController implements 
     }
 
     /**
-     * Returns {@link HttpClient} with host defined in project properties file.
+     * Returns {@link HTTP} with host defined in project properties file.
      * @return The HttpClient with predefined configuration.
      */
-    protected HttpClient getPredefinedHttpClient() {
-        HttpClient httpClient = new HttpClient(hostUrl);
+    protected HTTP getPredefinedHttpClient() {
+        HTTP httpClient = new HTTP(hostUrl);
         httpClient.setHeader("Accept-Language", getSystem(CommonConstants.SYSTEM_KEY_LANGUAGE_CODE));
         return httpClient;
     }
 
     /**
-     * Returns {@link HttpClient} with host defined in project properties file for specified path.
+     * Returns {@link HTTP} with host defined in project properties file for specified path.
      * @param path The path of the API to access.
      * @return The HttpClient with predefined configuration.
      */
-    protected HttpClient getPredefinedHttpClient(String path) {
-        HttpClient httpClient = getPredefinedHttpClient();
+    protected HTTP getPredefinedHttpClient(String path) {
+        HTTP httpClient = getPredefinedHttpClient();
         httpClient.setPath(path);
         return httpClient;
     }
     
     /**
-     * Returns {@link HttpClient} with host defined in project properties file for specified path and parameters.
+     * Returns {@link HTTP} with host defined in project properties file for specified path and parameters.
      * @param path The path of the API to access.
      * @param parameters The parameters for the API.
      * @return The HttpClient with predefined configuration.
      */
-    protected HttpClient getPredefinedHttpClient(String path, JSONObject parameters) {
-        HttpClient httpClient = getPredefinedHttpClient(path);
+    protected HTTP getPredefinedHttpClient(String path, JSONObject parameters) {
+        HTTP httpClient = getPredefinedHttpClient(path);
         httpClient.setParameters(parameters);
         return httpClient;
     }
@@ -66,7 +66,7 @@ public class HttpClientBaseController extends AbstractBaseController implements 
             // Cannot use method getDefinedHttpClient() because it will add a header 
             // which will call this method. It will cause a forever loop. 
             // Just use a new HttpClient().
-            HttpClientResponse response = new HttpClient(hostUrl, "/settings/system/list").get();
+            HTTPResponse response = new HTTP(hostUrl, "/settings/system/list").get();
             if (response != null) {
                 if (CommonConstants.SUCCESS.equals(response.getStatus())) {
                     SessionManager.set(SessionKeyConstants.SYSTEMS, (JSONArray) response.getContent());
@@ -83,7 +83,7 @@ public class HttpClientBaseController extends AbstractBaseController implements 
     @Override
     public ActionResult editSystems(JSONObject parameters, String languageCode) {
         try {            
-            HttpClient httpClient = getPredefinedHttpClient("/settings/system/edit", parameters);
+            HTTP httpClient = getPredefinedHttpClient("/settings/system/edit", parameters);
             httpClient.setHeader("Accept-Language", languageCode);
             return httpClient.post();
         } catch (Exception e) {

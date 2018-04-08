@@ -66,6 +66,13 @@ public class UserController extends BaseControllerAdapter {
 
         if (isPost()) {
 
+            // Check if submitted username and email equal to default user's username
+            for (Object key : usersProperties.keySet()) {
+                if (username.equalsIgnoreCase(key.toString()) || email.equalsIgnoreCase(key.toString())) {
+                    return viewAndNotifyError("user/form-add", model, messageHelper.getMessage("error.usernamenotallowed"));
+                }
+            }
+            
             JSONObject jsonUser = new JSONObject();
             jsonUser.put("fullName", fullName.trim());
             jsonUser.put("username", username.trim());

@@ -1,19 +1,27 @@
-package ga.classi.web.helper;
+package ga.classi.commons.web.helper;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Helper class for processing JSONObject and JSONArray.
  * @author Muhammad
  *
  */
-public class JSONHelper {
+@Slf4j
+public class JSON {
 
-    private JSONHelper() {
+    private JSON() {
         // Restrict instantiation
     }
     
+    private static final ObjectMapper MAPPER = new ObjectMapper();
+
     /**
      * Get value from the specified JSONObject for the specified key. No need to cast the value.
      * @param <T> The return type.
@@ -72,6 +80,35 @@ public class JSONHelper {
             throw new NullPointerException("Cannot get from null JSONArray.");
         }
         return (T) arr.get(index);
+    }
+    
+    public static JSONObject toJSONObject(Object object) {
+        return MAPPER.convertValue(object, JSONObject.class);
+    }
+    
+    public static String stringify(Object object) {
+        return stringify(object, false);
+    }
+    
+    public static String stringify(Object object, boolean indent) {
+        try {
+            if (indent) {
+                return MAPPER.writerWithDefaultPrettyPrinter().writeValueAsString(object);
+            }
+            return MAPPER.writeValueAsString(object);
+        } catch (JsonProcessingException e) {
+            log.warn("Unable to stringify object");
+        } 
+        return null;
+    }
+    
+    public static <T> T parse(String json, Class<T> type) {
+        try {
+            return MAPPER.readValue(json, type);
+        } catch (Exception e) {
+            log.warn("Unable to parse JSON: {}", json);
+        }
+        return null;
     }
     
 }

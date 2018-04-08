@@ -13,10 +13,10 @@ var utils = {
             return Object.keys(data).length;
         }
     },
-    // https://stackoverflow.com/questions/995183/how-to-allow-only-numeric-0-9-in-html-inputbox-using-jquery#answer-32004562
+    // https://stackoverflow.com/questions/995183/how-to-allow-only-numeric-0-9-in-html-inputbox-using-jquery
     numberOnly: function (selector) {
-        // Replace characters with '' except number, period, comma, plus sign, minus sign
-        selector.value = selector.value.replace(/[^\d\.\,\+\-]/g, '');
+        // Replace characters with '' except number
+        selector.value = selector.value.replace(/[^\d]/g, '');
     },
     // https://stackoverflow.com/questions/149055/how-can-i-format-numbers-as-money-in-javascript#answer-1323064
     numberFormat: function (number, decimals, dec_point, thousands_sep) {
@@ -127,7 +127,7 @@ var utils = {
     },
     jqueryValidate: function(selector, rules) {
     	if (typeof $(selector).validate === 'function') {
-    		$(selector).validate({
+    	    var val = $(selector).validate({
     			rules: rules,
     			errorElement: "em",
     			errorPlacement: function (error, element) {
@@ -151,8 +151,10 @@ var utils = {
     				$(element).parents(".form-group").removeClass("has-error");
     			}
     		});
+    	    return val;
     	} else {
     		alert("Script required: jQuery validation plugin.");
+    		return undefined;
     	}
     },
     sweetAlert: {

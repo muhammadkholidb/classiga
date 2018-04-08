@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import ga.classi.commons.data.helper.Dto;
-import ga.classi.commons.data.helper.DtoUtils;
+import ga.classi.commons.data.helper.DTO;
+import ga.classi.commons.data.helper.DTOUtils;
 import ga.classi.commons.helper.CommonConstants;
 import ga.classi.data.helper.DataImporter;
 import ga.classi.data.service.SystemService;
@@ -41,7 +41,7 @@ public class SystemController extends BaseController {
     @RequestMapping(value = "/system/list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseObject getAllSystem() {
         
-        Dto dto = systemService.getAllSystem(new Dto());
+        DTO dto = systemService.getAllSystem(new DTO());
 
         // Import default system data when no data returned
         if ((dto == null) || dto.isEmpty() || dto.get("content") == null || ((List) dto.get("content")).isEmpty() ) {
@@ -61,7 +61,7 @@ public class SystemController extends BaseController {
     @RequestMapping(value = "/system/edit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseObject editSystemList() throws UnsupportedEncodingException {
 
-        Dto dto = systemService.editSystemList(DtoUtils.fromServletRequest(request));
+        DTO dto = systemService.editSystemList(DTOUtils.fromServletRequest(request));
 
         return new ResponseObject(CommonConstants.SUCCESS, getResponseMessage("success.SuccessfullyEditSystem"), dto);
     }

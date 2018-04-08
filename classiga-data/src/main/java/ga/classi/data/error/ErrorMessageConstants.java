@@ -12,6 +12,7 @@ public interface ErrorMessageConstants {
     String INVALID_YES_NO                           = "error.commondata.validation.InvalidYesNo";              // Invalid value {0} for data {1}
     String INVALID_JSON_ARRAY                       = "error.commondata.validation.InvalidJSONArray";
     String INVALID_JSON_OBJECT                      = "error.commondata.validation.InvalidJSONObject";
+    String INVALID_DATE                             = "error.commondata.validation.InvalidDate";
     String EMPTY_VALUE                              = "error.commondata.validation.EmptyValue";                // The value of {0} cannot be empty
 
     // User Group

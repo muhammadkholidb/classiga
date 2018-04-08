@@ -10,7 +10,7 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import ga.classi.commons.data.helper.Dto;
+import ga.classi.commons.data.helper.DTO;
 import ga.classi.data.entity.UserGroupEntity;
 
 /**
@@ -21,7 +21,7 @@ public final class UserGroupSpecifications {
     
     private UserGroupSpecifications() {}
     
-    public static Specification<UserGroupEntity> filtered(final Dto inputDto) {
+    public static Specification<UserGroupEntity> filtered(final DTO inputDto) {
         
         return new Specification<UserGroupEntity>() {
 

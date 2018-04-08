@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ga.classi.commons.data.error.DataException;
 import ga.classi.commons.data.error.ExceptionCode;
-import ga.classi.commons.data.helper.Dto;
+import ga.classi.commons.data.helper.DTO;
 import ga.classi.data.entity.MenuPermissionEntity;
 import ga.classi.data.entity.UserGroupEntity;
 import ga.classi.data.error.ErrorMessageConstants;
@@ -26,7 +26,7 @@ public class MenuPermissionService extends AbstractServiceHelper {
     private MenuPermissionRepository userGroupMenuPermissionRepository;
 
     @Transactional(readOnly = true)
-    public Dto getAllMenuPermissions(Dto dtoInput) {
+    public DTO getAllMenuPermissions(DTO dtoInput) {
 
         // No validation
         List<MenuPermissionEntity> list = userGroupMenuPermissionRepository.findAll();
@@ -35,7 +35,7 @@ public class MenuPermissionService extends AbstractServiceHelper {
     }
 
     @Transactional(readOnly = true)
-    public Dto getMenuPermissionListByUserGroupId(Dto dtoInput) {
+    public DTO getMenuPermissionListByUserGroupId(DTO dtoInput) {
 
         // Validate parameters
         DataValidation.containsRequiredData(dtoInput, "userGroupId");

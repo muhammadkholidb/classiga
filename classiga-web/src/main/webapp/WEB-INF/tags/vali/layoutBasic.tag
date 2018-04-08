@@ -27,6 +27,10 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <c:if test="${not empty appFavicon}">        
+        <link type="image/x-icon" href="${contextPath}/resources/vali/images/${appFavicon}" rel="icon" />
+        <link type="image/x-icon" href="${contextPath}/resources/vali/images/${appFavicon}" rel="shortcut icon" />
+        </c:if>
         <link rel="stylesheet" type="text/css" href="${contextPath}/resources/vali/css/vali.css" />
         <link rel="stylesheet" type="text/css" href="${contextPath}/resources/common/css/overrides.css" />
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries-->

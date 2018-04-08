@@ -7,8 +7,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 
-import ga.classi.commons.data.helper.Dto;
-import ga.classi.commons.data.helper.DtoUtils;
+import ga.classi.commons.data.helper.DTO;
+import ga.classi.commons.data.helper.DTOUtils;
 import ga.classi.commons.helper.CommonConstants;
 import ga.classi.data.entity.BaseEntity;
 
@@ -28,8 +28,8 @@ public abstract class AbstractServiceHelper {
      * @param content The content of the result.
      * @return The standardized service result.
      */
-    protected Dto buildResultByDtoList(int countRows, int totalRows, int totalPages, List<Dto> content) {
-        Dto dto = new Dto();
+    protected DTO buildResultByDtoList(int countRows, int totalRows, int totalPages, List<DTO> content) {
+        DTO dto = new DTO();
         dto.put(CommonConstants.COUNT_ROWS, countRows);
         dto.put(CommonConstants.TOTAL_ROWS, totalRows); 
         dto.put(CommonConstants.TOTAL_PAGES, totalPages);
@@ -46,8 +46,8 @@ public abstract class AbstractServiceHelper {
      * @param excludeContentKeys The keys to exclude from the entities.
      * @return The standardized service result.
      */
-    protected Dto buildResultByEntityList(int countRows, int totalRows, int totalPages, List<? extends BaseEntity> entities, String... excludeContentKeys) {
-        return buildResultByDtoList(countRows, totalRows, totalPages, DtoUtils.toDtoList(entities, excludeContentKeys));
+    protected DTO buildResultByEntityList(int countRows, int totalRows, int totalPages, List<? extends BaseEntity> entities, String... excludeContentKeys) {
+        return buildResultByDtoList(countRows, totalRows, totalPages, DTOUtils.toDTOList(entities, excludeContentKeys));
     }
     
     /**
@@ -55,8 +55,8 @@ public abstract class AbstractServiceHelper {
      * @param content The content of the result.
      * @return The standardized service result.
      */
-    protected Dto buildResultByDtoList(List<Dto> content) {
-        Dto dto = new Dto();
+    protected DTO buildResultByDtoList(List<DTO> content) {
+        DTO dto = new DTO();
         dto.put(CommonConstants.CONTENT, content);
         return dto;
     }
@@ -67,8 +67,8 @@ public abstract class AbstractServiceHelper {
      * @param excludeContentKeys The keys to exclude from the entities.
      * @return The standardized service result.
      */
-    protected Dto buildResultByEntityList(List<? extends BaseEntity> entities, String... excludeContentKeys) {
-        return buildResultByDtoList(DtoUtils.toDtoList(entities, excludeContentKeys));
+    protected DTO buildResultByEntityList(List<? extends BaseEntity> entities, String... excludeContentKeys) {
+        return buildResultByDtoList(DTOUtils.toDTOList(entities, excludeContentKeys));
     }
     
     /**
@@ -76,8 +76,8 @@ public abstract class AbstractServiceHelper {
      * @param content The content of the result.
      * @return The standardized service result.
      */
-    protected Dto buildResultByDto(Dto content) {
-        Dto dto = new Dto();
+    protected DTO buildResultByDto(DTO content) {
+        DTO dto = new DTO();
         dto.put(CommonConstants.CONTENT, content);
         return dto;
     }
@@ -89,8 +89,8 @@ public abstract class AbstractServiceHelper {
      * @param excludeContentKeys The keys to exclude from the entities.
      * @return The standardized service result.
      */
-    protected <E extends BaseEntity> Dto buildResultByEntity(E entity, String... excludeContentKeys) {
-        return buildResultByDto(DtoUtils.toDto(entity, excludeContentKeys));
+    protected <E extends BaseEntity> DTO buildResultByEntity(E entity, String... excludeContentKeys) {
+        return buildResultByDto(DTOUtils.toDTO(entity, excludeContentKeys));
     }
     
     /**
@@ -99,7 +99,7 @@ public abstract class AbstractServiceHelper {
      * @param excludeContentKeys The keys to exclude from the entities.
      * @return The standardized service result.
      */
-    protected Dto buildResultByPage(Page<? extends BaseEntity> page, String... excludeContentKeys) {
+    protected DTO buildResultByPage(Page<? extends BaseEntity> page, String... excludeContentKeys) {
         return buildResultByEntityList(
                 page.getNumberOfElements(),
                 (int) page.getTotalElements(),
@@ -116,7 +116,7 @@ public abstract class AbstractServiceHelper {
      * @param defaultSortColumn The default sort column.
      * @return A new PageRequest object.
      */
-    protected PageRequest createPageRequest(Dto dto, Direction defaultSortDirection, String defaultSortColumn) {
+    protected PageRequest createPageRequest(DTO dto, Direction defaultSortDirection, String defaultSortColumn) {
 
         return createPageRequest(
                 dto.getIntegerValue(CommonConstants.START), 

@@ -16,8 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ga.classi.commons.data.error.DataException;
 import ga.classi.commons.data.error.ExceptionCode;
-import ga.classi.commons.data.helper.Dto;
-import ga.classi.commons.data.helper.DtoUtils;
+import ga.classi.commons.data.helper.DTO;
+import ga.classi.commons.data.helper.DTOUtils;
 import ga.classi.commons.helper.CommonConstants;
 import ga.classi.commons.helper.StringCheck;
 import ga.classi.data.entity.MenuPermissionEntity;
@@ -43,7 +43,7 @@ public class UserGroupService extends AbstractServiceHelper {
     private MenuPermissionRepository menuPermissionRepository;
 
     @Transactional(readOnly = true)
-    public Dto getAll(Dto dtoInput) {
+    public DTO getAll(DTO dtoInput) {
 
         String searchTerm = dtoInput.getStringValue("searchTerm");
 
@@ -61,7 +61,7 @@ public class UserGroupService extends AbstractServiceHelper {
     }
 
     @Transactional(readOnly = true)
-    public Dto getOne(Dto dtoInput) {
+    public DTO getOne(DTO dtoInput) {
 
         // Validate dtoInput
         DataValidation.containsRequiredData(dtoInput, "id");
@@ -80,7 +80,7 @@ public class UserGroupService extends AbstractServiceHelper {
     }
 
     @Transactional(readOnly = true)
-    public Dto getOneWithMenuPermissions(Dto dtoInput) {
+    public DTO getOneWithMenuPermissions(DTO dtoInput) {
 
         // Validate dtoInput
         DataValidation.containsRequiredData(dtoInput, "id");
@@ -97,15 +97,15 @@ public class UserGroupService extends AbstractServiceHelper {
 
         List<MenuPermissionEntity> menuPermissions = userGroup.getMenuPermissions();
 
-        Dto dtoUserGroup = DtoUtils.toDto(userGroup);
-        List<Dto> listDtoMenuPermissions = DtoUtils.toDtoList(menuPermissions, "userGroup");
+        DTO dtoUserGroup = DTOUtils.toDTO(userGroup);
+        List<DTO> listDtoMenuPermissions = DTOUtils.toDTOList(menuPermissions, "userGroup");
 
         return buildResultByDto(dtoUserGroup.put("menuPermissions", listDtoMenuPermissions));
     }
 
     @SuppressWarnings("unchecked")
     @Transactional
-    public Dto add(Dto dtoInput) {
+    public DTO add(DTO dtoInput) {
 
         // Validate dtoInput
         DataValidation.containsRequiredData(dtoInput, "userGroup", "menuPermissions");
@@ -183,7 +183,7 @@ public class UserGroupService extends AbstractServiceHelper {
 
     @SuppressWarnings("unchecked")
     @Transactional
-    public Dto edit(Dto dtoInput) {
+    public DTO edit(DTO dtoInput) {
 
         // Validate dtoInput
         DataValidation.containsRequiredData(dtoInput, "userGroup", "menuPermissions");
@@ -274,7 +274,7 @@ public class UserGroupService extends AbstractServiceHelper {
     }
 
     @Transactional
-    public void remove(Dto dtoInput) {
+    public void remove(DTO dtoInput) {
 
         // Validate dtoInput
         DataValidation.containsRequiredData(dtoInput, "id");

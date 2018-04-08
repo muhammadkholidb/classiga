@@ -1,16 +1,16 @@
 package ga.classi.data.service;
 
-import ga.classi.commons.data.helper.Dto;
+import ga.classi.commons.data.helper.DTO;
 
 public interface CommonServiceBase {
 
-    Dto getAll(Dto dtoInput);
+    DTO getAll(DTO dtoInput);
     
-    Dto getOne(Dto dtoInput);
+    DTO getOne(DTO dtoInput);
     
-    Dto add(Dto dtoInput);
+    DTO add(DTO dtoInput);
     
-    Dto edit(Dto dtoInput);
+    DTO edit(DTO dtoInput);
     
-    void remove(Dto dtoInput);
+    void remove(DTO dtoInput);
 }

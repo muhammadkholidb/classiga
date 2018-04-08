@@ -1,3 +1,21 @@
+.font-primary {
+    color: #673AB7;
+}
+.font-default {
+    color: #777;
+}
+.font-info {
+    color: #2196F3;
+}
+.font-danger {
+    color: #F44336;
+}
+.font-warning {
+    color: #FF9800;
+}
+.font-success {
+    color: #4caf50;
+}
 .uppercase {
     text-transform: uppercase;
 }

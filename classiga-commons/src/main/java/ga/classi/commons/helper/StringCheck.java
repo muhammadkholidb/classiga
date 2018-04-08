@@ -1,15 +1,20 @@
 package ga.classi.commons.helper;
 
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.validator.GenericValidator;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
+import org.apache.commons.validator.routines.EmailValidator;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * A utility class for string checking.
  * @author eatonmunoz
  */
 public final class StringCheck {
+    
+    private static final ObjectMapper MAPPER = new ObjectMapper();
     
     private StringCheck() {
         // Restrict instantiation
@@ -39,7 +44,11 @@ public final class StringCheck {
      * @return true if the given text is in JSON array format.
      */
     public static boolean isJSONArray(String text) {
-        return JSONValue.parse(text) instanceof JSONArray;
+        try {
+            return MAPPER.readValue(text, List.class) != null;
+        } catch (Exception e) {
+            return false;
+        }
     }
     
     /**
@@ -48,7 +57,11 @@ public final class StringCheck {
      * @return true if the given text is in JSON object format.
      */
     public static boolean isJSONObject(String text) {
-        return JSONValue.parse(text) instanceof JSONObject;
+        try {
+            return MAPPER.readValue(text, Map.class) != null;
+        } catch (Exception e) {
+            return false;
+        } 
     }
     
     /**
@@ -61,12 +74,12 @@ public final class StringCheck {
     }
     
     /**
-     * Returns true if the given text is in email format.
+     * Returns true if the given text is in email format. Local address without TLD like "@localhost" is allowed.
      * @param text The string to check.
      * @return true if the given text is in email format.
      */
     public static boolean isEmail(String text) {
-        return GenericValidator.isEmail(text);
+        return EmailValidator.getInstance(true).isValid(text);
     }
     
     /**

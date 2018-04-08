@@ -22,7 +22,9 @@
         <property name="messageSource" ref="messageSource" />
         <property name="defaultLocale" value="en" />
     </bean>
-
+    
+    <bean id="objectMapper" class="com.fasterxml.jackson.databind.ObjectMapper"></bean>
+    
     <context:component-scan base-package="ga.classi.rest" />
 
     <!-- Enables the Spring MVC @Controller programming model --> 

@@ -21,7 +21,7 @@ import com.github.springtestdbunit.annotation.DatabaseTearDown;
 
 import ga.classi.commons.data.error.DataException;
 import ga.classi.commons.data.error.ExceptionCode;
-import ga.classi.commons.data.helper.Dto;
+import ga.classi.commons.data.helper.DTO;
 import ga.classi.commons.helper.CommonConstants;
 import ga.classi.data.error.ErrorMessageConstants;
 import ga.classi.data.test.DefaultSpringTestDbUnitConfiguration;
@@ -44,9 +44,9 @@ public class SystemServiceTest extends DefaultSpringTestDbUnitConfiguration {
     public void testGetAllSystem() {
         log.debug("Test get all system ...");
         try {
-            Dto result = systemService.getAllSystem(null);
+            DTO result = systemService.getAllSystem(null);
             log.debug("Result: " + result);
-            List<Dto> list = result.get(CommonConstants.CONTENT);
+            List<DTO> list = result.get(CommonConstants.CONTENT);
             assertEquals(4, list.size());
         } catch (Exception ex) {
             log.error(ex.toString(), ex);
@@ -57,10 +57,10 @@ public class SystemServiceTest extends DefaultSpringTestDbUnitConfiguration {
     @Test
     public void testGetSystemByKeySuccess() {
         log.debug("Test success get system by key ...");
-        Dto dtoInput = new Dto();
+        DTO dtoInput = new DTO();
         dtoInput.put("dataKey", CommonConstants.SYSTEM_KEY_LANGUAGE_CODE);
         try {
-            Dto result = systemService.getSystemByDataKey(dtoInput).get(CommonConstants.CONTENT);
+            DTO result = systemService.getSystemByDataKey(dtoInput).get(CommonConstants.CONTENT);
             assertEquals("en", result.get("dataValue"));
         } catch (Exception e) {
             log.error(e.toString(), e);
@@ -71,7 +71,7 @@ public class SystemServiceTest extends DefaultSpringTestDbUnitConfiguration {
     @Test
     public void testGetSystemByKeyFail() {
         log.debug("Test fail get system by key ...");
-        Dto dtoInput = new Dto();
+        DTO dtoInput = new DTO();
         dtoInput.put("dataKey", "unknown");
         try {
             systemService.getSystemByDataKey(dtoInput);
@@ -105,13 +105,13 @@ public class SystemServiceTest extends DefaultSpringTestDbUnitConfiguration {
         systemList.add(systemLanguageCode);
         systemList.add(systemOnline);
 
-        Dto dtoInput = new Dto().put("systems", systemList.toString());
+        DTO dtoInput = new DTO().put("systems", systemList.toString());
 
         try {
-            List<Dto> result = systemService.editSystemList(dtoInput).get(CommonConstants.CONTENT);
+            List<DTO> result = systemService.editSystemList(dtoInput).get(CommonConstants.CONTENT);
             log.debug("Result: " + result);
             assertEquals(2, result.size());
-            for (Dto dto : result) {
+            for (DTO dto : result) {
                 Long id = dto.get("id");
                 if (id == 1L) {
                     assertEquals(CommonConstants.SYSTEM_KEY_LANGUAGE_CODE, dto.get("dataKey"));
@@ -140,7 +140,7 @@ public class SystemServiceTest extends DefaultSpringTestDbUnitConfiguration {
         JSONArray systemList = new JSONArray();
         systemList.add(systemUnknown);
 
-        Dto dtoInput = new Dto().put("systems", systemList.toString());
+        DTO dtoInput = new DTO().put("systems", systemList.toString());
 
         try {
             systemService.editSystemList(dtoInput);

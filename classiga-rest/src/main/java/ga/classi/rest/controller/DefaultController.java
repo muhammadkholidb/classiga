@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import ga.classi.commons.data.helper.Dto;
-import ga.classi.commons.data.helper.DtoUtils;
+import ga.classi.commons.data.helper.DTO;
+import ga.classi.commons.data.helper.DTOUtils;
 import ga.classi.commons.helper.CommonConstants;
 import ga.classi.data.service.UserService;
 import ga.classi.rest.helper.ResponseObject;
@@ -22,7 +22,7 @@ public class DefaultController extends BaseController {
     @RequestMapping(value = "/login", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseObject login() throws UnsupportedEncodingException {
         
-        Dto dtoUser = userService.login(DtoUtils.fromServletRequest(request));
+        DTO dtoUser = userService.login(DTOUtils.fromServletRequest(request));
 
         return new ResponseObject(CommonConstants.SUCCESS, dtoUser);
     }

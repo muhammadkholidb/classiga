@@ -157,13 +157,10 @@
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
                 <configuration>
-                    <scanIntervalSeconds>10</scanIntervalSeconds>
+                    <scanIntervalSeconds>5</scanIntervalSeconds>
                     <webApp>
                         <contextPath>/classiga</contextPath>
                     </webApp>
-                    <httpConnector>
-                        <port>8080</port>
-                    </httpConnector>
                 </configuration>
             </plugin>
             <plugin>

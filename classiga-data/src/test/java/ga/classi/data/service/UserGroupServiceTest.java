@@ -22,7 +22,7 @@ import com.github.springtestdbunit.annotation.DatabaseTearDown;
 
 import ga.classi.commons.data.error.DataException;
 import ga.classi.commons.data.error.ExceptionCode;
-import ga.classi.commons.data.helper.Dto;
+import ga.classi.commons.data.helper.DTO;
 import ga.classi.commons.helper.CommonConstants;
 import ga.classi.data.error.ErrorMessageConstants;
 import ga.classi.data.test.DefaultSpringTestDbUnitConfiguration;
@@ -47,7 +47,7 @@ public class UserGroupServiceTest extends DefaultSpringTestDbUnitConfiguration {
     @Test
     public void testGetAllUserGroups() {
         log.debug("Test get all user groups ...");
-        List<Dto> result = userGroupService.getAll(new Dto()).get(CommonConstants.CONTENT);
+        List<DTO> result = userGroupService.getAll(new DTO()).get(CommonConstants.CONTENT);
         log.debug("Result: {}", result);
         assertEquals(3, result.size());
     }
@@ -55,7 +55,7 @@ public class UserGroupServiceTest extends DefaultSpringTestDbUnitConfiguration {
     @Test
     public void testFindOneUserGroupFail() {
         log.debug("Test fail find one user group ...");
-        Dto dtoInput = new Dto();
+        DTO dtoInput = new DTO();
         dtoInput.put("id", 123L);
         try {
             userGroupService.getOne(dtoInput);
@@ -73,12 +73,12 @@ public class UserGroupServiceTest extends DefaultSpringTestDbUnitConfiguration {
     @Test
     public void testFindOneUserGroupSuccess() {
         log.debug("Test success find one user group ...");
-        Dto dtoInput = new Dto();
+        DTO dtoInput = new DTO();
         dtoInput.put("id", 1L);
         try {
-            Dto result = userGroupService.getOne(dtoInput).get(CommonConstants.CONTENT);
+            DTO result = userGroupService.getOne(dtoInput).get(CommonConstants.CONTENT);
             log.debug("Result: {}", result);
-            assertEquals(1L, result.get("id"));
+            assertEquals((Long) 1L, result.get("id"));
             assertEquals("Administrator", result.get("name"));
             assertEquals(CommonConstants.YES, result.get("active"));
         } catch (Exception e) {
@@ -90,17 +90,17 @@ public class UserGroupServiceTest extends DefaultSpringTestDbUnitConfiguration {
     @Test
     public void testFindOneUserGroupWithMenuPermissions() {
         log.debug("Test success find one user group with menu permissions ...");
-        Dto dtoInput = new Dto();
+        DTO dtoInput = new DTO();
         dtoInput.put("id", 1L);
         try {
-            Dto result = userGroupService.getOneWithMenuPermissions(dtoInput).get(CommonConstants.CONTENT);
+            DTO result = userGroupService.getOneWithMenuPermissions(dtoInput).get(CommonConstants.CONTENT);
             log.debug("Result: {}", result);
 
-            assertEquals(1L, result.get("id"));
+            assertEquals((Long) 1L, result.get("id"));
             assertEquals("Administrator", result.get("name"));
             assertEquals(CommonConstants.YES, result.get("active"));
 
-            List<Dto> listDtoMenuPermissions = result.get("menuPermissions");
+            List<DTO> listDtoMenuPermissions = result.get("menuPermissions");
             assertEquals(4, listDtoMenuPermissions.size());
 
         } catch (Exception e) {
@@ -144,22 +144,22 @@ public class UserGroupServiceTest extends DefaultSpringTestDbUnitConfiguration {
         menuPermissions.add(menu3);
         menuPermissions.add(menu4);
 
-        Dto dtoInput = new Dto();
+        DTO dtoInput = new DTO();
         dtoInput.put("userGroup", userGroup);
         dtoInput.put("menuPermissions", menuPermissions);
 
         try {
-            Dto result = userGroupService.add(dtoInput).get(CommonConstants.CONTENT);
+            DTO result = userGroupService.add(dtoInput).get(CommonConstants.CONTENT);
             log.debug("Result: {}", result);
             assertEquals("Group 1", result.get("name"));
             assertEquals(CommonConstants.YES, result.get("active"));
 
             // Find total user group now
-            List<Dto> listDtoUserGroup = userGroupService.getAll(new Dto()).get(CommonConstants.CONTENT);
+            List<DTO> listDtoUserGroup = userGroupService.getAll(new DTO()).get(CommonConstants.CONTENT);
             assertEquals(4, listDtoUserGroup.size());
 
             // Find list menus for this user group
-            List<Dto> listMenuPermissionByUserGroupId = userGroupMenuPermissionService.getMenuPermissionListByUserGroupId(new Dto().put("userGroupId", result.get("id"))).get(CommonConstants.CONTENT);
+            List<DTO> listMenuPermissionByUserGroupId = userGroupMenuPermissionService.getMenuPermissionListByUserGroupId(new DTO().put("userGroupId", result.get("id"))).get(CommonConstants.CONTENT);
             assertEquals(menuPermissions.size(), listMenuPermissionByUserGroupId.size());
 
         } catch (Exception e) {
@@ -179,7 +179,7 @@ public class UserGroupServiceTest extends DefaultSpringTestDbUnitConfiguration {
 
         JSONArray menuPermissions = new JSONArray();
 
-        Dto dtoInput = new Dto();
+        DTO dtoInput = new DTO();
         dtoInput.put("userGroup", userGroup);
         dtoInput.put("menuPermissions", menuPermissions);
 
@@ -232,12 +232,12 @@ public class UserGroupServiceTest extends DefaultSpringTestDbUnitConfiguration {
         menuPermissions.add(menu3);
         menuPermissions.add(menu4);
 
-        Dto dtoInput = new Dto();
+        DTO dtoInput = new DTO();
         dtoInput.put("userGroup", userGroup);
         dtoInput.put("menuPermissions", menuPermissions);
 
         try {
-            Dto result = userGroupService.edit(dtoInput).get(CommonConstants.CONTENT);
+            DTO result = userGroupService.edit(dtoInput).get(CommonConstants.CONTENT);
             log.debug("Result: {}", result);
 
             Assert.assertEquals(CommonConstants.NO, result.get("active"));
@@ -261,7 +261,7 @@ public class UserGroupServiceTest extends DefaultSpringTestDbUnitConfiguration {
 
         JSONArray menuPermissions = new JSONArray();
 
-        Dto dtoInput = new Dto();
+        DTO dtoInput = new DTO();
         dtoInput.put("userGroup", userGroup);
         dtoInput.put("menuPermissions", menuPermissions);
 
@@ -291,7 +291,7 @@ public class UserGroupServiceTest extends DefaultSpringTestDbUnitConfiguration {
 
         JSONArray menuPermissions = new JSONArray();
 
-        Dto dtoInput = new Dto();
+        DTO dtoInput = new DTO();
         dtoInput.put("userGroup", userGroup);
         dtoInput.put("menuPermissions", menuPermissions);
 
@@ -313,7 +313,7 @@ public class UserGroupServiceTest extends DefaultSpringTestDbUnitConfiguration {
         log.debug("Test fail #1 remove user group ...");
         Long userGroupId = 1L;
         try {
-            userGroupService.remove(new Dto().put("id", userGroupId));
+            userGroupService.remove(new DTO().put("id", userGroupId));
             fail();
         } catch (DataException e) {
             log.debug(e.toString());
@@ -335,7 +335,7 @@ public class UserGroupServiceTest extends DefaultSpringTestDbUnitConfiguration {
         arr.add(1L);
 
         try {
-            userGroupService.remove(new Dto().put("id", arr.toString()));
+            userGroupService.remove(new DTO().put("id", arr.toString()));
             fail();
         } catch (DataException e) {
             log.debug(e.toString());
@@ -350,7 +350,7 @@ public class UserGroupServiceTest extends DefaultSpringTestDbUnitConfiguration {
 
             // Find user groups, make sure they are not deleted
             try {
-                Dto userGroup = userGroupService.getOne(new Dto().put("id", objId)).get(CommonConstants.CONTENT);
+                DTO userGroup = userGroupService.getOne(new DTO().put("id", objId)).get(CommonConstants.CONTENT);
                 log.debug("Result: {}", userGroup);
 
                 Long id = userGroup.get("id");
@@ -363,7 +363,7 @@ public class UserGroupServiceTest extends DefaultSpringTestDbUnitConfiguration {
                     assertEquals(CommonConstants.YES, active);
                     
                     // Find the user group permission menus, make sure they are not deleted
-                    List<Dto> listDtoMenuPermission = userGroupMenuPermissionService.getMenuPermissionListByUserGroupId(new Dto().put("userGroupId", id)).get(CommonConstants.CONTENT);
+                    List<DTO> listDtoMenuPermission = userGroupMenuPermissionService.getMenuPermissionListByUserGroupId(new DTO().put("userGroupId", id)).get(CommonConstants.CONTENT);
                     assertEquals(4, listDtoMenuPermission.size());
 
                 } else if (id == 3L) {
@@ -372,7 +372,7 @@ public class UserGroupServiceTest extends DefaultSpringTestDbUnitConfiguration {
                     assertEquals(CommonConstants.YES, active);
                     
                     // Find the user group permission menus, make sure they are not deleted
-                    List<Dto> listDtoMenuPermission = userGroupMenuPermissionService.getMenuPermissionListByUserGroupId(new Dto().put("userGroupId", id)).get(CommonConstants.CONTENT);
+                    List<DTO> listDtoMenuPermission = userGroupMenuPermissionService.getMenuPermissionListByUserGroupId(new DTO().put("userGroupId", id)).get(CommonConstants.CONTENT);
                     assertEquals(4, listDtoMenuPermission.size());
 
                 } else {
@@ -389,7 +389,7 @@ public class UserGroupServiceTest extends DefaultSpringTestDbUnitConfiguration {
     @Test
     public void testRemoveUserGroupSuccess() {
         log.debug("Test success remove user group ...");
-        Dto dtoInput = new Dto().put("id", 3L);
+        DTO dtoInput = new DTO().put("id", 3L);
         try {
             userGroupService.remove(dtoInput);
         } catch (Exception e) {

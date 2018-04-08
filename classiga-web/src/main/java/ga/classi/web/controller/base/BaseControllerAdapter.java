@@ -18,6 +18,8 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import ga.classi.commons.helper.ActionResult;
 import ga.classi.commons.helper.MessageHelper;
 import java.util.HashMap;
@@ -56,6 +58,9 @@ public abstract class BaseControllerAdapter {
     @Qualifier("usersProp")
     protected Properties usersProperties;
 
+    @Autowired
+    protected ObjectMapper objectMapper;
+    
     protected ModelAndView view(ModelAndView mav) {
         return baseController.view(mav);
     }

@@ -22,8 +22,8 @@ import org.springframework.web.servlet.ModelAndView;
 import ga.classi.commons.helper.ActionResult;
 import ga.classi.commons.helper.CommonConstants;
 import ga.classi.commons.helper.StringConstants;
+import ga.classi.commons.web.helper.JSON;
 import ga.classi.web.controller.base.BaseControllerAdapter;
-import ga.classi.web.helper.JSONHelper;
 import ga.classi.web.helper.ModelKeyConstants;
 import java.io.UnsupportedEncodingException;
 import lombok.extern.slf4j.Slf4j;
@@ -194,7 +194,7 @@ public class UserGroupController extends BaseControllerAdapter {
         List<JSONObject> menus = new ArrayList<JSONObject>();
         
         for (Object ob : availableMenus) {
-            JSONObject menu = JSONHelper.remove((JSONObject) ob, "label", "faIcon", "path", "sequence");
+            JSONObject menu = JSON.remove((JSONObject) ob, "label", "faIcon", "path", "sequence");
             menu.put("canView", false);
             menu.put("canModify", false);
             menus.add(menu);

@@ -21,7 +21,7 @@ import com.github.springtestdbunit.annotation.DatabaseTearDown;
 
 import ga.classi.commons.data.error.DataException;
 import ga.classi.commons.data.error.ExceptionCode;
-import ga.classi.commons.data.helper.Dto;
+import ga.classi.commons.data.helper.DTO;
 import ga.classi.commons.helper.CommonConstants;
 import ga.classi.data.error.ErrorMessageConstants;
 import ga.classi.data.test.DefaultSpringTestDbUnitConfiguration;
@@ -43,29 +43,29 @@ public class UserServiceTest extends DefaultSpringTestDbUnitConfiguration {
     @Test
     public void testGetAllUser() {
         log.debug("Test get all user ...");
-        Dto dtoInput = new Dto();
+        DTO dtoInput = new DTO();
         dtoInput.put("searchTerm", "yahoo");
         try {
-            Dto result = userService.getAll(dtoInput);
+            DTO result = userService.getAll(dtoInput);
             log.debug("Result: {}", result);
-            List<Dto> list = result.get(CommonConstants.CONTENT);
+            List<DTO> list = result.get(CommonConstants.CONTENT);
             assertEquals(2, list.size());
-            for (Dto dto : list) {
+            for (DTO dto : list) {
                 Long id = dto.get("id");
-                Dto dtoUserGroup = dto.getDto("userGroup");
+                DTO dtoUserGroup = dto.getDto("userGroup");
                 if (id.equals(1L)) {
                     assertEquals("John", dto.get("fullName"));
                     assertEquals("johndoe", dto.get("username"));
                     assertEquals("johndoe@yahoo.com", dto.get("email"));
                     assertEquals(CommonConstants.YES, dto.get("active"));
-                    assertEquals(1L, dtoUserGroup.get("id"));
+                    assertEquals((Long) 1L, dtoUserGroup.get("id"));
                     assertEquals("Administrator", dtoUserGroup.get("name"));
                 } else if (id.equals(2L)) {
                     assertEquals("Fulan", dto.get("fullName"));
                     assertEquals("fulan", dto.get("username"));
                     assertEquals("fulan@yahoo.com", dto.get("email"));
                     assertEquals(CommonConstants.YES, dto.get("active"));
-                    assertEquals(2L, dtoUserGroup.get("id"));
+                    assertEquals((Long) 2L, dtoUserGroup.get("id"));
                     assertEquals("User", dtoUserGroup.get("name"));
                 }
             }
@@ -78,19 +78,19 @@ public class UserServiceTest extends DefaultSpringTestDbUnitConfiguration {
     @Test
     public void testGetUserListByUserGroupId() {
         log.debug("Test get user list by user group id ...");
-        Dto dtoInput = new Dto();
+        DTO dtoInput = new DTO();
         dtoInput.put("userGroupId", 1L);
         try {
-            List<Dto> list = userService.getAllByUserGroupId(dtoInput).get(CommonConstants.CONTENT);
+            List<DTO> list = userService.getAllByUserGroupId(dtoInput).get(CommonConstants.CONTENT);
             log.debug("Result: {}", list);
             assertEquals(1, list.size());
-            Dto dtoUser = list.get(0);
-            Dto dtoUserGroup = dtoUser.getDto("userGroup");
+            DTO dtoUser = list.get(0);
+            DTO dtoUserGroup = dtoUser.getDto("userGroup");
             assertEquals("John", dtoUser.get("fullName"));
             assertEquals("johndoe", dtoUser.get("username"));
             assertEquals("johndoe@yahoo.com", dtoUser.get("email"));
             assertEquals(CommonConstants.YES, dtoUser.get("active"));
-            assertEquals(1L, dtoUserGroup.get("id"));
+            assertEquals((Long) 1L, dtoUserGroup.get("id"));
         } catch (Exception e) {
             log.error(e.toString(), e);
             fail(e.toString());
@@ -100,17 +100,17 @@ public class UserServiceTest extends DefaultSpringTestDbUnitConfiguration {
     @Test
     public void testGetUserByIdSuccess() {
         log.debug("Test success get user by ID ...");
-        Dto dtoInput = new Dto();
+        DTO dtoInput = new DTO();
         dtoInput.put("id", 1L);
         try {
-            Dto dtoUser = userService.getOne(dtoInput).get(CommonConstants.CONTENT);
-            Dto dtoUserGroup = dtoUser.getDto("userGroup");
-            assertEquals(1L, dtoUser.get("id"));
+            DTO dtoUser = userService.getOne(dtoInput).get(CommonConstants.CONTENT);
+            DTO dtoUserGroup = dtoUser.getDto("userGroup");
+            assertEquals((Long) 1L, dtoUser.get("id"));
             assertEquals("John", dtoUser.get("fullName"));
             assertEquals("johndoe", dtoUser.get("username"));
             assertEquals("johndoe@yahoo.com", dtoUser.get("email"));
             assertEquals(CommonConstants.YES, dtoUser.get("active"));
-            assertEquals(1L, dtoUserGroup.get("id"));
+            assertEquals((Long) 1L, dtoUserGroup.get("id"));
         } catch (Exception ex) {
             fail(ex.toString());
         }
@@ -119,7 +119,7 @@ public class UserServiceTest extends DefaultSpringTestDbUnitConfiguration {
     @Test
     public void testGetUserByIdFail() {
         log.debug("Test fail get user by ID ...");
-        Dto dtoInput = new Dto();
+        DTO dtoInput = new DTO();
         dtoInput.put("id", 20L);
         try {
             userService.getOne(dtoInput);
@@ -136,22 +136,22 @@ public class UserServiceTest extends DefaultSpringTestDbUnitConfiguration {
     @Test
     public void testLoginSuccess() {
         log.debug("Test success login ...");
-        Dto dtoInput = new Dto();
+        DTO dtoInput = new DTO();
         dtoInput.put("username", "fulan");
         dtoInput.put("password", "12345678");
         try {
-            Dto dtoUser = userService.login(dtoInput).get(CommonConstants.CONTENT);
+            DTO dtoUser = userService.login(dtoInput).get(CommonConstants.CONTENT);
             log.debug("Result: {}", dtoUser);
             assertEquals("Fulan", dtoUser.get("fullName"));
             assertEquals("fulan", dtoUser.get("username"));
             assertEquals("fulan@yahoo.com", dtoUser.get("email"));
             assertEquals(CommonConstants.YES, dtoUser.get("active"));
 
-            Dto dtoUserGroup = dtoUser.getDto("userGroup");
-            assertEquals(2L, dtoUserGroup.get("id"));
+            DTO dtoUserGroup = dtoUser.getDto("userGroup");
+            assertEquals((Long) 2L, dtoUserGroup.get("id"));
             assertEquals("User", dtoUserGroup.get("name"));
 
-            List<Dto> menuPermissions = dtoUserGroup.get("menuPermissions");
+            List<DTO> menuPermissions = dtoUserGroup.get("menuPermissions");
             assertEquals(4, menuPermissions.size());
 
         } catch (Exception ex) {
@@ -162,17 +162,17 @@ public class UserServiceTest extends DefaultSpringTestDbUnitConfiguration {
     @Test
     public void testGetUserByEmailSuccess() {
         log.debug("Test success get user by email  ...");
-        Dto dtoInput = new Dto();
+        DTO dtoInput = new DTO();
         dtoInput.put("email", "johndoe@yahoo.com");
         try {
-            Dto dtoUser = userService.getByEmail(dtoInput).get(CommonConstants.CONTENT);
-            Dto dtoUserGroup = dtoUser.getDto("userGroup");
-            assertEquals(1L, dtoUser.get("id"));
+            DTO dtoUser = userService.getByEmail(dtoInput).get(CommonConstants.CONTENT);
+            DTO dtoUserGroup = dtoUser.getDto("userGroup");
+            assertEquals((Long) 1L, dtoUser.get("id"));
             assertEquals("John", dtoUser.get("fullName"));
             assertEquals("johndoe", dtoUser.get("username"));
             assertEquals("johndoe@yahoo.com", dtoUser.get("email"));
             assertEquals(CommonConstants.YES, dtoUser.get("active"));
-            assertEquals(1L, dtoUserGroup.get("id"));
+            assertEquals((Long) 1L, dtoUserGroup.get("id"));
         } catch (Exception ex) {
             fail(ex.toString());
         }
@@ -181,7 +181,7 @@ public class UserServiceTest extends DefaultSpringTestDbUnitConfiguration {
     @Test
     public void testGetUserByEmailFail() {
         log.debug("Test fail get user by email ...");
-        Dto dtoInput = new Dto();
+        DTO dtoInput = new DTO();
         dtoInput.put("email", "xxxxx@yahoo.com");
         try {
             userService.getByEmail(dtoInput);
@@ -198,17 +198,17 @@ public class UserServiceTest extends DefaultSpringTestDbUnitConfiguration {
     @Test
     public void testGetUserByUsernameSuccess() {
         log.debug("Test success get user by username ...");
-        Dto dtoInput = new Dto();
+        DTO dtoInput = new DTO();
         dtoInput.put("username", "fulan");
         try {
-            Dto dtoUser = userService.getByUsername(dtoInput).get(CommonConstants.CONTENT);
-            Dto dtoUserGroup = dtoUser.getDto("userGroup");
-            assertEquals(2L, dtoUser.get("id"));
+            DTO dtoUser = userService.getByUsername(dtoInput).get(CommonConstants.CONTENT);
+            DTO dtoUserGroup = dtoUser.getDto("userGroup");
+            assertEquals((Long) 2L, dtoUser.get("id"));
             assertEquals("Fulan", dtoUser.get("fullName"));
             assertEquals("fulan", dtoUser.get("username"));
             assertEquals("fulan@yahoo.com", dtoUser.get("email"));
             assertEquals(CommonConstants.YES, dtoUser.get("active"));
-            assertEquals(2L, dtoUserGroup.get("id"));
+            assertEquals((Long) 2L, dtoUserGroup.get("id"));
         } catch (Exception ex) {
             fail(ex.toString());
         }
@@ -217,7 +217,7 @@ public class UserServiceTest extends DefaultSpringTestDbUnitConfiguration {
     @Test
     public void testGetUserByUsernameFail() {
         log.debug("Test fail get user by username ...");
-        Dto dtoInput = new Dto();
+        DTO dtoInput = new DTO();
         dtoInput.put("username", "xxxxx");
         try {
             userService.getByUsername(dtoInput);
@@ -235,7 +235,7 @@ public class UserServiceTest extends DefaultSpringTestDbUnitConfiguration {
     public void testAddUserSuccess() {
         log.debug("Test success add user ...");
 
-        Dto dtoInput = new Dto();
+        DTO dtoInput = new DTO();
         dtoInput.put("fullName", "Brian");
         dtoInput.put("username", "brian");
         dtoInput.put("email", "bryan.mckningt@yahoo.com");
@@ -245,7 +245,7 @@ public class UserServiceTest extends DefaultSpringTestDbUnitConfiguration {
         dtoInput.put("userGroupId", 1L);
 
         try {
-            Dto result = userService.add(dtoInput).get(CommonConstants.CONTENT);
+            DTO result = userService.add(dtoInput).get(CommonConstants.CONTENT);
             log.debug("Result: {}", result);
         } catch (Exception e) {
             log.error(e.toString(), e);
@@ -257,7 +257,7 @@ public class UserServiceTest extends DefaultSpringTestDbUnitConfiguration {
     public void testAddUserFail() {
         log.debug("Test fail add user ...");
 
-        Dto dtoInput = new Dto();
+        DTO dtoInput = new DTO();
         dtoInput.put("fullName", "John");
         dtoInput.put("username", "johndoe");
         dtoInput.put("email", "johndoe@yahoo.com");
@@ -283,7 +283,7 @@ public class UserServiceTest extends DefaultSpringTestDbUnitConfiguration {
     public void testEditUserSuccess() {
         log.debug("Test success edit user ...");
 
-        Dto dtoInput = new Dto();
+        DTO dtoInput = new DTO();
         dtoInput.put("id", 2L);
         dtoInput.put("fullName", "Fulan");
         dtoInput.put("username", "fulan2");
@@ -294,7 +294,7 @@ public class UserServiceTest extends DefaultSpringTestDbUnitConfiguration {
         dtoInput.put("userGroupId", 1L);
 
         try {
-            Dto result = userService.edit(dtoInput).get(CommonConstants.CONTENT);
+            DTO result = userService.edit(dtoInput).get(CommonConstants.CONTENT);
             log.debug("Result: {}", result);
             assertEquals("fulan2", result.get("username"));
             assertEquals("fulan2@yahoo.com", result.get("email"));
@@ -309,7 +309,7 @@ public class UserServiceTest extends DefaultSpringTestDbUnitConfiguration {
     public void testEditUserFail1() {
         log.debug("Test fail #1 edit user ...");
 
-        Dto dtoInput = new Dto();
+        DTO dtoInput = new DTO();
         dtoInput.put("id", 20L);
         dtoInput.put("fullName", "Fulan");
         dtoInput.put("username", "fulan2");
@@ -336,7 +336,7 @@ public class UserServiceTest extends DefaultSpringTestDbUnitConfiguration {
     public void testEditUserFail2() {
         log.debug("Test fail #2 edit user ...");
 
-        Dto dtoInput = new Dto();
+        DTO dtoInput = new DTO();
         dtoInput.put("id", 2L);
         dtoInput.put("fullName", "John");
         dtoInput.put("username", "johndoe2");
@@ -363,7 +363,7 @@ public class UserServiceTest extends DefaultSpringTestDbUnitConfiguration {
     public void testRemoveUserSuccess() {
         log.debug("Test success remove user ...");
 
-        Dto dtoInput = new Dto();
+        DTO dtoInput = new DTO();
         dtoInput.put("id", 2L);
 
         try {
@@ -396,7 +396,7 @@ public class UserServiceTest extends DefaultSpringTestDbUnitConfiguration {
         array.add(1);
         array.add(2);
 
-        Dto dtoInput = new Dto();
+        DTO dtoInput = new DTO();
         dtoInput.put("id", array.toString());
 
         try {
@@ -410,7 +410,7 @@ public class UserServiceTest extends DefaultSpringTestDbUnitConfiguration {
 
             // Find removed user
             try {
-                userService.getOne(new Dto().put("id", objId));
+                userService.getOne(new DTO().put("id", objId));
                 fail();
             } catch (DataException e) {
                 log.debug(e.toString());

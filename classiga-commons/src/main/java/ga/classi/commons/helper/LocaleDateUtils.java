@@ -1,5 +1,6 @@
 package ga.classi.commons.helper;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -9,9 +10,9 @@ import java.util.Locale;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Utility class for date and time formatting. Default locale is Indonesia (id).
+ * Utility class for date and time formatting with locale support. 
  *
- * @author Muhammad
+ * @author muhammad
  */
 @Slf4j
 public class LocaleDateUtils {
@@ -19,36 +20,9 @@ public class LocaleDateUtils {
     private LocaleDateUtils() {}
 
     /**
-     * Array of date patterns commonly used in Indonesia, first string always
-     * considered as day.
+     * The default JVM locale.
      */
-    public static final String[] DATE_PATTERNS = new String[] {
-        "dd-MM-yy",
-        "dd-MM-yyyy",
-        "dd-MMM-yy",
-        "dd-MMM-yyyy",
-        "dd-MMMM-yy",
-        "dd-MMMM-yyyy",
-        "dd/MM/yy",
-        "dd/MM/yyyy",
-        "dd/MMM/yy",
-        "dd/MMM/yyyy",
-        "dd/MMMM/yy",
-        "dd/MMMM/yyyy",
-        "dd MM yy",
-        "dd MM yyyy",
-        "dd MMM yy",
-        "dd MMM yyyy",
-        "dd MMMM yy",
-        "dd MMMM yyyy"};
-
-    public static final String[] DATE_TIME_PATTERNS = new String[] {};
-
-    /**
-     * The default locale is "id" (Indonesia) to get the name of months and days
-     * in Indonesian language.
-     */
-    private static Locale locale = new Locale("id");
+    private static Locale locale = Locale.getDefault();
 
     public static Locale getLocale() {
         return locale;
@@ -58,8 +32,90 @@ public class LocaleDateUtils {
         LocaleDateUtils.locale = locale;
     }
 
-    public static final long MILLIS_PER_DAY = 24 * 3600 * 1000;
+    public static final long MILLIS_PER_SECOND = 1000;
+    public static final long MILLIS_PER_MINUTE = 60 * MILLIS_PER_SECOND;
+    public static final long MILLIS_PER_HOUR = 60 * MILLIS_PER_MINUTE;
+    public static final long MILLIS_PER_DAY = 24 * MILLIS_PER_HOUR;
 
+    private static final int[] PATTERN_STYLES = new int[] {DateFormat.SHORT, DateFormat.MEDIUM, DateFormat.LONG, DateFormat.FULL};
+    
+    public static String[] datePatterns(Locale locale) {
+        String[] datePatterns = new String[PATTERN_STYLES.length];
+        int i = 0;
+        for (int df : PATTERN_STYLES) {
+            SimpleDateFormat sdf = (SimpleDateFormat) DateFormat.getDateInstance(df, locale);
+            datePatterns[i] = sdf.toLocalizedPattern();
+            i++;
+        }
+        return datePatterns;
+    }
+
+    public static String[] timePatterns(Locale locale) {
+        String[] timePatterns = new String[PATTERN_STYLES.length];
+        int i = 0;
+        for (int tf : PATTERN_STYLES) {
+            SimpleDateFormat sdf = (SimpleDateFormat) DateFormat.getTimeInstance(tf, locale);
+            timePatterns[i] = sdf.toLocalizedPattern();
+            i++;
+        }
+        return timePatterns;
+    }
+
+    public static String[] dateTimePatterns(Locale locale) {
+        String[] dateTimePatterns = new String[PATTERN_STYLES.length * PATTERN_STYLES.length];
+        int i = 0;
+        for (int df : PATTERN_STYLES) {
+            SimpleDateFormat sdf = (SimpleDateFormat) DateFormat.getDateInstance(df, locale);
+            String pattern = sdf.toLocalizedPattern();
+            for (int tf : PATTERN_STYLES) {
+                sdf = (SimpleDateFormat) DateFormat.getTimeInstance(tf, locale);
+                dateTimePatterns[i] = pattern + " " + sdf.toLocalizedPattern();
+                i++;
+            }
+        }
+        return dateTimePatterns;
+    }
+
+    public static String[] allPatterns(Locale locale) {
+        String[] allPatterns = new String[PATTERN_STYLES.length + PATTERN_STYLES.length + (PATTERN_STYLES.length * PATTERN_STYLES.length)];
+        int dfCount = 0;
+        int loop = 0;
+        for (int df : PATTERN_STYLES) {
+            SimpleDateFormat sdf = (SimpleDateFormat) DateFormat.getDateInstance(df, locale);
+            String datePattern = sdf.toLocalizedPattern();
+            allPatterns[loop] = datePattern;
+            loop++;
+            for (int tf : PATTERN_STYLES) {
+                sdf = (SimpleDateFormat) DateFormat.getTimeInstance(tf, locale);
+                String timePattern = sdf.toLocalizedPattern();
+                allPatterns[loop] = datePattern + " " + timePattern;
+                loop++;
+                if (dfCount == 0) {
+                    allPatterns[loop] = timePattern;
+                    loop++;
+                }
+            }
+            dfCount++;
+        }
+        return allPatterns;
+    }
+
+    public static String[] datePatterns() {
+        return datePatterns(locale);
+    }
+
+    public static String[] timePatterns() {
+        return timePatterns(locale);
+    }
+    
+    public static String[] dateTimePatterns() {
+        return dateTimePatterns(locale);
+    }
+        
+    public static String[] allPatterns() {
+        return allPatterns(locale);
+    }
+    
     /**
      * Returns the number of days between 2 dates.
      *
@@ -97,11 +153,15 @@ public class LocaleDateUtils {
      * @param amount the amount of date or time to be added to the field.
      * @return a date after being added
      */
-    public static Date addDate(Date date, int field, int amount) {
+    public static Date add(Date date, int field, int amount) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         cal.add(field, amount);
         return cal.getTime();
+    }
+
+    public static Date substract(Date date, int field, int amount) {
+        return add(date, field, -amount);
     }
 
     /**
@@ -140,12 +200,12 @@ public class LocaleDateUtils {
      * @return A {@link Date} object of specified string
      */
     public static Date toDate(String dateString, Locale locale) {
-        return toDate(dateString, DATE_PATTERNS, locale);
+        return toDate(dateString, allPatterns(locale), locale);
     }
 
     /**
      * Parses a string to {@link Date} object using default array of date patterns
-     * and default locale (id). First pattern that matches the date format of
+     * and default locale. First pattern that matches the date format of
      * the given string will be used for parsing.
      *
      * @param dateString string to parse to Date

@@ -12,7 +12,7 @@ public final class PasswordUtils {
     }
     
     public static String stir(String actual, String salt, int length) {
-        if ((salt == null) || salt.isEmpty()) {
+        if (StringUtils.isBlank(salt)) {
             String sha1 = DigestUtils.sha1Hex(DigestUtils.md5Hex(actual));
             String rightPad = StringUtils.rightPad(sha1, length, DigestUtils.sha1Hex(actual));
             return StringUtils.reverse(rightPad);

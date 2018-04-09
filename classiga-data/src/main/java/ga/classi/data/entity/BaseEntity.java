@@ -40,6 +40,9 @@ public abstract class BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
+    @Column(name = "row_hash", length = 32)
+    private String rowHash;
     
     @JsonIgnore
     @Version
@@ -57,10 +60,6 @@ public abstract class BaseEntity {
     @JsonIgnore
     @Column(name = "deleted", length = 1, nullable = false)
     private String deleted;
-
-    @JsonIgnore
-    @Column(name = "row_hash", length = 32)
-    private String rowHash;
 
     public BaseEntity(Long id) {
         this.id = id;

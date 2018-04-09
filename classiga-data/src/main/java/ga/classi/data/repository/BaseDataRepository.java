@@ -9,8 +9,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.NoRepositoryBean;
 
+import ga.classi.data.entity.BaseEntity;
+
 @NoRepositoryBean
-public interface BaseDataRepository<T, ID extends Serializable> extends JpaRepository<T, ID>, JpaSpecificationExecutor<T> {
+public interface BaseDataRepository<T extends BaseEntity, ID extends Serializable> extends JpaRepository<T, ID>, JpaSpecificationExecutor<T> {
    
     // Read https://docs.spring.io/spring-data/jpa/docs/current/reference/html
     
@@ -32,4 +34,8 @@ public interface BaseDataRepository<T, ID extends Serializable> extends JpaRepos
 
     T findOneByIdAndDeleted(Long id, String deleted);
 
+    T findOneByRowHash(String rowHash);
+
+    T findOneByRowHashAndDeleted(String rowHash, String deleted);
+    
 }

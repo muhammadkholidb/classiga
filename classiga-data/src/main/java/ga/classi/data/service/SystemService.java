@@ -62,7 +62,7 @@ public class SystemService extends AbstractServiceHelper {
         String strId = dtoInput.get("id");
 
         // Validate values
-        DataValidation.validateNumeric(strId, "System ID");
+        DataValidation.validateNumber(strId, "System ID");
 
         SystemEntity systemEntity = systemRepository.findOne(Long.valueOf(strId));
         if (systemEntity == null) {
@@ -99,7 +99,7 @@ public class SystemService extends AbstractServiceHelper {
             String strValue = String.valueOf(jsonSystem.get("dataValue"));
 
             // Validate values
-            DataValidation.validateNumeric(strId, "System ID");
+            DataValidation.validateNumber(strId, "System ID");
             DataValidation.validateEmpty(strValue, "Data Value");
 
             SystemEntity findSystem = systemRepository.findOne(Long.valueOf(strId));

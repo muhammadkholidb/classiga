@@ -3,6 +3,7 @@ package ga.classi.commons.helper;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.validator.GenericValidator;
 import org.apache.commons.validator.routines.EmailValidator;
 
@@ -21,21 +22,30 @@ public final class StringCheck {
     }
     
     /**
-     * Returns true if the given text is null or empty.
+     * Returns true if the given text is null or empty (trimmed).
      * @param text The string to check.
-     * @return true if the given text is null or empty.
+     * @return true if the given text is null or empty (trimmed).
      */
     public static boolean isEmpty(String text) {
-        return text == null || text.isEmpty();
+        return text == null || text.trim().isEmpty();
     }
     
     /**
-     * Returns true if the given text is a number of integer or double.
+     * Returns true if the given text is a number of long or double.
      * @param text The string to check.
-     * @return true if the given text is a number of integer or double.
+     * @return true if the given text is a number of long or double.
      */
-    public static boolean isNumeric(String text) {
+    public static boolean isNumber(String text) {
         return GenericValidator.isLong(text) || GenericValidator.isDouble(text);
+    } 
+
+    /**
+     * Returns true if the given text contains only digit characters.
+     * @param text The string to check.
+     * @return true if the given text contains only digit characters.
+     */
+    public static boolean isDigits(String text) {
+        return NumberUtils.isDigits(text);
     } 
     
     /**

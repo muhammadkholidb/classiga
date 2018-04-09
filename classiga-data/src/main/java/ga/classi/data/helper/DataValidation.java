@@ -81,9 +81,9 @@ public class DataValidation {
      * @param name The validated component name.
      * @throws DataException If the string is not a number.
      */
-    public static void validateNumeric(Object string, String name) {
+    public static void validateNumber(Object string, String name) {
         validateEmpty(string, name);
-        if (!StringCheck.isNumeric(string.toString())) {
+        if (!StringCheck.isNumber(string.toString())) {
             throw new DataException(ExceptionCode.E1005, ErrorMessageConstants.INVALID_NUMERIC, new Object[]{string, name});
         }
     }
@@ -94,11 +94,11 @@ public class DataValidation {
      * @param name The validated component name.
      * @throws DataException If the string is not a number.
      */
-    public static void validateNumericOrEmpty(Object string, String name) {
+    public static void validateNumberOrEmpty(Object string, String name) {
         if ((string == null) || StringCheck.isEmpty(string.toString())) {
             return;
         }
-        validateNumeric(string, name);
+        validateNumber(string, name);
     }
 
     /**

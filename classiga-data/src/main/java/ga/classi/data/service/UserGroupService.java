@@ -69,7 +69,7 @@ public class UserGroupService extends AbstractServiceHelper {
         String strId = dtoInput.getStringValue("id");
 
         // Validate values
-        DataValidation.validateNumeric(strId, "User Group ID");
+        DataValidation.validateNumber(strId, "User Group ID");
 
         UserGroupEntity userGroup = userGroupRepository.findOneByIdAndDeleted(Long.valueOf(strId), CommonConstants.NO);
         if (userGroup == null) {
@@ -88,7 +88,7 @@ public class UserGroupService extends AbstractServiceHelper {
         String strId = dtoInput.getStringValue("id");
 
         // Validate values
-        DataValidation.validateNumeric(strId, "User Group ID");
+        DataValidation.validateNumber(strId, "User Group ID");
 
         UserGroupEntity userGroup = userGroupRepository.findByIdAndDeletedFetchMenuPermissions(Long.valueOf(strId), CommonConstants.NO);
         if (userGroup == null) {
@@ -207,7 +207,7 @@ public class UserGroupService extends AbstractServiceHelper {
         String strGroupActive = String.valueOf(jsonUserGroup.get("active"));
 
         // Validate values user group
-        DataValidation.validateNumeric(strId, "User Group ID");
+        DataValidation.validateNumber(strId, "User Group ID");
         DataValidation.validateEmpty(strId, "Name");
         DataValidation.validateYesNo(strGroupActive, "Active");
 
@@ -289,13 +289,13 @@ public class UserGroupService extends AbstractServiceHelper {
 
             for (Object id : arr) {
                 String strId = String.valueOf(id);
-                DataValidation.validateNumeric(strId, "User Group ID");
+                DataValidation.validateNumber(strId, "User Group ID");
                 listUserGroupId.add(Long.valueOf(strId));
             }
 
         } else {
 
-            DataValidation.validateNumeric(strUserGroupId, "User Group ID");
+            DataValidation.validateNumber(strUserGroupId, "User Group ID");
             listUserGroupId.add(Long.valueOf(strUserGroupId));
         }
 

@@ -43,7 +43,7 @@ public class MenuPermissionService extends AbstractServiceHelper {
         String strUserGroupId = dtoInput.getStringValue("userGroupId");
 
         // Validate values
-        DataValidation.validateNumeric(strUserGroupId, "User Group ID");
+        DataValidation.validateNumber(strUserGroupId, "User Group ID");
 
         UserGroupEntity userGroup = userGroupRepository.findOne(Long.valueOf(strUserGroupId));
         if (userGroup == null) {

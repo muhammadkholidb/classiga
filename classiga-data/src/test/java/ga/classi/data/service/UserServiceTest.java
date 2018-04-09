@@ -52,7 +52,7 @@ public class UserServiceTest extends DefaultSpringTestDbUnitConfiguration {
             assertEquals(2, list.size());
             for (DTO dto : list) {
                 Long id = dto.get("id");
-                DTO dtoUserGroup = dto.getDto("userGroup");
+                DTO dtoUserGroup = dto.getDTO("userGroup");
                 if (id.equals(1L)) {
                     assertEquals("John", dto.get("fullName"));
                     assertEquals("johndoe", dto.get("username"));
@@ -85,7 +85,7 @@ public class UserServiceTest extends DefaultSpringTestDbUnitConfiguration {
             log.debug("Result: {}", list);
             assertEquals(1, list.size());
             DTO dtoUser = list.get(0);
-            DTO dtoUserGroup = dtoUser.getDto("userGroup");
+            DTO dtoUserGroup = dtoUser.getDTO("userGroup");
             assertEquals("John", dtoUser.get("fullName"));
             assertEquals("johndoe", dtoUser.get("username"));
             assertEquals("johndoe@yahoo.com", dtoUser.get("email"));
@@ -104,7 +104,7 @@ public class UserServiceTest extends DefaultSpringTestDbUnitConfiguration {
         dtoInput.put("id", 1L);
         try {
             DTO dtoUser = userService.getOne(dtoInput).get(CommonConstants.CONTENT);
-            DTO dtoUserGroup = dtoUser.getDto("userGroup");
+            DTO dtoUserGroup = dtoUser.getDTO("userGroup");
             assertEquals((Long) 1L, dtoUser.get("id"));
             assertEquals("John", dtoUser.get("fullName"));
             assertEquals("johndoe", dtoUser.get("username"));
@@ -147,7 +147,7 @@ public class UserServiceTest extends DefaultSpringTestDbUnitConfiguration {
             assertEquals("fulan@yahoo.com", dtoUser.get("email"));
             assertEquals(CommonConstants.YES, dtoUser.get("active"));
 
-            DTO dtoUserGroup = dtoUser.getDto("userGroup");
+            DTO dtoUserGroup = dtoUser.getDTO("userGroup");
             assertEquals((Long) 2L, dtoUserGroup.get("id"));
             assertEquals("User", dtoUserGroup.get("name"));
 
@@ -166,7 +166,7 @@ public class UserServiceTest extends DefaultSpringTestDbUnitConfiguration {
         dtoInput.put("email", "johndoe@yahoo.com");
         try {
             DTO dtoUser = userService.getByEmail(dtoInput).get(CommonConstants.CONTENT);
-            DTO dtoUserGroup = dtoUser.getDto("userGroup");
+            DTO dtoUserGroup = dtoUser.getDTO("userGroup");
             assertEquals((Long) 1L, dtoUser.get("id"));
             assertEquals("John", dtoUser.get("fullName"));
             assertEquals("johndoe", dtoUser.get("username"));
@@ -202,7 +202,7 @@ public class UserServiceTest extends DefaultSpringTestDbUnitConfiguration {
         dtoInput.put("username", "fulan");
         try {
             DTO dtoUser = userService.getByUsername(dtoInput).get(CommonConstants.CONTENT);
-            DTO dtoUserGroup = dtoUser.getDto("userGroup");
+            DTO dtoUserGroup = dtoUser.getDTO("userGroup");
             assertEquals((Long) 2L, dtoUser.get("id"));
             assertEquals("Fulan", dtoUser.get("fullName"));
             assertEquals("fulan", dtoUser.get("username"));

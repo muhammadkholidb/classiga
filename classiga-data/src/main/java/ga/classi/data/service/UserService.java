@@ -65,7 +65,7 @@ public class UserService extends AbstractServiceHelper {
 
         // Validate values
         String strUserGroupId = dtoInput.getStringValue("userGroupId");
-        DataValidation.validateNumeric(strUserGroupId, "User Group ID");
+        DataValidation.validateNumber(strUserGroupId, "User Group ID");
 
         UserGroupEntity userGroup = userGroupRepository.findOneByIdAndDeleted(Long.valueOf(strUserGroupId), CommonConstants.NO);
         if (userGroup == null) {
@@ -85,7 +85,7 @@ public class UserService extends AbstractServiceHelper {
 
         // Validate values
         String strUserId = dtoInput.getStringValue("id");
-        DataValidation.validateNumeric(strUserId, "User ID");
+        DataValidation.validateNumber(strUserId, "User ID");
 
         UserEntity user = userRepository.findOneByIdAndDeleted(Long.valueOf(strUserId), CommonConstants.NO);
         if (user == null) {
@@ -188,7 +188,7 @@ public class UserService extends AbstractServiceHelper {
         DataValidation.validateEmpty(strPassword, "Password");
         DataValidation.validateEmail(strEmail);
         DataValidation.validateUsername(strUsername);
-        DataValidation.validateNumeric(strUserGroupId, "User Group ID");
+        DataValidation.validateNumber(strUserGroupId, "User Group ID");
         DataValidation.validateYesNo(strActive, "Active");
 
         // Find user by username
@@ -244,11 +244,11 @@ public class UserService extends AbstractServiceHelper {
         String strUserGroupId = dtoInput.getStringValue("userGroupId");
 
         // Validate values
-        DataValidation.validateNumeric(strId, "User ID");
+        DataValidation.validateNumber(strId, "User ID");
         DataValidation.validateEmpty(strFullName, "First Name");
         DataValidation.validateEmail(strEmail);
         DataValidation.validateUsername(strUsername);
-        DataValidation.validateNumeric(strUserGroupId, "User Group ID");
+        DataValidation.validateNumber(strUserGroupId, "User Group ID");
         DataValidation.validateYesNo(strActive, "Active");
 
         UserEntity findUserById = userRepository.findOneByIdAndDeleted(Long.valueOf(strId), CommonConstants.NO);
@@ -312,7 +312,7 @@ public class UserService extends AbstractServiceHelper {
 
             for (Object id : arr) {
                 String strId = String.valueOf(id);
-                DataValidation.validateNumeric(strId, "User ID");
+                DataValidation.validateNumber(strId, "User ID");
                 UserEntity findUserById = userRepository.findOneByIdAndDeleted(Long.valueOf(strId), CommonConstants.NO);
                 if (findUserById == null) {
                     throw new DataException(ExceptionCode.E1001, ErrorMessageConstants.USER_NOT_FOUND);
@@ -323,7 +323,7 @@ public class UserService extends AbstractServiceHelper {
 
         } else {
 
-            DataValidation.validateNumeric(strUserId, "User ID");
+            DataValidation.validateNumber(strUserId, "User ID");
             UserEntity findUserById = userRepository.findOneByIdAndDeleted(Long.valueOf(strUserId), CommonConstants.NO);
             if (findUserById == null) {
                 throw new DataException(ExceptionCode.E1001, ErrorMessageConstants.USER_NOT_FOUND);

@@ -37,7 +37,7 @@ public class DTO extends HashMap<Object, Object> {
     }
 
     @SuppressWarnings("unchecked")
-    public DTO getDto(String key) {
+    public DTO getDTO(String key) {
         return new DTO((Map<? extends Object, ? extends Object>) super.get(key));
     }
 

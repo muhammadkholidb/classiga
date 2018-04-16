@@ -6,11 +6,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
-
-import org.json.simple.JSONObject;
+import java.util.HashMap;
+import java.util.Map;
 
 import ga.classi.commons.helper.StringConstants;
 import lombok.Getter;
@@ -19,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * The client for processing HTTP based requests.
+ * 
  * @author eatonmunoz
  */
 @Slf4j
@@ -26,24 +26,10 @@ import lombok.extern.slf4j.Slf4j;
 @Getter
 public class HTTP {
 
-    // Read
-    // https://stackoverflow.com/questions/3842823/should-logger-be-private-static-or-not
-    // https://stackoverflow.com/questions/6653520/why-do-we-declare-loggers-static-final
-    // https://stackoverflow.com/questions/1417190/should-a-static-final-logger-be-declared-in-upper-case
-    
-    public static final String GET = "GET";
-    public static final String POST = "POST";
-
-    private static final String HTTP_SCHEME = "http";
-    private static final String HTTPS_SCHEME = "https";
-
-    private String scheme;
-    private String method;
-    private String host;
-    private String path;
-    private JSONObject parameters;
-    private JSONObject headers;
-    private boolean secure;
+    private String              host;
+    private String              path;
+    private Map<String, Object> parameters;
+    private Map<String, Object> headers;
 
     public HTTP() {}
 
@@ -55,49 +41,32 @@ public class HTTP {
         this(host, path, null);
     }
 
-    public HTTP(String host, String path, JSONObject parameters) {
+    public HTTP(String host, String path, Map<String, Object> parameters) {
         this(host, path, parameters, null);
     }
 
-    public HTTP(String host, String path, JSONObject parameters, JSONObject headers) {
-        this(host, path, parameters, headers, false);
-    }
-
-    public HTTP(String host, String path, JSONObject parameters, JSONObject headers, boolean secure) {
+    public HTTP(String host, String path, Map<String, Object> parameters, Map<String, Object> headers) {
         this.host = host;
         this.path = path;
         this.parameters = parameters;
         this.headers = headers;
-        this.secure = secure;
-        try {
-            this.scheme = new URL(host).getProtocol();
-        } catch (MalformedURLException ex) {
-            this.scheme = HTTP_SCHEME;
-        }
-    }
-
-    public HTTPResponse request() throws IOException {
-        if (POST.equals(method)) {
-            return post();
-        } else if (GET.equals(method)) {
-            return get();
-        }
-        throw new UnsupportedOperationException("Unsupported request method: " + method);
     }
 
     /**
-     * Builds a URL query string parameters from a JSONObject.
-     * @param parameters The parameters in JSONObject format.
+     * Builds a URL query string parameters.
+     * 
+     * @param parameters
+     *            The request parameters.
      * @return An URL query string parameters.
      */
-    private String buildQueryStrings(JSONObject parameters) throws UnsupportedEncodingException {
+    private String buildQueryStrings(Map<String, Object> parameters) throws UnsupportedEncodingException {
         if ((parameters != null) && !parameters.isEmpty()) {
             StringBuilder builder = new StringBuilder();
             int i = 0;
             for (Object key : parameters.keySet()) {
                 builder.append(key);
                 builder.append("=");
-                builder.append(parameters.get(key) == null ? StringConstants.EMPTY : URLEncoder.encode(parameters.get(key).toString(), "UTF-8"));
+                builder.append(parameters.get(key) == null ? StringConstants.EMPTY: URLEncoder.encode(parameters.get(key).toString(), "UTF-8"));
                 i++;
                 if (i < parameters.size()) {
                     builder.append("&");
@@ -110,39 +79,26 @@ public class HTTP {
 
     /**
      * Sends an HTTP GET request.
+     * 
      * @return The response from the HTTP GET request.
-     * @throws IOException If an error occurred during the request.
+     * @throws IOException
+     *             If an error occurred during the request.
      */
     public HTTPResponse get() throws IOException {
 
-        method = GET;
-
-        if ((host == null) || "".equals(host)) {
+        if ((host == null) || host.isEmpty()) {
             throw new NullPointerException("Empty host.");
         }
 
-        String prefixSchemeHttp = HTTP_SCHEME + "://";
-        String prefixSchemeHttps = HTTPS_SCHEME + "://";
-
-        if (host.toLowerCase().startsWith(prefixSchemeHttp)) {
-            host = host.substring(prefixSchemeHttp.length());
-            secure = false;
-        } else if (host.toLowerCase().startsWith(prefixSchemeHttps)) {
-            host = host.substring(prefixSchemeHttps.length());
-            secure = true;
-        }
-
-        String strUrl = secure ? (prefixSchemeHttps + host + path) : (prefixSchemeHttp + host + path);
+        String strUrl = host + ((path == null) ? "" : path);
         String queryStrings = buildQueryStrings(parameters);
 
-        // Read http://slf4j.org/faq.html#logging_performance
         log.debug("Sending GET request to URL: {}", strUrl);
         log.debug("Parameters: {}", parameters);
 
         URL url = new URL(strUrl + ((queryStrings == null) ? "" : ("?" + queryStrings)));
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
-
-        con.setRequestMethod(method);
+        con.setRequestMethod("GET");
         if (headers != null) {
             log.debug("Headers: {}", headers);
             for (Object name : headers.keySet()) {
@@ -171,29 +127,18 @@ public class HTTP {
 
     /**
      * Sends an HTTP POST request.
+     * 
      * @return The response from the HTTP POST request.
-     * @throws IOException If an error occurred during the request.
+     * @throws IOException
+     *             If an error occurred during the request.
      */
     public HTTPResponse post() throws IOException {
 
-        method = POST;
-
-        if ((host == null) || "".equals(host)) {
+        if ((host == null) || host.isEmpty()) {
             throw new NullPointerException("Empty host.");
         }
 
-        String prefixSchemeHttp = HTTP_SCHEME + "://";
-        String prefixSchemeHttps = HTTPS_SCHEME + "://";
-
-        if (host.toLowerCase().startsWith(prefixSchemeHttp)) {
-            host = host.substring(prefixSchemeHttp.length());
-            secure = false;
-        } else if (host.toLowerCase().startsWith(prefixSchemeHttps)) {
-            host = host.substring(prefixSchemeHttps.length());
-            secure = true;
-        }
-
-        String strUrl = secure ? (prefixSchemeHttps + host + path) : (prefixSchemeHttp + host + path);
+        String strUrl = host + ((path == null) ? "" : path);
         String queryStrings = buildQueryStrings(parameters);
 
         log.debug("Sending POST request to URL: {}", strUrl);
@@ -201,8 +146,7 @@ public class HTTP {
 
         URL obj = new URL(strUrl);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-
-        con.setRequestMethod(method);
+        con.setRequestMethod("POST");
         con.setDoOutput(true);
         if (headers != null) {
             log.debug("Headers: {}", headers);
@@ -239,20 +183,24 @@ public class HTTP {
 
     /**
      * Adds a parameter to the HTTP request.
-     * @param name The name of the parameter.
-     * @param value The value of the parameter.
+     * 
+     * @param name
+     *            The name of the parameter.
+     * @param value
+     *            The value of the parameter.
      */
-    @SuppressWarnings("unchecked")
     public void addParameter(String name, Object value) {
         if (parameters == null) {
-            parameters = new JSONObject();
+            parameters = new HashMap<>();
         }
         parameters.put(name, value);
     }
 
     /**
      * Returns the value of the specified parameter name.
-     * @param name The name of the parameter.
+     * 
+     * @param name
+     *            The name of the parameter.
      * @return The value of the specified parameter name.
      */
     public Object getParameter(String name) {
@@ -264,20 +212,24 @@ public class HTTP {
 
     /**
      * Sets the request header or adds a new header data.
-     * @param name The name of the header.
-     * @param value The value of the header.
+     * 
+     * @param name
+     *            The name of the header.
+     * @param value
+     *            The value of the header.
      */
-    @SuppressWarnings("unchecked")
     public void setHeader(String name, Object value) {
         if (headers == null) {
-            headers = new JSONObject();
+            headers = new HashMap<>();
         }
         headers.put(name, value);
     }
 
     /**
      * Returns the value of the specified header name.
-     * @param name The name of the header.
+     * 
+     * @param name
+     *            The name of the header.
      * @return The value of the header.
      */
     public Object getHeader(String name) {

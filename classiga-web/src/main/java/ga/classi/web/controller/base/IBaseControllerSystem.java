@@ -1,7 +1,8 @@
 package ga.classi.web.controller.base;
 
+import java.util.Map;
+
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 
 import ga.classi.commons.helper.ActionResult;
 
@@ -17,6 +18,6 @@ public interface IBaseControllerSystem {
     
     void loadSystems();
 
-    ActionResult editSystems(JSONObject parameters, String languageCode);
+    ActionResult editSystems(Map<String, Object> parameters, String languageCode);
     
 }

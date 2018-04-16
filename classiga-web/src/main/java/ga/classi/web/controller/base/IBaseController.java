@@ -1,15 +1,14 @@
 package ga.classi.web.controller.base;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.springframework.web.servlet.ModelAndView;
 
 import ga.classi.commons.helper.ActionResult;
-import java.util.HashMap;
 
 /**
  *
@@ -123,11 +122,14 @@ public interface IBaseController extends IBaseControllerSystem, IBaseControllerU
 
     String createMessage(String code);
 
-    ActionResult createActionResult(String status, String message, JSONObject data);
+    @SuppressWarnings("rawtypes")
+    <T extends Map> ActionResult createActionResult(String status, String message, T data);
     
-    ActionResult successActionResult(String message, JSONObject data);
+    @SuppressWarnings("rawtypes")
+    <T extends Map> ActionResult successActionResult(String message, T data);
 
-    ActionResult successActionResult(JSONObject data); 
+    @SuppressWarnings("rawtypes")
+    <T extends Map> ActionResult successActionResult(T data); 
     
     ActionResult failActionResult(String message);
 

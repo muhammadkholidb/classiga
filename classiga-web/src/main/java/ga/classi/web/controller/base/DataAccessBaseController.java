@@ -1,7 +1,9 @@
 package ga.classi.web.controller.base;
 
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -27,19 +29,19 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class DataAccessBaseController extends AbstractBaseController implements IBaseController {
-    
+
     @Autowired
-    private SystemService systemService;
-    
+    private SystemService    systemService;
+
     @Autowired
-    private UserService userService;
+    private UserService      userService;
 
     @Autowired
     private UserGroupService userGroupService;
-    
+
     @Autowired
-    private DataImporter dataImporter;
-    
+    private DataImporter     dataImporter;
+
     @Override
     protected void postConstruct() {
         // Post construct
@@ -50,24 +52,26 @@ public class DataAccessBaseController extends AbstractBaseController implements 
     public void loadSystems() {
         log.debug("Load systems to session ...");
         try {
-            
+
             DTO dto = systemService.getAllSystem(new DTO());
-            
+
             // Import default system data when no data returned
-            if ((dto == null) || dto.isEmpty() || dto.get(CommonConstants.CONTENT) == null || ((List) dto.get(CommonConstants.CONTENT)).isEmpty() ) {
-                
+            if ((dto == null) || dto.isEmpty() || dto.get(CommonConstants.CONTENT) == null
+                    || ((List) dto.get(CommonConstants.CONTENT)).isEmpty()) {
+
                 log.debug("System data is empty, load initial data ...");
                 InputStream is = this.getClass().getClassLoader().getResourceAsStream("dataset/system.xml");
                 dataImporter.addStreamDataSet(is);
                 dataImporter.importAll();
-                
+
                 // Find again
                 dto = systemService.getAllSystem(new DTO());
             }
 
-            SessionManager.set(SessionKeyConstants.SYSTEMS, (JSONArray) JSONValue.parse(JSONArray.toJSONString((List) dto.get(CommonConstants.CONTENT))));
+            SessionManager.set(SessionKeyConstants.SYSTEMS,
+                    (JSONArray) JSONValue.parse(JSONArray.toJSONString((List) dto.get(CommonConstants.CONTENT))));
             updateLocale(getSystem(CommonConstants.SYSTEM_KEY_LANGUAGE_CODE));
-            
+
         } catch (DataException e) {
             log.error(CommonUtils.getExceptionMessage(e), e);
         } catch (Exception e) {
@@ -75,13 +79,12 @@ public class DataAccessBaseController extends AbstractBaseController implements 
         }
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public ActionResult editSystems(JSONObject parameters, String languageCode) {
+    public ActionResult editSystems(Map<String, Object> parameters, String languageCode) {
         try {
             DTO dto = systemService.editSystemList(new DTO(parameters));
             updateLocale(languageCode);
-            return successActionResult(createMessage("success.SuccessfullyEditSystem"), dto.toJSONObject());
+            return successActionResult(createMessage("success.SuccessfullyEditSystem"), dto);
         } catch (DataException e) {
             log.error(CommonUtils.getExceptionMessage(e), e);
             return failActionResult(createMessage(e.getMessage(), e.getData()));
@@ -91,12 +94,11 @@ public class DataAccessBaseController extends AbstractBaseController implements 
         }
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public ActionResult login(JSONObject parameters) {
+    public ActionResult login(Map<String, Object> parameters) {
         try {
             DTO dto = userService.login(new DTO(parameters));
-            return successActionResult(dto.toJSONObject());
+            return successActionResult(dto);
         } catch (DataException e) {
             log.error(CommonUtils.getExceptionMessage(e), e);
             return failActionResult(createMessage(e.getMessage(), e.getData()));
@@ -106,12 +108,11 @@ public class DataAccessBaseController extends AbstractBaseController implements 
         }
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public ActionResult listUser(JSONObject parameters) {
+    public ActionResult listUser(Map<String, Object> parameters) {
         try {
             DTO dto = userService.getAll(new DTO(parameters));
-            return successActionResult(dto.toJSONObject());
+            return successActionResult(dto);
         } catch (DataException e) {
             log.error(CommonUtils.getExceptionMessage(e), e);
             return failActionResult(createMessage(e.getMessage(), e.getData()));
@@ -121,12 +122,11 @@ public class DataAccessBaseController extends AbstractBaseController implements 
         }
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public ActionResult findUser(JSONObject parameters) {
+    public ActionResult findUser(Map<String, Object> parameters) {
         try {
             DTO dto = userService.getOne(new DTO(parameters));
-            return successActionResult(dto.toJSONObject());
+            return successActionResult(dto);
         } catch (DataException e) {
             log.error(CommonUtils.getExceptionMessage(e), e);
             return failActionResult(createMessage(e.getMessage(), e.getData()));
@@ -136,12 +136,11 @@ public class DataAccessBaseController extends AbstractBaseController implements 
         }
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public ActionResult addUser(JSONObject parameters) {
+    public ActionResult addUser(Map<String, Object> parameters) {
         try {
             DTO dto = userService.add(new DTO(parameters));
-            return successActionResult(createMessage("success.SuccessfullyAddUser"), dto.toJSONObject());
+            return successActionResult(createMessage("success.SuccessfullyAddUser"), dto);
         } catch (DataException e) {
             log.error(CommonUtils.getExceptionMessage(e), e);
             return failActionResult(createMessage(e.getMessage(), e.getData()));
@@ -151,12 +150,11 @@ public class DataAccessBaseController extends AbstractBaseController implements 
         }
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public ActionResult editUser(JSONObject parameters) {
+    public ActionResult editUser(Map<String, Object> parameters) {
         try {
             DTO dto = userService.edit(new DTO(parameters));
-            return successActionResult(createMessage("success.SuccessfullyEditUser"), dto.toJSONObject());
+            return successActionResult(createMessage("success.SuccessfullyEditUser"), dto);
         } catch (DataException e) {
             log.error(CommonUtils.getExceptionMessage(e), e);
             return failActionResult(createMessage(e.getMessage(), e.getData()));
@@ -166,9 +164,8 @@ public class DataAccessBaseController extends AbstractBaseController implements 
         }
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public ActionResult removeUser(JSONObject parameters) {
+    public ActionResult removeUser(Map<String, Object> parameters) {
         try {
             userService.remove(new DTO(parameters));
             return successActionResult(createMessage("success.SuccessfullyRemoveUser"), new JSONObject());
@@ -181,12 +178,11 @@ public class DataAccessBaseController extends AbstractBaseController implements 
         }
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public ActionResult listUserGroup(JSONObject parameters) {
+    public ActionResult listUserGroup(Map<String, Object> parameters) {
         try {
             DTO dto = userGroupService.getAll(new DTO(parameters));
-            return successActionResult(dto.toJSONObject());
+            return successActionResult(dto);
         } catch (DataException e) {
             log.error(CommonUtils.getExceptionMessage(e), e);
             return failActionResult(createMessage(e.getMessage(), e.getData()));
@@ -196,12 +192,11 @@ public class DataAccessBaseController extends AbstractBaseController implements 
         }
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public ActionResult findUserGroup(JSONObject parameters) {
+    public ActionResult findUserGroup(Map<String, Object> parameters) {
         try {
             DTO dto = userGroupService.getOneWithMenuPermissions(new DTO(parameters));
-            return successActionResult(dto.toJSONObject());
+            return successActionResult(dto);
         } catch (DataException e) {
             log.error(CommonUtils.getExceptionMessage(e), e);
             return failActionResult(createMessage(e.getMessage(), e.getData()));
@@ -211,12 +206,11 @@ public class DataAccessBaseController extends AbstractBaseController implements 
         }
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public ActionResult addUserGroup(JSONObject parameters) {
+    public ActionResult addUserGroup(Map<String, Object> parameters) {
         try {
             DTO dto = userGroupService.add(new DTO(parameters));
-            return successActionResult(createMessage("success.SuccessfullyAddUserGroup"), dto.toJSONObject());
+            return successActionResult(createMessage("success.SuccessfullyAddUserGroup"), dto);
         } catch (DataException e) {
             log.error(CommonUtils.getExceptionMessage(e), e);
             return failActionResult(createMessage(e.getMessage(), e.getData()));
@@ -226,12 +220,11 @@ public class DataAccessBaseController extends AbstractBaseController implements 
         }
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public ActionResult editUserGroup(JSONObject parameters) {
+    public ActionResult editUserGroup(Map<String, Object> parameters) {
         try {
             DTO dto = userGroupService.edit(new DTO(parameters));
-            return successActionResult(createMessage("success.SuccessfullyEditUserGroup"), dto.toJSONObject());
+            return successActionResult(createMessage("success.SuccessfullyEditUserGroup"), dto);
         } catch (DataException e) {
             log.error(CommonUtils.getExceptionMessage(e), e);
             return failActionResult(createMessage(e.getMessage(), e.getData()));
@@ -241,12 +234,11 @@ public class DataAccessBaseController extends AbstractBaseController implements 
         }
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public ActionResult removeUserGroup(JSONObject parameters) {
+    public ActionResult removeUserGroup(Map<String, Object> parameters) {
         try {
             userGroupService.remove(new DTO(parameters));
-            return successActionResult(createMessage("success.SuccessfullyRemoveUserGroup"), new JSONObject());
+            return successActionResult(createMessage("success.SuccessfullyRemoveUserGroup"), new HashMap<>());
         } catch (DataException e) {
             log.error(CommonUtils.getExceptionMessage(e), e);
             return failActionResult(createMessage(e.getMessage(), e.getData()));

@@ -100,7 +100,7 @@ public class UserGroupService extends AbstractServiceHelper {
         DTO dtoUserGroup = DTOUtils.toDTO(userGroup);
         List<DTO> listDtoMenuPermissions = DTOUtils.toDTOList(menuPermissions, "userGroup");
 
-        return buildResultByDto(dtoUserGroup.put("menuPermissions", listDtoMenuPermissions));
+        return buildResultByDTO(dtoUserGroup.put("menuPermissions", listDtoMenuPermissions));
     }
 
     @SuppressWarnings("unchecked")

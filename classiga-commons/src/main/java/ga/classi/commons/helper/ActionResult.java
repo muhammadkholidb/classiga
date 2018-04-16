@@ -1,6 +1,7 @@
 package ga.classi.commons.helper;
 
-import org.json.simple.JSONObject;
+import java.util.Map;
+
 import org.json.simple.JSONValue;
 
 import lombok.Getter;
@@ -15,8 +16,9 @@ public class ActionResult {
     @Setter
     protected String message;
 
+    @SuppressWarnings("rawtypes")
     @Setter
-    protected JSONObject data;
+    protected Map data;
     
     protected Object content;
     protected Integer countRows;
@@ -25,7 +27,8 @@ public class ActionResult {
 
     public ActionResult() {}
 
-    public ActionResult(String status, String message, JSONObject data) {
+    @SuppressWarnings("rawtypes")
+    public ActionResult(String status, String message, Map data) {
         this.status = status;
         this.message = message;
         this.data = data;

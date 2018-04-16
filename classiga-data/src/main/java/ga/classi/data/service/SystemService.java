@@ -116,7 +116,7 @@ public class SystemService extends AbstractServiceHelper {
 
             updatedList.add(dto);
         }
-        return buildResultByDtoList(updatedList);
+        return buildResultByDTOList(updatedList);
     }
 
 }

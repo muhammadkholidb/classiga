@@ -603,8 +603,9 @@ public abstract class AbstractBaseController implements IBaseController {
         return createMessage(code, null);
     }
 
+    @SuppressWarnings("rawtypes")
     @Override
-    public ActionResult createActionResult(String status, String message, JSONObject data) {
+    public <T extends Map> ActionResult createActionResult(String status, String message, T data) {
         ActionResult result = new ActionResult();
         result.setStatus(status);
         result.setMessage(message);
@@ -612,24 +613,26 @@ public abstract class AbstractBaseController implements IBaseController {
         return result.parseData();
     }
 
+    @SuppressWarnings("rawtypes")
     @Override
-    public ActionResult successActionResult(String message, JSONObject data) {
+    public <T extends Map> ActionResult successActionResult(String message, T data) {
         return createActionResult(CommonConstants.SUCCESS, message, data);
     }
 
+    @SuppressWarnings("rawtypes")
     @Override
-    public ActionResult successActionResult(JSONObject data) {
+    public <T extends Map> ActionResult successActionResult(T data) {
         return successActionResult(StringConstants.EMPTY, data);
     }
 
     @Override
     public ActionResult failActionResult(String message) {
-        return createActionResult(CommonConstants.FAIL, message, new JSONObject());
+        return createActionResult(CommonConstants.FAIL, message, new HashMap<>());
     }
 
     @Override
     public ActionResult errorActionResult() {
-        return createActionResult(CommonConstants.ERROR, createMessage("error.ServerError"), new JSONObject());
+        return createActionResult(CommonConstants.ERROR, createMessage("error.ServerError"), new HashMap<>());
     }
         
 }

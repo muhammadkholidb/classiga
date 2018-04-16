@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
+//import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
@@ -269,15 +269,18 @@ public abstract class BaseControllerAdapter {
         return baseController.createMessage(code);
     }
 
-    protected ActionResult createActionResult(String status, String message, JSONObject data) {
+    @SuppressWarnings("rawtypes")
+    protected <T extends Map> ActionResult createActionResult(String status, String message, T data) {
         return baseController.createActionResult(status, message, data);
     }
 
-    protected ActionResult successActionResult(String message, JSONObject data) {
+    @SuppressWarnings("rawtypes")
+    protected <T extends Map> ActionResult successActionResult(String message, T data) {
         return baseController.successActionResult(message, data);
     }
 
-    protected ActionResult successActionResult(JSONObject data) {
+    @SuppressWarnings("rawtypes")
+    protected <T extends Map> ActionResult successActionResult(T data) {
         return baseController.successActionResult(data);
     }
 
@@ -291,27 +294,27 @@ public abstract class BaseControllerAdapter {
         
     // Adapter for IBaseControllerUser
     
-    protected ActionResult login(JSONObject parameters) {
+    protected ActionResult login(Map<String, Object> parameters) {
         return baseController.login(parameters);
     }
 
-    protected ActionResult listUser(JSONObject parameters) {
+    protected ActionResult listUser(Map<String, Object> parameters) {
         return baseController.listUser(parameters);
     }
 
-    protected ActionResult findUser(JSONObject parameters) {
+    protected ActionResult findUser(Map<String, Object> parameters) {
         return baseController.findUser(parameters);
     }
 
-    protected ActionResult addUser(JSONObject parameters) {
+    protected ActionResult addUser(Map<String, Object> parameters) {
         return baseController.addUser(parameters);
     }
 
-    protected ActionResult editUser(JSONObject parameters) {
+    protected ActionResult editUser(Map<String, Object> parameters) {
         return baseController.editUser(parameters);
     }
 
-    protected ActionResult removeUser(JSONObject parameters) {
+    protected ActionResult removeUser(Map<String, Object> parameters) {
         return baseController.removeUser(parameters);
     }
 
@@ -329,29 +332,29 @@ public abstract class BaseControllerAdapter {
         baseController.loadSystems();
     }
 
-    protected ActionResult editSystems(JSONObject parameters, String languageCode) {
+    protected ActionResult editSystems(Map<String, Object> parameters, String languageCode) {
         return baseController.editSystems(parameters, languageCode);
     }
 
     // Adapter for IBaseControllerUserGroup
     
-    protected ActionResult listUserGroup(JSONObject parameters) {
+    protected ActionResult listUserGroup(Map<String, Object> parameters) {
         return baseController.listUserGroup(parameters);
     }
 
-    protected ActionResult findUserGroup(JSONObject parameters) {
+    protected ActionResult findUserGroup(Map<String, Object> parameters) {
         return baseController.findUserGroup(parameters);
     }
 
-    protected ActionResult addUserGroup(JSONObject parameters) {
+    protected ActionResult addUserGroup(Map<String, Object> parameters) {
         return baseController.addUserGroup(parameters);
     }
 
-    protected ActionResult editUserGroup(JSONObject parameters) {
+    protected ActionResult editUserGroup(Map<String, Object> parameters) {
         return baseController.editUserGroup(parameters);
     } 
 
-    protected ActionResult removeUserGroup(JSONObject parameters) {
+    protected ActionResult removeUserGroup(Map<String, Object> parameters) {
         return baseController.removeUserGroup(parameters);
     }
 

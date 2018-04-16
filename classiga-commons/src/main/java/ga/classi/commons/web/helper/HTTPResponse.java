@@ -23,7 +23,7 @@ public class HTTPResponse extends ActionResult {
             this.data = (JSONObject) json.get(CommonConstants.DATA);
             parseData();
         } catch (Exception e) {
-            log.error("Error parsing HttpClient response.", e); 
+            log.error("Error parsing HTTP response.", e); 
         }
     }
 

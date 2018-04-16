@@ -129,7 +129,7 @@ public class UserService extends AbstractServiceHelper {
         DTO dtoUserGroup = DTOUtils.toDTO(userGroup).put("menuPermissions", menuPermissions);
         DTO dtoUser = DTOUtils.toDTO(loginUser).put("userGroup", dtoUserGroup);
 
-        return buildResultByDto(dtoUser);
+        return buildResultByDTO(dtoUser);
     }
 
     @Transactional(readOnly = true)

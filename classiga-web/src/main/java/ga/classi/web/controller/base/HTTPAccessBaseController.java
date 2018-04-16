@@ -1,6 +1,8 @@
 package ga.classi.web.controller.base;
 
-import org.json.simple.JSONObject;
+import java.util.Map;
+
+import org.json.simple.JSONArray;
 
 import ga.classi.commons.helper.ActionResult;
 import ga.classi.commons.helper.CommonConstants;
@@ -10,7 +12,6 @@ import ga.classi.commons.web.helper.HTTPResponse;
 import ga.classi.web.helper.SessionKeyConstants;
 import ga.classi.web.helper.SessionManager;
 import lombok.extern.slf4j.Slf4j;
-import org.json.simple.JSONArray;
 
 /**
  * 
@@ -31,9 +32,9 @@ public class HTTPAccessBaseController extends AbstractBaseController implements 
      * @return The HttpClient with predefined configuration.
      */
     protected HTTP getPredefinedHttpClient() {
-        HTTP httpClient = new HTTP(hostUrl);
-        httpClient.setHeader("Accept-Language", getSystem(CommonConstants.SYSTEM_KEY_LANGUAGE_CODE));
-        return httpClient;
+        HTTP http = new HTTP(hostUrl);
+        http.setHeader("Accept-Language", getSystem(CommonConstants.SYSTEM_KEY_LANGUAGE_CODE));
+        return http;
     }
 
     /**
@@ -53,7 +54,7 @@ public class HTTPAccessBaseController extends AbstractBaseController implements 
      * @param parameters The parameters for the API.
      * @return The HttpClient with predefined configuration.
      */
-    protected HTTP getPredefinedHttpClient(String path, JSONObject parameters) {
+    protected HTTP getPredefinedHttpClient(String path, Map<String, Object> parameters) {
         HTTP httpClient = getPredefinedHttpClient(path);
         httpClient.setParameters(parameters);
         return httpClient;
@@ -81,7 +82,7 @@ public class HTTPAccessBaseController extends AbstractBaseController implements 
     }
 
     @Override
-    public ActionResult editSystems(JSONObject parameters, String languageCode) {
+    public ActionResult editSystems(Map<String, Object> parameters, String languageCode) {
         try {            
             HTTP httpClient = getPredefinedHttpClient("/settings/system/edit", parameters);
             httpClient.setHeader("Accept-Language", languageCode);
@@ -93,7 +94,7 @@ public class HTTPAccessBaseController extends AbstractBaseController implements 
     }
 
     @Override
-    public ActionResult login(JSONObject parameters) {   
+    public ActionResult login(Map<String, Object> parameters) {   
         try {            
             return getPredefinedHttpClient("/login", parameters).post();
         } catch (Exception e) {
@@ -103,7 +104,7 @@ public class HTTPAccessBaseController extends AbstractBaseController implements 
     }
 
     @Override
-    public ActionResult listUser(JSONObject parameters) {
+    public ActionResult listUser(Map<String, Object> parameters) {
         try {            
             return getPredefinedHttpClient("/settings/user/list", parameters).get();
         } catch (Exception e) {
@@ -113,7 +114,7 @@ public class HTTPAccessBaseController extends AbstractBaseController implements 
     }
 
     @Override
-    public ActionResult findUser(JSONObject parameters) {
+    public ActionResult findUser(Map<String, Object> parameters) {
         try {            
             return getPredefinedHttpClient("/settings/user/find", parameters).get();
         } catch (Exception e) {
@@ -123,7 +124,7 @@ public class HTTPAccessBaseController extends AbstractBaseController implements 
     }
 
     @Override
-    public ActionResult addUser(JSONObject parameters) {
+    public ActionResult addUser(Map<String, Object> parameters) {
         try {            
             return getPredefinedHttpClient("/settings/user/add", parameters).post();
         } catch (Exception e) {
@@ -133,7 +134,7 @@ public class HTTPAccessBaseController extends AbstractBaseController implements 
     }
 
     @Override
-    public ActionResult editUser(JSONObject parameters) {
+    public ActionResult editUser(Map<String, Object> parameters) {
         try {            
             return getPredefinedHttpClient("/settings/user/edit", parameters).post();
         } catch (Exception e) {
@@ -143,7 +144,7 @@ public class HTTPAccessBaseController extends AbstractBaseController implements 
     }
 
     @Override
-    public ActionResult removeUser(JSONObject parameters) {
+    public ActionResult removeUser(Map<String, Object> parameters) {
         try {            
             return getPredefinedHttpClient("/settings/user/remove", parameters).post();
         } catch (Exception e) {
@@ -153,7 +154,7 @@ public class HTTPAccessBaseController extends AbstractBaseController implements 
     }
 
     @Override
-    public ActionResult listUserGroup(JSONObject parameters) {
+    public ActionResult listUserGroup(Map<String, Object> parameters) {
         try {            
             return getPredefinedHttpClient("/settings/user-group/list", parameters).get();
         } catch (Exception e) {
@@ -163,7 +164,7 @@ public class HTTPAccessBaseController extends AbstractBaseController implements 
     }
 
     @Override
-    public ActionResult findUserGroup(JSONObject parameters) {
+    public ActionResult findUserGroup(Map<String, Object> parameters) {
         try {            
             return getPredefinedHttpClient("/settings/user-group/find", parameters).get();
         } catch (Exception e) {
@@ -173,7 +174,7 @@ public class HTTPAccessBaseController extends AbstractBaseController implements 
     }
 
     @Override
-    public ActionResult addUserGroup(JSONObject parameters) {
+    public ActionResult addUserGroup(Map<String, Object> parameters) {
         try {            
             return getPredefinedHttpClient("/settings/user-group/add", parameters).post();
         } catch (Exception e) {
@@ -183,7 +184,7 @@ public class HTTPAccessBaseController extends AbstractBaseController implements 
     }
 
     @Override
-    public ActionResult editUserGroup(JSONObject parameters) {
+    public ActionResult editUserGroup(Map<String, Object> parameters) {
         try {            
             return getPredefinedHttpClient("/settings/user-group/edit", parameters).post();
         } catch (Exception e) {
@@ -193,7 +194,7 @@ public class HTTPAccessBaseController extends AbstractBaseController implements 
     }
 
     @Override
-    public ActionResult removeUserGroup(JSONObject parameters) {
+    public ActionResult removeUserGroup(Map<String, Object> parameters) {
         try {            
             return getPredefinedHttpClient("/settings/user-group/remove", parameters).post();
         } catch (Exception e) {

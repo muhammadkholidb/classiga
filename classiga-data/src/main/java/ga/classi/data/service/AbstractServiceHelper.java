@@ -28,7 +28,7 @@ public abstract class AbstractServiceHelper {
      * @param content The content of the result.
      * @return The standardized service result.
      */
-    protected DTO buildResultByDtoList(int countRows, int totalRows, int totalPages, List<DTO> content) {
+    protected DTO buildResultByDTOList(int countRows, int totalRows, int totalPages, List<DTO> content) {
         DTO dto = new DTO();
         dto.put(CommonConstants.COUNT_ROWS, countRows);
         dto.put(CommonConstants.TOTAL_ROWS, totalRows); 
@@ -47,7 +47,7 @@ public abstract class AbstractServiceHelper {
      * @return The standardized service result.
      */
     protected DTO buildResultByEntityList(int countRows, int totalRows, int totalPages, List<? extends BaseEntity> entities, String... excludeContentKeys) {
-        return buildResultByDtoList(countRows, totalRows, totalPages, DTOUtils.toDTOList(entities, excludeContentKeys));
+        return buildResultByDTOList(countRows, totalRows, totalPages, DTOUtils.toDTOList(entities, excludeContentKeys));
     }
     
     /**
@@ -55,7 +55,7 @@ public abstract class AbstractServiceHelper {
      * @param content The content of the result.
      * @return The standardized service result.
      */
-    protected DTO buildResultByDtoList(List<DTO> content) {
+    protected DTO buildResultByDTOList(List<DTO> content) {
         DTO dto = new DTO();
         dto.put(CommonConstants.CONTENT, content);
         return dto;
@@ -68,7 +68,7 @@ public abstract class AbstractServiceHelper {
      * @return The standardized service result.
      */
     protected DTO buildResultByEntityList(List<? extends BaseEntity> entities, String... excludeContentKeys) {
-        return buildResultByDtoList(DTOUtils.toDTOList(entities, excludeContentKeys));
+        return buildResultByDTOList(DTOUtils.toDTOList(entities, excludeContentKeys));
     }
     
     /**
@@ -76,7 +76,7 @@ public abstract class AbstractServiceHelper {
      * @param content The content of the result.
      * @return The standardized service result.
      */
-    protected DTO buildResultByDto(DTO content) {
+    protected DTO buildResultByDTO(DTO content) {
         DTO dto = new DTO();
         dto.put(CommonConstants.CONTENT, content);
         return dto;
@@ -90,7 +90,7 @@ public abstract class AbstractServiceHelper {
      * @return The standardized service result.
      */
     protected <E extends BaseEntity> DTO buildResultByEntity(E entity, String... excludeContentKeys) {
-        return buildResultByDto(DTOUtils.toDTO(entity, excludeContentKeys));
+        return buildResultByDTO(DTOUtils.toDTO(entity, excludeContentKeys));
     }
     
     /**

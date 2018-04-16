@@ -1,6 +1,6 @@
 package ga.classi.web.controller.base;
 
-import org.json.simple.JSONObject;
+import java.util.Map;
 
 import ga.classi.commons.helper.ActionResult;
 
@@ -10,14 +10,14 @@ import ga.classi.commons.helper.ActionResult;
  */
 public interface IBaseControllerUserGroup {
     
-    ActionResult listUserGroup(JSONObject parameters);
+    ActionResult listUserGroup(Map<String, Object> parameters);
 
-    ActionResult findUserGroup(JSONObject parameters);
+    ActionResult findUserGroup(Map<String, Object> parameters);
     
-    ActionResult addUserGroup(JSONObject parameters);
+    ActionResult addUserGroup(Map<String, Object> parameters);
     
-    ActionResult editUserGroup(JSONObject parameters);
+    ActionResult editUserGroup(Map<String, Object> parameters);
     
-    ActionResult removeUserGroup(JSONObject parameters);
+    ActionResult removeUserGroup(Map<String, Object> parameters);
     
 }

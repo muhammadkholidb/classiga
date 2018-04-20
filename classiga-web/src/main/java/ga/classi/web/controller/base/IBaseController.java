@@ -1,12 +1,12 @@
 package ga.classi.web.controller.base;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import org.json.simple.JSONArray;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ga.classi.commons.helper.ActionResult;
 
@@ -54,30 +54,34 @@ public interface IBaseController extends IBaseControllerSystem, IBaseControllerU
 
     ModelAndView viewAndNotifySuccess(String view, String message);
 
+    ModelAndView redirect(String path, RedirectAttributes ra);
+    
     ModelAndView redirect(String path);
 
-    ModelAndView redirect(String path, HashMap<String, Object> flashModel);
+    ModelAndView redirect(String path, Map<String, Object> flashModel);
 
     ModelAndView redirectAndNotify(String path, String message, String notificationType);
 
-    ModelAndView redirectAndNotify(String path, HashMap<String, Object> flashModel, String message, String notificationType);
+    ModelAndView redirectAndNotify(String path, Map<String, Object> flashModel, String message, String notificationType);
 
     ModelAndView redirectAndNotifyError(String path, String message);
 
-    ModelAndView redirectAndNotifyError(String path, HashMap<String, Object> flashModel, String message);
+    ModelAndView redirectAndNotifyError(String path, Map<String, Object> flashModel, String message);
 
     ModelAndView redirectAndNotifyInfo(String path, String message);
 
-    ModelAndView redirectAndNotifyInfo(String path, HashMap<String, Object> flashModel, String message);
+    ModelAndView redirectAndNotifyInfo(String path, Map<String, Object> flashModel, String message);
 
     ModelAndView redirectAndNotifySuccess(String path, String message);
 
-    ModelAndView redirectAndNotifySuccess(String path, HashMap<String, Object> flashModel, String message);
+    ModelAndView redirectAndNotifySuccess(String path, Map<String, Object> flashModel, String message);
 
     ModelAndView redirectAndNotifyWarning(String path, String message);
 
-    ModelAndView redirectAndNotifyWarning(String path, HashMap<String, Object> flashModel, String message);
+    ModelAndView redirectAndNotifyWarning(String path, Map<String, Object> flashModel, String message);
 
+    Map<String, Object> getFlashModel();
+    
     JSONArray getMenus(boolean flat);
 
     JSONArray getMenus();
@@ -134,5 +138,5 @@ public interface IBaseController extends IBaseControllerSystem, IBaseControllerU
     ActionResult failActionResult(String message);
 
     ActionResult errorActionResult();
-    
+
 }

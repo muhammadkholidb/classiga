@@ -70,7 +70,7 @@ var utils = {
                 sInfoThousands: ",",
                 sLengthMenu: "Show _MENU_ entries",
                 sLoadingRecords: "Loading...",
-                sProcessing: "<i class='fa fa-spinner fa-spin fa-2x fa-fw'></i> <span class='sr-only'>Processing ...</span>",
+                sProcessing: "<i class='fa fa-refresh fa-spin fa-fw'></i> <span >Processing ...</span>",
                 sSearch: "Search:",
                 sSearchPlaceholder: "Search",
                 sUrl: "",
@@ -88,7 +88,7 @@ var utils = {
                 decimal: ".",
                 thousands: ","
             },
-            "in": {
+            id: {
                 sEmptyTable: "Tidak ada data pada tabel",
                 sInfo: "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
                 sInfoEmpty: "Menampilkan 0 sampai 0 dari 0 entri",
@@ -97,7 +97,7 @@ var utils = {
                 sInfoThousands: ".",
                 sLengthMenu: "Tampilkan _MENU_ entri",
                 sLoadingRecords: "Memuat...",
-                sProcessing: "<i class='fa fa-spinner fa-spin fa-2x fa-fw'></i>  <span class='sr-only'>Memproses ...</span>",
+                sProcessing: "<i class='fa fa-refresh fa-spin fa-fw'></i>  <span >Memproses ...</span>",
                 sSearch: "Cari:",
                 sSearchPlaceholder: "Cari",
                 sUrl: "",

@@ -11,8 +11,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -45,8 +44,9 @@ public class SystemController extends BaseControllerAdapter {
         List<Map<String, String>> languages = new ArrayList<Map<String,String>>();
         List<Locale> locales = getSupportedLocales("label.language");
         for (Locale locale : locales) {
+            String lang = locale.getLanguage();
             Map<String, String> map = new HashMap<String, String>();
-            map.put("code", locale.getLanguage());
+            map.put("code", new Locale("id").getLanguage().equals(lang) ? "id" : lang);
             map.put("name", locale.getDisplayLanguage(new Locale(currentLanguageCode)));
             languages.add(map);
         }
@@ -71,48 +71,50 @@ public class SystemController extends BaseControllerAdapter {
         return model;
     }
     
+    @GetMapping(value = "/settings/system/edit")
+    public ModelAndView edit() {
+        log.info("Edit system ...");
+        return view("system/form", prepareForm(true));
+    }
+    
     @SuppressWarnings("unchecked")
-    @RequestMapping(value = "/settings/system/edit", method = {RequestMethod.GET, RequestMethod.POST})
+    @PostMapping(value = "/settings/system/edit")
     public ModelAndView edit(
             @RequestParam(name = "languageCode", required = true, defaultValue = StringConstants.EMPTY) String languageCode, 
             @RequestParam(name = "online", required = true, defaultValue = StringConstants.EMPTY) String online) {
 
-        log.info("Edit ...");
+        log.info("Submit edit system ...");
         
-        if (isPost()) {
-            
-            JSONArray editSystems = new JSONArray();
+        JSONArray editSystems = new JSONArray();
 
-            JSONArray systems = getSystems();
-            for (Object object : systems) {
-                JSONObject system = (JSONObject) object;
-                if (CommonConstants.SYSTEM_KEY_LANGUAGE_CODE.equals(system.get("dataKey"))) {
-                    JSONObject data = new JSONObject();
-                    data.put("id", system.get("id"));
-                    data.put("dataValue", languageCode);
-                    editSystems.add(data);
-                } else if (CommonConstants.SYSTEM_KEY_ONLINE.equals(system.get("dataKey"))) {
-                    JSONObject data = new JSONObject();
-                    data.put("id", system.get("id"));
-                    data.put("dataValue", online);
-                    editSystems.add(data);
-                }
+        JSONArray systems = getSystems();
+        for (Object object : systems) {
+            JSONObject system = (JSONObject) object;
+            if (CommonConstants.SYSTEM_KEY_LANGUAGE_CODE.equals(system.get("dataKey"))) {
+                JSONObject data = new JSONObject();
+                data.put("id", system.get("id"));
+                data.put("dataValue", languageCode);
+                editSystems.add(data);
+            } else if (CommonConstants.SYSTEM_KEY_ONLINE.equals(system.get("dataKey"))) {
+                JSONObject data = new JSONObject();
+                data.put("id", system.get("id"));
+                data.put("dataValue", online);
+                editSystems.add(data);
             }
+        }
 
-            JSONObject params = new JSONObject();
-            params.put("systems", editSystems.toJSONString());
+        JSONObject params = new JSONObject();
+        params.put("systems", editSystems.toJSONString());
 
-            ActionResult result = editSystems(params, languageCode);
-            
-            if (CommonConstants.SUCCESS.equals(result.getStatus())) {
-                loadSystems();
-                return redirectAndNotifySuccess("/settings/system", result.getMessage());
-            } else {    // Fail or error
-                return redirectAndNotifyError("/settings/system", result.getMessage());
-            }        
+        ActionResult result = editSystems(params, languageCode);
+        
+        if (CommonConstants.SUCCESS.equals(result.getStatus())) {
+            loadSystems();
+            return redirectAndNotifySuccess("/settings/system", result.getMessage());
         }
         
-        return view("system/form", prepareForm(true));
+        // Fail or error
+        return redirectAndNotifyError("/settings/system", result.getMessage());        
     }
     
 }

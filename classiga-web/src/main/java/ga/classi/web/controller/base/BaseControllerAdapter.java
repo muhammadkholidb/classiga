@@ -17,6 +17,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -133,6 +134,10 @@ public abstract class BaseControllerAdapter {
         return baseController.viewAndNotifySuccess(view, message);
     }
 
+    protected ModelAndView redirect(String path, RedirectAttributes ra) {
+        return baseController.redirect(path, ra);
+    }
+
     protected ModelAndView redirect(String path) {
         return baseController.redirect(path);
     }
@@ -181,6 +186,10 @@ public abstract class BaseControllerAdapter {
         return baseController.redirectAndNotifyWarning(path, flashModel, message);
     }
 
+    protected Map<String, Object> getFlashModel() {
+        return baseController.getFlashModel();
+    }
+    
     protected JSONArray getMenus(boolean flat) {
         return baseController.getMenus(flat);
     }

@@ -13,6 +13,7 @@ public interface SessionKeyConstants {
     String SYSTEMS             = "session.systems";
     String ALLOWED_MENUS       = "session.allowedmenus";
     String SUPPORTED_LOCALES   = "session.supportedlocales";
+    String SUPPORTED_LANGUAGES = "session.supportedlanguages";
     String AVAILABLE_TEMPLATES = "session.availabletemplates";
 
 }

@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
 
 import javax.annotation.PostConstruct;
@@ -23,6 +24,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -80,7 +82,7 @@ public abstract class AbstractBaseController implements IBaseController {
     protected String defaultRedirect;
     
     protected static final String DEFAULT_TEMPLATE_CODE = "vali";
-    protected static final String DEFAULT_LANGUAGE_CODE = "in";
+    protected static final String DEFAULT_LANGUAGE_CODE = "id";
     
     // Read http://docs.oracle.com/javaee/7/api/javax/annotation/PostConstruct.html
     @PostConstruct
@@ -96,33 +98,37 @@ public abstract class AbstractBaseController implements IBaseController {
 
     protected abstract void postConstruct();
  
-    @Override
-    public ModelAndView view(ModelAndView mav) {
+    private Map<String, Object> getDefaultRequestAttributes() {
+        Map<String, Object> attributes = new HashMap<>();
         if (userHasLoggedIn()) {            
-            mav.addObject(ModelKeyConstants.USER, SessionManager.get(SessionKeyConstants.USER));
-            mav.addObject(ModelKeyConstants.USER_GROUP, SessionManager.get(SessionKeyConstants.USER_GROUP));
-            mav.addObject(ModelKeyConstants.MENUS, getAllowedMenus());
+            attributes.put(ModelKeyConstants.USER, SessionManager.get(SessionKeyConstants.USER));
+            attributes.put(ModelKeyConstants.USER_GROUP, SessionManager.get(SessionKeyConstants.USER_GROUP));
+            attributes.put(ModelKeyConstants.MENUS, getAllowedMenus());
             JSONObject currentMenu = getCurrentMenu();
             if (currentMenu != null) {                
-                mav.addObject(ModelKeyConstants.CURRENT_MENU, currentMenu);
-                mav.addObject(ModelKeyConstants.CAN_MODIFY, isMenuModifyAllowed((String) currentMenu.get(MenuKeyConstants.CODE)));
+                attributes.put(ModelKeyConstants.CURRENT_MENU, currentMenu);
+                attributes.put(ModelKeyConstants.CAN_MODIFY, isMenuModifyAllowed((String) currentMenu.get(MenuKeyConstants.CODE)));
             }
         }
-        mav.addObject(ModelKeyConstants.APP_NAME, applicationName);
-        mav.addObject(ModelKeyConstants.APP_VERSION, applicationVersion);
-        mav.addObject(ModelKeyConstants.APP_FAVICON, applicationFavicon);
-        mav.addObject(ModelKeyConstants.SHOW_APP_INFO, showApplicationInfo);
+        attributes.put(ModelKeyConstants.APP_NAME, applicationName);
+        attributes.put(ModelKeyConstants.APP_VERSION, applicationVersion);
+        attributes.put(ModelKeyConstants.APP_FAVICON, applicationFavicon);
+        attributes.put(ModelKeyConstants.SHOW_APP_INFO, showApplicationInfo);
         
         String templateCode = getSystem(CommonConstants.SYSTEM_KEY_TEMPLATE_CODE);
         String languageCode = getSystem(CommonConstants.SYSTEM_KEY_LANGUAGE_CODE);
         
-        mav.addObject(ModelKeyConstants.LANGUAGE_CODE, languageCode == null ? DEFAULT_LANGUAGE_CODE : languageCode);
-        mav.addObject(ModelKeyConstants.TEMPLATE_CODE, templateCode == null ? DEFAULT_TEMPLATE_CODE : templateCode);
-
+        attributes.put(ModelKeyConstants.LANGUAGE_CODE, languageCode == null ? DEFAULT_LANGUAGE_CODE : languageCode);
+        attributes.put(ModelKeyConstants.TEMPLATE_CODE, templateCode == null ? DEFAULT_TEMPLATE_CODE : templateCode);
+        return attributes;
+    }
+    
+    @Override
+    public ModelAndView view(ModelAndView mav) {
+        String templateCode = getSystem(CommonConstants.SYSTEM_KEY_TEMPLATE_CODE);
         mav.setViewName((templateCode == null ? DEFAULT_TEMPLATE_CODE : templateCode) + "/" + mav.getViewName());
-        
+        mav.addAllObjects(getDefaultRequestAttributes());
         loadFlashToView(mav);
-        
         return mav;
     }
 
@@ -218,25 +224,37 @@ public abstract class AbstractBaseController implements IBaseController {
     }
 
     @Override
-    public ModelAndView redirect(String path) {
-        return redirect(path, null);
+    public ModelAndView redirect(String path, RedirectAttributes ra) {
+        Map<String, Object> defaultRequestAttributes = getDefaultRequestAttributes();
+        for (Entry<String, Object> entry : defaultRequestAttributes.entrySet()) {            
+            ra.addFlashAttribute(entry.getKey(), entry.getValue());
+        }
+        if ((path != null) & !path.startsWith("redirect:")) {
+            return new ModelAndView("redirect:" + path);
+        }
+        return new ModelAndView(path);
     }
 
     @Override
-    public ModelAndView redirect(String path, HashMap<String, Object> flashModel) {
+    public ModelAndView redirect(String path) {
+        return redirect(path, (Map<String, Object>) null);
+    }
+    
+    @Override
+    public ModelAndView redirect(String path, Map<String, Object> flashModel) {
         SessionManager.set(SessionKeyConstants.FLASH, flashModel);
         return new ModelAndView("redirect:" + path);
     }
 
     @Override
     public ModelAndView redirectAndNotify(String path, String message, String notificationType) {
-        HashMap<String, Object> flashModel = new HashMap<String, Object>();
+        Map<String, Object> flashModel = new HashMap<String, Object>();
         flashModel.put(ModelKeyConstants.NOTIFY, UIHelper.createNotification(StringConstants.EMPTY, message, notificationType));
         return redirect(path, flashModel);
     }
 
     @Override
-    public ModelAndView redirectAndNotify(String path, HashMap<String, Object> flashModel, String message, String notificationType) {
+    public ModelAndView redirectAndNotify(String path, Map<String, Object> flashModel, String message, String notificationType) {
         if (flashModel != null) {
             flashModel.put(ModelKeyConstants.NOTIFY, UIHelper.createNotification(StringConstants.EMPTY, message, notificationType));
             return redirect(path, flashModel);
@@ -250,7 +268,7 @@ public abstract class AbstractBaseController implements IBaseController {
     }
 
     @Override
-    public ModelAndView redirectAndNotifyError(String path, HashMap<String, Object> flashModel, String message) {
+    public ModelAndView redirectAndNotifyError(String path, Map<String, Object> flashModel, String message) {
         return redirectAndNotify(path, flashModel, message, Notify.DANGER);
     }
 
@@ -260,7 +278,7 @@ public abstract class AbstractBaseController implements IBaseController {
     }
 
     @Override
-    public ModelAndView redirectAndNotifyInfo(String path, HashMap<String, Object> flashModel, String message) {
+    public ModelAndView redirectAndNotifyInfo(String path, Map<String, Object> flashModel, String message) {
         return redirectAndNotify(path, flashModel, message, Notify.INFO);
     }
 
@@ -270,7 +288,7 @@ public abstract class AbstractBaseController implements IBaseController {
     }
 
     @Override
-    public ModelAndView redirectAndNotifySuccess(String path, HashMap<String, Object> flashModel, String message) {
+    public ModelAndView redirectAndNotifySuccess(String path, Map<String, Object> flashModel, String message) {
         return redirectAndNotify(path, flashModel, message, Notify.SUCCESS);
     }
 
@@ -280,10 +298,19 @@ public abstract class AbstractBaseController implements IBaseController {
     }
 
     @Override
-    public ModelAndView redirectAndNotifyWarning(String path, HashMap<String, Object> flashModel, String message) {
+    public ModelAndView redirectAndNotifyWarning(String path, Map<String, Object> flashModel, String message) {
         return redirectAndNotify(path, flashModel, message, Notify.WARNING);
     }
 
+    @Override
+    public Map<String, Object> getFlashModel() {
+        Map<String, Object> flashModel = SessionManager.get(SessionKeyConstants.FLASH);
+        if (flashModel == null) {
+            return new HashMap<>();
+        }
+        return flashModel;
+    }
+    
     private void loadFlashToView(ModelAndView mav) {
         Map<String, Object> flashModel = SessionManager.get(SessionKeyConstants.FLASH);
         if ((flashModel != null) && (mav != null)) {
@@ -432,7 +459,7 @@ public abstract class AbstractBaseController implements IBaseController {
     }
     
     /**
-     * Returns supported languages based on properties files in application.
+     * Returns supported locales based on properties files in application.
      * @param key key in .properties files to check.
      * @return List of supported locales.
      */
@@ -440,7 +467,7 @@ public abstract class AbstractBaseController implements IBaseController {
     @Override
     public List<Locale> getSupportedLocales(String key) {
         log.info("Get supported locales ...");
-        ArrayList<Locale> supportedLocales = SessionManager.get(SessionKeyConstants.SUPPORTED_LOCALES);
+        List<Locale> supportedLocales = SessionManager.get(SessionKeyConstants.SUPPORTED_LOCALES);
         if (supportedLocales != null && !supportedLocales.isEmpty()) {
             return supportedLocales;
         }

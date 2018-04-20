@@ -1,6 +1,5 @@
 package ga.classi.web.helper;
 
-import java.io.Serializable;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -43,7 +42,7 @@ public class SessionManager {
         return (T) getSession().getAttribute(key);
     } 
     
-    public static void set(String key, Serializable value) {
+    public static void set(String key, Object value) {
         getSession().setAttribute(key, value);
     }
     

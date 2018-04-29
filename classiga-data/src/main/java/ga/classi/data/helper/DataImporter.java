@@ -129,18 +129,14 @@ public class DataImporter {
 
     private class CleanInsertOperation extends DatabaseOperation {
 
-        private static final String REPLACEMENT_KEY_DATE = "currentDate";
-        private static final String REPLACEMENT_KEY_MILLISECOND = "currentMillis";
-        private static final String REPLACEMENT_KEY_NULL = "null";
-
         @Override
         public void execute(IDatabaseConnection idc, IDataSet ids) throws DatabaseUnitException, SQLException {
 
-            ReplacementDataSet rds = new ReplacementDataSet(ids);
-
-            rds.addReplacementObject("{" + REPLACEMENT_KEY_DATE + "}", new Date());
-            rds.addReplacementObject("{" + REPLACEMENT_KEY_MILLISECOND + "}", System.currentTimeMillis());
-            rds.addReplacementObject("{" + REPLACEMENT_KEY_NULL + "}", null);
+            // The replacements will set the same values per dataset
+            ReplacementDataSet dataSet = new ReplacementDataSet(ids);
+            dataSet.addReplacementObject("{currentDate}", new Date());
+            dataSet.addReplacementObject("{currentMillis}", System.currentTimeMillis());
+            dataSet.addReplacementObject("{null}", null);
 
             if (doResetSequence) {
                 // Reset sequences
@@ -167,7 +163,7 @@ public class DataImporter {
                 }
             }
 
-            DatabaseOperation.CLEAN_INSERT.execute(idc, rds);
+            DatabaseOperation.CLEAN_INSERT.execute(idc, dataSet);
         }
 
     }

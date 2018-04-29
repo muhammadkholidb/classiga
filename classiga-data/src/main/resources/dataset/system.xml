@@ -1,7 +1,15 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <dataset>
-    <t_system data_key='languageCode' data_value='in' created_at="{currentMillis}" modified_at="{currentMillis}" deleted="n" version="0" />
-    <t_system data_key='templateCode' data_value='vali' created_at="{currentMillis}" modified_at="{currentMillis}" deleted="n" version="0" />
-    <t_system data_key='image' data_value='sample-logo.png' created_at="{currentMillis}" modified_at="{currentMillis}" deleted="n" version="0" />
-    <t_system data_key='online' data_value='n' created_at="{currentMillis}" modified_at="{currentMillis}" deleted="n" version="0" />
+    <t_system data_key='languageCode' data_value='id'
+        create_time_millis="{currentMillis}" update_time_millis="{currentMillis}"
+        deleted="n" version="0" row_hash="1" />
+    <t_system data_key='templateCode' data_value='vali'
+        create_time_millis="{currentMillis}" update_time_millis="{currentMillis}"
+        deleted="n" version="0" row_hash="2" />
+    <t_system data_key='image' data_value='sample-logo.png'
+        create_time_millis="{currentMillis}" update_time_millis="{currentMillis}"
+        deleted="n" version="0" row_hash="3" />
+    <t_system data_key='online' data_value='n'
+        create_time_millis="{currentMillis}" update_time_millis="{currentMillis}"
+        deleted="n" version="0" row_hash="4" />
 </dataset>

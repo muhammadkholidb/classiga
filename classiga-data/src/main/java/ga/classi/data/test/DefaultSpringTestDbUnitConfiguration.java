@@ -30,6 +30,7 @@ public class DefaultSpringTestDbUnitConfiguration {
 
         @Override
         protected IDataSet createDataSet(Resource resource) throws Exception {
+            // The replacements will set the same values per dataset
             ReplacementDataSet dataSet = new ReplacementDataSet(super.createDataSet(resource));
             dataSet.addReplacementObject("{currentDate}", new Date());
             dataSet.addReplacementObject("{currentMillis}", System.currentTimeMillis());

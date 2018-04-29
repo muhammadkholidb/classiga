@@ -1,7 +1,15 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <dataset>
-    <t_system id="1" data_key='languageCode' data_value='en' created_at="{currentMillis}" modified_at="{currentMillis}" deleted="n" version="0" />
-    <t_system id="2" data_key='templateCode' data_value='common' created_at="{currentMillis}" modified_at="{currentMillis}" deleted="n" version="0" />
-    <t_system id="3" data_key='image' data_value='sample.png' created_at="{currentMillis}" modified_at="{currentMillis}" deleted="n" version="0" />
-    <t_system id="4" data_key='online' data_value='n' created_at="{currentMillis}" modified_at="{currentMillis}" deleted="n" version="0" />
+    <t_system id="1" data_key='languageCode' data_value='en'
+        create_time_millis="{currentMillis}" update_time_millis="{currentMillis}"
+        deleted="n" version="0" row_hash="1" />
+    <t_system id="2" data_key='templateCode' data_value='common'
+        create_time_millis="{currentMillis}" update_time_millis="{currentMillis}"
+        deleted="n" version="0" row_hash="2" />
+    <t_system id="3" data_key='image' data_value='sample.png'
+        create_time_millis="{currentMillis}" update_time_millis="{currentMillis}"
+        deleted="n" version="0" row_hash="3" />
+    <t_system id="4" data_key='online' data_value='n'
+        create_time_millis="{currentMillis}" update_time_millis="{currentMillis}"
+        deleted="n" version="0" row_hash="4" />
 </dataset>

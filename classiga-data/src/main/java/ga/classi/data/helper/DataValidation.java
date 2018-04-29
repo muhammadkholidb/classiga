@@ -180,18 +180,6 @@ public class DataValidation {
         validateJSONObject(string, name); 
     }
 
-    /**
-     * Validates if the string is not null or empty.
-     * @param string The string to validate.
-     * @param name The validated component name.
-     * @throws DataException If the string is null or empty.
-     */
-    public static void validateEmpty(String string, String name) {
-        if (StringCheck.isEmpty(string)) {
-            throw new DataException(ExceptionCode.E1006, ErrorMessageConstants.EMPTY_VALUE, new Object[]{name});
-        }
-    }
-
     public static void validateEmpty(String[] strings, String[] names) {
         for (int i = 0; i < strings.length; i++) {
             validateEmpty(strings[i], names[i]);
@@ -203,7 +191,7 @@ public class DataValidation {
         if ((object == null) 
                 || ((object instanceof List) && ((List) object).isEmpty()) 
                 || ((object instanceof Map) && ((Map) object).isEmpty()) 
-                || ((object instanceof String) && object.toString().isEmpty())) {
+                || ((object instanceof String) && StringCheck.isEmpty(object.toString()))) {
             
             throw new DataException(ExceptionCode.E1006, ErrorMessageConstants.EMPTY_VALUE, new Object[] {name} );
         }

@@ -29,19 +29,19 @@ public abstract class BaseEntity {
 
     // Read http://www.baeldung.com/intro-to-project-lombok
 
-    public static final String F_ID          = "id";
-    public static final String F_VERSION     = "version";
-    public static final String F_CREATED_AT  = "createdAt";
-    public static final String F_MODIFIED_AT = "modifiedAt";
-    public static final String F_DELETED     = "deleted";
-    public static final String F_ROW_HASH    = "rowHash";
+    public static final String F_ID                 = "id";
+    public static final String F_VERSION            = "version";
+    public static final String F_CREATE_TIME_MILLIS = "createTimeMillis";
+    public static final String F_UPDATE_TIME_MILLIS = "updateTimeMillis";
+    public static final String F_DELETED            = "deleted";
+    public static final String F_ROW_HASH           = "rowHash";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "row_hash", length = 32)
+    @Column(name = "row_hash", length = 32, nullable = false, unique = true)
     private String rowHash;
     
     @JsonIgnore
@@ -50,12 +50,12 @@ public abstract class BaseEntity {
     private Integer version;
 
     @JsonIgnore
-    @Column(name = "created_at", nullable = false)
-    private Long createdAt;
+    @Column(name = "create_time_millis", nullable = false)
+    private Long createTimeMillis;
 
     @JsonIgnore
-    @Column(name = "modified_at", nullable = false)
-    private Long modifiedAt;
+    @Column(name = "update_time_millis", nullable = false)
+    private Long updateTimeMillis;
 
     @JsonIgnore
     @Column(name = "deleted", length = 1, nullable = false)
@@ -80,18 +80,18 @@ public abstract class BaseEntity {
     @PrePersist
     public void onCreate() {
         log.debug("Execute onCreate() ..."); 
-        modifiedAt = createdAt = System.currentTimeMillis();
+        updateTimeMillis = createTimeMillis = System.currentTimeMillis();
         deleted = CommonConstants.NO;
         // RandomStringUtils.random() returns non letter characters such as: 锪椢獬ꃅ諔諔궏ꃅ뚱뇉여獬ﻄ蚹㙰ﻄ
-        rowHash = DigestUtils.md5Hex(RandomStringUtils.random(16) + createdAt); 
+        rowHash = DigestUtils.md5Hex(RandomStringUtils.random(32) + createTimeMillis); 
         setValuesOnCreate();
     }
 
     @PreUpdate
     public void onUpdate() {
         log.debug("Execute onUpdate() ..."); 
-        modifiedAt = System.currentTimeMillis();
-        rowHash = DigestUtils.md5Hex(RandomStringUtils.random(16) + modifiedAt);
+        updateTimeMillis = System.currentTimeMillis();
+        rowHash = DigestUtils.md5Hex(RandomStringUtils.random(32) + updateTimeMillis);
         setValuesOnUpdate();
     }
     

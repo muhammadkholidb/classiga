@@ -20,37 +20,37 @@ public interface IBaseController extends IBaseControllerSystem, IBaseControllerU
 
     ModelAndView view(ModelAndView mav);
 
-    ModelAndView view(String view, Map<String, Object> model);
+    ModelAndView view(String view, Map<String, Object> data);
 
     ModelAndView view(String view);
 
     ModelAndView viewAndNotify(ModelAndView mav, String message, String notificationType);
 
-    ModelAndView viewAndNotify(String view, Map<String, Object> model, String message, String notificationType);
+    ModelAndView viewAndNotify(String view, Map<String, Object> data, String message, String notificationType);
 
     ModelAndView viewAndNotify(String view, String message, String notificationType);
 
     ModelAndView viewAndNotifyError(ModelAndView mav, String message);
 
-    ModelAndView viewAndNotifyError(String view, Map<String, Object> model, String message);
+    ModelAndView viewAndNotifyError(String view, Map<String, Object> data, String message);
 
     ModelAndView viewAndNotifyError(String view, String message);
 
     ModelAndView viewAndNotifyInfo(ModelAndView mav, String message);
 
-    ModelAndView viewAndNotifyInfo(String view, Map<String, Object> model, String message);
+    ModelAndView viewAndNotifyInfo(String view, Map<String, Object> data, String message);
 
     ModelAndView viewAndNotifyInfo(String view, String message);
 
     ModelAndView viewAndNotifyWarning(ModelAndView mav, String message);
 
-    ModelAndView viewAndNotifyWarning(String view, Map<String, Object> model, String message);
+    ModelAndView viewAndNotifyWarning(String view, Map<String, Object> data, String message);
 
     ModelAndView viewAndNotifyWarning(String view, String message);
 
     ModelAndView viewAndNotifySuccess(ModelAndView mav, String message);
 
-    ModelAndView viewAndNotifySuccess(String view, Map<String, Object> model, String message);
+    ModelAndView viewAndNotifySuccess(String view, Map<String, Object> data, String message);
 
     ModelAndView viewAndNotifySuccess(String view, String message);
 
@@ -58,29 +58,29 @@ public interface IBaseController extends IBaseControllerSystem, IBaseControllerU
     
     ModelAndView redirect(String path);
 
-    ModelAndView redirect(String path, Map<String, Object> flashModel);
+    ModelAndView redirect(String path, Map<String, Object> flashData);
 
     ModelAndView redirectAndNotify(String path, String message, String notificationType);
 
-    ModelAndView redirectAndNotify(String path, Map<String, Object> flashModel, String message, String notificationType);
+    ModelAndView redirectAndNotify(String path, Map<String, Object> flashData, String message, String notificationType);
 
     ModelAndView redirectAndNotifyError(String path, String message);
 
-    ModelAndView redirectAndNotifyError(String path, Map<String, Object> flashModel, String message);
+    ModelAndView redirectAndNotifyError(String path, Map<String, Object> flashData, String message);
 
     ModelAndView redirectAndNotifyInfo(String path, String message);
 
-    ModelAndView redirectAndNotifyInfo(String path, Map<String, Object> flashModel, String message);
+    ModelAndView redirectAndNotifyInfo(String path, Map<String, Object> flashData, String message);
 
     ModelAndView redirectAndNotifySuccess(String path, String message);
 
-    ModelAndView redirectAndNotifySuccess(String path, Map<String, Object> flashModel, String message);
+    ModelAndView redirectAndNotifySuccess(String path, Map<String, Object> flashData, String message);
 
     ModelAndView redirectAndNotifyWarning(String path, String message);
 
-    ModelAndView redirectAndNotifyWarning(String path, Map<String, Object> flashModel, String message);
+    ModelAndView redirectAndNotifyWarning(String path, Map<String, Object> flashData, String message);
 
-    Map<String, Object> getFlashModel();
+    Map<String, Object> getFlashData();
     
     JSONArray getMenus(boolean flat);
 

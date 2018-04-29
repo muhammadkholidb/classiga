@@ -23,7 +23,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ga.classi.commons.helper.ActionResult;
 import ga.classi.commons.helper.MessageHelper;
-import java.util.HashMap;
 
 public abstract class BaseControllerAdapter {
 
@@ -66,8 +65,8 @@ public abstract class BaseControllerAdapter {
         return baseController.view(mav);
     }
 
-    protected ModelAndView view(String view, Map<String, Object> model) {
-        return baseController.view(view, model);
+    protected ModelAndView view(String view, Map<String, Object> data) {
+        return baseController.view(view, data);
     }
 
     protected ModelAndView view(String view) {
@@ -78,8 +77,8 @@ public abstract class BaseControllerAdapter {
         return baseController.viewAndNotify(mav, message, notificationType);
     }
 
-    protected ModelAndView viewAndNotify(String view, Map<String, Object> model, String message, String notificationType) {
-        return baseController.viewAndNotify(view, model, message, notificationType);
+    protected ModelAndView viewAndNotify(String view, Map<String, Object> data, String message, String notificationType) {
+        return baseController.viewAndNotify(view, data, message, notificationType);
     }
 
     protected ModelAndView viewAndNotify(String view, String message, String notificationType) {
@@ -90,8 +89,8 @@ public abstract class BaseControllerAdapter {
         return baseController.viewAndNotifyError(mav, message);
     }
 
-    protected ModelAndView viewAndNotifyError(String view, Map<String, Object> model, String message) {
-        return baseController.viewAndNotifyError(view, model, message);
+    protected ModelAndView viewAndNotifyError(String view, Map<String, Object> data, String message) {
+        return baseController.viewAndNotifyError(view, data, message);
     }
 
     protected ModelAndView viewAndNotifyError(String view, String message) {
@@ -102,8 +101,8 @@ public abstract class BaseControllerAdapter {
         return baseController.viewAndNotifyInfo(mav, message);
     }
 
-    protected ModelAndView viewAndNotifyInfo(String view, Map<String, Object> model, String message) {
-        return baseController.viewAndNotifyInfo(view, model, message);
+    protected ModelAndView viewAndNotifyInfo(String view, Map<String, Object> data, String message) {
+        return baseController.viewAndNotifyInfo(view, data, message);
     }
 
     protected ModelAndView viewAndNotifyInfo(String view, String message) {
@@ -114,8 +113,8 @@ public abstract class BaseControllerAdapter {
         return baseController.viewAndNotifyWarning(mav, message);
     }
 
-    protected ModelAndView viewAndNotifyWarning(String view, Map<String, Object> model, String message) {
-        return baseController.viewAndNotifyWarning(view, model, message);
+    protected ModelAndView viewAndNotifyWarning(String view, Map<String, Object> data, String message) {
+        return baseController.viewAndNotifyWarning(view, data, message);
     }
 
     protected ModelAndView viewAndNotifyWarning(String view, String message) {
@@ -126,8 +125,8 @@ public abstract class BaseControllerAdapter {
         return baseController.viewAndNotifySuccess(mav, message);
     }
 
-    protected ModelAndView viewAndNotifySuccess(String view, Map<String, Object> model, String message) {
-        return baseController.viewAndNotifySuccess(view, model, message);
+    protected ModelAndView viewAndNotifySuccess(String view, Map<String, Object> data, String message) {
+        return baseController.viewAndNotifySuccess(view, data, message);
     }
 
     protected ModelAndView viewAndNotifySuccess(String view, String message) {
@@ -142,52 +141,52 @@ public abstract class BaseControllerAdapter {
         return baseController.redirect(path);
     }
 
-    protected ModelAndView redirect(String path, HashMap<String, Object> flashModel) {
-        return baseController.redirect(path, flashModel);
+    protected ModelAndView redirect(String path, Map<String, Object> flashData) {
+        return baseController.redirect(path, flashData);
     }
 
     protected ModelAndView redirectAndNotify(String path, String message, String notificationType) {
         return baseController.redirectAndNotify(path, message, notificationType);
     }
 
-    protected ModelAndView redirectAndNotify(String path, HashMap<String, Object> flashModel, String message, String notificationType) {
-        return baseController.redirectAndNotify(path, flashModel, message, notificationType);
+    protected ModelAndView redirectAndNotify(String path, Map<String, Object> flashData, String message, String notificationType) {
+        return baseController.redirectAndNotify(path, flashData, message, notificationType);
     }
 
     protected ModelAndView redirectAndNotifyError(String path, String message) {
         return baseController.redirectAndNotifyError(path, message);
     }
 
-    protected ModelAndView redirectAndNotifyError(String path, HashMap<String, Object> flashModel, String message) {
-        return baseController.redirectAndNotifyError(path, flashModel, message);
+    protected ModelAndView redirectAndNotifyError(String path, Map<String, Object> flashData, String message) {
+        return baseController.redirectAndNotifyError(path, flashData, message);
     }
 
     protected ModelAndView redirectAndNotifyInfo(String path, String message) {
         return baseController.redirectAndNotifyInfo(path, message);
     }
 
-    protected ModelAndView redirectAndNotifyInfo(String path, HashMap<String, Object> flashModel, String message) {
-        return baseController.redirectAndNotifyInfo(path, flashModel, message);
+    protected ModelAndView redirectAndNotifyInfo(String path, Map<String, Object> flashData, String message) {
+        return baseController.redirectAndNotifyInfo(path, flashData, message);
     }
 
     protected ModelAndView redirectAndNotifySuccess(String path, String message) {
         return baseController.redirectAndNotifySuccess(path, message);
     }
 
-    protected ModelAndView redirectAndNotifySuccess(String path, HashMap<String, Object> flashModel, String message) {
-        return baseController.redirectAndNotifySuccess(path, flashModel, message);
+    protected ModelAndView redirectAndNotifySuccess(String path, Map<String, Object> flashData, String message) {
+        return baseController.redirectAndNotifySuccess(path, flashData, message);
     }
 
     protected ModelAndView redirectAndNotifyWarning(String path, String message) {
         return baseController.redirectAndNotifyWarning(path, message);
     }
 
-    protected ModelAndView redirectAndNotifyWarning(String path, HashMap<String, Object> flashModel, String message) {
-        return baseController.redirectAndNotifyWarning(path, flashModel, message);
+    protected ModelAndView redirectAndNotifyWarning(String path, Map<String, Object> flashData, String message) {
+        return baseController.redirectAndNotifyWarning(path, flashData, message);
     }
 
-    protected Map<String, Object> getFlashModel() {
-        return baseController.getFlashModel();
+    protected Map<String, Object> getFlashData() {
+        return baseController.getFlashData();
     }
     
     protected JSONArray getMenus(boolean flat) {

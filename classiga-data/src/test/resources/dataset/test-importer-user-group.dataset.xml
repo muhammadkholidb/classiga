@@ -1,23 +1,17 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <dataset>
-    
-    <t_user_group id="1"
-        name="Administrator" 
-        lower_name="administrator" 
-        active="y" 
-        created_at="{currentMillis}" 
-        modified_at="{currentMillis}" deleted="n" version="0" />
-    <t_user_group id="2" 
-        name="User" 
-        lower_name="user" 
-        active="y" 
-        created_at="{currentMillis}" 
-        modified_at="{currentMillis}" deleted="n" version="0" />
-    <t_user_group id="3" 
-        name="Marketing" 
-        lower_name="marketing" 
-        active="y" 
-        created_at="{currentMillis}" 
-        modified_at="{currentMillis}" deleted="n" version="0" />
+
+    <t_user_group id="1" name="Administrator" lower_name="administrator"
+        active="y" create_time_millis="{currentMillis}"
+        update_time_millis="{currentMillis}" deleted="n" version="0"
+        row_hash="1" />
+    <t_user_group id="2" name="User" lower_name="user"
+        active="y" create_time_millis="{currentMillis}"
+        update_time_millis="{currentMillis}" deleted="n" version="0"
+        row_hash="2" />
+    <t_user_group id="3" name="Marketing" lower_name="marketing"
+        active="y" create_time_millis="{currentMillis}"
+        update_time_millis="{currentMillis}" deleted="n" version="0"
+        row_hash="3" />
 
 </dataset>

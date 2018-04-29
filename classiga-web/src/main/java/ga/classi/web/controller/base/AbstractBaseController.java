@@ -133,9 +133,9 @@ public abstract class AbstractBaseController implements IBaseController {
     }
 
     @Override
-    public ModelAndView view(String view, Map<String, Object> model) {
+    public ModelAndView view(String view, Map<String, Object> data) {
         ModelAndView mav = new ModelAndView(view);
-        mav.addAllObjects(model);
+        mav.addAllObjects(data);
         return view(mav);
     }
 
@@ -152,9 +152,9 @@ public abstract class AbstractBaseController implements IBaseController {
     }
 
     @Override
-    public ModelAndView viewAndNotify(String view, Map<String, Object> model, String message, String notificationType) {
+    public ModelAndView viewAndNotify(String view, Map<String, Object> data, String message, String notificationType) {
         ModelAndView mav = new ModelAndView(view);
-        mav.addAllObjects(model);
+        mav.addAllObjects(data);
         return viewAndNotify(mav, message, notificationType);
     }
 
@@ -169,8 +169,8 @@ public abstract class AbstractBaseController implements IBaseController {
     }
 
     @Override
-    public ModelAndView viewAndNotifyError(String view, Map<String, Object> model, String message) {
-        return viewAndNotify(view, model, message, Notify.DANGER);
+    public ModelAndView viewAndNotifyError(String view, Map<String, Object> data, String message) {
+        return viewAndNotify(view, data, message, Notify.DANGER);
     }
 
     @Override
@@ -184,8 +184,8 @@ public abstract class AbstractBaseController implements IBaseController {
     }
 
     @Override
-    public ModelAndView viewAndNotifyInfo(String view, Map<String, Object> model, String message) {
-        return viewAndNotify(view, model, message, Notify.INFO);
+    public ModelAndView viewAndNotifyInfo(String view, Map<String, Object> data, String message) {
+        return viewAndNotify(view, data, message, Notify.INFO);
     }
 
     @Override
@@ -199,8 +199,8 @@ public abstract class AbstractBaseController implements IBaseController {
     }
 
     @Override
-    public ModelAndView viewAndNotifyWarning(String view, Map<String, Object> model, String message) {
-        return viewAndNotify(view, model, message, Notify.WARNING);
+    public ModelAndView viewAndNotifyWarning(String view, Map<String, Object> data, String message) {
+        return viewAndNotify(view, data, message, Notify.WARNING);
     }
 
     @Override
@@ -214,8 +214,8 @@ public abstract class AbstractBaseController implements IBaseController {
     }
 
     @Override
-    public ModelAndView viewAndNotifySuccess(String view, Map<String, Object> model, String message) {
-        return viewAndNotify(view, model, message, Notify.SUCCESS);
+    public ModelAndView viewAndNotifySuccess(String view, Map<String, Object> data, String message) {
+        return viewAndNotify(view, data, message, Notify.SUCCESS);
     }
 
     @Override
@@ -241,23 +241,23 @@ public abstract class AbstractBaseController implements IBaseController {
     }
     
     @Override
-    public ModelAndView redirect(String path, Map<String, Object> flashModel) {
-        SessionManager.set(SessionKeyConstants.FLASH, flashModel);
+    public ModelAndView redirect(String path, Map<String, Object> flashData) {
+        SessionManager.set(SessionKeyConstants.FLASH, flashData);
         return new ModelAndView("redirect:" + path);
     }
 
     @Override
     public ModelAndView redirectAndNotify(String path, String message, String notificationType) {
-        Map<String, Object> flashModel = new HashMap<String, Object>();
-        flashModel.put(ModelKeyConstants.NOTIFY, UIHelper.createNotification(StringConstants.EMPTY, message, notificationType));
-        return redirect(path, flashModel);
+        Map<String, Object> flashData = new HashMap<String, Object>();
+        flashData.put(ModelKeyConstants.NOTIFY, UIHelper.createNotification(StringConstants.EMPTY, message, notificationType));
+        return redirect(path, flashData);
     }
 
     @Override
-    public ModelAndView redirectAndNotify(String path, Map<String, Object> flashModel, String message, String notificationType) {
-        if (flashModel != null) {
-            flashModel.put(ModelKeyConstants.NOTIFY, UIHelper.createNotification(StringConstants.EMPTY, message, notificationType));
-            return redirect(path, flashModel);
+    public ModelAndView redirectAndNotify(String path, Map<String, Object> flashData, String message, String notificationType) {
+        if (flashData != null) {
+            flashData.put(ModelKeyConstants.NOTIFY, UIHelper.createNotification(StringConstants.EMPTY, message, notificationType));
+            return redirect(path, flashData);
         }
         return redirectAndNotify(path, message, notificationType);
     }
@@ -268,8 +268,8 @@ public abstract class AbstractBaseController implements IBaseController {
     }
 
     @Override
-    public ModelAndView redirectAndNotifyError(String path, Map<String, Object> flashModel, String message) {
-        return redirectAndNotify(path, flashModel, message, Notify.DANGER);
+    public ModelAndView redirectAndNotifyError(String path, Map<String, Object> flashData, String message) {
+        return redirectAndNotify(path, flashData, message, Notify.DANGER);
     }
 
     @Override
@@ -278,8 +278,8 @@ public abstract class AbstractBaseController implements IBaseController {
     }
 
     @Override
-    public ModelAndView redirectAndNotifyInfo(String path, Map<String, Object> flashModel, String message) {
-        return redirectAndNotify(path, flashModel, message, Notify.INFO);
+    public ModelAndView redirectAndNotifyInfo(String path, Map<String, Object> flashData, String message) {
+        return redirectAndNotify(path, flashData, message, Notify.INFO);
     }
 
     @Override
@@ -288,8 +288,8 @@ public abstract class AbstractBaseController implements IBaseController {
     }
 
     @Override
-    public ModelAndView redirectAndNotifySuccess(String path, Map<String, Object> flashModel, String message) {
-        return redirectAndNotify(path, flashModel, message, Notify.SUCCESS);
+    public ModelAndView redirectAndNotifySuccess(String path, Map<String, Object> flashData, String message) {
+        return redirectAndNotify(path, flashData, message, Notify.SUCCESS);
     }
 
     @Override
@@ -298,23 +298,23 @@ public abstract class AbstractBaseController implements IBaseController {
     }
 
     @Override
-    public ModelAndView redirectAndNotifyWarning(String path, Map<String, Object> flashModel, String message) {
-        return redirectAndNotify(path, flashModel, message, Notify.WARNING);
+    public ModelAndView redirectAndNotifyWarning(String path, Map<String, Object> flashData, String message) {
+        return redirectAndNotify(path, flashData, message, Notify.WARNING);
     }
 
     @Override
-    public Map<String, Object> getFlashModel() {
-        Map<String, Object> flashModel = SessionManager.get(SessionKeyConstants.FLASH);
-        if (flashModel == null) {
+    public Map<String, Object> getFlashData() {
+        Map<String, Object> flashData = SessionManager.get(SessionKeyConstants.FLASH);
+        if (flashData == null) {
             return new HashMap<>();
         }
-        return flashModel;
+        return flashData;
     }
     
     private void loadFlashToView(ModelAndView mav) {
-        Map<String, Object> flashModel = SessionManager.get(SessionKeyConstants.FLASH);
-        if ((flashModel != null) && (mav != null)) {
-            mav.addAllObjects(flashModel);
+        Map<String, Object> flashData = SessionManager.get(SessionKeyConstants.FLASH);
+        if ((flashData != null) && (mav != null)) {
+            mav.addAllObjects(flashData);
             SessionManager.remove(SessionKeyConstants.FLASH);
         }
     }

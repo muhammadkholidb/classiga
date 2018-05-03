@@ -154,6 +154,16 @@ public class HTTPAccessBaseController extends AbstractBaseController implements 
     }
 
     @Override
+    public ActionResult changePassword(Map<String, Object> parameters) {
+        try {            
+            return getPredefinedHttpClient("/user/change-password", parameters).post();
+        } catch (Exception e) {
+            log.error(CommonUtils.getExceptionMessage(e), e);
+            return errorActionResult();
+        }
+    }
+
+    @Override
     public ActionResult listUserGroup(Map<String, Object> parameters) {
         try {            
             return getPredefinedHttpClient("/settings/user-group/list", parameters).get();

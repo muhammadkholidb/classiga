@@ -92,14 +92,14 @@ public class DataImporter {
 
     public void addFileDataSet(File dataSet) {
         if (this.fileDataSets == null) {
-            this.fileDataSets = new ArrayList<File>();
+            this.fileDataSets = new ArrayList<>();
         }
         this.fileDataSets.add(dataSet);
     }
 
     public void addStreamDataSet(InputStream inputStreamDataSet) {
         if (this.streamDataSets == null) {
-            this.streamDataSets = new ArrayList<InputStream>();
+            this.streamDataSets = new ArrayList<>();
         }
         this.streamDataSets.add(inputStreamDataSet);
     }
@@ -157,9 +157,7 @@ public class DataImporter {
                 } catch (Exception e) {
                     log.error(e.toString(), e);
                 } finally {
-                    if (statement != null) {
-                        statement.close();
-                    }
+                    statement.close();
                 }
             }
 

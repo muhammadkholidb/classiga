@@ -179,6 +179,20 @@ public class DataAccessBaseController extends AbstractBaseController implements 
     }
 
     @Override
+    public ActionResult changePassword(Map<String, Object> parameters) {
+        try {
+            userService.changePassword(new DTO(parameters));
+            return successActionResult(createMessage("success.SuccessfullyChangePassword"), new JSONObject());
+        } catch (DataException e) {
+            log.error(CommonUtils.getExceptionMessage(e), e);
+            return failActionResult(createMessage(e.getMessage(), e.getData()));
+        } catch (Exception e) {
+            log.error(CommonUtils.getExceptionMessage(e), e);
+            return errorActionResult();
+        }
+    }
+
+    @Override
     public ActionResult listUserGroup(Map<String, Object> parameters) {
         try {
             DTO dto = userGroupService.getAll(new DTO(parameters));

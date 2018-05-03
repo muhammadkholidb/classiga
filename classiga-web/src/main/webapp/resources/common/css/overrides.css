@@ -104,3 +104,6 @@ ul.pagination > li > a, .pagination > li > span {
 .form-control[readonly] {
     background-color: #fff;
 }
+.main-header .top-nav .settings-menu li a {
+    text-transform: none;
+}

@@ -63,6 +63,8 @@
             <mvc:exclude-mapping path="/resources/**" />
             <mvc:exclude-mapping path="/logout" />
             <mvc:exclude-mapping path="/error" />
+            <mvc:exclude-mapping path="/user/change-password" />
+            <mvc:exclude-mapping path="/user/edit-profile" />
             <bean class="ga.classi.web.interceptor.LoginInterceptor" />
         </mvc:interceptor>
          
@@ -72,6 +74,8 @@
             <mvc:exclude-mapping path="/login" />
             <mvc:exclude-mapping path="/logout" />
             <mvc:exclude-mapping path="/error" />
+            <mvc:exclude-mapping path="/user/change-password" />
+            <mvc:exclude-mapping path="/user/edit-profile" />
             <bean class="ga.classi.web.interceptor.PagePermissionInterceptor" />
         </mvc:interceptor>
         

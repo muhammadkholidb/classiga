@@ -12,13 +12,13 @@
         update_time_millis="{currentMillis}" row_hash="3" />
 
     <t_user id="1" full_name="John" lower_full_name="john"
-        username="johndoe" password="abc" salt="123" email="johndoe@yahoo.com"
+        username="johndoe" password_hash="abc" salt="123" email="johndoe@yahoo.com"
         active="y" deleted="n" version="0" user_group_id="1"
         lower_username="johndoe" lower_email="johndoe@yahoo.com"
         create_time_millis="{currentMillis}" update_time_millis="{currentMillis}"
         row_hash="4" />
     <t_user id="2" full_name="Fulan" lower_full_name="fulan"
-        username="fulan" password="abc" salt="123" email="fulan@yahoo.com"
+        username="fulan" password_hash="abc" salt="123" email="fulan@yahoo.com"
         active="y" deleted="n" version="0" user_group_id="2"
         lower_username="fulan" lower_email="fulan@yahoo.com"
         create_time_millis="{currentMillis}" update_time_millis="{currentMillis}"

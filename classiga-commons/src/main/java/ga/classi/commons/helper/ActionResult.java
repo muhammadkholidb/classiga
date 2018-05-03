@@ -61,4 +61,16 @@ public class ActionResult {
         return this;
     }
     
+    public boolean isSuccess() {
+        return CommonConstants.SUCCESS.equals(this.status);
+    }
+
+    public boolean isFailed() {
+        return CommonConstants.FAIL.equals(this.status);
+    }
+    
+    public boolean isError() {
+        return CommonConstants.ERROR.equals(this.status);
+    }
+    
 }

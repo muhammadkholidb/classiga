@@ -10,7 +10,7 @@
 
     <t_user id="1" full_name="John" lower_full_name="john"
         username="johndoe"
-        password="3f431757ff7e8d3f471893434942c9f9507df52c7739d0d14f7d490ef49ddc2c"
+        password_hash="3f431757ff7e8d3f471893434942c9f9507df52c7739d0d14f7d490ef49ddc2c"
         salt="Hz1is3yX3ihBAKJugTcN3v96QGIZrYJM" email="johndoe@yahoo.com"
         active="y" deleted="n" version="0" user_group_id="1"
         lower_username="johndoe" lower_email="johndoe@yahoo.com"
@@ -18,7 +18,7 @@
         row_hash="3" />
     <t_user id="2" full_name="Fulan" lower_full_name="fulan"
         username="fulan"
-        password="41d88155a47ae8b9b70643d3d775a914eba56e47eff056ffc0f7d341d19eab42"
+        password_hash="41d88155a47ae8b9b70643d3d775a914eba56e47eff056ffc0f7d341d19eab42"
         salt="Q7ijEFCaUQn2Cq4BhqSiNvtEzjXnbksT" email="fulan@yahoo.com"
         active="y" deleted="n" version="0" user_group_id="2"
         lower_username="fulan" lower_email="fulan@yahoo.com"

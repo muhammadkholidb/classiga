@@ -63,7 +63,7 @@ public class DTOUtils {
         if (list == null) {
             return Collections.emptyList();
         }
-        List<DTO> listDto = new ArrayList<DTO>();
+        List<DTO> listDto = new ArrayList<>();
         for (Object o : list) {
             if (o == null) {
                 continue;

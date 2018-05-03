@@ -15,6 +15,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import ga.classi.commons.helper.CommonConstants;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -47,9 +48,20 @@ public class UserEntity extends BaseEntity implements Serializable {
     /**
      *
      */
-    private static final long serialVersionUID = 1L;
-
-    public static final String TABLE_NAME = "t_user";
+    private static final long  serialVersionUID  = 1L;
+    
+    public static final String TABLE_NAME        = "t_user";
+    
+    public static final String F_FULL_NAME       = "fullName";
+    public static final String F_USERNAME        = "username";
+    public static final String F_EMAIL           = "email";
+    public static final String F_PASSWORD_HASH   = "passwordHash";
+    public static final String F_SALT            = "salt";
+    public static final String F_ACTIVE          = "active";
+    public static final String F_LOWER_FULL_NAME = "lowerFullName";
+    public static final String F_LOWER_USERNAME  = "lowerUsername";
+    public static final String F_LOWER_EMAIL     = "lowerEmail";
+    public static final String F_USER_GROUP      = "userGroup";
 
     @Column(name = "full_name", length = 128, nullable = false)
     private String fullName;
@@ -61,8 +73,8 @@ public class UserEntity extends BaseEntity implements Serializable {
     private String email;
 
     @JsonIgnore
-    @Column(name = "password", length = 64, nullable = false)
-    private String password;
+    @Column(name = "password_hash", length = 64, nullable = false)
+    private String passwordHash;
 
     @JsonIgnore
     @Column(name = "salt", length = 32)
@@ -94,14 +106,17 @@ public class UserEntity extends BaseEntity implements Serializable {
 
     @Override
     protected void setValuesOnCreate() {
-        // TODO Auto-generated method stub
-        
+        lowerFullName = fullName.toLowerCase();
+        lowerUsername = username.toLowerCase();
+        lowerEmail = email.toLowerCase();
+        active = CommonConstants.YES;
     }
 
     @Override
     protected void setValuesOnUpdate() {
-        // TODO Auto-generated method stub
-        
+        lowerFullName = fullName.toLowerCase();
+        lowerUsername = username.toLowerCase();
+        lowerEmail = email.toLowerCase();        
     }
     
 }

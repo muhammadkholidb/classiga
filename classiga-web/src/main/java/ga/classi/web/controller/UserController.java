@@ -7,6 +7,7 @@ import java.util.Map;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,12 +15,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ga.classi.commons.helper.ActionResult;
 import ga.classi.commons.helper.CommonConstants;
+import ga.classi.commons.helper.CommonUtils;
 import ga.classi.commons.helper.StringConstants;
+import ga.classi.commons.web.helper.JSON;
 import ga.classi.web.controller.base.BaseControllerAdapter;
 import ga.classi.web.helper.ModelKeyConstants;
+import ga.classi.web.helper.UIHelper;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -200,6 +205,39 @@ public class UserController extends BaseControllerAdapter {
 
             return redirectAndNotifyError("/settings/user", result.getMessage());
         }
+    }
+
+    @GetMapping("/user/change-password")
+    public ModelAndView changePassword(ModelMap modelMap) {
+        log.info("Change password page ...");
+        log.debug("Model: \n{}", JSON.stringify(modelMap, true));
+        return view("user/change-password", modelMap);
+    }
+    
+    @PostMapping(value = "/user/change-password")
+    public ModelAndView changePassword(
+            @RequestParam(name = "oldPassword", required = false) String oldPassword,
+            @RequestParam(name = "newPassword", required = false) String newPassword,
+            @RequestParam(name = "newPasswordConfirm", required = false) String newPasswordConfirm, RedirectAttributes ra) {
+
+        log.info("Submit change password ...");
+        
+        log.debug("Logged in user: \n{}", JSON.stringify(getLoggedInUser(), true)); 
+        
+        ActionResult result = changePassword(CommonUtils.map("oldPassword", oldPassword, "newPassword", newPassword, "newPasswordConfirm", newPassword, "id", getLoggedInUser().get("id")));
+        
+        if (result.isSuccess()) {
+            ra.addFlashAttribute(ModelKeyConstants.NOTIFY, UIHelper.createSuccessNotification(result.getMessage()));
+            return redirect("/user/change-password", ra);
+        }
+        
+        ra.addFlashAttribute("oldPassword", oldPassword);
+        ra.addFlashAttribute("newPassword", newPassword);
+        ra.addFlashAttribute("newPasswordConfirm", newPasswordConfirm);
+        ra.addFlashAttribute(ModelKeyConstants.NOTIFY, UIHelper.createErrorNotification(result.getMessage()));
+        
+        return redirect("/user/change-password", ra);
+
     }
 
 }

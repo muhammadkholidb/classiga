@@ -1,76 +1,16 @@
-<%@ page session="false"%>
-<%@ taglib prefix="s" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@page session="false"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags/vali" %>
+<%@taglib prefix="s" uri="http://www.springframework.org/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<c:set var="titleCode" value="title.usergroup" scope="request" />
-
-<!DOCTYPE html>
-<html lang="${languageCode}" >
-    <head>
-        <jsp:include page="../includes/_1_inc_head_main.jsp" />
-        <%-- Put your additional head content (css) here --%>
-
-    </head>
-    <body class="sidebar-mini fixed">
-        <div class="wrapper">
-            <jsp:include page="../includes/_2_inc_top.jsp" />
-            <jsp:include page="../includes/_3_inc_side.jsp" />
-
-            <div class="content-wrapper">
-                <div class="page-title">
-                    <div>
-                        <h1>
-                            <i class="${currentMenu.faIcon}"></i>
-                            <s:message code="title.usergroup" />
-                        </h1>
-                    </div>
-                    <div>
-                        <c:if test="${canModify}">
-                        <a class="btn btn-primary " href="${contextPath}/settings/user-group/add" data-toggle="tooltip" data-placement="top" title="<s:message code="button.add" />">
-                            <i class="fa fa-lg fa-plus"></i>
-                        </a>
-                        <a id="btnDeleteMultiple" class="btn btn-danger" href="" data-toggle="tooltip" data-placement="top" title="<s:message code="button.delete" />">
-                            <i class="fa fa-lg fa-trash"></i>
-                        </a>
-                        </c:if>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card">
-                            <h3 class="card-title"><s:message code="label.usergrouplist" /></h3>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                <table class="table table-bordered table-hover table-striped display" id="tableUserGroup" style="width: 100%">
-                                    <thead>
-                                        <tr>
-                                            <th class="align-center" >
-                                                <div class="animated-checkbox">
-                                                    <label>
-                                                        <input type="checkbox" onclick="$('input[name=\'selected\']').prop('checked', this.checked);" id="checkAll" >
-                                                        <span class="label-text"></span>
-                                                    </label>
-                                                </div>
-                                            </th>
-                                            <th><s:message code="label.name" /></th>
-                                            <th style="max-width: 40%;"><s:message code="label.description" /></th>
-                                            <th><s:message code="label.active" /></th>
-                                            <th><s:message code="label.action" /></th>
-                                        </tr>
-                                    </thead>
-                                </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <jsp:include page="../includes/_4_inc_bottom.jsp" />
-        <%-- Put your additional content (js) here --%>
-
+<t:layoutAdmin titleCode="title.usergroup" >
+    
+    <jsp:attribute name="styles">
+        
+    </jsp:attribute>
+    
+    <jsp:attribute name="scripts">
         <script src="${contextPath}/resources/vali/js/plugins/jquery.dataTables.min.js"></script>
         <script src="${contextPath}/resources/vali/js/plugins/dataTables.bootstrap.min.js"></script>
         <script src="${contextPath}/resources/vali/js/plugins/sweetalert.min.js"></script>
@@ -186,5 +126,58 @@
                 form.submit();
             }
         </script>
-    </body>
-</html>
+    </jsp:attribute>
+    
+    <jsp:body>
+        <div class="content-wrapper">
+            <div class="page-title">
+                <div>
+                    <h1>
+                        <i class="${currentMenu.faIcon}"></i>
+                        <s:message code="title.usergroup" />
+                    </h1>
+                </div>
+                <div>
+                    <c:if test="${canModify}">
+                    <a class="btn btn-primary " href="${contextPath}/settings/user-group/add" data-toggle="tooltip" data-placement="top" title="<s:message code="button.add" />">
+                        <i class="fa fa-lg fa-plus"></i>
+                    </a>
+                    <a id="btnDeleteMultiple" class="btn btn-danger" href="" data-toggle="tooltip" data-placement="top" title="<s:message code="button.delete" />">
+                        <i class="fa fa-lg fa-trash"></i>
+                    </a>
+                    </c:if>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <h3 class="card-title"><s:message code="label.usergrouplist" /></h3>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                            <table class="table table-bordered table-hover table-striped display" id="tableUserGroup" style="width: 100%">
+                                <thead>
+                                    <tr>
+                                        <th class="align-center" >
+                                            <div class="animated-checkbox">
+                                                <label>
+                                                    <input type="checkbox" onclick="$('input[name=\'selected\']').prop('checked', this.checked);" id="checkAll" >
+                                                    <span class="label-text"></span>
+                                                </label>
+                                            </div>
+                                        </th>
+                                        <th><s:message code="label.name" /></th>
+                                        <th style="max-width: 40%;"><s:message code="label.description" /></th>
+                                        <th><s:message code="label.active" /></th>
+                                        <th><s:message code="label.action" /></th>
+                                    </tr>
+                                </thead>
+                            </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </jsp:body>
+    
+</t:layoutAdmin>

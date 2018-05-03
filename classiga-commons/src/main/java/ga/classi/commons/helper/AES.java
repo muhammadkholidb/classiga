@@ -16,6 +16,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class AES {
 
+    private AES() {}
+    
     // With modification from https://aesencryption.net/
 
     private static final String DEFAULT_KEY    = "DfVlt@s3CrEt#k3Y";

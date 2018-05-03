@@ -131,7 +131,7 @@ public class UserGroupService extends AbstractServiceHelper {
         DataValidation.validateEmpty(strGroupName, "Name");
         DataValidation.validateYesNo(strGroupActive, "Active");
 
-        List<MenuPermissionEntity> listMenuPermission = new ArrayList<MenuPermissionEntity>();
+        List<MenuPermissionEntity> listMenuPermission = new ArrayList<>();
 
         // Validate parameter menu permissions
         for (Object object : arrMenuPermissions) {
@@ -225,7 +225,7 @@ public class UserGroupService extends AbstractServiceHelper {
             throw new DataException(ExceptionCode.E1003, ErrorMessageConstants.USER_GROUP_ALREADY_EXISTS, new Object[]{strGroupName});
         }
 
-        List<MenuPermissionEntity> listMenuPermission = new ArrayList<MenuPermissionEntity>();
+        List<MenuPermissionEntity> listMenuPermission = new ArrayList<>();
 
         // Validate parameter menu permissions
         for (Object object : arrMenuPermissions) {
@@ -281,7 +281,7 @@ public class UserGroupService extends AbstractServiceHelper {
 
         String strUserGroupId = dtoInput.getStringValue("id");
 
-        List<Long> listUserGroupId = new ArrayList<Long>();
+        List<Long> listUserGroupId = new ArrayList<>();
 
         if (StringCheck.isJSONArray(strUserGroupId)) {
 
@@ -299,7 +299,7 @@ public class UserGroupService extends AbstractServiceHelper {
             listUserGroupId.add(Long.valueOf(strUserGroupId));
         }
 
-        List<UserGroupEntity> listUserGroup = new ArrayList<UserGroupEntity>();
+        List<UserGroupEntity> listUserGroup = new ArrayList<>();
         
         for (Long userGroupId : listUserGroupId) {
 

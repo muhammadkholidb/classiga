@@ -75,21 +75,17 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <div class="col-lg-10 col-lg-offset-2" >
-                                        <c:choose>
-                                            <c:when test="${isEdit}">
-                                                <button type="submit" class="btn btn-primary icon-btn" id="btnSave" ><s:message code="button.save" /></button>
-                                                <a href="${contextPath}/settings/system" class="btn btn-default icon-btn" id="btnCancel" ><s:message code="button.cancel" /></a>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <c:if test="${canModify}">
-                                                <a href="${contextPath}/settings/system/edit" class="btn btn-primary" ><s:message code="button.edit" /></a>
-                                                </c:if>
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </div>
-                                </div>
+                                <c:choose>
+                                    <c:when test="${isEdit}">
+                                        <button type="submit" class="btn btn-primary icon-btn" id="btnSave" ><s:message code="button.save" /></button>
+                                        <a href="${contextPath}/settings/system" class="btn btn-default icon-btn" id="btnCancel" ><s:message code="button.cancel" /></a>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:if test="${canModify}">
+                                        <a href="${contextPath}/settings/system/edit" class="btn btn-primary" ><s:message code="button.edit" /></a>
+                                        </c:if>
+                                    </c:otherwise>
+                                </c:choose>
                             </form>
                         </div>
                     </div>

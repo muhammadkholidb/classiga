@@ -2,6 +2,8 @@ package ga.classi.web.controller.base;
 
 import java.util.Map;
 
+import org.json.simple.JSONObject;
+
 import ga.classi.commons.helper.ActionResult;
 
 /**
@@ -11,6 +13,8 @@ import ga.classi.commons.helper.ActionResult;
 public interface IBaseControllerUser {
 
     boolean userHasLoggedIn();
+    
+    JSONObject getLoggedInUser();
     
     ActionResult login(Map<String, Object> parameters);
     
@@ -23,5 +27,7 @@ public interface IBaseControllerUser {
     ActionResult editUser(Map<String, Object> parameters);
     
     ActionResult removeUser(Map<String, Object> parameters);
+    
+    ActionResult changePassword(Map<String, Object> parameters);
     
 }

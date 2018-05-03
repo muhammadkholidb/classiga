@@ -19,11 +19,11 @@ public final class CommonUtils {
         if (keysAndValues.length % 2 != 0) {
             throw new IllegalArgumentException("Number of arguments must be even.");
         }
-        Map<K, V> map = new HashMap<K, V>();
-        for (int i = 0; i < keysAndValues.length;) {
-            map.put((K) keysAndValues[i++], (V) keysAndValues[i++]);
+        Map<K, V> map = new HashMap<>();
+        for (int i = 0; i < keysAndValues.length; i = i + 2) {
+            map.put((K) keysAndValues[i], (V) keysAndValues[i + 1]);
         }
         return map;
     }
-
+    
 }

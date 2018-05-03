@@ -86,7 +86,7 @@ public class SystemService extends AbstractServiceHelper {
 
         JSONArray arrSystems = (JSONArray) JSONValue.parse(strSystems);
 
-        List<DTO> updatedList = new ArrayList<DTO>();
+        List<DTO> updatedList = new ArrayList<>();
 
         for (Object object : arrSystems) {
 

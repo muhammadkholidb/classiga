@@ -59,14 +59,12 @@ public class MenuPermissionEntity extends BaseEntity implements Serializable {
 
     @Override
     protected void setValuesOnCreate() {
-        // TODO Auto-generated method stub
-        
+        // Set values on create
     }
 
     @Override
     protected void setValuesOnUpdate() {
-        // TODO Auto-generated method stub
-        
+        // Set values on update
     }
     
 }

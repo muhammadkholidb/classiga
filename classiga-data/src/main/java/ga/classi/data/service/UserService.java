@@ -111,7 +111,7 @@ public class UserService extends AbstractServiceHelper {
 
         String stirredPassword = PasswordUtils.stir(strPassword, loginUser.getSalt());
 
-        if (!loginUser.getPassword().equals(stirredPassword)) {
+        if (!loginUser.getPasswordHash().equals(stirredPassword)) {
             throw new DataException(ExceptionCode.E1001, ErrorMessageConstants.USER_NOT_FOUND);
         }
 
@@ -216,7 +216,7 @@ public class UserService extends AbstractServiceHelper {
         addUser.setFullName(strFullName);
         addUser.setEmail(strEmail);
         addUser.setUsername(strUsername);
-        addUser.setPassword(stirredPassword);
+        addUser.setPasswordHash(stirredPassword);
         addUser.setSalt(salt);
         addUser.setActive(strActive.toLowerCase());
         addUser.setUserGroup(userGroupById);
@@ -287,7 +287,7 @@ public class UserService extends AbstractServiceHelper {
             String newSalt = RandomStringUtils.randomAlphanumeric(32);
             String stirredPassword = PasswordUtils.stir(strPassword, newSalt);
             findUserById.setSalt(newSalt);
-            findUserById.setPassword(stirredPassword);
+            findUserById.setPasswordHash(stirredPassword);
         }
 
         UserEntity updated = userRepository.save(findUserById);
@@ -304,7 +304,7 @@ public class UserService extends AbstractServiceHelper {
         // Validate values
         String strUserId = dtoInput.getStringValue("id");
 
-        List<UserEntity> listUser = new ArrayList<UserEntity>();
+        List<UserEntity> listUser = new ArrayList<>();
 
         if (StringCheck.isJSONArray(strUserId)) {
 
@@ -334,6 +334,41 @@ public class UserService extends AbstractServiceHelper {
 
         List<UserEntity> updated = userRepository.save(listUser);
         log.debug("Updated: {} users", updated.size());
+    }
+
+    @Transactional
+    public DTO changePassword(DTO dtoInput) {
+
+        // Validate dtoInput
+        DataValidation.containsRequiredData(dtoInput, "id", "oldPassword", "newPassword", "newPasswordConfirm");
+
+        String strId = dtoInput.getStringValue("id");
+        String strOldPassword = dtoInput.getStringValue("oldPassword");
+        String strNewPassword = dtoInput.getStringValue("newPassword");
+        String strNewPasswordConfirm = dtoInput.getStringValue("newPasswordConfirm");
+
+        DataValidation.validate(strId, "User ID", DataValidation.EMPTY, DataValidation.NUMBER);
+        DataValidation.validateEmpty(strOldPassword, "Old Password");
+        DataValidation.validateEquals(strNewPassword, strNewPasswordConfirm, "New Password and Confirmation");
+        
+        UserEntity user = userRepository.findOneByIdAndDeleted(Long.valueOf(strId), CommonConstants.NO);
+        if (user == null) {
+            throw new DataException(ExceptionCode.E1001, ErrorMessageConstants.USER_NOT_FOUND);
+        }
+
+        String oldPasswordHash = PasswordUtils.stir(strOldPassword, user.getSalt());
+        
+        DataValidation.validateEquals(oldPasswordHash, user.getPasswordHash(), "Old Password");
+
+        String salt = RandomStringUtils.randomAlphanumeric(32);
+        String newPasswordHash = PasswordUtils.stir(strNewPassword, salt);
+        
+        user.setSalt(salt);
+        user.setPasswordHash(newPasswordHash);
+
+        UserEntity updated = userRepository.save(user);
+        
+        return buildResultByEntity(updated);
     }
 
 }

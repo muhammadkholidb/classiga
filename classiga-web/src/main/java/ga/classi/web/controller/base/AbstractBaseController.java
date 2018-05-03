@@ -229,7 +229,7 @@ public abstract class AbstractBaseController implements IBaseController {
         for (Entry<String, Object> entry : defaultRequestAttributes.entrySet()) {            
             ra.addFlashAttribute(entry.getKey(), entry.getValue());
         }
-        if ((path != null) & !path.startsWith("redirect:")) {
+        if ((path != null) && !path.startsWith("redirect:")) {
             return new ModelAndView("redirect:" + path);
         }
         return new ModelAndView(path);
@@ -586,6 +586,18 @@ public abstract class AbstractBaseController implements IBaseController {
         return SessionManager.get(SessionKeyConstants.USER) != null;
     }
 
+    @Override
+    public JSONObject getLoggedInUser() {
+        return SessionManager.get(SessionKeyConstants.USER);
+    }
+
+    // Implements IBaseControllerUserGroup
+    
+    @Override
+    public JSONObject getLoggedInUserGroup() {
+        return SessionManager.get(SessionKeyConstants.USER_GROUP);
+    }
+        
     @Override
     public String getApplicationName() {
         return applicationName;

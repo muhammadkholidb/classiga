@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONArray;
-//import org.json.simple.JSONObject;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
@@ -326,6 +326,14 @@ public abstract class BaseControllerAdapter {
         return baseController.removeUser(parameters);
     }
 
+    protected ActionResult changePassword(Map<String, Object> parameters) {
+        return baseController.changePassword(parameters);
+    }
+
+    protected JSONObject getLoggedInUser() {
+        return baseController.getLoggedInUser();
+    }
+
     // Adapter for IBaseControllerSystem
 
     protected JSONArray getSystems() {
@@ -364,6 +372,10 @@ public abstract class BaseControllerAdapter {
 
     protected ActionResult removeUserGroup(Map<String, Object> parameters) {
         return baseController.removeUserGroup(parameters);
+    }
+
+    protected JSONObject getLoggedInUserGroup() {
+        return baseController.getLoggedInUserGroup();
     }
 
 }

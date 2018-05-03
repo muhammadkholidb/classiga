@@ -16,10 +16,11 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DatabaseTearDown;
+import com.github.springtestdbunit.annotation.DbUnitConfiguration;
 
 import ga.classi.commons.data.helper.DTO;
 import ga.classi.commons.helper.CommonConstants;
-import ga.classi.data.test.DefaultSpringTestDbUnitConfiguration;
+import ga.classi.data.test.ReplacementFlatXmlDataSetLoader;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -30,7 +31,8 @@ import lombok.extern.slf4j.Slf4j;
     DbUnitTestExecutionListener.class })
 @DatabaseSetup("MenuPermissionServiceTest.xml")
 @DatabaseTearDown("MenuPermissionServiceTestCleanup.xml")
-public class MenuPermissionServiceTest extends DefaultSpringTestDbUnitConfiguration {
+@DbUnitConfiguration(dataSetLoader = ReplacementFlatXmlDataSetLoader.class, databaseConnection = "dataSource")
+public class MenuPermissionServiceTest {
 
     @Autowired
     private MenuPermissionService menuPermissionService;

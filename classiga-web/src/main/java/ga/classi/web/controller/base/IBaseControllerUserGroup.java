@@ -2,6 +2,8 @@ package ga.classi.web.controller.base;
 
 import java.util.Map;
 
+import org.json.simple.JSONObject;
+
 import ga.classi.commons.helper.ActionResult;
 
 /**
@@ -9,6 +11,8 @@ import ga.classi.commons.helper.ActionResult;
  * @author eatonmunoz
  */
 public interface IBaseControllerUserGroup {
+
+    JSONObject getLoggedInUserGroup();
     
     ActionResult listUserGroup(Map<String, Object> parameters);
 

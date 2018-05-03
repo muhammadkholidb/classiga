@@ -29,11 +29,18 @@
                     <!-- Navbar Right Menu-->
                     <div class="navbar-custom-menu">
                         <ul class="top-nav">
+                            <c:if test="${userGroup.id ne -1}">
                             <!-- User Menu-->
-                            <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user fa-lg"></i></a>
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user fa-lg"></i></a>
                                 <ul class="dropdown-menu settings-menu">
-                                    <li><a href="${contextPath}/logout"><i class="fa fa-sign-out fa-lg"></i> <s:message code="label.logout" /></a></li>
+                                    <li><a id="btnEditProfile" href="${contextPath}/user/edit-profile"><i class="fa fa-user fa-lg"></i> <s:message code="label.editprofile" /></a></li>
+                                    <li><a id="btnChangePassword" href="${contextPath}/user/change-password"><i class="fa fa-lock fa-lg"></i> <s:message code="label.changepassword" /></a></li>
                                 </ul>
+                            </li>
+                            </c:if>
+                            <li>
+                                <a id="btnLogout" href="${contextPath}/logout" role="button" ><i class="fa fa-sign-out fa-lg"></i></a>
                             </li>
                         </ul>
                     </div>

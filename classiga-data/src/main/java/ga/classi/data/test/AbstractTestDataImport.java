@@ -28,7 +28,7 @@ public abstract class AbstractTestDataImport {
      * @param paths Dataset path relative to directory /src/test/resources
      */
     protected void setDataSets(String... paths) {
-        dataSets = new ArrayList<File>();
+        dataSets = new ArrayList<>();
         for (String path : paths) {
             URL url = getClass().getClassLoader().getResource(path);
             File file = new File(url.getFile());

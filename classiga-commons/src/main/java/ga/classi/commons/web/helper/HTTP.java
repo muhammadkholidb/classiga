@@ -10,6 +10,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import ga.classi.commons.helper.StringConstants;
 import lombok.Getter;
@@ -63,10 +64,10 @@ public class HTTP {
         if ((parameters != null) && !parameters.isEmpty()) {
             StringBuilder builder = new StringBuilder();
             int i = 0;
-            for (Object key : parameters.keySet()) {
-                builder.append(key);
+            for (Entry<String, Object> entry : parameters.entrySet()) {                
+                builder.append(entry.getKey());
                 builder.append("=");
-                builder.append(parameters.get(key) == null ? StringConstants.EMPTY: URLEncoder.encode(parameters.get(key).toString(), "UTF-8"));
+                builder.append((entry.getValue() == null) ? StringConstants.EMPTY: URLEncoder.encode(entry.getValue().toString(), "UTF-8"));
                 i++;
                 if (i < parameters.size()) {
                     builder.append("&");
@@ -101,8 +102,8 @@ public class HTTP {
         con.setRequestMethod("GET");
         if (headers != null) {
             log.debug("Headers: {}", headers);
-            for (Object name : headers.keySet()) {
-                con.setRequestProperty((String) name, (String) headers.get(name));
+            for (Entry<String, Object> entry : headers.entrySet()) {                
+                con.setRequestProperty((String) entry.getKey(), (String) entry.getValue());
             }
         }
 
@@ -150,8 +151,8 @@ public class HTTP {
         con.setDoOutput(true);
         if (headers != null) {
             log.debug("Headers: {}", headers);
-            for (Object name : headers.keySet()) {
-                con.setRequestProperty((String) name, (String) headers.get(name));
+            for (Entry<String, Object> entry : headers.entrySet()) {                
+                con.setRequestProperty((String) entry.getKey(), (String) entry.getValue());
             }
         }
 

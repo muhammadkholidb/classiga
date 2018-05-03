@@ -38,6 +38,13 @@
                 $('#inputPassword').trigger('keyup');
             });
         </script>
+        <script src="${contextPath}/resources/vali/js/plugins/select2.min.js"></script>
+        <script>
+            $("#inputUserGroupId, #inputActive").select2({
+                width: '100%',
+                tags: true
+            });
+        </script>
     </jsp:attribute>
     
     <jsp:body>

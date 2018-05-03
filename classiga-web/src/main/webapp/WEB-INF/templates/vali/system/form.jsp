@@ -6,6 +6,20 @@
 
 <t:layoutAdmin titleCode="title.system" >
     
+    <jsp:attribute name="styles">
+        
+    </jsp:attribute>
+    
+    <jsp:attribute name="scripts">
+        <script src="${contextPath}/resources/vali/js/plugins/select2.min.js"></script>
+        <script>
+            $("#inputLanguage, #inputOnline").select2({
+                width: '100%',
+                tags: true
+            });
+        </script>
+    </jsp:attribute>
+    
     <jsp:body>
         <div class="content-wrapper">
             <div class="page-title">

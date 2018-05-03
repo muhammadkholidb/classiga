@@ -177,6 +177,13 @@
                 language: utils.dataTables.language['${languageCode}']
             });
         </script>
+        <script src="${contextPath}/resources/vali/js/plugins/select2.min.js"></script>
+        <script>
+            $("#inputActive").select2({
+                width: '100%',
+                tags: true
+            });
+        </script>
 
     </jsp:attribute>
     

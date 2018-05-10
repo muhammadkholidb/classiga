@@ -236,6 +236,32 @@ public abstract class AbstractBaseController implements IBaseController {
     }
 
     @Override
+    public ModelAndView redirectAndNotify(String path, RedirectAttributes ra, String message, String notificationType) {
+        ra.addFlashAttribute(ModelKeyConstants.NOTIFY, UIHelper.createNotification(StringConstants.EMPTY, message, notificationType));
+        return redirect(path, ra);
+    }
+
+    @Override
+    public ModelAndView redirectAndNotifyError(String path, RedirectAttributes ra, String message) {
+        return redirectAndNotify(path, ra, message, Notify.DANGER);
+    }
+
+    @Override
+    public ModelAndView redirectAndNotifyInfo(String path, RedirectAttributes ra, String message) {
+        return redirectAndNotify(path, ra, message, Notify.INFO);
+    }
+
+    @Override
+    public ModelAndView redirectAndNotifySuccess(String path, RedirectAttributes ra, String message) {
+        return redirectAndNotify(path, ra, message, Notify.SUCCESS);
+    }
+
+    @Override
+    public ModelAndView redirectAndNotifyWarning(String path, RedirectAttributes ra, String message) {
+        return redirectAndNotify(path, ra, message, Notify.WARNING);
+    }
+    
+    @Override
     public ModelAndView redirect(String path) {
         return redirect(path, (Map<String, Object>) null);
     }

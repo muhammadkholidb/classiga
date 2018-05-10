@@ -30,7 +30,7 @@
                 }
             });
     		$(document).ready(function() {
-                <c:if test="${not empty notify and notify.type == 'success'}">
+                <c:if test="${logout}">
                 setTimeout(function() {
                     var href = $('#btnLogout').attr('href');
                     window.location.href = href;

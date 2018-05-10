@@ -137,6 +137,26 @@ public abstract class BaseControllerAdapter {
         return baseController.redirect(path, ra);
     }
 
+    public ModelAndView redirectAndNotify(String path, RedirectAttributes ra, String message, String notificationType) {
+        return baseController.redirectAndNotify(path, ra, message, notificationType);
+    }
+
+    public ModelAndView redirectAndNotifyError(String path, RedirectAttributes ra, String message) {
+        return baseController.redirectAndNotifyError(path, ra, message);
+    }
+
+    public ModelAndView redirectAndNotifyInfo(String path, RedirectAttributes ra, String message) {
+        return baseController.redirectAndNotifyInfo(path, ra, message);
+    }
+
+    public ModelAndView redirectAndNotifySuccess(String path, RedirectAttributes ra, String message) {
+        return baseController.redirectAndNotifySuccess(path, ra, message);
+    }
+
+    public ModelAndView redirectAndNotifyWarning(String path, RedirectAttributes ra, String message) {
+        return baseController.redirectAndNotifyWarning(path, ra, message);
+    }
+    
     protected ModelAndView redirect(String path) {
         return baseController.redirect(path);
     }
@@ -334,6 +354,10 @@ public abstract class BaseControllerAdapter {
         return baseController.getLoggedInUser();
     }
 
+    protected boolean userHasLoggedIn() {
+        return baseController.userHasLoggedIn();
+    }
+    
     // Adapter for IBaseControllerSystem
 
     protected JSONArray getSystems() {

@@ -241,6 +241,7 @@ public class UserService extends AbstractServiceHelper {
         String strUsername = dtoInput.get("username");
         String strPassword = dtoInput.get("password");
         String strActive = dtoInput.get("active");
+        String strAvatar = dtoInput.get("avatar");
         String strUserGroupId = dtoInput.getStringValue("userGroupId");
 
         // Validate values
@@ -282,6 +283,10 @@ public class UserService extends AbstractServiceHelper {
         findUserById.setLowerEmail(strEmail.toLowerCase());
         findUserById.setLowerUsername(strUsername.toLowerCase());
         findUserById.setLowerFullName(strFullName.toLowerCase());
+        
+        if ((strAvatar != null) && !strAvatar.isEmpty()) {
+            findUserById.setAvatar(strAvatar); 
+        }
         
         if ((strPassword != null) && !strPassword.trim().isEmpty()) {
             String newSalt = RandomStringUtils.randomAlphanumeric(32);

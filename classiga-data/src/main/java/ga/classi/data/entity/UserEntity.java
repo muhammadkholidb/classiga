@@ -95,6 +95,9 @@ public class UserEntity extends BaseEntity implements Serializable {
     @Column(name = "lower_email", length = 128, nullable = false)
     private String lowerEmail;
 
+    @Column(name = "avatar", length = 64)
+    private String avatar;
+
     @JsonManagedReference
     @ManyToOne
     @JoinColumn(name = "user_group_id", referencedColumnName = "id")

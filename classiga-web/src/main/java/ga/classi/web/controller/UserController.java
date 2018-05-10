@@ -1,9 +1,11 @@
 package ga.classi.web.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
@@ -14,16 +16,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ga.classi.commons.helper.ActionResult;
 import ga.classi.commons.helper.CommonConstants;
 import ga.classi.commons.helper.CommonUtils;
+import ga.classi.commons.helper.DefaultUser;
 import ga.classi.commons.helper.StringConstants;
-import ga.classi.commons.web.helper.JSON;
+import ga.classi.commons.web.helper.MultipartFileUtils;
 import ga.classi.web.controller.base.BaseControllerAdapter;
 import ga.classi.web.helper.ModelKeyConstants;
+import ga.classi.web.helper.SessionKeyConstants;
+import ga.classi.web.helper.SessionManager;
 import ga.classi.web.helper.UIHelper;
 import lombok.extern.slf4j.Slf4j;
 
@@ -59,7 +65,7 @@ public class UserController extends BaseControllerAdapter {
             @RequestParam(name = "password", required = true, defaultValue = StringConstants.EMPTY) String password,
             @RequestParam(name = "userGroupId", required = true, defaultValue = StringConstants.EMPTY) String userGroupId) {
 
-        Map<String, Object> model = new HashMap<String, Object>();
+        Map<String, Object> model = new HashMap<>();
         model.put(ModelKeyConstants.FULL_NAME, fullName);
         model.put(ModelKeyConstants.USERNAME, username);
         model.put(ModelKeyConstants.EMAIL, email);
@@ -151,7 +157,7 @@ public class UserController extends BaseControllerAdapter {
 
             } else {    // Fail or error
 
-                Map<String, Object> model = new HashMap<String, Object>();
+                Map<String, Object> model = new HashMap<>();
                 model.put(ModelKeyConstants.FULL_NAME, fullName);
                 model.put(ModelKeyConstants.USERNAME, username);
                 model.put(ModelKeyConstants.EMAIL, email);
@@ -167,7 +173,7 @@ public class UserController extends BaseControllerAdapter {
 
         JSONObject userGroup = (JSONObject) user.get("userGroup");
         
-        Map<String, Object> model = new HashMap<String, Object>();
+        Map<String, Object> model = new HashMap<>();
         model.put(ModelKeyConstants.FULL_NAME, user.get("fullName"));
         model.put(ModelKeyConstants.USERNAME, user.get("username"));
         model.put(ModelKeyConstants.EMAIL, user.get("email"));
@@ -210,7 +216,14 @@ public class UserController extends BaseControllerAdapter {
     @GetMapping("/user/change-password")
     public ModelAndView changePassword(ModelMap modelMap) {
         log.info("Change password page ...");
-        log.debug("Model: \n{}", JSON.stringify(modelMap, true));
+
+        JSONObject user = getLoggedInUser();
+
+        if ((user != null) && DefaultUser.USER_ID.equals(user.get("id"))) {
+            log.warn("Change password is not supported for default user, redirect ...");
+            return redirect(getDefaultRedirect());
+        }
+        
         return view("user/change-password", modelMap);
     }
     
@@ -218,15 +231,25 @@ public class UserController extends BaseControllerAdapter {
     public ModelAndView changePassword(
             @RequestParam(name = "oldPassword", required = false) String oldPassword,
             @RequestParam(name = "newPassword", required = false) String newPassword,
-            @RequestParam(name = "newPasswordConfirm", required = false) String newPasswordConfirm, RedirectAttributes ra) {
+            @RequestParam(name = "newPasswordConfirm", required = false) String newPasswordConfirm, RedirectAttributes ra) throws UnsupportedEncodingException {
 
         log.info("Submit change password ...");
+
+        JSONObject user = getLoggedInUser();
+
+        if ((user != null) && DefaultUser.USER_ID.equals(user.get("id"))) {
+            log.warn("Change password is not supported for default user, redirect ...");
+            return redirect(getDefaultRedirect());
+        }
         
-        log.debug("Logged in user: \n{}", JSON.stringify(getLoggedInUser(), true)); 
-        
-        ActionResult result = changePassword(CommonUtils.map("oldPassword", oldPassword, "newPassword", newPassword, "newPasswordConfirm", newPassword, "id", getLoggedInUser().get("id")));
+        ActionResult result = changePassword(CommonUtils.map(
+                "oldPassword", oldPassword, 
+                "newPassword", newPassword, 
+                "newPasswordConfirm", newPassword, 
+                "id", user.get("id")));
         
         if (result.isSuccess()) {
+            ra.addFlashAttribute("logout", true);
             ra.addFlashAttribute(ModelKeyConstants.NOTIFY, UIHelper.createSuccessNotification(result.getMessage()));
             return redirect("/user/change-password", ra);
         }
@@ -237,7 +260,82 @@ public class UserController extends BaseControllerAdapter {
         ra.addFlashAttribute(ModelKeyConstants.NOTIFY, UIHelper.createErrorNotification(result.getMessage()));
         
         return redirect("/user/change-password", ra);
-
     }
 
+    @GetMapping("/user/edit-profile")
+    public ModelAndView editProfile(ModelMap modelMap) {
+        log.info("Edit profile page ...");
+        
+        JSONObject user = getLoggedInUser();
+
+        if ((user != null) && DefaultUser.USER_ID.equals(user.get("id"))) {
+            log.warn("Edit profile is not supported for default user, redirect ...");
+            return redirect(getDefaultRedirect());
+        }
+        
+        if ((user != null) && modelMap.isEmpty()) {
+            modelMap.put("fullName", user.get("fullName"));
+            modelMap.put("username", user.get("username"));
+            modelMap.put("email", user.get("email"));       
+        }
+        return view("user/edit-profile", modelMap);
+    }
+
+    @SuppressWarnings("unchecked")
+    @PostMapping(value = "/user/edit-profile")
+    public ModelAndView editProfile(
+            @RequestParam(name = "fullName", required = true, defaultValue = StringConstants.EMPTY) String fullName,
+            @RequestParam(name = "username", required = true, defaultValue = StringConstants.EMPTY) String username,
+            @RequestParam(name = "email", required = true, defaultValue = StringConstants.EMPTY) String email,
+            @RequestParam(name = "avatar", required = true, defaultValue = StringConstants.EMPTY) MultipartFile avatar, 
+            RedirectAttributes ra) throws UnsupportedEncodingException {
+
+        log.info("Submit edit profile ...");
+
+        JSONObject userGroup = getLoggedInUserGroup();
+        JSONObject user = getLoggedInUser();
+
+        if ((user != null) && DefaultUser.USER_ID.equals(user.get("id"))) {
+            log.warn("Edit profile is not supported for default user, redirect ...");
+            return redirect(getDefaultRedirect());
+        }
+        
+        log.debug("Upload avatar ...");
+        String avatarName = System.currentTimeMillis() + StringConstants.UNDERSCORE + RandomStringUtils.randomAlphanumeric(16).toUpperCase() + MultipartFileUtils.getFileExtension(avatar);
+        int uploadSize = MultipartFileUtils.upload(avatar, applicationProperties.getProperty("directory.path.images") + "/avatar", avatarName);
+        boolean isUploadSuccess = uploadSize > 0;
+        
+        log.debug("Upload success: {}", isUploadSuccess); 
+        
+        Map<String, Object> params = new HashMap<>();
+        params.put("fullName", fullName.trim());
+        params.put("username", username.trim());
+        params.put("email", email.trim());
+        params.put("password", StringConstants.EMPTY);
+        params.put("active", CommonConstants.YES);
+        params.put("avatar", isUploadSuccess ? avatarName : StringConstants.EMPTY);
+        params.put("userGroupId", userGroup.get("id"));
+        params.put("id", user.get("id"));
+
+        log.debug("Params: {}", params);
+        
+        ActionResult result = editUser(params);        
+        
+        ra.addFlashAttribute("fullName", fullName);
+        ra.addFlashAttribute("username", username);
+        ra.addFlashAttribute("email", email);
+        
+        if (result.isSuccess()) {
+            user.put("avatar", isUploadSuccess ? avatarName : user.get("avatar"));
+            user.put("fullName", fullName);
+            user.put("username", username);
+            user.put("email", email);
+            SessionManager.set(SessionKeyConstants.USER, user);
+            String messageCode = "success.editprofile" + (isUploadSuccess ? "" : ".withoutavatar");
+            return redirectAndNotifySuccess("/user/edit-profile", ra, messageHelper.getMessage(messageCode));
+        }
+        
+        return redirectAndNotifyError("/user/edit-profile", ra, result.getMessage());
+    }
+    
 }

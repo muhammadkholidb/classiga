@@ -21,6 +21,7 @@ $.extend( $.validator.messages, {
 	dateISO: "Please enter a valid date (ISO).",
 	number: "Please enter a valid number.",
 	digits: "Please enter only digits.",
+    creditcard: "Please enter a valid credit card number.",
 	equalTo: "Please enter the same value again.",
 	maxlength: $.validator.format( "Please enter no more than {0} characters." ),
 	minlength: $.validator.format( "Please enter at least {0} characters." ),
@@ -28,7 +29,9 @@ $.extend( $.validator.messages, {
 	range: $.validator.format( "Please enter a value between {0} and {1}." ),
 	max: $.validator.format( "Please enter a value less than or equal to {0}." ),
 	min: $.validator.format( "Please enter a value greater than or equal to {0}." ),
-	step: $.validator.format( "Please enter a multiple of {0}." )
+	step: $.validator.format( "Please enter a multiple of {0}." ),
+    accept: $.validator.format( "Please enter a value with a valid mimetype." ),
+    maxsize: $.validator.format( "File size must not exceed {0} bytes each." )
 } );
 return $;
 }));

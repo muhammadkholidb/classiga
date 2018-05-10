@@ -27,13 +27,14 @@ public class PagePermissionInterceptor extends HandlerInterceptorAdapter {
     @Qualifier("applicationProp")
     protected Properties applicationProp;
 
-    private static final String PATH_ADD = "/add";
-    private static final String PATH_EDIT = "/edit";
-    private static final String PATH_REMOVE = "/remove";
-    private static final String PATH_LIST = "/list";
-    
+    private static final String       PATH_ROOT    = "/";
+    private static final String       PATH_ADD     = "/add";
+    private static final String       PATH_EDIT    = "/edit";
+    private static final String       PATH_REMOVE  = "/remove";
+    private static final String       PATH_LIST    = "/list";
+
     private static final List<String> ENDING_PATHS = Arrays.asList(PATH_ADD, PATH_EDIT, PATH_REMOVE, PATH_LIST);
-    
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
@@ -48,8 +49,13 @@ public class PagePermissionInterceptor extends HandlerInterceptorAdapter {
         }
         
         String requestUrl = request.getRequestURI();
+        String contextPath = request.getContextPath();
 
         log.debug("Request URL: {}", requestUrl);
+
+        if (requestUrl.equals(contextPath + PATH_ROOT)) {
+            return true;
+        }
         
         JSONObject currentMenu = findInAvailableMenu(request, (JSONArray) SessionManager.get(SessionKeyConstants.FLAT_MENUS));
         
@@ -69,14 +75,12 @@ public class PagePermissionInterceptor extends HandlerInterceptorAdapter {
             return false;
         }
 
-        if (requestUrl.contains(PATH_EDIT) 
+        if ((requestUrl.contains(PATH_EDIT) 
                 || requestUrl.contains(PATH_ADD) 
-                || requestUrl.contains(PATH_REMOVE)) {
+                || requestUrl.contains(PATH_REMOVE)) && !canModify(menuCode, menuPermissions)) {
             
-            if (!canModify(menuCode, menuPermissions)) {
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "User is not allowed to view this page");
                 return false;
-            }
         }
         
         return true;

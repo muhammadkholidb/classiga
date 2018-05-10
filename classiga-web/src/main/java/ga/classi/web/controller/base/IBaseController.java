@@ -56,6 +56,16 @@ public interface IBaseController extends IBaseControllerSystem, IBaseControllerU
 
     ModelAndView redirect(String path, RedirectAttributes ra);
     
+    ModelAndView redirectAndNotify(String path, RedirectAttributes ra, String message, String notificationType);
+    
+    ModelAndView redirectAndNotifyError(String path, RedirectAttributes ra, String message);
+    
+    ModelAndView redirectAndNotifyInfo(String path, RedirectAttributes ra, String message);
+        
+    ModelAndView redirectAndNotifySuccess(String path, RedirectAttributes ra, String message);
+    
+    ModelAndView redirectAndNotifyWarning(String path, RedirectAttributes ra, String message);
+    
     ModelAndView redirect(String path);
 
     ModelAndView redirect(String path, Map<String, Object> flashData);

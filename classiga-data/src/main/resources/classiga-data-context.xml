@@ -17,8 +17,8 @@
         <property name="jdbcUrl" value="${datasource.url}"/>
         <property name="username" value="${datasource.username}"/>
         <property name="password" value="${datasource.password}"/>
-        <property name="maximumPoolSize" value="${datasource.maxpoolsize}" />
-        <property name="minimumIdle" value="${datasource.minpoolsize}" />
+        <property name="maximumPoolSize" value="${hikaricp.maxpoolsize}" />
+        <property name="minimumIdle" value="${hikaricp.minpoolsize}" />
     </bean>
 
     <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">

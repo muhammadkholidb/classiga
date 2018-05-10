@@ -194,11 +194,6 @@
         </resources>
     </build>
 
-    <properties>
-        <rest.url.host>http://localhost:8081/classiga-rest</rest.url.host>
-        <directory.path.images>${user.home}/.classiga/images</directory.path.images>
-    </properties>
-
     <profiles>
         <profile>
             <id>skinnywar</id>

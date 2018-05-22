@@ -140,6 +140,23 @@ public class UserController extends BaseControllerAdapter {
 
         if (isPost()) {
 
+            Map<String, Object> model = new HashMap<>();
+            model.put(ModelKeyConstants.FULL_NAME, fullName);
+            model.put(ModelKeyConstants.USERNAME, username);
+            model.put(ModelKeyConstants.EMAIL, email);
+            model.put(ModelKeyConstants.PASSWORD, password);
+            model.put(ModelKeyConstants.USER_GROUP_ID, userGroupId);
+            model.put(ModelKeyConstants.ACTIVE, active);
+            model.put(ModelKeyConstants.USER_ID, userId);
+            model.put(ModelKeyConstants.USER_GROUPS, userGroups);
+
+            // Check if submitted username and email equal to default user's username
+            for (Object key : usersProperties.keySet()) {
+                if (username.equalsIgnoreCase(key.toString()) || email.equalsIgnoreCase(key.toString())) {
+                    return viewAndNotifyError("user/form-edit", model, messageHelper.getMessage("error.usernamenotallowed"));
+                }
+            }
+
             JSONObject jsonUser = new JSONObject();
             jsonUser.put("fullName", fullName.trim());
             jsonUser.put("username", username.trim());
@@ -156,16 +173,6 @@ public class UserController extends BaseControllerAdapter {
                 return redirectAndNotifySuccess("/settings/user", result.getMessage());
 
             } else {    // Fail or error
-
-                Map<String, Object> model = new HashMap<>();
-                model.put(ModelKeyConstants.FULL_NAME, fullName);
-                model.put(ModelKeyConstants.USERNAME, username);
-                model.put(ModelKeyConstants.EMAIL, email);
-                model.put(ModelKeyConstants.PASSWORD, password);
-                model.put(ModelKeyConstants.USER_GROUP_ID, userGroupId);
-                model.put(ModelKeyConstants.ACTIVE, active);
-                model.put(ModelKeyConstants.USER_ID, userId);
-                model.put(ModelKeyConstants.USER_GROUPS, userGroups);
 
                 return viewAndNotifyError("user/form-edit", model, result.getMessage());
             }
@@ -299,7 +306,18 @@ public class UserController extends BaseControllerAdapter {
             log.warn("Edit profile is not supported for default user, redirect ...");
             return redirect(getDefaultRedirect());
         }
+
+        ra.addFlashAttribute("fullName", fullName);
+        ra.addFlashAttribute("username", username);
+        ra.addFlashAttribute("email", email);
         
+        // Check if submitted username and email equal to default user's username
+        for (Object key : usersProperties.keySet()) {
+            if (username.equalsIgnoreCase(key.toString()) || email.equalsIgnoreCase(key.toString())) {
+                return redirectAndNotifyError("/user/edit-profile", ra, messageHelper.getMessage("error.usernamenotallowed"));
+            }
+        }
+
         log.debug("Upload avatar ...");
         String avatarName = System.currentTimeMillis() + StringConstants.UNDERSCORE + RandomStringUtils.randomAlphanumeric(16).toUpperCase() + MultipartFileUtils.getFileExtension(avatar);
         int uploadSize = MultipartFileUtils.upload(avatar, applicationProperties.getProperty("directory.path.images") + "/avatar", avatarName);
@@ -320,10 +338,6 @@ public class UserController extends BaseControllerAdapter {
         log.debug("Params: {}", params);
         
         ActionResult result = editUser(params);        
-        
-        ra.addFlashAttribute("fullName", fullName);
-        ra.addFlashAttribute("username", username);
-        ra.addFlashAttribute("email", email);
         
         if (result.isSuccess()) {
             user.put("avatar", isUploadSuccess ? avatarName : user.get("avatar"));

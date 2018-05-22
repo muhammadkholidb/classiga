@@ -36,6 +36,20 @@
         <appender-ref ref="FILE" />
     </root>
     
+    <logger name="org.dbunit" level="ERROR"/>
+    
+    <logger name="org.springframework.beans.factory.support" level="ERROR"/>
+    <logger name="org.springframework.context.event" level="ERROR"/>
+    
+    <logger name="org.hibernate.engine.jdbc.spi.SqlExceptionHelper" level="ERROR"/>
+    <logger name="org.hibernate.tool.schema.internal.ExceptionHandlerLoggedImpl" level="ERROR"/>
+    <logger name="org.hibernate.engine.jdbc.env.internal" level="ERROR"/>
+    <logger name="org.hibernate.boot.registry.selector.internal" level="ERROR"/>
+    <logger name="org.hibernate.persister.walking.spi" level="ERROR"/>
+    <logger name="org.hibernate.loader.plan.build.spi" level="ERROR"/>
+    <logger name="org.hibernate.loader.plan.exec.internal" level="ERROR"/>
+    <logger name="org.hibernate.loader.plan.build.internal" level="ERROR"/>
+   
     <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE"/>
     
 </configuration>

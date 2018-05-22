@@ -2,11 +2,9 @@ package ga.classi.web.helper;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Collections;
-import java.util.Comparator;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -68,11 +66,7 @@ public class MenuLoader {
             
             sortBySequence(nestedMenus);
             
-        } catch (FileNotFoundException e) {
-            log.error(e.getMessage(), e);
-        } catch (IOException e) {
-            log.error(e.getMessage(), e);
-        } catch (ParseException e) {
+        } catch (IOException | ParseException e) {
             log.error(e.getMessage(), e);
         }
     }
@@ -92,20 +86,16 @@ public class MenuLoader {
 
     @SuppressWarnings("unchecked")
     private void sortBySequence(JSONArray menus) {
-        Collections.sort(menus, new Comparator<JSONObject>() {
-
-            @Override
-            public int compare(JSONObject menu1, JSONObject menu2) {
-                Object seq1 = menu1.get("sequence");
-                Object seq2 = menu2.get("sequence");
-                if (seq1 == null || seq1.toString().isEmpty()) {
-                    seq1 = 0;
-                }
-                if (seq2 == null || seq2.toString().isEmpty()) {
-                    seq2 = 0;
-                }
-                return Integer.valueOf(seq1.toString()).compareTo(Integer.valueOf(seq2.toString()));
+        Collections.sort(menus, (JSONObject menu1, JSONObject menu2) -> {
+            Object seq1 = menu1.get("sequence");
+            Object seq2 = menu2.get("sequence");
+            if (seq1 == null || seq1.toString().isEmpty()) {
+                seq1 = 0;
             }
+            if (seq2 == null || seq2.toString().isEmpty()) {
+                seq2 = 0;
+            }
+            return Integer.valueOf(seq1.toString()).compareTo(Integer.valueOf(seq2.toString()));
         });
     }
     

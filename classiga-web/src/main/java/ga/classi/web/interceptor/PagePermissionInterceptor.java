@@ -39,12 +39,12 @@ public class PagePermissionInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
 
-        log.debug("Pre handle ...");
+        log.debug("Started ...");
         
         JSONObject loggedInUser = SessionManager.get(SessionKeyConstants.USER);
         
-        if (loggedInUser == null || DefaultUser.USER_ID.equals(loggedInUser.get("id"))) {
-            // User has not logged in or logged in using default user
+        if ((loggedInUser == null) || DefaultUser.USER_ID.equals(loggedInUser.get("id"))) {
+            log.debug("User has not logged in or logged in as default user, continue ...");
             return true;
         }
         
@@ -57,9 +57,11 @@ public class PagePermissionInterceptor extends HandlerInterceptorAdapter {
             return true;
         }
         
-        JSONObject currentMenu = findInAvailableMenu(request, (JSONArray) SessionManager.get(SessionKeyConstants.FLAT_MENUS));
+        JSONArray flatMenus = SessionManager.get(SessionKeyConstants.FLAT_MENUS);
+        JSONObject currentMenu = findInAvailableMenu(request, flatMenus);
         
         if (currentMenu == null) {
+            log.error("Page requested is not found in the menus");
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Page requested is not found in the menus");
             return false;
         }
@@ -71,6 +73,7 @@ public class PagePermissionInterceptor extends HandlerInterceptorAdapter {
         JSONArray menuPermissions = SessionManager.get(SessionKeyConstants.MENU_PERMISSIONS);
 
         if (!canView(menuCode, menuPermissions)) {
+            log.error("User is not allowed to view this page");
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "User is not allowed to view this page");
             return false;
         }
@@ -79,13 +82,14 @@ public class PagePermissionInterceptor extends HandlerInterceptorAdapter {
                 || requestUrl.contains(PATH_ADD) 
                 || requestUrl.contains(PATH_REMOVE)) && !canModify(menuCode, menuPermissions)) {
             
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "User is not allowed to view this page");
-                return false;
+            log.error("User is not allowed to view or modify this page");
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "User is not allowed to view or modify this page");
+            return false;
         }
         
         return true;
     }
-
+    
     private boolean canView(String code, JSONArray menuPermissions) {
         JSONObject currentMenu = findInAllowedMenu(code, menuPermissions);
         log.debug("Current menu: {}", currentMenu);

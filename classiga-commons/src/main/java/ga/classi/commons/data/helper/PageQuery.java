@@ -14,9 +14,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PageModel {
+public class PageQuery {
     
-    public PageModel(DTO dto) {
+    public PageQuery(DTO dto) {
         this.start =  dto.getInteger(CommonConstants.START);
         this.length = dto.getInteger(CommonConstants.LENGTH);
         this.sortDirection = dto.getString(CommonConstants.SORT_ORDER);

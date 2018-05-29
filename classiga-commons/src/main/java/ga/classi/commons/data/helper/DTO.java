@@ -56,7 +56,7 @@ public class DTO extends HashMap<Object, Object> {
     public Integer getIntegerValue(String key) {
         try {
             return Integer.parseInt(super.get(key) + "");
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             return null;
         }
     }
@@ -68,7 +68,7 @@ public class DTO extends HashMap<Object, Object> {
     public Long getLongValue(String key) {
         try {
             return Long.parseLong(super.get(key) + "");
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             return null;
         }
     }

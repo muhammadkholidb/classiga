@@ -6,6 +6,7 @@ import org.json.simple.JSONObject;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -106,7 +107,7 @@ public class JSON {
     public static <T> T parse(String json, Class<T> type) {
         try {
             return MAPPER.readValue(json, type);
-        } catch (Exception e) {
+        } catch (IOException e) {
             log.warn("Unable to parse JSON: {}", json);
         }
         return null;
@@ -115,7 +116,7 @@ public class JSON {
     public static <T> T parse(String json, TypeReference<T> type) {
         try {
             return MAPPER.readValue(json, type);
-        } catch (Exception e) {
+        } catch (IOException e) {
             log.warn("Unable to parse JSON: {}", json);
         }
         return null;

@@ -1,9 +1,16 @@
 package ga.classi.commons.helper;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
+import java.security.InvalidKeyException;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+import javax.crypto.BadPaddingException;
 
 import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 
@@ -30,7 +37,7 @@ public class AES {
             byte[] digest = sha.digest(key.getBytes("UTF-8"));
             digest = Arrays.copyOf(digest, 16); // use only first 128 bit
             return new SecretKeySpec(digest, ALGORITHM);
-        } catch (Exception e) {
+        } catch (UnsupportedEncodingException | NoSuchAlgorithmException e) {
             log.error("Failed to create secret key!", e);
         }
         return null;
@@ -45,9 +52,9 @@ public class AES {
             SecretKeySpec secretKey = (key == null) ? createSecretKeySpec(DEFAULT_KEY) : createSecretKeySpec(key);
             Cipher cipher = Cipher.getInstance(TRANSFORMATION);
             cipher.init(Cipher.ENCRYPT_MODE, secretKey);
-            byte[] encrypted = cipher.doFinal(plainText.getBytes("UTF-8"));
+            byte[] encrypted = cipher.doFinal(plainText.getBytes(StandardCharsets.UTF_8));
             return DatatypeConverter.printBase64Binary(encrypted);
-        } catch (Exception e) {
+        } catch (InvalidKeyException | NoSuchAlgorithmException | BadPaddingException | IllegalBlockSizeException | NoSuchPaddingException e) {
             log.error("Encryption failed!", e);
         }
         return null;
@@ -63,8 +70,8 @@ public class AES {
             Cipher cipher = Cipher.getInstance(TRANSFORMATION);
             cipher.init(Cipher.DECRYPT_MODE, secretKey);
             byte[] decrypted = cipher.doFinal(DatatypeConverter.parseBase64Binary(encrypted));
-            return new String(decrypted);
-        } catch (Exception e) {
+            return new String(decrypted, StandardCharsets.UTF_8);
+        } catch (InvalidKeyException | NoSuchAlgorithmException | BadPaddingException | IllegalBlockSizeException | NoSuchPaddingException e) {
             log.error("Decryption failed!", e);
         }
         return null;

@@ -15,6 +15,14 @@
         <script src="${contextPath}/resources/vali/js/plugins/dataTables.bootstrap.min.js"></script>
         <script src="${contextPath}/resources/vali/js/plugins/sweetalert.min.js"></script>
         <script>
+            $(document).ready(function() {
+                <c:if test="${logout}">
+                setTimeout(function() {
+                    var href = $('#btnLogout').attr('href');
+                    window.location.href = href;
+                }, 2000);
+                </c:if>
+            });
             utils.dataTables.language['${languageCode}']['sInfoFiltered'] = "";
             utils.dataTables.language['${languageCode}']['sSearch'] = "";
             utils.dataTables.language['${languageCode}']['sLengthMenu'] = "_MENU_";
@@ -59,7 +67,7 @@
                     render: function ( data, type, row, meta ) {
                     	<c:if test="${canModify}">
                         var btnEdit = '<a class="btn btn-success" href="${contextPath}/settings/user/edit/' + row.id + '" data-toggle="tooltip" data-placement="top" title="<s:message code="button.edit" />"><i class="fa fa-lg fa-pencil"></i></a>';
-                        var btnDelete = '<a class="btn btn-danger btn-delete" href="" data-toggle="tooltip" data-placement="top" title="<s:message code="button.delete" />"><i class="fa fa-lg fa-trash"></i></a>';
+                        var btnDelete = (<c:out value="${user.id}" /> !== row.id) ? '<a class="btn btn-danger btn-delete" href="" data-toggle="tooltip" data-placement="top" title="<s:message code="button.delete" />"><i class="fa fa-lg fa-trash"></i></a>' : '';
                         return btnEdit + ' ' + btnDelete;
                     	</c:if>
                         <c:if test="not ${canModify}">

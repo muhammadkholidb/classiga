@@ -24,6 +24,7 @@ import ga.classi.commons.helper.ActionResult;
 import ga.classi.commons.helper.CommonConstants;
 import ga.classi.commons.helper.CommonUtils;
 import ga.classi.commons.helper.DefaultUser;
+import ga.classi.commons.helper.StringCheck;
 import ga.classi.commons.helper.StringConstants;
 import ga.classi.commons.web.helper.MultipartFileUtils;
 import ga.classi.web.controller.base.BaseControllerAdapter;
@@ -31,7 +32,9 @@ import ga.classi.web.helper.ModelKeyConstants;
 import ga.classi.web.helper.SessionKeyConstants;
 import ga.classi.web.helper.SessionManager;
 import ga.classi.web.helper.UIHelper;
+import ga.classi.web.ui.Notify;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  *
@@ -169,8 +172,13 @@ public class UserController extends BaseControllerAdapter {
             ActionResult result = editUser(jsonUser);
             
             if (CommonConstants.SUCCESS.equals(result.getStatus())) {
-
-                return redirectAndNotifySuccess("/settings/user", result.getMessage());
+                JSONObject loggedInUser = getLoggedInUser();
+                Map<String, Object> flash = new HashMap<>();
+                if (userId.equals(loggedInUser.get("id").toString())) {
+                    log.debug("The edited user is the user currently logged in, set the user logout");
+                    flash.put("logout", true);
+                }
+                return redirectAndNotify("/settings/user", flash, result.getMessage(), Notify.SUCCESS);
 
             } else {    // Fail or error
 
@@ -205,6 +213,15 @@ public class UserController extends BaseControllerAdapter {
             return redirect("/settings/user");
         }
         
+        JSONObject loggedInUser = getLoggedInUser();
+        
+        for (String strId : selected) {
+            String loggedInUserId = loggedInUser.get("id").toString();
+            if (loggedInUserId.equals(strId)) {
+                return redirectAndNotifyError("/settings/user", messageHelper.getMessage("error.cannotremovecurrenlyloginuser"));
+            }
+        }
+        
         JSONObject params = new JSONObject();
         params.put("id", Arrays.toString(selected));
 
@@ -226,7 +243,7 @@ public class UserController extends BaseControllerAdapter {
 
         JSONObject user = getLoggedInUser();
 
-        if ((user != null) && DefaultUser.USER_ID.equals(user.get("id"))) {
+        if (DefaultUser.USER_ID.equals(user.get("id"))) {
             log.warn("Change password is not supported for default user, redirect ...");
             return redirect(getDefaultRedirect());
         }
@@ -244,7 +261,7 @@ public class UserController extends BaseControllerAdapter {
 
         JSONObject user = getLoggedInUser();
 
-        if ((user != null) && DefaultUser.USER_ID.equals(user.get("id"))) {
+        if (DefaultUser.USER_ID.equals(user.get("id"))) {
             log.warn("Change password is not supported for default user, redirect ...");
             return redirect(getDefaultRedirect());
         }

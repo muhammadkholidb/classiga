@@ -2,10 +2,6 @@ package ga.classi.commons.data.error;
 
 public enum ExceptionCode {
     
-    // E1 = Exception in data
-    // E2 = Exception in rest
-    // E3 = Exception in web
-    
     /**
      * Entity not found
      */
@@ -44,5 +40,11 @@ public enum ExceptionCode {
     /**
      * Data status not active
      */
-    E1008
+    E1008,
+    
+    /**
+     * Unexpected entity quantity
+     */
+    E1009
+    
 }

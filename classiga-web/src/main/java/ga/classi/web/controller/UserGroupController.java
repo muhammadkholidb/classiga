@@ -25,6 +25,7 @@ import ga.classi.commons.helper.StringConstants;
 import ga.classi.commons.web.helper.JSON;
 import ga.classi.web.controller.base.BaseControllerAdapter;
 import ga.classi.web.helper.ModelKeyConstants;
+import ga.classi.web.ui.Notify;
 import java.io.UnsupportedEncodingException;
 import lombok.extern.slf4j.Slf4j;
 
@@ -49,6 +50,15 @@ public class UserGroupController extends BaseControllerAdapter {
 
         if (selected == null || selected.length == 0) {
             return redirect("/settings/user-group");
+        }
+        
+        JSONObject loggedInUserGroup = getLoggedInUserGroup();
+        
+        for (String strId : selected) {
+            String loggedInUserGroupId = loggedInUserGroup.get("id").toString();
+            if (loggedInUserGroupId.equals(strId)) {
+                return redirectAndNotifyError("/settings/user-group", messageHelper.getMessage("error.cannotremovecurrenlyloginusergroup"));
+            }
         }
         
         JSONObject params = new JSONObject();
@@ -100,7 +110,7 @@ public class UserGroupController extends BaseControllerAdapter {
 
         List<JSONObject> menus = loadCheckedMenuPermissions((JSONArray) JSONValue.parse(decodedMenuPermissions), null);            
         
-        Map<String, Object> model = new HashMap<String, Object>();
+        Map<String, Object> model = new HashMap<>();
         model.put(ModelKeyConstants.NAME, name);
         model.put(ModelKeyConstants.DESCRIPTION, description);
         model.put(ModelKeyConstants.MENU_PERMISSIONS, menus);
@@ -140,7 +150,12 @@ public class UserGroupController extends BaseControllerAdapter {
             ActionResult result = editUserGroup(parameters);
 
             if (CommonConstants.SUCCESS.equals(result.getStatus())) {
-                return redirectAndNotifySuccess("/settings/user-group", result.getMessage());
+                JSONObject loggedInUserGroup = getLoggedInUserGroup();
+                Map<String, Object> flash = new HashMap<>();
+                if (loggedInUserGroup.get("id").toString().equals(userGroupId.trim())) {
+                    flash.put("logout", true);
+                }
+                return redirectAndNotify("/settings/user-group", flash, result.getMessage(), Notify.SUCCESS);
             } 
             
             // This is not success
@@ -166,7 +181,7 @@ public class UserGroupController extends BaseControllerAdapter {
         
         if (errorMessage != null) {
             
-            Map<String, Object> model = new HashMap<String, Object>();
+            Map<String, Object> model = new HashMap<>();
             model.put(ModelKeyConstants.USER_GROUP_ID, userGroupId);
             model.put(ModelKeyConstants.NAME, name);
             model.put(ModelKeyConstants.DESCRIPTION, description);
@@ -176,7 +191,7 @@ public class UserGroupController extends BaseControllerAdapter {
             return viewAndNotifyError("user-group/form-edit", model, errorMessage);
         }
 
-        Map<String, Object> model = new HashMap<String, Object>();
+        Map<String, Object> model = new HashMap<>();
         model.put(ModelKeyConstants.USER_GROUP_ID, userGroup.get("id"));
         model.put(ModelKeyConstants.NAME, userGroup.get("name"));
         model.put(ModelKeyConstants.DESCRIPTION, userGroup.get("description"));
@@ -191,7 +206,7 @@ public class UserGroupController extends BaseControllerAdapter {
         
         JSONArray availableMenus = (JSONArray) JSONValue.parse(getMenus(true).toString());
         
-        List<JSONObject> menus = new ArrayList<JSONObject>();
+        List<JSONObject> menus = new ArrayList<>();
         
         for (Object ob : availableMenus) {
             JSONObject menu = JSON.remove((JSONObject) ob, "label", "faIcon", "path", "sequence");

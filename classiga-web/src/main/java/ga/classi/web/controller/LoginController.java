@@ -42,7 +42,7 @@ public class LoginController extends BaseControllerAdapter {
 
         log.debug("Login form ...");
 
-        Map<String, Object> model = new HashMap<String, Object>();
+        Map<String, Object> model = new HashMap<>();
         model.put(ModelKeyConstants.USERNAME, username);
         model.put(ModelKeyConstants.PASSWORD, password);
         

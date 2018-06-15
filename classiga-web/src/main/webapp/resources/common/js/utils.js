@@ -1,6 +1,6 @@
 var utils = {
-    isValidDate: function(d) {
-    	return (new Date(d).toString() !== 'Invalid Date');
+    isValidDate: function (d) {
+        return (new Date(d).toString() !== 'Invalid Date');
     },
     json: {
         getKeys: function (data) {
@@ -53,8 +53,7 @@ var utils = {
         var decPos = s.indexOf(dec);
         if (prec >= 1 && decPos !== -1 && (s.length - decPos - 1) < prec) {
             s += new Array(prec - (s.length - decPos - 1)).join(0) + '0';
-        }
-        else if (prec >= 1 && decPos === -1) {
+        } else if (prec >= 1 && decPos === -1) {
             s += dec + new Array(prec).join(0) + '0';
         }
         return s;
@@ -125,71 +124,97 @@ var utils = {
         }
         return text;
     },
-    jqueryValidate: function(selector, rules) {
-    	if (typeof $(selector).validate === 'function') {
-    	    var val = $(selector).validate({
-    			rules: rules,
-    			errorElement: "em",
-    			errorPlacement: function (error, element) {
-    				// Add the 'help-block' class to the error element
-    				error.addClass("help-block");
-    				
-    				if (element.prop("type") === "checkbox") {
-    					error.insertAfter(element.parent("label"));
-    				} else if(element.parent().attr('class').indexOf('input-group') !== -1) {
-    					error.insertAfter(element.parent());
-    				} else if(element.attr('class').indexOf('select2') !== -1) {
-    					error.appendTo(element.parent());
-    				} else {
-    					error.insertAfter(element);
-    				}
-    			},
-    			highlight: function (element, errorClass, validClass) {
-    				$(element).parents(".form-group").addClass("has-error");
-    			},
-    			unhighlight: function (element, errorClass, validClass) {
-    				$(element).parents(".form-group").removeClass("has-error");
-    			}
-    		});
-    	    return val;
-    	} else {
-    		alert("Script required: jQuery validation plugin.");
-    		return undefined;
-    	}
+    jqueryValidate: function (selector, rules) {
+        if (typeof $(selector).validate === 'function') {
+            var val = $(selector).validate({
+                rules: rules,
+                errorElement: "em",
+                errorPlacement: function (error, element) {
+                    // Add the 'help-block' class to the error element
+                    error.addClass("help-block");
+
+                    if (element.prop("type") === "checkbox") {
+                        error.insertAfter(element.parent("label"));
+                    } else if (element.parent().attr('class').indexOf('input-group') !== -1) {
+                        error.insertAfter(element.parent());
+                    } else if (element.attr('class').indexOf('select2') !== -1) {
+                        error.appendTo(element.parent());
+                    } else {
+                        error.insertAfter(element);
+                    }
+                },
+                highlight: function (element, errorClass, validClass) {
+                    $(element).parents(".form-group").addClass("has-error");
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).parents(".form-group").removeClass("has-error");
+                }
+            });
+            return val;
+        } else {
+            alert("Script required: jQuery validation plugin.");
+            return undefined;
+        }
     },
     sweetAlert: {
-    	options: {
-    		title: "Success",
+        options: {
+            title: "Success",
             text: "Success!",
             type: "success",
             showCancelButton: true,
             confirmButtonText: "Yes",
             cancelButtonText: "No",
             closeOnConfirm: false
-    	},
-    	confirmation: function(options, onConfirm, onCancel) {
-    		if (typeof swal === "function") {
-    			if (options !== undefined) {
-        			for (var key in options) {
-        				utils.sweetAlert.options[key] = options[key];	
-        			}	
-        		}
-    			utils.sweetAlert.options.type = "warning";
-    			swal(utils.sweetAlert.options, function(confirmed) {
-    				if (confirmed) {
-                    	if(onConfirm && (typeof onConfirm === "function")) {
-                    		onConfirm();
+        },
+        confirmation: function (options, onConfirm, onCancel) {
+            if (typeof swal === "function") {
+                if (options !== undefined) {
+                    for (var key in options) {
+                        utils.sweetAlert.options[key] = options[key];
+                    }
+                }
+                utils.sweetAlert.options.type = "warning";
+                swal(utils.sweetAlert.options, function (confirmed) {
+                    if (confirmed) {
+                        if (onConfirm && (typeof onConfirm === "function")) {
+                            onConfirm();
                         }
                         swal.close();
                     } else {
-                        if(onCancel && (typeof onCancel === "function")) {
+                        if (onCancel && (typeof onCancel === "function")) {
                             onCancel();
                         }
                     }
                 });
-    		} else {
-    			alert("Script required: SweetAlert.");
-    		}
-    	}
+            } else {
+                alert("Script required: SweetAlert.");
+            }
+        }
+    },
+    notify: function (type, title, message) {
+        if ($.notify && (typeof $.notify === 'function')) {
+            $.notify({
+                title: title,
+                message: message,
+                icon: ""
+            }, {
+                type: type,
+                delay: 0
+            });
+        } else {
+            alert("Script required: Bootstrap Notify.");
+        }
+    },
+    notifySuccess: function(title, message) {
+        utils.notify('success', title, message);
+    },
+    notifyInfo: function(title, message) {
+        utils.notify('info', title, message);
+    },
+    notifyWarning: function(title, message) {
+        utils.notify('warning', title, message);
+    },
+    notifyDanger: function(title, message) {
+        utils.notify('danger', title, message);
     }
 };

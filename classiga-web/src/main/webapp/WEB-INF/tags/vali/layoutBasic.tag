@@ -53,14 +53,7 @@
         <script>
             $(document).ready(function() {
                 <c:if test="${not empty notify}">
-                $.notify({
-                    title : "${notify.title}",
-                    message : "${notify.message}",
-                    icon : ""
-                }, {
-                    type : "${notify.type}",
-                    delay : 0
-                });
+                utils.notify('${notify.type}', '${notify.title}', '${notify.message}');
                 </c:if>
                 $('[data-toggle="tooltip"]').tooltip({
                     trigger : 'hover'

@@ -440,7 +440,7 @@ public abstract class AbstractBaseController implements IBaseController {
             return true;
         }
         JSONArray menuPermissions = SessionManager.get(SessionKeyConstants.MENU_PERMISSIONS);
-        log.debug("Menu permissions: {}", menuPermissions);
+        log.debug("Menu permissions: \n{}", JSON.stringify(menuPermissions, true));
         for (Object o : menuPermissions) {
             JSONObject menuPermission = (JSONObject) o;
             if (menuPermission.get("menuCode").equals(code) && CommonConstants.YES.equals(menuPermission.get(can))) {

@@ -43,7 +43,7 @@ public enum ExceptionCode {
     E1008,
     
     /**
-     * Unexpected entity quantity
+     * Unsatisfied entity value condition
      */
     E1009
     

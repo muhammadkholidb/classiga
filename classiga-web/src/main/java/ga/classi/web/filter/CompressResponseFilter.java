@@ -25,8 +25,9 @@ public class CompressResponseFilter implements Filter {
 
     // Read http://www.byteslounge.com/tutorials/how-to-compress-response-html-in-java-web-application
     
-    private static final String PATH_RESOURCES = "/resources";
-    private static final String PATH_LIST = "/list";
+    private static final String PATH_RESOURCES  = "/resources";
+    private static final String PATH_AVATAR     = "/avatar";
+    private static final String PATH_LIST       = "/list";
 
     private HtmlCompressor compressor;
 
@@ -46,8 +47,9 @@ public class CompressResponseFilter implements Filter {
         String contextPath = httpRequest.getContextPath();
         String requestUrl = httpRequest.getRequestURI();
         String resourceUrl = contextPath + PATH_RESOURCES;
+        String avatarUrl = contextPath + PATH_AVATAR;
 
-        if (requestUrl.startsWith(resourceUrl) || requestUrl.endsWith(PATH_LIST)) {
+        if (requestUrl.startsWith(resourceUrl) || requestUrl.startsWith(avatarUrl) || requestUrl.endsWith(PATH_LIST)) {
             chain.doFilter(request, response);
             return;
         }
@@ -57,6 +59,7 @@ public class CompressResponseFilter implements Filter {
         chain.doFilter(request, responseWrapper);
 
         String servletResponse = responseWrapper.getCaptureAsString();
+        log.debug("HTML to be compressed: \n{}", servletResponse);
         response.getWriter().write(compressor.compress(servletResponse));
     }
 

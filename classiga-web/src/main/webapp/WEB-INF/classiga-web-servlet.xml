@@ -53,7 +53,7 @@
     </bean>
 
     <mvc:resources mapping="/resources/**" location="/resources/" />
-    <mvc:resources mapping="/avatar/**" location="file:/${directory.path.images}/avatar/" />
+    <mvc:resources mapping="/avatar/**" location="file:${directory.path.images}/avatar/, file:/${directory.path.images}/avatar/" />
     
     <mvc:annotation-driven />
 

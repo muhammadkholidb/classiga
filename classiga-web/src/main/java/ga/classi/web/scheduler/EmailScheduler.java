@@ -14,7 +14,7 @@ public class EmailScheduler {
     @Autowired
     private MailSender mailSender;
 
-    @Scheduled(fixedRate = 30000)
+    // @Scheduled(fixedRate = 30000)
     public void sendEmail() {
         log.info("Send email ...");
         SimpleMailMessage message = new SimpleMailMessage();

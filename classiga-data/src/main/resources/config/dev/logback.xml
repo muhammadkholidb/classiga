@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-
+     
     <appender name="STDOUT_COLOR" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%magenta(%d{yyyy-MM-dd HH:mm:ss.SSS}) [%thread] %highlight(%-5level) %cyan(%logger) - %msg%n</pattern>
+            <pattern>%magenta(%d{yyyy-MM-dd HH:mm:ss.SSS}) %highlight(%5level) %yellow([%15.15thread]) %cyan(%-40.40logger{39}) : %msg%n</pattern>
         </encoder>
     </appender>
     
     <appender name="STDOUT_NO_COLOR" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %5level [%15.15thread] %-40.40logger{39} : %msg%n</pattern>
         </encoder>
     </appender>
-         
+   
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${user.home}/.classiga/logs/classiga-rest/output.log</file>
+        <file>${user.home}/.classiga/logs/classiga-data/output.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>${user.home}/.classiga/logs/classiga-rest/output.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>${user.home}/.classiga/logs/classiga-data/output.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <maxFileSize>100MB</maxFileSize>    
         </rollingPolicy>
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %5level [%15.15thread] %-40.40logger{39} : %msg%n</pattern>
         </encoder>
     </appender> 
 
@@ -38,6 +38,8 @@
     <logger name="org.hibernate.loader.plan.exec.internal" level="ERROR"/>
     <logger name="org.hibernate.loader.plan.build.internal" level="ERROR"/>
    
+    <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE"/>
+    
     <root level="DEBUG">
         <if condition='property("os.name").toLowerCase().contains("windows")'>
             <then>

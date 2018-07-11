@@ -107,3 +107,6 @@ ul.pagination > li > a, .pagination > li > span {
 .main-header .top-nav .settings-menu li a {
     text-transform: none;
 }
+.login-content .login-box .login-form, .login-content .login-box .forget-form {
+    position: relative;
+}

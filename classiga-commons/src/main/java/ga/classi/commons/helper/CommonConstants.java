@@ -8,7 +8,7 @@ public interface CommonConstants {
     String FAIL                     = "fail";
     String ERROR                    = "error";
 
-    String LANGUAGE_CODE_INDONESIA  = "in";
+    String LANGUAGE_CODE_INDONESIA  = "id";
     String LANGUAGE_CODE_ENGLISH    = "en";
 
     String YES                      = "y";

@@ -51,7 +51,7 @@
                 <section class="sidebar">
                     <div class="user-panel">
                         <c:if test="${not empty user.avatar}">
-                        <div class="pull-left image"><img class="img-circle" src="${contextPath}/avatar/${user.avatar}" height="48" alt="User Image"></div>
+                        <div class="pull-left image"><img class="img-circle" src="${contextPath}/avatar/${user.avatar}" height="48" alt="User Image" onerror="this.src='${contextPath}/resources/vali/images/user.png'"></div>
                         </c:if>
                         <c:if test="${empty user.avatar}">
                         <div class="pull-left image"><img class="img-circle" src="${contextPath}/resources/vali/images/user.png" height="48" alt="User Image"></div>

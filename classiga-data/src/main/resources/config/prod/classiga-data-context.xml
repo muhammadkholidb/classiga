@@ -25,6 +25,18 @@
         <constructor-arg ref="hikariConfig" />
     </bean>
     
+    <!-- DBunit Warning https://stackoverflow.com/questions/27652689/spring-test-dbunit-warning  -->
+    <bean id="dbUnitDataTypeFactoryBean" class="ga.classi.commons.helper.ObjectFactoryBean" >
+        <property name="targetClass" value="${dbunit.datatypefactory}" />
+    </bean>
+    <bean id="dbUnitDatabaseConfig" class="com.github.springtestdbunit.bean.DatabaseConfigBean">
+         <property name = "datatypeFactory" ref = "dbUnitDataTypeFactory" />
+    </bean> 
+    <bean id="dbUnitDatabaseConnection" class="com.github.springtestdbunit.bean.DatabaseDataSourceConnectionFactoryBean">
+        <property name="databaseConfig" ref="dbUnitDatabaseConfig"/>
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+    
     <!-- Source: http://howtodoinjava.com/jpa/spring-hibernate-jpa-configuration-example/ -->
     <!-- 
     This produces a container-managed EntityManagerFactory; 

@@ -11,7 +11,7 @@
         http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
     
     <context:property-placeholder location="classpath:classiga-data-datasource-test.properties"/>
-    
+
     <bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
         <property name="driverClassName" value="${datasource.driver}" />
         <property name="jdbcUrl" value="${datasource.url}"/>
@@ -23,6 +23,18 @@
 
     <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
         <constructor-arg ref="hikariConfig" />
+    </bean>
+    
+    <!-- DBunit Warning https://stackoverflow.com/questions/27652689/spring-test-dbunit-warning  -->
+    <bean id="dbUnitDataTypeFactoryBean" class="ga.classi.commons.helper.ObjectFactoryBean" >
+        <property name="targetClass" value="${dbunit.datatypefactory}" />
+    </bean>
+    <bean id="dbUnitDatabaseConfig" class="com.github.springtestdbunit.bean.DatabaseConfigBean">
+         <property name = "datatypeFactory" ref="dbUnitDataTypeFactoryBean" />
+    </bean> 
+    <bean id="dbUnitDatabaseConnection" class="com.github.springtestdbunit.bean.DatabaseDataSourceConnectionFactoryBean">
+        <property name="databaseConfig" ref="dbUnitDatabaseConfig"/>
+        <property name="dataSource" ref="dataSource" />
     </bean>
     
     <!-- Source: http://howtodoinjava.com/jpa/spring-hibernate-jpa-configuration-example/ -->

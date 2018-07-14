@@ -36,7 +36,7 @@ import lombok.extern.slf4j.Slf4j;
     DbUnitTestExecutionListener.class })
 @DatabaseSetup("SystemServiceTest.xml")
 @DatabaseTearDown("SystemServiceTestCleanup.xml")
-@DbUnitConfiguration(dataSetLoader = ReplacementFlatXmlDataSetLoader.class, databaseConnection = "dataSource")
+@DbUnitConfiguration(dataSetLoader = ReplacementFlatXmlDataSetLoader.class, databaseConnection = "dbUnitDatabaseConnection")
 public class SystemServiceTest {
 
     @Autowired

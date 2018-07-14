@@ -1,0 +1,7 @@
+<!-- 
+Guide to encrypt maven password 
+https://maven.apache.org/guides/mini/guide-encryption.html
+-->
+<settingsSecurity>
+    <master>{uXeutI2XMi8HpoKI2iHemkOOznKoslrp+Ep+Gb/CwNk=}</master>
+</settingsSecurity>

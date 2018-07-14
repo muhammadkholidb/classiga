@@ -31,7 +31,7 @@ import lombok.extern.slf4j.Slf4j;
     DbUnitTestExecutionListener.class })
 @DatabaseSetup("MenuPermissionServiceTest.xml")
 @DatabaseTearDown("MenuPermissionServiceTestCleanup.xml")
-@DbUnitConfiguration(dataSetLoader = ReplacementFlatXmlDataSetLoader.class, databaseConnection = "dataSource")
+@DbUnitConfiguration(dataSetLoader = ReplacementFlatXmlDataSetLoader.class, databaseConnection = "dbUnitDatabaseConnection")
 public class MenuPermissionServiceTest {
 
     @Autowired

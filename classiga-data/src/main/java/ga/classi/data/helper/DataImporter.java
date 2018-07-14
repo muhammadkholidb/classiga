@@ -1,5 +1,6 @@
 package ga.classi.data.helper;
 
+import com.github.springtestdbunit.bean.DatabaseDataSourceConnectionFactoryBean;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -52,8 +53,8 @@ public class DataImporter {
     private Boolean doResetSequence;
 
     @Autowired
-    private DataSource dataSource;
-
+    private DatabaseDataSourceConnectionFactoryBean dataSourceConnectionFactory;
+    
     private String sqlSequenceName;
 
     private String sqlResetSequence;
@@ -73,7 +74,7 @@ public class DataImporter {
             }
             if ((streamDataSets != null) && !streamDataSets.isEmpty()) {
                 log.debug(streamDataSets.size() + " dataset(s) found");
-                IDatabaseConnection connection = new DatabaseDataSourceConnection(dataSource);
+                IDatabaseConnection connection = dataSourceConnectionFactory.getObject();
                 CleanInsertOperation operation = new CleanInsertOperation();
                 for (int i = 0; i < streamDataSets.size(); i++) {
                     log.debug("Processing " + (i + 1));
@@ -113,7 +114,7 @@ public class DataImporter {
                 fileDataSets = null;
             }
             if ((streamDataSets != null) && !streamDataSets.isEmpty()) {
-                IDatabaseConnection connection = new DatabaseDataSourceConnection(dataSource);
+                IDatabaseConnection connection = dataSourceConnectionFactory.getObject();
                 for (InputStream is : streamDataSets) {
                     IDataSet ids = new FlatXmlDataSetBuilder().build(is);
                     DatabaseOperation.DELETE_ALL.execute(connection, ids);

@@ -143,11 +143,6 @@
             <artifactId>h2</artifactId>
         </dependency>
         
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-        </dependency>
-         
     </dependencies>
 
     <build>
@@ -162,7 +157,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
                     <excludes>
-                        <exclude>**/logback.xml</exclude>
+                        <exclude>**/config/**</exclude>
                     </excludes>
                 </configuration>      
             </plugin>
@@ -191,42 +186,18 @@
                     <resource>
                         <directory>src/main/resources/config/prod</directory>
                         <filtering>true</filtering>
+                        <excludes>
+                            <exclude>logback.xml</exclude>
+                        </excludes>
                     </resource>
                 </resources>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-dependency-plugin</artifactId>
-                        <version>2.4</version>
-                        <executions>
-                            <execution>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>copy</goal>
-                                </goals>
-                                <configuration>
-                                    <artifactItems>
-                                        <!-- Jetty Runner -->
-                                        <artifactItem>
-                                            <groupId>org.eclipse.jetty</groupId>
-                                            <artifactId>jetty-runner</artifactId>
-                                            <version>9.4.9.v20180320</version>
-                                            <destFileName>jetty-runner.jar</destFileName>
-                                        </artifactItem>
-                                        <!-- Tomcat Runner -->
-                                        <artifactItem>
-                                            <groupId>com.github.jsimone</groupId>
-                                            <artifactId>webapp-runner</artifactId>
-                                            <version>8.5.31.0</version>
-                                            <destFileName>webapp-runner.jar</destFileName>
-                                        </artifactItem>
-                                    </artifactItems>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
             </build>
+            <dependencies>
+                <dependency>
+                    <groupId>org.postgresql</groupId>
+                    <artifactId>postgresql</artifactId>
+                </dependency>
+            </dependencies>
         </profile>
         <profile>
             <id>dev</id>
@@ -244,9 +215,15 @@
                     <resource>
                         <directory>src/main/resources/config/dev</directory>
                         <filtering>true</filtering>
+                        <excludes>
+                            <exclude>logback.xml</exclude>
+                        </excludes>
                     </resource>
                 </resources>
             </build>
+        </profile>
+        <profile>
+            <id>dist</id>
         </profile>
     </profiles>
 </project>

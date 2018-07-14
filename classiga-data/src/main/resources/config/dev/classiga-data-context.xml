@@ -26,7 +26,9 @@
     </bean>
     
     <!-- DBunit Warning https://stackoverflow.com/questions/27652689/spring-test-dbunit-warning  -->
-    <bean id="dbUnitDataTypeFactory" class ="${dbunit.datatypefactory}" />
+    <bean id="dbUnitDataTypeFactoryBean" class="ga.classi.commons.helper.ObjectFactoryBean" >
+        <property name="targetClass" value="${dbunit.datatypefactory}" />
+    </bean>
     <bean id="dbUnitDatabaseConfig" class="com.github.springtestdbunit.bean.DatabaseConfigBean">
          <property name = "datatypeFactory" ref = "dbUnitDataTypeFactory" />
     </bean> 

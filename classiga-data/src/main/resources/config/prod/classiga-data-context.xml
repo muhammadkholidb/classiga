@@ -30,7 +30,7 @@
         <property name="targetClass" value="${dbunit.datatypefactory}" />
     </bean>
     <bean id="dbUnitDatabaseConfig" class="com.github.springtestdbunit.bean.DatabaseConfigBean">
-         <property name = "datatypeFactory" ref = "dbUnitDataTypeFactory" />
+         <property name = "datatypeFactory" ref = "dbUnitDataTypeFactoryBean" />
     </bean> 
     <bean id="dbUnitDatabaseConnection" class="com.github.springtestdbunit.bean.DatabaseDataSourceConnectionFactoryBean">
         <property name="databaseConfig" ref="dbUnitDatabaseConfig"/>

@@ -40,7 +40,7 @@
         <property name="defaultLocale" value="en" />
     </bean>
 
-    <bean id="baseController" class="ga.classi.web.controller.base.DataAccessBaseController"></bean>
+    <bean id="baseController" class="ga.classi.web.controller.base.HttpAccessBaseController"></bean>
 
     <bean id="objectMapper" class="com.fasterxml.jackson.databind.ObjectMapper"></bean>
 

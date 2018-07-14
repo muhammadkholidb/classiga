@@ -9,6 +9,11 @@ cache:
     - .m2/repository/
     - target/
 
+sonar:
+  stage: build
+  script:
+    - mvn sonar:sonar -Dsonar.organization=muhammadkholidb-github -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=31356f328950346f28834ffbe4a7a9d90ddb8df6
+
 test:
   stage: test
   script:

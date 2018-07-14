@@ -35,17 +35,4 @@
         <location>/error</location>
     </error-page>
     
-    <!-- Load classiga-data context file -->
-    
-    <context-param>
-        <param-name>contextConfigLocation</param-name>
-        <param-value>
-            classpath:/classiga-data-context.xml
-        </param-value>
-    </context-param>
-    
-    <listener>
-        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-    </listener>
-    
 </web-app>

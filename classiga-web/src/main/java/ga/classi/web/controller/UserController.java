@@ -24,7 +24,6 @@ import ga.classi.commons.helper.ActionResult;
 import ga.classi.commons.helper.CommonConstants;
 import ga.classi.commons.helper.CommonUtils;
 import ga.classi.commons.helper.DefaultUser;
-import ga.classi.commons.helper.StringCheck;
 import ga.classi.commons.helper.StringConstants;
 import ga.classi.commons.web.helper.MultipartFileUtils;
 import ga.classi.web.controller.base.BaseControllerAdapter;
@@ -34,7 +33,6 @@ import ga.classi.web.helper.SessionManager;
 import ga.classi.web.helper.UIHelper;
 import ga.classi.web.ui.Notify;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 
 /**
  *

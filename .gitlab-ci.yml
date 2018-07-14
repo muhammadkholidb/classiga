@@ -20,9 +20,3 @@ deploy:
     - mvn $MAVEN_CLI_OPTS javadoc:jar source:jar deploy -DskipTests -P dist
   only:
     - master
-
-sonar:
-  stage: deploy
-  script:
-    - mvn sonar:sonar -Dsonar.organization=classiga -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=70d4381f09e8bbd7f6401943dadafd6999a3d079
-  allow_failure: true

@@ -77,6 +77,11 @@ public abstract class BaseEntity {
     
     protected abstract void setValuesOnUpdate();
     
+    // Inspired by git commit id / hash, row hash will use SHA1 and it will have short row hash 
+    // which is the "n first digits" of the actual row hash
+    // https://stackoverflow.com/questions/34764195/how-does-git-create-unique-commit-hashes-mainly-the-first-few-characters/34764586
+    // https://stackoverflow.com/questions/18134627/how-much-of-a-git-sha-is-generally-considered-necessary-to-uniquely-identify-a
+    
     @PrePersist
     public void onCreate() {
         log.debug("Execute onCreate() ..."); 

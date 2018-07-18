@@ -78,6 +78,7 @@ public abstract class AbstractBaseController implements IBaseController {
     protected String applicationName;
     protected String applicationVersion;
     protected String applicationFavicon;
+    protected String applicationBuildNumber;
     protected boolean showApplicationInfo;
     protected String defaultRedirect;
     
@@ -91,6 +92,7 @@ public abstract class AbstractBaseController implements IBaseController {
         applicationName = applicationProperties.getProperty("application.info.name");
         applicationVersion = applicationProperties.getProperty("application.info.version");
         applicationFavicon = applicationProperties.getProperty("application.info.favicon");
+        applicationBuildNumber = applicationProperties.getProperty("application.info.build.number");
         showApplicationInfo = Boolean.valueOf(applicationProperties.getProperty("application.info.showinpagetitle"));
         defaultRedirect = applicationProperties.getProperty("login.redirect.path.default");
         postConstruct();
@@ -113,6 +115,7 @@ public abstract class AbstractBaseController implements IBaseController {
         attributes.put(ModelKeyConstants.APP_NAME, applicationName);
         attributes.put(ModelKeyConstants.APP_VERSION, applicationVersion);
         attributes.put(ModelKeyConstants.APP_FAVICON, applicationFavicon);
+        attributes.put(ModelKeyConstants.APP_BUILD_NUMBER, applicationBuildNumber);
         attributes.put(ModelKeyConstants.SHOW_APP_INFO, showApplicationInfo);
         
         String templateCode = getSystem(CommonConstants.SYSTEM_KEY_TEMPLATE_CODE);

@@ -74,6 +74,9 @@
                     </div>
                 </form>
             </div>
+            <div class="row">
+                <div class="col-md-12" style="text-align: left;margin-top: 25px;color: #888;">${appName} ${appVersion} (${appBuildNumber})</div>
+            </div>
         </section>
     </jsp:body>
     

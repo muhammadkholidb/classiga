@@ -11,6 +11,10 @@
     <name>${project.artifactId}</name>
     <description>Classiga Web</description>
 
+    <properties>
+        <build.number>${buildNumber}</build.number>
+    </properties>
+
     <dependencies>
 
         <!-- Classiga -->
@@ -142,8 +146,26 @@
     </dependencies>
 
     <build>
-        <finalName>classiga-web</finalName>
+        <finalName>${project.artifactId}</finalName>
         <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>buildnumber-maven-plugin</artifactId>
+                <version>1.4</version>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>create</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <doCheck>false</doCheck>
+                    <doUpdate>false</doUpdate>
+                    <shortRevisionLength>8</shortRevisionLength>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

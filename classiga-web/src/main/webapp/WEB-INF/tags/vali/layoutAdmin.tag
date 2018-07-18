@@ -126,6 +126,25 @@
 
                     </c:if>
 
+                    <style>
+                        .side-info {
+                            margin-top: 20px;
+                        }
+                        .side-info p {
+                            padding: 12px 5px 12px 15px;
+                            font-size: 14px;
+                            color: #888;
+                            text-align: center;
+                        }
+                        @media (min-width: 768px) {
+                            .sidebar-mini.sidebar-collapse .side-info p {
+                                display: none !important;
+                            }
+                        }
+                    </style>
+                    <div class="side-info">
+                        <p>${appName} ${appVersion} (${appBuildNumber})</p>
+                    </div>
                 </section>
             </aside>
 

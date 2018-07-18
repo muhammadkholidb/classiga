@@ -59,7 +59,6 @@ public class CompressResponseFilter implements Filter {
         chain.doFilter(request, responseWrapper);
 
         String servletResponse = responseWrapper.getCaptureAsString();
-        log.debug("HTML to be compressed: \n{}", servletResponse);
         response.getWriter().write(compressor.compress(servletResponse));
     }
 

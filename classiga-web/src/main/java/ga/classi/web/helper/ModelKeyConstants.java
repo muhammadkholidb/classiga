@@ -12,6 +12,7 @@ public interface ModelKeyConstants {
     String APP_NAME         = "appName";
     String APP_VERSION      = "appVersion";
     String APP_FAVICON      = "appFavicon";
+    String APP_BUILD_NUMBER = "appBuildNumber";
     String USERNAME         = "username";
     String PASSWORD         = "password";
     String USER             = "user";

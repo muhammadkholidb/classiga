@@ -1,28 +1,30 @@
 image: maven:latest
 
 variables:
-  MAVEN_CLI_OPTS: "-Dsettings.security=.m2/settings-security.xml --settings .m2/settings.xml --batch-mode"
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
 
 cache:
   paths:
     - .m2/repository/
 
-test-install:
-  stage: build
+test:
+  stage: test
   script:
-    - mvn $MAVEN_CLI_OPTS clean test
+    - mvn clean test -Dsettings.security=.m2/settings-security.xml --settings .m2/settings.xml --batch-mode
 
 deploy-ossrh:
   stage: deploy
   script:
-    - mvn $MAVEN_CLI_OPTS clean javadoc:jar source:jar deploy -DskipTests -P dist
+    - mvn clean javadoc:jar source:jar deploy -DskipTests -P dist -Dsettings.security=.m2/settings-security.xml --settings .m2/settings.xml --batch-mode
   only:
     - master
 
 deploy-webapp:
   stage: deploy
   script:
-    - mvn $MAVEN_CLI_OPTS clean package tomcat7:redeploy -P prod
+    - cd classiga-rest
+    - mvn clean package tomcat7:redeploy -P prod -Dsettings.security=../.m2/settings-security.xml --settings ../.m2/settings.xml --batch-mode
+    - cd ../classiga-web
+    - mvn clean package tomcat7:redeploy -P prod -Dsettings.security=../.m2/settings-security.xml --settings ../.m2/settings.xml --batch-mode
   only:
     - master

@@ -7,17 +7,15 @@ variables:
 cache:
   paths:
     - .m2/repository/
-    - target/
 
-test:
-  stage: test
+test-install:
+  stage: build
   script:
-    - mvn $MAVEN_CLI_OPTS clean test 
+    - mvn $MAVEN_CLI_OPTS clean test
 
 deploy-ossrh:
   stage: deploy
   script:
-    - echo "Deploy to OSSRH ..."
     - mvn $MAVEN_CLI_OPTS clean javadoc:jar source:jar deploy -DskipTests -P dist
   only:
     - master
@@ -25,11 +23,6 @@ deploy-ossrh:
 deploy-webapp:
   stage: deploy
   script:
-    - echo "Deploy Classiga API ..."
-    - cd classiga-rest
-    - mvn $MAVEN_CLI_OPTS clean package tomcat7:redeploy -P prod
-    - echo "Deploy Classiga web ..."
-    - cd ../classiga-web
     - mvn $MAVEN_CLI_OPTS clean package tomcat7:redeploy -P prod
   only:
     - master

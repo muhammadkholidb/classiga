@@ -1,11 +1,8 @@
 image: maven:latest
 
-variables:
-  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
-
 cache:
   paths:
-    - .m2/repository/
+    - /root/.m2/repository/
 
 test:
   stage: test

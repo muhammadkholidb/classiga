@@ -9,9 +9,12 @@ import org.springframework.web.bind.annotation.RestController;
 import ga.classi.commons.data.helper.DTO;
 import ga.classi.commons.data.helper.DTOUtils;
 import ga.classi.commons.helper.CommonConstants;
+import ga.classi.commons.helper.StringConstants;
 import ga.classi.data.service.UserService;
 import ga.classi.rest.helper.ResponseObject;
 import java.io.UnsupportedEncodingException;
+import java.util.Collections;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
 public class DefaultController extends BaseController {
@@ -27,4 +30,9 @@ public class DefaultController extends BaseController {
         return new ResponseObject(CommonConstants.SUCCESS, dtoUser);
     }
 
+    @GetMapping("/ping")
+    public ResponseObject ping() {
+        return new ResponseObject(CommonConstants.SUCCESS, StringConstants.EMPTY, Collections.EMPTY_MAP);
+    }
+    
 }

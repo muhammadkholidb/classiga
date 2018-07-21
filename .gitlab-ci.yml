@@ -12,13 +12,13 @@ cache:
 test:
   stage: test
   script:
-    - mvn $MAVEN_CLI_OPTS test 
+    - mvn $MAVEN_CLI_OPTS clean test 
 
 deploy-ossrh:
   stage: deploy
   script:
     - echo "Deploy to OSSRH ..."
-    - mvn $MAVEN_CLI_OPTS javadoc:jar source:jar deploy -DskipTests -P dist
+    - mvn $MAVEN_CLI_OPTS clean javadoc:jar source:jar deploy -DskipTests -P dist
   only:
     - master
 
@@ -27,9 +27,9 @@ deploy-webapp:
   script:
     - echo "Deploy Classiga API ..."
     - cd classiga-rest
-    - mvn clean package tomcat7:redeploy -P prod
+    - mvn $MAVEN_CLI_OPTS clean package tomcat7:redeploy -P prod
     - echo "Deploy Classiga web ..."
     - cd ../classiga-web
-    - mvn clean package tomcat7:redeploy -P prod
+    - mvn $MAVEN_CLI_OPTS clean package tomcat7:redeploy -P prod
   only:
     - master

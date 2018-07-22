@@ -131,7 +131,7 @@
                             margin-top: 20px;
                         }
                         .side-info p {
-                            padding: 12px 5px 12px 15px;
+                            padding: 10px;
                             font-size: 14px;
                             color: #888;
                             text-align: center;

@@ -129,7 +129,7 @@
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
                 <configuration>
-                    <scanIntervalSeconds>10</scanIntervalSeconds>
+                    <scanIntervalSeconds>5</scanIntervalSeconds>
                     <webApp>
                         <contextPath>/classiga-rest</contextPath>
                     </webApp>
@@ -209,20 +209,6 @@
                     <artifactId>mysql-connector-java</artifactId>
                 </dependency>
             </dependencies>
-            <repositories>
-                <repository>
-                    <id>maven-snapshots</id>
-                    <url>http://oss.sonatype.org/content/repositories/snapshots</url>
-                    <layout>default</layout>
-                    <releases>
-                        <enabled>false</enabled>
-                    </releases>
-                    <snapshots>
-                        <enabled>true</enabled>
-                        <updatePolicy>always</updatePolicy>
-                    </snapshots>
-                </repository>
-            </repositories>
         </profile>
         <profile>
             <id>dev</id>

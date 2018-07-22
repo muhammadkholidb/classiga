@@ -1,4 +1,4 @@
-package ga.classi.rest.controller.settings;
+package ga.classi.api.controller.settings;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -10,8 +10,8 @@ import ga.classi.commons.data.helper.DTO;
 import ga.classi.commons.data.helper.DTOUtils;
 import ga.classi.commons.helper.CommonConstants;
 import ga.classi.data.service.UserGroupService;
-import ga.classi.rest.controller.BaseController;
-import ga.classi.rest.helper.ResponseObject;
+import ga.classi.api.controller.BaseController;
+import ga.classi.api.helper.ResponseObject;
 import java.io.UnsupportedEncodingException;
 import lombok.extern.slf4j.Slf4j;
 

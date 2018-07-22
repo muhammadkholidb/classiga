@@ -1,4 +1,4 @@
-package ga.classi.rest.controller;
+package ga.classi.api.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -11,7 +11,7 @@ import ga.classi.commons.data.helper.DTOUtils;
 import ga.classi.commons.helper.CommonConstants;
 import ga.classi.commons.helper.StringConstants;
 import ga.classi.data.service.UserService;
-import ga.classi.rest.helper.ResponseObject;
+import ga.classi.api.helper.ResponseObject;
 import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 import org.springframework.web.bind.annotation.GetMapping;

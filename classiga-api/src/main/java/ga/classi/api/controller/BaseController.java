@@ -1,4 +1,4 @@
-package ga.classi.rest.controller;
+package ga.classi.api.controller;
 
 import java.util.Locale;
 
@@ -13,7 +13,7 @@ import org.springframework.web.servlet.LocaleResolver;
 import ga.classi.commons.data.error.DataException;
 import ga.classi.commons.helper.CommonConstants;
 import ga.classi.commons.helper.MessageHelper;
-import ga.classi.rest.helper.ResponseObject;
+import ga.classi.api.helper.ResponseObject;
 
 public abstract class BaseController {
 

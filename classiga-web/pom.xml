@@ -197,9 +197,9 @@
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>2.2</version>
                 <configuration>
-                    <url>${env.TOMCAT_AWS_URL}/manager/text</url>
+                    <url>${env.AWS_TOMCAT_URL}/manager/text</url>
                     <server>tomcat-aws</server>
-                    <path>/</path>
+                    <path>/web</path>
                 </configuration>
             </plugin>
         </plugins>

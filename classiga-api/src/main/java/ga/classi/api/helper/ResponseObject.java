@@ -1,4 +1,4 @@
-package ga.classi.rest.helper;
+package ga.classi.api.helper;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -55,7 +55,7 @@
     <modules>
         <module>classiga-commons</module>
         <module>classiga-data</module>
-        <module>classiga-rest</module>
+        <module>classiga-api</module>
         <module>classiga-web</module>
     </modules>
 

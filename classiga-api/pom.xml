@@ -6,10 +6,10 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>classiga-rest</artifactId> 
+    <artifactId>classiga-api</artifactId> 
     <packaging>war</packaging>
     <name>${project.artifactId}</name>
-    <description>Classiga REST</description>
+    <description>Classiga API</description>
 
     <dependencies>
 
@@ -131,7 +131,7 @@
                 <configuration>
                     <scanIntervalSeconds>5</scanIntervalSeconds>
                     <webApp>
-                        <contextPath>/classiga-rest</contextPath>
+                        <contextPath>/classiga-api</contextPath>
                     </webApp>
                     <httpConnector>
                         <port>8081</port>
@@ -143,7 +143,7 @@
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>2.2</version>
                 <configuration>
-                    <url>${env.TOMCAT_AWS_URL}/manager/text</url>
+                    <url>${env.AWS_TOMCAT_URL}/manager/text</url>
                     <server>tomcat-aws</server>
                     <path>/api</path>
                 </configuration>

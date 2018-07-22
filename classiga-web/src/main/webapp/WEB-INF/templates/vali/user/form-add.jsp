@@ -38,6 +38,11 @@
                 $('#inputPassword').val(utils.randomAlphanumeric(8));
                 $('#inputPassword').trigger('keyup');
             });
+            $(document).ready(function() {
+                if ($('#inputPassword').val() === '') {
+                    $('#btnRandom').trigger('click');
+                }
+            });
         </script>
         <script src="${contextPath}/resources/vali/js/plugins/select2.min.js"></script>
         <script>

@@ -19,7 +19,7 @@ deploy-ossrh:
 deploy-webapp:
   stage: deploy
   script:
-    - cd classiga-rest
+    - cd classiga-api
     - mvn clean package tomcat7:redeploy -P prod -Dsettings.security=../.m2/settings-security.xml --settings ../.m2/settings.xml -Dmaven.repo.local=../.m2/repository/ --batch-mode
     - cd ../classiga-web
     - mvn clean package tomcat7:redeploy -P prod -Dsettings.security=../.m2/settings-security.xml --settings ../.m2/settings.xml -Dmaven.repo.local=../.m2/repository/ --batch-mode

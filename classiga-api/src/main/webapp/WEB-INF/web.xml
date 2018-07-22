@@ -6,7 +6,7 @@
     xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
     version="3.0" metadata-complete="true">
     
-    <display-name>classiga-rest</display-name>
+    <display-name>classiga-api</display-name>
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
@@ -17,12 +17,12 @@
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
     <servlet>
-        <servlet-name>classiga-rest</servlet-name>
+        <servlet-name>classiga-api</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
-        <servlet-name>classiga-rest</servlet-name>
+        <servlet-name>classiga-api</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 </web-app>

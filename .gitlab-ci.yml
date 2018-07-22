@@ -7,7 +7,7 @@ cache:
 install:
   stage: build
   script:
-    - mvn clean install -Dsettings.security=.m2/settings-security.xml --settings .m2/settings.xml -Dmaven.repo.local=.m2/repository/ --batch-mode
+    - mvn clean install -P dist -Dsettings.security=.m2/settings-security.xml --settings .m2/settings.xml -Dmaven.repo.local=.m2/repository/ --batch-mode
 
 deploy-ossrh:
   stage: deploy

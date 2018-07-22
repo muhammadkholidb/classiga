@@ -4,10 +4,10 @@ cache:
   paths:
     - .m2/repository/
 
-test:
-  stage: test
+install:
+  stage: build
   script:
-    - mvn clean test -Dsettings.security=.m2/settings-security.xml --settings .m2/settings.xml -Dmaven.repo.local=.m2/repository/ --batch-mode
+    - mvn clean install -Dsettings.security=.m2/settings-security.xml --settings .m2/settings.xml -Dmaven.repo.local=.m2/repository/ --batch-mode
 
 deploy-ossrh:
   stage: deploy

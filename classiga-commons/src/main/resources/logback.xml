@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-     
+
+    <property name="LOG_DIR" value="${user.home}/.classiga/logs/${project.artifactId}" />
+    
     <appender name="STDOUT_COLOR" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>%magenta(%d{yyyy-MM-dd HH:mm:ss.SSS}) %highlight(%5level) %yellow([%15.15thread]) %cyan(%-40.40logger{39}) : %msg%n</pattern>
@@ -14,9 +16,9 @@
     </appender>
    
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${user.home}/.classiga/logs/classiga-commons/output.log</file>
+        <file>${LOG_DIR}/output.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>${user.home}/.classiga/logs/classiga-commons/output.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>${LOG_DIR}/output.%d{yyyy-MM-dd}.%i.gz</fileNamePattern>
             <maxFileSize>100MB</maxFileSize>    
         </rollingPolicy>
         <encoder>

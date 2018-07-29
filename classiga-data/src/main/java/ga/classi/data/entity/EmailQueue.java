@@ -2,7 +2,7 @@ package ga.classi.data.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import ga.classi.commons.helper.CommonConstants;
+import ga.classi.commons.constant.CommonConstants;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

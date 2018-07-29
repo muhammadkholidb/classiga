@@ -1,4 +1,4 @@
-package ga.classi.commons.helper;
+package ga.classi.commons.constant;
 
 import java.io.File;
 

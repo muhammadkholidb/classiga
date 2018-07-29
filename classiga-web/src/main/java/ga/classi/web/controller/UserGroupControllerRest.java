@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ga.classi.commons.helper.ActionResult;
-import ga.classi.commons.helper.CommonConstants;
+import ga.classi.commons.constant.CommonConstants;
 import ga.classi.web.controller.base.BaseControllerAdapter;
 import lombok.extern.slf4j.Slf4j;
 

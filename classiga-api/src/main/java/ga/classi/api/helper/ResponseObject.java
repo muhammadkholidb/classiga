@@ -1,17 +1,16 @@
 package ga.classi.api.helper;
 
+import java.util.Collections;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 /**
  *
- * @author eatonmunoz
+ * @author muhammad
  *
  */
-@Setter
-@Getter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class ResponseObject {
@@ -37,7 +36,7 @@ public class ResponseObject {
      * @param message Response message when fail.
      */
     public ResponseObject(String status, String message) {
-        this(status, message, null);
+        this(status, message, Collections.EMPTY_MAP);
     }
 
 }

@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import ga.classi.commons.helper.ActionResult;
-import ga.classi.commons.helper.CommonConstants;
+import ga.classi.commons.constant.CommonConstants;
 import ga.classi.commons.helper.DefaultUser;
 import ga.classi.commons.helper.PasswordUtils;
-import ga.classi.commons.helper.StringConstants;
+import ga.classi.commons.constant.StringConstants;
 import ga.classi.commons.web.helper.JSON;
 import ga.classi.web.controller.base.BaseControllerAdapter;
 import ga.classi.web.helper.ModelKeyConstants;

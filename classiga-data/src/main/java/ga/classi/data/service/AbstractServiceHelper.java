@@ -9,7 +9,7 @@ import org.springframework.data.domain.Sort.Direction;
 
 import ga.classi.commons.data.helper.DTO;
 import ga.classi.commons.data.helper.DTOUtils;
-import ga.classi.commons.helper.CommonConstants;
+import ga.classi.commons.constant.CommonConstants;
 import ga.classi.data.entity.BaseEntity;
 
 /**

@@ -5,13 +5,15 @@ import java.util.Map;
 import org.json.simple.JSONArray;
 
 import ga.classi.commons.helper.ActionResult;
-import ga.classi.commons.helper.CommonConstants;
+import ga.classi.commons.constant.CommonConstants;
 import ga.classi.commons.helper.CommonUtils;
 import ga.classi.commons.web.helper.HTTP;
 import ga.classi.commons.web.helper.HTTPResponse;
 import ga.classi.web.helper.SessionKeyConstants;
 import ga.classi.web.helper.SessionManager;
+import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 
 /**
  * 
@@ -31,9 +33,11 @@ public class HTTPAccessBaseController extends AbstractBaseController implements 
      * Returns {@link HTTP} with host defined in project properties file.
      * @return The HttpClient with predefined configuration.
      */
-    protected HTTP getPredefinedHttpClient() {
-        HTTP http = new HTTP(hostUrl);
-        http.setHeader("Accept-Language", getSystem(CommonConstants.SYSTEM_KEY_LANGUAGE_CODE));
+    protected HTTP defaultHTTP() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Accept-Language", getSystem(CommonConstants.SYSTEM_KEY_LANGUAGE_CODE));
+        HTTP http = new HTTP();
+        http.setHeaders(headers);
         return http;
     }
 
@@ -42,10 +46,10 @@ public class HTTPAccessBaseController extends AbstractBaseController implements 
      * @param path The path of the API to access.
      * @return The HttpClient with predefined configuration.
      */
-    protected HTTP getPredefinedHttpClient(String path) {
-        HTTP httpClient = getPredefinedHttpClient();
-        httpClient.setPath(path);
-        return httpClient;
+    protected HTTP defaultHTTP(String path) {
+        HTTP http = defaultHTTP();
+        http.setUrl(hostUrl + path); 
+        return http;
     }
     
     /**
@@ -54,20 +58,22 @@ public class HTTPAccessBaseController extends AbstractBaseController implements 
      * @param parameters The parameters for the API.
      * @return The HttpClient with predefined configuration.
      */
-    protected HTTP getPredefinedHttpClient(String path, Map<String, Object> parameters) {
-        HTTP httpClient = getPredefinedHttpClient(path);
-        httpClient.setParameters(parameters);
-        return httpClient;
+    protected HTTP defaultHTTP(String path, Map<String, Object> parameters) {
+        HTTP http = defaultHTTP(path);
+        http.setBody(parameters);
+        return http;
     }
     
     @Override
     public void loadSystems() {
         log.debug("Load systems to session ...");
         try {
-            // Cannot use method getDefinedHttpClient() because it will add a header 
+            // Cannot use method defaultHTTP() because it will add a header 
             // which will call this method. It will cause a forever loop. 
-            // Just use a new HttpClient().
-            HTTPResponse response = new HTTP(hostUrl, "/settings/system/list").get();
+            // Just use a new HTTP()
+            HTTP http = new HTTP();
+            http.setUrl(hostUrl + "/settings/system/list"); 
+            HTTPResponse response = http.get();
             if (response != null) {
                 if (CommonConstants.SUCCESS.equals(response.getStatus())) {
                     SessionManager.set(SessionKeyConstants.SYSTEMS, (JSONArray) response.getContent());
@@ -76,7 +82,7 @@ public class HTTPAccessBaseController extends AbstractBaseController implements 
                     log.error(response.getMessage());
                 }
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             log.error(CommonUtils.getExceptionMessage(e));
         }
     }
@@ -84,10 +90,12 @@ public class HTTPAccessBaseController extends AbstractBaseController implements 
     @Override
     public ActionResult editSystems(Map<String, Object> parameters, String languageCode) {
         try {            
-            HTTP httpClient = getPredefinedHttpClient("/settings/system/edit", parameters);
-            httpClient.setHeader("Accept-Language", languageCode);
-            return httpClient.post();
-        } catch (Exception e) {
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Accept-Language", languageCode);
+            HTTP http = defaultHTTP("/settings/system/edit", parameters);
+            http.setHeaders(headers);
+            return http.post();
+        } catch (IOException e) {
             log.error(CommonUtils.getExceptionMessage(e), e);
             return errorActionResult();
         }
@@ -96,8 +104,8 @@ public class HTTPAccessBaseController extends AbstractBaseController implements 
     @Override
     public ActionResult login(Map<String, Object> parameters) {   
         try {            
-            return getPredefinedHttpClient("/login", parameters).post();
-        } catch (Exception e) {
+            return defaultHTTP("/login", parameters).post();
+        } catch (IOException e) {
             log.error(CommonUtils.getExceptionMessage(e), e);
             return errorActionResult();
         }
@@ -106,8 +114,8 @@ public class HTTPAccessBaseController extends AbstractBaseController implements 
     @Override
     public ActionResult listUser(Map<String, Object> parameters) {
         try {            
-            return getPredefinedHttpClient("/settings/user/list", parameters).get();
-        } catch (Exception e) {
+            return defaultHTTP("/settings/user/list", parameters).get();
+        } catch (IOException e) {
             log.error(CommonUtils.getExceptionMessage(e), e);
             return errorActionResult();
         }
@@ -116,8 +124,8 @@ public class HTTPAccessBaseController extends AbstractBaseController implements 
     @Override
     public ActionResult findUser(Map<String, Object> parameters) {
         try {            
-            return getPredefinedHttpClient("/settings/user/find", parameters).get();
-        } catch (Exception e) {
+            return defaultHTTP("/settings/user/find", parameters).get();
+        } catch (IOException e) {
             log.error(CommonUtils.getExceptionMessage(e), e);
             return errorActionResult();
         }
@@ -126,8 +134,8 @@ public class HTTPAccessBaseController extends AbstractBaseController implements 
     @Override
     public ActionResult addUser(Map<String, Object> parameters) {
         try {            
-            return getPredefinedHttpClient("/settings/user/add", parameters).post();
-        } catch (Exception e) {
+            return defaultHTTP("/settings/user/add", parameters).post();
+        } catch (IOException e) {
             log.error(CommonUtils.getExceptionMessage(e), e);
             return errorActionResult();
         }
@@ -136,8 +144,8 @@ public class HTTPAccessBaseController extends AbstractBaseController implements 
     @Override
     public ActionResult editUser(Map<String, Object> parameters) {
         try {            
-            return getPredefinedHttpClient("/settings/user/edit", parameters).post();
-        } catch (Exception e) {
+            return defaultHTTP("/settings/user/edit", parameters).post();
+        } catch (IOException e) {
             log.error(CommonUtils.getExceptionMessage(e), e);
             return errorActionResult();
         }
@@ -146,8 +154,8 @@ public class HTTPAccessBaseController extends AbstractBaseController implements 
     @Override
     public ActionResult removeUser(Map<String, Object> parameters) {
         try {            
-            return getPredefinedHttpClient("/settings/user/remove", parameters).post();
-        } catch (Exception e) {
+            return defaultHTTP("/settings/user/remove", parameters).post();
+        } catch (IOException e) {
             log.error(CommonUtils.getExceptionMessage(e), e);
             return errorActionResult();
         }
@@ -156,8 +164,8 @@ public class HTTPAccessBaseController extends AbstractBaseController implements 
     @Override
     public ActionResult changePassword(Map<String, Object> parameters) {
         try {            
-            return getPredefinedHttpClient("/user/change-password", parameters).post();
-        } catch (Exception e) {
+            return defaultHTTP("/user/change-password", parameters).post();
+        } catch (IOException e) {
             log.error(CommonUtils.getExceptionMessage(e), e);
             return errorActionResult();
         }
@@ -166,8 +174,8 @@ public class HTTPAccessBaseController extends AbstractBaseController implements 
     @Override
     public ActionResult listUserGroup(Map<String, Object> parameters) {
         try {            
-            return getPredefinedHttpClient("/settings/user-group/list", parameters).get();
-        } catch (Exception e) {
+            return defaultHTTP("/settings/user-group/list", parameters).get();
+        } catch (IOException e) {
             log.error(CommonUtils.getExceptionMessage(e), e);
             return errorActionResult();
         }
@@ -176,8 +184,8 @@ public class HTTPAccessBaseController extends AbstractBaseController implements 
     @Override
     public ActionResult findUserGroup(Map<String, Object> parameters) {
         try {            
-            return getPredefinedHttpClient("/settings/user-group/find", parameters).get();
-        } catch (Exception e) {
+            return defaultHTTP("/settings/user-group/find", parameters).get();
+        } catch (IOException e) {
             log.error(CommonUtils.getExceptionMessage(e), e);
             return errorActionResult();
         }
@@ -186,8 +194,8 @@ public class HTTPAccessBaseController extends AbstractBaseController implements 
     @Override
     public ActionResult addUserGroup(Map<String, Object> parameters) {
         try {            
-            return getPredefinedHttpClient("/settings/user-group/add", parameters).post();
-        } catch (Exception e) {
+            return defaultHTTP("/settings/user-group/add", parameters).post();
+        } catch (IOException e) {
             log.error(CommonUtils.getExceptionMessage(e), e);
             return errorActionResult();
         }
@@ -196,8 +204,8 @@ public class HTTPAccessBaseController extends AbstractBaseController implements 
     @Override
     public ActionResult editUserGroup(Map<String, Object> parameters) {
         try {            
-            return getPredefinedHttpClient("/settings/user-group/edit", parameters).post();
-        } catch (Exception e) {
+            return defaultHTTP("/settings/user-group/edit", parameters).post();
+        } catch (IOException e) {
             log.error(CommonUtils.getExceptionMessage(e), e);
             return errorActionResult();
         }
@@ -206,8 +214,8 @@ public class HTTPAccessBaseController extends AbstractBaseController implements 
     @Override
     public ActionResult removeUserGroup(Map<String, Object> parameters) {
         try {            
-            return getPredefinedHttpClient("/settings/user-group/remove", parameters).post();
-        } catch (Exception e) {
+            return defaultHTTP("/settings/user-group/remove", parameters).post();
+        } catch (IOException e) {
             log.error(CommonUtils.getExceptionMessage(e), e);
             return errorActionResult();
         }

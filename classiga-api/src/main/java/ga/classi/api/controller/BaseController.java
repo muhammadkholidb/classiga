@@ -4,20 +4,18 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.LocaleResolver;
 
 import ga.classi.commons.data.error.DataException;
-import ga.classi.commons.helper.CommonConstants;
+import ga.classi.commons.constant.CommonConstants;
 import ga.classi.commons.helper.MessageHelper;
 import ga.classi.api.helper.ResponseObject;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public abstract class BaseController {
-
-    private static final Logger log = LoggerFactory.getLogger(BaseController.class);
 
     @Autowired
     protected LocaleResolver localeResolver;

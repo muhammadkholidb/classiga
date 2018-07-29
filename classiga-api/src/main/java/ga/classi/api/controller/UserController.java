@@ -1,16 +1,14 @@
-package ga.classi.api.controller.settings;
+package ga.classi.api.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import ga.classi.commons.data.helper.DTO;
 import ga.classi.commons.data.helper.DTOUtils;
-import ga.classi.commons.helper.CommonConstants;
+import ga.classi.commons.constant.CommonConstants;
 import ga.classi.data.service.UserService;
-import ga.classi.api.controller.BaseController;
 import ga.classi.api.helper.ResponseObject;
 import java.io.UnsupportedEncodingException;
 import lombok.extern.slf4j.Slf4j;
@@ -23,44 +21,34 @@ public class UserController extends BaseController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/user/list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/user/list", method = RequestMethod.GET)
     public ResponseObject getAllUser() throws UnsupportedEncodingException {
         log.info("Get all user ...");
-        
         DTO result = userService.getAll(DTOUtils.fromServletRequest(request)); 
-        
         return new ResponseObject(CommonConstants.SUCCESS, result);
     }
 
-    @RequestMapping(value = "/user/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/user/add", method = RequestMethod.POST)
     public ResponseObject addUser() throws UnsupportedEncodingException {
-        
         DTO added = userService.add(DTOUtils.fromServletRequest(request));
-        
         return new ResponseObject(CommonConstants.SUCCESS, getResponseMessage("success.SuccessfullyAddUser"), added);
     }
 
-    @RequestMapping(value = "/user/remove", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/user/remove", method = RequestMethod.POST)
     public ResponseObject removeUser() throws UnsupportedEncodingException {
-        
         userService.remove(DTOUtils.fromServletRequest(request));
-        
         return new ResponseObject(CommonConstants.SUCCESS, getResponseMessage("success.SuccessfullyRemoveUser"));
     }
 
-    @RequestMapping(value = "/user/find", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/user/find", method = RequestMethod.GET)
     public ResponseObject getUser() throws UnsupportedEncodingException {
-        
         DTO user = userService.getOne(DTOUtils.fromServletRequest(request));
-        
         return new ResponseObject(CommonConstants.SUCCESS, user);
     }
 
-    @RequestMapping(value = "/user/edit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/user/edit", method = RequestMethod.POST)
     public ResponseObject editUser() throws UnsupportedEncodingException {
-        
         DTO updated = userService.edit(DTOUtils.fromServletRequest(request));
-        
         return new ResponseObject(CommonConstants.SUCCESS, getResponseMessage("success.SuccessfullyEditUser"), updated);
     }
 

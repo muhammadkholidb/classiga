@@ -4,9 +4,10 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 import ga.classi.commons.helper.ActionResult;
-import ga.classi.commons.helper.CommonConstants;
+import ga.classi.commons.constant.CommonConstants;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.json.simple.parser.ParseException;
 
 @Slf4j
 @Getter
@@ -22,7 +23,7 @@ public class HTTPResponse extends ActionResult {
             this.message = (String) json.get(CommonConstants.MESSAGE);
             this.data = (JSONObject) json.get(CommonConstants.DATA);
             parseData();
-        } catch (Exception e) {
+        } catch (ParseException e) {
             log.error("Error parsing HTTP response.", e); 
         }
     }

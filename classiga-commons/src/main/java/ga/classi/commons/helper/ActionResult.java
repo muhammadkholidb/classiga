@@ -1,5 +1,6 @@
 package ga.classi.commons.helper;
 
+import ga.classi.commons.constant.CommonConstants;
 import java.util.Map;
 
 import org.json.simple.JSONValue;
@@ -34,7 +35,7 @@ public class ActionResult {
         this.data = data;
     }
     
-    public ActionResult parseData() {
+    public void parseData() {
 
         if (this.data != null) {
 
@@ -57,8 +58,6 @@ public class ActionResult {
             String toJSONString = JSONValue.toJSONString(this.data.get(CommonConstants.CONTENT));
             this.content = JSONValue.parse(toJSONString);
         }
-        
-        return this;
     }
     
     public boolean isSuccess() {

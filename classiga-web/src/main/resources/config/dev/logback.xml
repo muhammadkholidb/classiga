@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     
+    <property name="LOG_DIR" value="${user.home}/.classiga/logs/${project.artifactId}" />
+    
     <appender name="STDOUT_COLOR" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>%magenta(%d{yyyy-MM-dd HH:mm:ss.SSS}) %highlight(%5level) %yellow([%15.15thread]) %cyan(%-40.40logger{39}) : %msg%n</pattern>
@@ -14,10 +16,10 @@
     </appender>
    
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${user.home}/.classiga/logs/classiga-web/output.log</file>
+        <file>${LOG_DIR}/output.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>${user.home}/.classiga/logs/classiga-web/output.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
-            <maxFileSize>100MB</maxFileSize>    
+            <fileNamePattern>${LOG_DIR}/output.%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>
+            <maxFileSize>50MB</maxFileSize>    
         </rollingPolicy>
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %5level [%15.15thread] %-40.40logger{39} : %msg%n</pattern>
@@ -37,10 +39,8 @@
     </root>
     
     <logger name="org.dbunit" level="ERROR"/>
-    
     <logger name="org.springframework.beans.factory.support" level="ERROR"/>
     <logger name="org.springframework.context.event" level="ERROR"/>
-    
     <logger name="org.hibernate.engine.jdbc.spi.SqlExceptionHelper" level="ERROR"/>
     <logger name="org.hibernate.tool.schema.internal.ExceptionHandlerLoggedImpl" level="ERROR"/>
     <logger name="org.hibernate.engine.jdbc.env.internal" level="ERROR"/>
@@ -49,7 +49,6 @@
     <logger name="org.hibernate.loader.plan.build.spi" level="ERROR"/>
     <logger name="org.hibernate.loader.plan.exec.internal" level="ERROR"/>
     <logger name="org.hibernate.loader.plan.build.internal" level="ERROR"/>
-   
     <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE"/>
     
 </configuration>

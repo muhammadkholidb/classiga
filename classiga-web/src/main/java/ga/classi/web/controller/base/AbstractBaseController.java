@@ -29,10 +29,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ga.classi.commons.helper.ActionResult;
-import ga.classi.commons.helper.CommonConstants;
+import ga.classi.commons.constant.CommonConstants;
 import ga.classi.commons.helper.DefaultUser;
 import ga.classi.commons.helper.MessageHelper;
-import ga.classi.commons.helper.StringConstants;
+import ga.classi.commons.constant.StringConstants;
 import ga.classi.commons.web.helper.JSON;
 import ga.classi.web.helper.MenuKeyConstants;
 import ga.classi.web.helper.MenuLoader;
@@ -501,7 +501,7 @@ public abstract class AbstractBaseController implements IBaseController {
             return supportedLocales;
         }
         if (key == null || key.isEmpty()) {
-            return new ArrayList<Locale>();
+            return new ArrayList<>();
         }
         Locale[] availableLocales = Locale.getAvailableLocales();
         Arrays.sort(availableLocales, new Comparator<Locale>() {
@@ -511,7 +511,7 @@ public abstract class AbstractBaseController implements IBaseController {
                 return locale1.toString().compareTo(locale2.toString());
             }
         });
-        Map<String, Locale> mapSupportedLocales = new HashMap<String, Locale>();
+        Map<String, Locale> mapSupportedLocales = new HashMap<>();
         for (Locale locale : availableLocales) {
             String languageCode = locale.getLanguage();
             String message = messageSource.getMessage(key, null, null, locale);
@@ -519,7 +519,7 @@ public abstract class AbstractBaseController implements IBaseController {
                 mapSupportedLocales.put(languageCode, locale);
             }
         }
-        supportedLocales = new ArrayList<Locale>();
+        supportedLocales = new ArrayList<>();
         for (Locale locale : mapSupportedLocales.values()) {
             supportedLocales.add(locale);
         }
@@ -678,7 +678,8 @@ public abstract class AbstractBaseController implements IBaseController {
         result.setStatus(status);
         result.setMessage(message);
         result.setData(data);
-        return result.parseData();
+        result.parseData();
+        return result;
     }
 
     @SuppressWarnings("rawtypes")

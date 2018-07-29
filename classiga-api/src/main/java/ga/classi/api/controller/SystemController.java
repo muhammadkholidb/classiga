@@ -1,20 +1,18 @@
-package ga.classi.api.controller.settings;
+package ga.classi.api.controller;
 
 import java.io.InputStream;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import ga.classi.commons.data.helper.DTO;
 import ga.classi.commons.data.helper.DTOUtils;
-import ga.classi.commons.helper.CommonConstants;
+import ga.classi.commons.constant.CommonConstants;
 import ga.classi.data.helper.DataImporter;
 import ga.classi.data.service.SystemService;
-import ga.classi.api.controller.BaseController;
 import ga.classi.api.helper.ResponseObject;
 import java.io.UnsupportedEncodingException;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +36,7 @@ public class SystemController extends BaseController {
     protected DataImporter dataImporter;
     
     @SuppressWarnings("rawtypes")
-    @RequestMapping(value = "/system/list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/system/list", method = RequestMethod.GET)
     public ResponseObject getAllSystem() {
         
         DTO dto = systemService.getAllSystem(new DTO());
@@ -58,11 +56,9 @@ public class SystemController extends BaseController {
         return new ResponseObject(CommonConstants.SUCCESS, dto);
     }
 
-    @RequestMapping(value = "/system/edit", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/system/edit", method = RequestMethod.POST)
     public ResponseObject editSystemList() throws UnsupportedEncodingException {
-
         DTO dto = systemService.editSystemList(DTOUtils.fromServletRequest(request));
-
         return new ResponseObject(CommonConstants.SUCCESS, getResponseMessage("success.SuccessfullyEditSystem"), dto);
     }
 

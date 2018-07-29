@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ga.classi.commons.data.error.DataException;
 import ga.classi.commons.data.helper.DTO;
 import ga.classi.commons.helper.ActionResult;
-import ga.classi.commons.helper.CommonConstants;
+import ga.classi.commons.constant.CommonConstants;
 import ga.classi.commons.helper.CommonUtils;
 import ga.classi.data.helper.DataImporter;
 import ga.classi.data.service.SystemService;

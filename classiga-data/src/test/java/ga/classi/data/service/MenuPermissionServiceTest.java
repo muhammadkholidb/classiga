@@ -19,7 +19,7 @@ import com.github.springtestdbunit.annotation.DatabaseTearDown;
 import com.github.springtestdbunit.annotation.DbUnitConfiguration;
 
 import ga.classi.commons.data.helper.DTO;
-import ga.classi.commons.helper.CommonConstants;
+import ga.classi.commons.constant.CommonConstants;
 import ga.classi.data.test.ReplacementFlatXmlDataSetLoader;
 import lombok.extern.slf4j.Slf4j;
 

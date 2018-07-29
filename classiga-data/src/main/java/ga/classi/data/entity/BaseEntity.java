@@ -14,7 +14,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import ga.classi.commons.helper.CommonConstants;
+import ga.classi.commons.constant.CommonConstants;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

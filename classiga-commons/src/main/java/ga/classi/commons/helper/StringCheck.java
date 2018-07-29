@@ -1,5 +1,6 @@
 package ga.classi.commons.helper;
 
+import ga.classi.commons.constant.CommonConstants;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.validator.GenericValidator;
 import org.apache.commons.validator.routines.EmailValidator;

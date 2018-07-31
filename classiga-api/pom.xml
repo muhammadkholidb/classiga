@@ -57,22 +57,6 @@
         </dependency>
         
         <dependency>
-            <groupId>org.codehaus.jackson</groupId> 
-            <artifactId>jackson-mapper-asl</artifactId>
-            <version>1.9.7</version>
-        </dependency>
-        <dependency>
-            <groupId>org.codehaus.jackson</groupId> 
-            <artifactId>jackson-core-asl</artifactId>
-            <version>1.9.7</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.dataformat</groupId>
-            <artifactId>jackson-dataformat-xml</artifactId>
-            <version>2.6.7</version>
-        </dependency>
-        
-        <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
         </dependency>

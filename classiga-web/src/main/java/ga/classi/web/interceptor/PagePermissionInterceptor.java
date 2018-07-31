@@ -13,12 +13,12 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import ga.classi.commons.constant.CommonConstants;
 import ga.classi.commons.helper.DefaultUser;
-import ga.classi.web.helper.MenuKeyConstants;
-import ga.classi.web.helper.SessionKeyConstants;
 import ga.classi.web.helper.SessionManager;
 import java.util.Arrays;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
+import ga.classi.web.constant.MenuConstants;
+import ga.classi.web.constant.SessionConstants;
 
 @Slf4j
 public class PagePermissionInterceptor extends HandlerInterceptorAdapter {
@@ -41,7 +41,7 @@ public class PagePermissionInterceptor extends HandlerInterceptorAdapter {
 
         log.debug("Started ...");
         
-        JSONObject loggedInUser = SessionManager.get(SessionKeyConstants.USER);
+        JSONObject loggedInUser = SessionManager.get(SessionConstants.USER);
         
         if ((loggedInUser == null) || DefaultUser.USER_ID.equals(loggedInUser.get("id"))) {
             log.debug("User has not logged in or logged in as default user, continue ...");
@@ -57,7 +57,7 @@ public class PagePermissionInterceptor extends HandlerInterceptorAdapter {
             return true;
         }
         
-        JSONArray flatMenus = SessionManager.get(SessionKeyConstants.FLAT_MENUS);
+        JSONArray flatMenus = SessionManager.get(SessionConstants.FLAT_MENUS);
         JSONObject currentMenu = findInAvailableMenu(request, flatMenus);
         
         if (currentMenu == null) {
@@ -66,11 +66,11 @@ public class PagePermissionInterceptor extends HandlerInterceptorAdapter {
             return false;
         }
         
-        String menuCode = (String) currentMenu.get(MenuKeyConstants.CODE);
+        String menuCode = (String) currentMenu.get(MenuConstants.CODE);
         
         log.debug("Menu code: {}", menuCode);
         
-        JSONArray menuPermissions = SessionManager.get(SessionKeyConstants.MENU_PERMISSIONS);
+        JSONArray menuPermissions = SessionManager.get(SessionConstants.MENU_PERMISSIONS);
 
         if (!canView(menuCode, menuPermissions)) {
             log.error("User is not allowed to view this page");
@@ -123,7 +123,7 @@ public class PagePermissionInterceptor extends HandlerInterceptorAdapter {
         }
         for (Object o : flatMenus) {
             JSONObject menu = (JSONObject) o; 
-            String path = (String) menu.get(MenuKeyConstants.PATH);
+            String path = (String) menu.get(MenuConstants.PATH);
             if (path != null && requestUrl.substring(contextPath.length(), requestUrl.length()).equals(path)) {
                 return menu;
             }

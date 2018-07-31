@@ -5,7 +5,8 @@ import java.util.Map;
 
 public enum EmailQueueType {
 
-    USER_CREATED(1, "email.queue.type.subject.usercreated", "user-created");
+    USER_CREATED(1, "email.queue.type.subject.usercreated", "user-created"),
+    USER_UPDATED(2, "email.queue.type.subject.userupdated", "user-updated");
 
     private final Integer id;
     private final String code;
@@ -24,7 +25,11 @@ public enum EmailQueueType {
     public String code() {
         return this.code;
     }
-
+    
+    public String template() {
+        return this.template;
+    }
+    
     public static Integer[] ids() {
         EmailQueueType[] values = values();
         Integer[] ids = new Integer[values.length];

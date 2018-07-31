@@ -14,7 +14,7 @@ import ga.classi.commons.helper.ActionResult;
  *
  * @author eatonmunoz
  */
-public interface IBaseController extends IBaseControllerSystem, IBaseControllerUser, IBaseControllerUserGroup {
+public interface IBaseController extends IBaseControllerSystem, IBaseControllerUser, IBaseControllerUserGroup, IBaseControllerEmailQueue {
 
     // Package private access
 

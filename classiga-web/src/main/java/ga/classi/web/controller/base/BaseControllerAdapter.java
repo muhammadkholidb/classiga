@@ -402,4 +402,10 @@ public abstract class BaseControllerAdapter {
         return baseController.getLoggedInUserGroup();
     }
 
+    // Adapter for IBaseControllerEmailQueue
+    
+    protected ActionResult addEmailQueue(Map<String, Object> parameters) {
+        return baseController.addEmailQueue(parameters);
+    }
+    
 }

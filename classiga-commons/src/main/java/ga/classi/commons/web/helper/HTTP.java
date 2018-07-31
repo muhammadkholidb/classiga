@@ -18,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 
 /**
  * The client for processing HTTP based requests.
@@ -35,6 +34,10 @@ public class HTTP {
     private String url;
     private HttpHeaders headers;
     private Map<String, ?> body;
+    
+    public static HTTP create(String url, Map<String, ?> body, HttpHeaders headers) {
+        return new HTTP();
+    }
     
     public HTTPResponse request(HttpMethod method) throws IOException {
         HttpEntity<Map<String, ?>> requestEntity;
@@ -111,7 +114,7 @@ public class HTTP {
             }
             return builder.toString();
         }
-        return null;
+        return "";
     }
 
 }

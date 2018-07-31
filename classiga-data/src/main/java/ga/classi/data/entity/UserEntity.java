@@ -17,18 +17,16 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import ga.classi.commons.constant.CommonConstants;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 /**
  *
- * @author eatonmunoz
+ * @author muhammad
  */
 @NoArgsConstructor
 @AllArgsConstructor
-@Setter 
-@Getter
+@Data
 @Entity
 @Table(name = UserEntity.TABLE_NAME, 
     indexes = {
@@ -120,6 +118,23 @@ public class UserEntity extends BaseEntity implements Serializable {
         lowerFullName = fullName.toLowerCase();
         lowerUsername = username.toLowerCase();
         lowerEmail = email.toLowerCase();        
+    }
+
+    @Override
+    protected StringBuilder getHashElements() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.fullName);
+        sb.append(this.username);
+        sb.append(this.email);
+        sb.append(this.passwordHash);
+        sb.append(this.salt);
+        sb.append(this.active);
+        sb.append(this.lowerFullName);
+        sb.append(this.lowerEmail);
+        sb.append(this.lowerUsername);
+        sb.append(this.avatar);
+        sb.append(this.userGroup.getId());
+        return sb;
     }
     
 }

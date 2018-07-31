@@ -9,11 +9,11 @@ import ga.classi.commons.constant.CommonConstants;
 import ga.classi.commons.helper.CommonUtils;
 import ga.classi.commons.web.helper.HTTP;
 import ga.classi.commons.web.helper.HTTPResponse;
-import ga.classi.web.helper.SessionKeyConstants;
 import ga.classi.web.helper.SessionManager;
 import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
+import ga.classi.web.constant.SessionConstants;
 
 /**
  * 
@@ -76,7 +76,7 @@ public class HTTPAccessBaseController extends AbstractBaseController implements 
             HTTPResponse response = http.get();
             if (response != null) {
                 if (CommonConstants.SUCCESS.equals(response.getStatus())) {
-                    SessionManager.set(SessionKeyConstants.SYSTEMS, (JSONArray) response.getContent());
+                    SessionManager.set(SessionConstants.SYSTEMS, (JSONArray) response.getContent());
                     updateLocale(getSystem(CommonConstants.SYSTEM_KEY_LANGUAGE_CODE));
                 } else {    
                     log.error(response.getMessage());
@@ -215,6 +215,19 @@ public class HTTPAccessBaseController extends AbstractBaseController implements 
     public ActionResult removeUserGroup(Map<String, Object> parameters) {
         try {            
             return defaultHTTP("/settings/user-group/remove", parameters).post();
+        } catch (IOException e) {
+            log.error(CommonUtils.getExceptionMessage(e), e);
+            return errorActionResult();
+        }
+    }
+
+    @Override
+    public ActionResult addEmailQueue(Map<String, Object> parameters) {
+        try {            
+            HTTP http = new HTTP();
+            http.setUrl(hostUrl + "/email-queue/add");
+            http.setBody(parameters);
+            return http.post();
         } catch (IOException e) {
             log.error(CommonUtils.getExceptionMessage(e), e);
             return errorActionResult();

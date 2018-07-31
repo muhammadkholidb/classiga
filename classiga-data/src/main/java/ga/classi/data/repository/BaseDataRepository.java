@@ -34,8 +34,12 @@ public interface BaseDataRepository<T extends BaseEntity, ID extends Serializabl
 
     T findOneByIdAndDeleted(Long id, String deleted);
 
-    T findOneByRowHash(String rowHash);
+    T findOneByRh(String rh);
 
-    T findOneByRowHashAndDeleted(String rowHash, String deleted);
+    T findOneBySrh(String srh);
+
+    T findOneByRhAndDeleted(String rh, String deleted);
+    
+    T findOneBySrhAndDeleted(String srh, String deleted);
     
 }

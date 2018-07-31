@@ -36,4 +36,9 @@ public interface ErrorMessageConstants {
     // User Group Menu Permission
     String USER_GROUP_MENU_PERMISSION_NOT_FOUND     = "error.commondata.UserGroupMenuPermissionNotFound";
 
+    // Email queue
+    String INVALID_EMAIL_QUEUE_STATUS               = "error.emailqueue.invalidstatus";
+    String EMPTY_TEMPLATE_AND_MESSAGE               = "error.emailqueue.emptytemplateandmessage";
+
+    
 }

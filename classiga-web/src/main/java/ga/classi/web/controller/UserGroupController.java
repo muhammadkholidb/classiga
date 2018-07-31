@@ -24,10 +24,10 @@ import ga.classi.commons.constant.CommonConstants;
 import ga.classi.commons.constant.StringConstants;
 import ga.classi.commons.web.helper.JSON;
 import ga.classi.web.controller.base.BaseControllerAdapter;
-import ga.classi.web.helper.ModelKeyConstants;
 import ga.classi.web.ui.Notify;
 import java.io.UnsupportedEncodingException;
 import lombok.extern.slf4j.Slf4j;
+import ga.classi.web.constant.ModelConstants;
 
 
 /**
@@ -111,9 +111,9 @@ public class UserGroupController extends BaseControllerAdapter {
         List<JSONObject> menus = loadCheckedMenuPermissions((JSONArray) JSONValue.parse(decodedMenuPermissions), null);            
         
         Map<String, Object> model = new HashMap<>();
-        model.put(ModelKeyConstants.NAME, name);
-        model.put(ModelKeyConstants.DESCRIPTION, description);
-        model.put(ModelKeyConstants.MENU_PERMISSIONS, menus);
+        model.put(ModelConstants.NAME, name);
+        model.put(ModelConstants.DESCRIPTION, description);
+        model.put(ModelConstants.MENU_PERMISSIONS, menus);
 
         if (errorMessage != null) {
             return viewAndNotifyError("user-group/form-add", model, errorMessage);
@@ -182,21 +182,21 @@ public class UserGroupController extends BaseControllerAdapter {
         if (errorMessage != null) {
             
             Map<String, Object> model = new HashMap<>();
-            model.put(ModelKeyConstants.USER_GROUP_ID, userGroupId);
-            model.put(ModelKeyConstants.NAME, name);
-            model.put(ModelKeyConstants.DESCRIPTION, description);
-            model.put(ModelKeyConstants.MENU_PERMISSIONS, menus);
-            model.put(ModelKeyConstants.ACTIVE, active);
+            model.put(ModelConstants.USER_GROUP_ID, userGroupId);
+            model.put(ModelConstants.NAME, name);
+            model.put(ModelConstants.DESCRIPTION, description);
+            model.put(ModelConstants.MENU_PERMISSIONS, menus);
+            model.put(ModelConstants.ACTIVE, active);
 
             return viewAndNotifyError("user-group/form-edit", model, errorMessage);
         }
 
         Map<String, Object> model = new HashMap<>();
-        model.put(ModelKeyConstants.USER_GROUP_ID, userGroup.get("id"));
-        model.put(ModelKeyConstants.NAME, userGroup.get("name"));
-        model.put(ModelKeyConstants.DESCRIPTION, userGroup.get("description"));
-        model.put(ModelKeyConstants.MENU_PERMISSIONS, menus);
-        model.put(ModelKeyConstants.ACTIVE, userGroup.get("active"));
+        model.put(ModelConstants.USER_GROUP_ID, userGroup.get("id"));
+        model.put(ModelConstants.NAME, userGroup.get("name"));
+        model.put(ModelConstants.DESCRIPTION, userGroup.get("description"));
+        model.put(ModelConstants.MENU_PERMISSIONS, menus);
+        model.put(ModelConstants.ACTIVE, userGroup.get("active"));
 
         return view("user-group/form-edit", model);
     }

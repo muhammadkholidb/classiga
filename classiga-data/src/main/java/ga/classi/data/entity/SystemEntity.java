@@ -11,18 +11,16 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 /**
  * 
- * @author eatonmunoz
+ * @author muhammad
  */
 @NoArgsConstructor
 @AllArgsConstructor
-@Setter 
-@Getter 
+@Data
 @Entity
 @Table(name = SystemEntity.TABLE_NAME, uniqueConstraints = @UniqueConstraint(columnNames = { "data_key" }))
 @DynamicInsert
@@ -54,6 +52,14 @@ public class SystemEntity extends BaseEntity implements Serializable {
     @Override
     protected void setValuesOnUpdate() {
         // Set values on update
+    }
+
+    @Override
+    protected StringBuilder getHashElements() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.dataKey);
+        sb.append(this.dataValue);
+        return sb;
     }
     
 }

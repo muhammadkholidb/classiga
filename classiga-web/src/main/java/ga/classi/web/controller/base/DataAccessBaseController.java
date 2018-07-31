@@ -16,12 +16,13 @@ import ga.classi.commons.helper.ActionResult;
 import ga.classi.commons.constant.CommonConstants;
 import ga.classi.commons.helper.CommonUtils;
 import ga.classi.data.helper.DataImporter;
+import ga.classi.data.service.EmailQueueService;
 import ga.classi.data.service.SystemService;
 import ga.classi.data.service.UserGroupService;
 import ga.classi.data.service.UserService;
-import ga.classi.web.helper.SessionKeyConstants;
 import ga.classi.web.helper.SessionManager;
 import lombok.extern.slf4j.Slf4j;
+import ga.classi.web.constant.SessionConstants;
 
 /**
  * 
@@ -30,6 +31,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class DataAccessBaseController extends AbstractBaseController implements IBaseController {
 
+    @Autowired
+    private EmailQueueService emailQueueService;
+    
     @Autowired
     private SystemService    systemService;
 
@@ -68,7 +72,7 @@ public class DataAccessBaseController extends AbstractBaseController implements 
                 dto = systemService.getAllSystem(new DTO());
             }
 
-            SessionManager.set(SessionKeyConstants.SYSTEMS,
+            SessionManager.set(SessionConstants.SYSTEMS,
                     (JSONArray) JSONValue.parse(JSONArray.toJSONString((List) dto.get(CommonConstants.CONTENT))));
             updateLocale(getSystem(CommonConstants.SYSTEM_KEY_LANGUAGE_CODE));
 
@@ -253,6 +257,20 @@ public class DataAccessBaseController extends AbstractBaseController implements 
         try {
             userGroupService.remove(new DTO(parameters));
             return successActionResult(createMessage("success.SuccessfullyRemoveUserGroup"), new HashMap<>());
+        } catch (DataException e) {
+            log.error(CommonUtils.getExceptionMessage(e), e);
+            return failActionResult(createMessage(e.getMessage(), e.getData()));
+        } catch (Exception e) {
+            log.error(CommonUtils.getExceptionMessage(e), e);
+            return errorActionResult();
+        }
+    }
+
+    @Override
+    public ActionResult addEmailQueue(Map<String, Object> parameters) {
+        try {
+            DTO dto = emailQueueService.add(new DTO(parameters));
+            return successActionResult(createMessage("success.emailqueue.add"), dto);
         } catch (DataException e) {
             log.error(CommonUtils.getExceptionMessage(e), e);
             return failActionResult(createMessage(e.getMessage(), e.getData()));

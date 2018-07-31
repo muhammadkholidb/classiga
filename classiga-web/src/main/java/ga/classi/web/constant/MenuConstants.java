@@ -1,6 +1,6 @@
-package ga.classi.web.helper;
+package ga.classi.web.constant;
 
-public interface MenuKeyConstants {
+public interface MenuConstants {
 
     String NAME        = "name";
     String DESCRIPTION = "description";

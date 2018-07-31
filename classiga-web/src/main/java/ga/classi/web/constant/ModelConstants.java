@@ -1,10 +1,10 @@
-package ga.classi.web.helper;
+package ga.classi.web.constant;
 
 /**
  *
  * @author eatonmunoz
  */
-public interface ModelKeyConstants {
+public interface ModelConstants {
 
     String NOTIFY           = "notify";
     String MENUS            = "menus";

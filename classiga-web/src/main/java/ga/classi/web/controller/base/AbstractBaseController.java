@@ -34,14 +34,14 @@ import ga.classi.commons.helper.DefaultUser;
 import ga.classi.commons.helper.MessageHelper;
 import ga.classi.commons.constant.StringConstants;
 import ga.classi.commons.web.helper.JSON;
-import ga.classi.web.helper.MenuKeyConstants;
 import ga.classi.web.helper.MenuLoader;
-import ga.classi.web.helper.ModelKeyConstants;
-import ga.classi.web.helper.SessionKeyConstants;
 import ga.classi.web.helper.SessionManager;
 import ga.classi.web.helper.UIHelper;
 import ga.classi.web.ui.Notify;
 import lombok.extern.slf4j.Slf4j;
+import ga.classi.web.constant.MenuConstants;
+import ga.classi.web.constant.ModelConstants;
+import ga.classi.web.constant.SessionConstants;
 
 @Slf4j
 public abstract class AbstractBaseController implements IBaseController {
@@ -103,26 +103,26 @@ public abstract class AbstractBaseController implements IBaseController {
     private Map<String, Object> getDefaultRequestAttributes() {
         Map<String, Object> attributes = new HashMap<>();
         if (userHasLoggedIn()) {            
-            attributes.put(ModelKeyConstants.USER, SessionManager.get(SessionKeyConstants.USER));
-            attributes.put(ModelKeyConstants.USER_GROUP, SessionManager.get(SessionKeyConstants.USER_GROUP));
-            attributes.put(ModelKeyConstants.MENUS, getAllowedMenus());
+            attributes.put(ModelConstants.USER, SessionManager.get(SessionConstants.USER));
+            attributes.put(ModelConstants.USER_GROUP, SessionManager.get(SessionConstants.USER_GROUP));
+            attributes.put(ModelConstants.MENUS, getAllowedMenus());
             JSONObject currentMenu = getCurrentMenu();
             if (currentMenu != null) {                
-                attributes.put(ModelKeyConstants.CURRENT_MENU, currentMenu);
-                attributes.put(ModelKeyConstants.CAN_MODIFY, isMenuModifyAllowed((String) currentMenu.get(MenuKeyConstants.CODE)));
+                attributes.put(ModelConstants.CURRENT_MENU, currentMenu);
+                attributes.put(ModelConstants.CAN_MODIFY, isMenuModifyAllowed((String) currentMenu.get(MenuConstants.CODE)));
             }
         }
-        attributes.put(ModelKeyConstants.APP_NAME, applicationName);
-        attributes.put(ModelKeyConstants.APP_VERSION, applicationVersion);
-        attributes.put(ModelKeyConstants.APP_FAVICON, applicationFavicon);
-        attributes.put(ModelKeyConstants.APP_BUILD_NUMBER, applicationBuildNumber);
-        attributes.put(ModelKeyConstants.SHOW_APP_INFO, showApplicationInfo);
+        attributes.put(ModelConstants.APP_NAME, applicationName);
+        attributes.put(ModelConstants.APP_VERSION, applicationVersion);
+        attributes.put(ModelConstants.APP_FAVICON, applicationFavicon);
+        attributes.put(ModelConstants.APP_BUILD_NUMBER, applicationBuildNumber);
+        attributes.put(ModelConstants.SHOW_APP_INFO, showApplicationInfo);
         
         String templateCode = getSystem(CommonConstants.SYSTEM_KEY_TEMPLATE_CODE);
         String languageCode = getSystem(CommonConstants.SYSTEM_KEY_LANGUAGE_CODE);
         
-        attributes.put(ModelKeyConstants.LANGUAGE_CODE, languageCode == null ? DEFAULT_LANGUAGE_CODE : languageCode);
-        attributes.put(ModelKeyConstants.TEMPLATE_CODE, templateCode == null ? DEFAULT_TEMPLATE_CODE : templateCode);
+        attributes.put(ModelConstants.LANGUAGE_CODE, languageCode == null ? DEFAULT_LANGUAGE_CODE : languageCode);
+        attributes.put(ModelConstants.TEMPLATE_CODE, templateCode == null ? DEFAULT_TEMPLATE_CODE : templateCode);
         return attributes;
     }
     
@@ -150,7 +150,7 @@ public abstract class AbstractBaseController implements IBaseController {
     @Override
     public ModelAndView viewAndNotify(ModelAndView mav, String message, String notificationType) {
         ModelAndView mav1 = view(mav);
-        mav1.addObject(ModelKeyConstants.NOTIFY, UIHelper.createNotification(StringConstants.EMPTY, message, notificationType));
+        mav1.addObject(ModelConstants.NOTIFY, UIHelper.createNotification(StringConstants.EMPTY, message, notificationType));
         return mav1;
     }
 
@@ -240,7 +240,7 @@ public abstract class AbstractBaseController implements IBaseController {
 
     @Override
     public ModelAndView redirectAndNotify(String path, RedirectAttributes ra, String message, String notificationType) {
-        ra.addFlashAttribute(ModelKeyConstants.NOTIFY, UIHelper.createNotification(StringConstants.EMPTY, message, notificationType));
+        ra.addFlashAttribute(ModelConstants.NOTIFY, UIHelper.createNotification(StringConstants.EMPTY, message, notificationType));
         return redirect(path, ra);
     }
 
@@ -271,21 +271,21 @@ public abstract class AbstractBaseController implements IBaseController {
     
     @Override
     public ModelAndView redirect(String path, Map<String, Object> flashData) {
-        SessionManager.set(SessionKeyConstants.FLASH, flashData);
+        SessionManager.set(SessionConstants.FLASH, flashData);
         return new ModelAndView("redirect:" + path);
     }
 
     @Override
     public ModelAndView redirectAndNotify(String path, String message, String notificationType) {
         Map<String, Object> flashData = new HashMap<String, Object>();
-        flashData.put(ModelKeyConstants.NOTIFY, UIHelper.createNotification(StringConstants.EMPTY, message, notificationType));
+        flashData.put(ModelConstants.NOTIFY, UIHelper.createNotification(StringConstants.EMPTY, message, notificationType));
         return redirect(path, flashData);
     }
 
     @Override
     public ModelAndView redirectAndNotify(String path, Map<String, Object> flashData, String message, String notificationType) {
         if (flashData != null) {
-            flashData.put(ModelKeyConstants.NOTIFY, UIHelper.createNotification(StringConstants.EMPTY, message, notificationType));
+            flashData.put(ModelConstants.NOTIFY, UIHelper.createNotification(StringConstants.EMPTY, message, notificationType));
             return redirect(path, flashData);
         }
         return redirectAndNotify(path, message, notificationType);
@@ -333,7 +333,7 @@ public abstract class AbstractBaseController implements IBaseController {
 
     @Override
     public Map<String, Object> getFlashData() {
-        Map<String, Object> flashData = SessionManager.get(SessionKeyConstants.FLASH);
+        Map<String, Object> flashData = SessionManager.get(SessionConstants.FLASH);
         if (flashData == null) {
             return new HashMap<>();
         }
@@ -341,10 +341,10 @@ public abstract class AbstractBaseController implements IBaseController {
     }
     
     private void loadFlashToView(ModelAndView mav) {
-        Map<String, Object> flashData = SessionManager.get(SessionKeyConstants.FLASH);
+        Map<String, Object> flashData = SessionManager.get(SessionConstants.FLASH);
         if ((flashData != null) && (mav != null)) {
             mav.addAllObjects(flashData);
-            SessionManager.remove(SessionKeyConstants.FLASH);
+            SessionManager.remove(SessionConstants.FLASH);
         }
     }
 
@@ -358,8 +358,8 @@ public abstract class AbstractBaseController implements IBaseController {
 
         log.debug("Set menus to session ...");
 
-        SessionManager.set(SessionKeyConstants.MENUS, menuLoader.getNestedMenus());
-        SessionManager.set(SessionKeyConstants.FLAT_MENUS, menuLoader.getFlatMenus());
+        SessionManager.set(SessionConstants.MENUS, menuLoader.getNestedMenus());
+        SessionManager.set(SessionConstants.FLAT_MENUS, menuLoader.getFlatMenus());
     }
 
     /**
@@ -370,7 +370,7 @@ public abstract class AbstractBaseController implements IBaseController {
      */
     @Override
     public JSONArray getMenus(boolean flat) {
-        String key = flat ? SessionKeyConstants.FLAT_MENUS : SessionKeyConstants.MENUS;
+        String key = flat ? SessionConstants.FLAT_MENUS : SessionConstants.MENUS;
         JSONArray menus = SessionManager.get(key);
         if (menus == null) {
             loadMenus();
@@ -395,10 +395,10 @@ public abstract class AbstractBaseController implements IBaseController {
      */
     @Override
     public JSONArray getAllowedMenus() { 
-        JSONArray allowedMenus = SessionManager.get(SessionKeyConstants.ALLOWED_MENUS);
+        JSONArray allowedMenus = SessionManager.get(SessionConstants.ALLOWED_MENUS);
         if (allowedMenus == null) {
             loadAllowedMenus();
-            return SessionManager.get(SessionKeyConstants.ALLOWED_MENUS);
+            return SessionManager.get(SessionConstants.ALLOWED_MENUS);
         }
         return allowedMenus;
     }
@@ -411,38 +411,38 @@ public abstract class AbstractBaseController implements IBaseController {
         for (Object o1 : menus) {
             JSONObject menu = (JSONObject) o1;
             // This is parent menu, if the parent menu is not allowed to be viewed then the all submenus cannot be viewed as well
-            if (!isMenuViewAllowed((String) menu.get(MenuKeyConstants.CODE))) {
+            if (!isMenuViewAllowed((String) menu.get(MenuConstants.CODE))) {
                 continue;
             }
             // Check allowed submenus
             JSONArray allowedSubmenus = new JSONArray();
-            JSONArray submenus = (JSONArray) menu.get(MenuKeyConstants.SUBMENUS);
+            JSONArray submenus = (JSONArray) menu.get(MenuConstants.SUBMENUS);
             if (submenus != null && !submenus.isEmpty()) {
                 for (Object o2 : submenus) {
                     JSONObject sub = (JSONObject) o2;
-                    if (isMenuViewAllowed((String) sub.get(MenuKeyConstants.CODE))) {
+                    if (isMenuViewAllowed((String) sub.get(MenuConstants.CODE))) {
                         allowedSubmenus.add(sub);
                     }
                 }
             }
             // Remove the original submenus from allowed menu
-            JSONObject allowedMenu = JSON.remove(menu, MenuKeyConstants.SUBMENUS);
+            JSONObject allowedMenu = JSON.remove(menu, MenuConstants.SUBMENUS);
             if (!allowedSubmenus.isEmpty()) {
                 // Set new allowed submenus
-                allowedMenu.put(MenuKeyConstants.SUBMENUS, allowedSubmenus);
+                allowedMenu.put(MenuConstants.SUBMENUS, allowedSubmenus);
             }
             allowedMenus.add(allowedMenu);
         }
-        SessionManager.set(SessionKeyConstants.ALLOWED_MENUS, allowedMenus);
+        SessionManager.set(SessionConstants.ALLOWED_MENUS, allowedMenus);
     }
     
     @Override
     public boolean isMenuAllowed(String can, String code) {
-        JSONObject userGroup = SessionManager.get(SessionKeyConstants.USER_GROUP);
+        JSONObject userGroup = SessionManager.get(SessionConstants.USER_GROUP);
         if (DefaultUser.USER_GROUP_ID.equals(userGroup.get("id"))) {
             return true;
         }
-        JSONArray menuPermissions = SessionManager.get(SessionKeyConstants.MENU_PERMISSIONS);
+        JSONArray menuPermissions = SessionManager.get(SessionConstants.MENU_PERMISSIONS);
         log.debug("Menu permissions: \n{}", JSON.stringify(menuPermissions, true));
         for (Object o : menuPermissions) {
             JSONObject menuPermission = (JSONObject) o;
@@ -479,7 +479,7 @@ public abstract class AbstractBaseController implements IBaseController {
         }
         for (Object o : getMenus(true)) {
             JSONObject menu = (JSONObject) o; 
-            String path = (String) menu.get(MenuKeyConstants.PATH);
+            String path = (String) menu.get(MenuConstants.PATH);
             if (path != null && requestUrl.substring(contextPath.length(), requestUrl.length()).equals(path)) {
                 return menu;
             }
@@ -496,7 +496,7 @@ public abstract class AbstractBaseController implements IBaseController {
     @Override
     public List<Locale> getSupportedLocales(String key) {
         log.info("Get supported locales ...");
-        List<Locale> supportedLocales = SessionManager.get(SessionKeyConstants.SUPPORTED_LOCALES);
+        List<Locale> supportedLocales = SessionManager.get(SessionConstants.SUPPORTED_LOCALES);
         if (supportedLocales != null && !supportedLocales.isEmpty()) {
             return supportedLocales;
         }
@@ -524,7 +524,7 @@ public abstract class AbstractBaseController implements IBaseController {
             supportedLocales.add(locale);
         }
         log.info("{} supported locales found: {}", supportedLocales.size(), supportedLocales);
-        SessionManager.set(SessionKeyConstants.SUPPORTED_LOCALES, supportedLocales);
+        SessionManager.set(SessionConstants.SUPPORTED_LOCALES, supportedLocales);
         return supportedLocales;
     }
 
@@ -535,7 +535,7 @@ public abstract class AbstractBaseController implements IBaseController {
     @Override
     public List<String> getAvailableTemplates() {
         log.info("Get available templates ...");
-        ArrayList<String> templates = SessionManager.get(SessionKeyConstants.AVAILABLE_TEMPLATES);
+        ArrayList<String> templates = SessionManager.get(SessionConstants.AVAILABLE_TEMPLATES);
         if (templates != null && !templates.isEmpty()) {
             return templates;
         }
@@ -547,7 +547,7 @@ public abstract class AbstractBaseController implements IBaseController {
             }
         }
         log.info("{} available templates found: {}", templates.size(), templates);
-        SessionManager.set(SessionKeyConstants.AVAILABLE_TEMPLATES, templates);
+        SessionManager.set(SessionConstants.AVAILABLE_TEMPLATES, templates);
         return templates;
     }
     
@@ -582,11 +582,13 @@ public abstract class AbstractBaseController implements IBaseController {
     @Override
     public JSONArray getSystems() {
         log.debug("Get systems ...");
-        JSONArray systems = SessionManager.get(SessionKeyConstants.SYSTEMS);
+        JSONArray systems = SessionManager.get(SessionConstants.SYSTEMS);
+        log.debug("Systems from session: {}", systems);
         if (systems == null) {
             loadSystems();
-            return SessionManager.get(SessionKeyConstants.SYSTEMS);
+            return SessionManager.get(SessionConstants.SYSTEMS);
         }
+        log.debug("Systems are not null");
         return systems;
     }
 
@@ -595,15 +597,18 @@ public abstract class AbstractBaseController implements IBaseController {
         log.debug("Get system: {}", key);
         JSONArray systems = getSystems();
         if (systems != null) {
+            log.debug("Systems from session is not null");
             for (Object object : systems) {
                 JSONObject json = (JSONObject) object;
                 String dataKey = (String) json.get("dataKey");
                 String dataValue = (String) json.get("dataValue");
                 if (dataKey.equals(key)) {
+                    log.debug("Found value for {}: {}", key, dataValue);
                     return dataValue;
                 }
             }
         }
+        log.debug("Systems are null");
         log.debug("Key '{}' not found.", key);
         return null;
     }
@@ -612,19 +617,19 @@ public abstract class AbstractBaseController implements IBaseController {
     
     @Override
     public boolean userHasLoggedIn() {
-        return SessionManager.get(SessionKeyConstants.USER) != null;
+        return SessionManager.get(SessionConstants.USER) != null;
     }
 
     @Override
     public JSONObject getLoggedInUser() {
-        return SessionManager.get(SessionKeyConstants.USER);
+        return SessionManager.get(SessionConstants.USER);
     }
 
     // Implements IBaseControllerUserGroup
     
     @Override
     public JSONObject getLoggedInUserGroup() {
-        return SessionManager.get(SessionKeyConstants.USER_GROUP);
+        return SessionManager.get(SessionConstants.USER_GROUP);
     }
         
     @Override

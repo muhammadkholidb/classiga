@@ -10,10 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import ga.classi.web.helper.SessionKeyConstants;
 import ga.classi.web.helper.SessionManager;
-import ga.classi.web.helper.URLParameterKeyContants;
 import lombok.extern.slf4j.Slf4j;
+import ga.classi.web.constant.SessionConstants;
+import ga.classi.web.constant.URLParameterContants;
 
 @Slf4j
 public class LoginInterceptor extends HandlerInterceptorAdapter {
@@ -40,7 +40,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 
         String defaultRedirect = contextPath + applicationProp.getProperty("login.redirect.path.default");
         
-        boolean loggedIn = SessionManager.get(SessionKeyConstants.USER) != null;
+        boolean loggedIn = SessionManager.get(SessionConstants.USER) != null;
         boolean loginRequest = requestUrl.equals(loginUrl) 
                 || requestUrl.equals(loginUrl + "/") 
                 || requestUrl.equals(rootUrl);
@@ -62,7 +62,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
                 if ("/".equals(redirectPath)) {
                     response.sendRedirect(loginUrl);
                 } else {                    
-                    response.sendRedirect(loginUrl + "?" + URLParameterKeyContants.REDIRECT + "=" + URLEncoder.encode(redirectPath, "UTF-8"));
+                    response.sendRedirect(loginUrl + "?" + URLParameterContants.REDIRECT + "=" + URLEncoder.encode(redirectPath, "UTF-8"));
                 }
                 return false;
             }

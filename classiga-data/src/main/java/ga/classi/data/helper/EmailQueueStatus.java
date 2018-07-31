@@ -3,7 +3,7 @@ package ga.classi.data.helper;
 import java.util.HashMap;
 import java.util.Map;
 
-public enum QueueStatus {
+public enum EmailQueueStatus {
 
     PENDING(1, "email.queue.status.pending"),
     PROCESSING(2, "email.queue.status.processing"),
@@ -12,7 +12,7 @@ public enum QueueStatus {
     private final Integer id;
     private final String code;
 
-    QueueStatus(Integer id, String code) {
+    EmailQueueStatus(Integer id, String code) {
         this.id = id;
         this.code = code;
     }
@@ -26,7 +26,7 @@ public enum QueueStatus {
     }
     
     public static Integer[] ids() {
-        QueueStatus[] values = values();
+        EmailQueueStatus[] values = values();
         Integer[] ids = new Integer[values.length];
         for (int i = 0; i < values.length; i++) {
             ids[i] = values[i].id;
@@ -35,7 +35,7 @@ public enum QueueStatus {
     }
     
     public static String[] codes() {
-        QueueStatus[] values = values();
+        EmailQueueStatus[] values = values();
         String[] codes = new String[values.length];
         for (int i = 0; i < values.length; i++) {
             codes[i] = values[i].code;
@@ -45,7 +45,7 @@ public enum QueueStatus {
     
     @SuppressWarnings("unchecked")
     public static Map<String, Object>[] maps() {
-        QueueStatus[] values = values();
+        EmailQueueStatus[] values = values();
         Map<String, Object>[] maps = new Map[values.length];
         for (int i = 0; i < values.length; i++) {
             Map<String, Object> map = new HashMap<>();
@@ -56,8 +56,8 @@ public enum QueueStatus {
         return maps;
     }
     
-    public static QueueStatus byId(Integer id) {
-        for (QueueStatus status : values()) {
+    public static EmailQueueStatus byId(Integer id) {
+        for (EmailQueueStatus status : values()) {
             if (status.id.equals(id)) {
                 return status;
             }

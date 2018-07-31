@@ -1,6 +1,6 @@
-package ga.classi.web.helper;
+package ga.classi.web.constant;
 
-public interface SessionKeyConstants {
+public interface SessionConstants {
 
     String USER                = "session.user";
     String USER_GROUP          = "session.usergroup";

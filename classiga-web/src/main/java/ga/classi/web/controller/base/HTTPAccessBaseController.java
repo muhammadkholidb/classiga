@@ -224,10 +224,10 @@ public class HTTPAccessBaseController extends AbstractBaseController implements 
     @Override
     public ActionResult addEmailQueue(Map<String, Object> parameters) {
         try {            
-            HTTP http = new HTTP();
-            http.setUrl(hostUrl + "/email-queue/add");
-            http.setBody(parameters);
-            return http.post();
+//            HTTP http = new HTTP();
+//            http.setUrl(hostUrl + "/email-queue/add");
+//            http.setBody(parameters);
+            return defaultHTTP("/email-queue/add", parameters).post();
         } catch (IOException e) {
             log.error(CommonUtils.getExceptionMessage(e), e);
             return errorActionResult();

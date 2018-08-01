@@ -36,6 +36,7 @@ import lombok.extern.slf4j.Slf4j;
 import ga.classi.web.constant.ModelConstants;
 import ga.classi.web.constant.SessionConstants;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Function;
 
 /**
  * 
@@ -126,6 +127,9 @@ public class UserController extends BaseControllerAdapter {
             String message = "Hai {fullName}, welcome to {appName} app. You can login with email: {loginEmail} or username: {loginUsername} with password {password}.";
             ActionResult result = addEmailQueue(CommonUtils.map("subject", subject, "to", to, "data", data, "status", EmailQueueStatus.PENDING.id(), "message", message));
             log.debug("Status: {}", result.getStatus());
+        }).exceptionally((ex) -> {
+            log.error("Error prepare to send email", ex);
+            return null; 
         });
     }
 

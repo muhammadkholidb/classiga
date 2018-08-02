@@ -1,3 +1,8 @@
+/*
+ * 
+ * Licensed under the MIT License. See LICENSE file in the project root for full license information.
+ * 
+ */
 package ga.classi.web.controller.base;
 
 import java.io.InputStream;
@@ -26,7 +31,7 @@ import ga.classi.web.constant.SessionConstants;
 
 /**
  * 
- * @author eatonmunoz
+ * @author muhammad
  */
 @Slf4j
 public class DataAccessBaseController extends AbstractBaseController implements IBaseController {

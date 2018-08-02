@@ -1,3 +1,8 @@
+/*
+ * 
+ * Licensed under the MIT License. See LICENSE file in the project root for full license information.
+ * 
+ */
 package ga.classi.data.helper;
 
 import com.github.springtestdbunit.bean.DatabaseDataSourceConnectionFactoryBean;
@@ -32,7 +37,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  *
- * @author eatonmunoz
+ * @author muhammad
  */
 @Slf4j
 @Setter

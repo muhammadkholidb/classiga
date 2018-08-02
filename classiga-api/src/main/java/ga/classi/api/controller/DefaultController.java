@@ -1,3 +1,8 @@
+/*
+ * 
+ * Licensed under the MIT License. See LICENSE file in the project root for full license information.
+ * 
+ */
 package ga.classi.api.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;

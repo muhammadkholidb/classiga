@@ -1,3 +1,8 @@
+/*
+ * 
+ * Licensed under the MIT License. See LICENSE file in the project root for full license information.
+ * 
+ */
 package ga.classi.data.repository;
 
 import java.util.List;
@@ -11,7 +16,7 @@ import ga.classi.data.entity.UserGroupEntity;
 
 /**
  * Repository for UserEntity.
- * @author eatonmunoz
+ * @author muhammad
  */
 public interface UserRepository extends BaseDataRepository<UserEntity, Long>, UserRepositoryCustom {
 

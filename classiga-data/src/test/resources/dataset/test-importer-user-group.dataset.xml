@@ -4,14 +4,14 @@
     <t_user_group id="1" name="Administrator" lower_name="administrator"
         active="y" create_time_millis="{currentMillis}"
         update_time_millis="{currentMillis}" deleted="n" version="0"
-        row_hash="1" />
+        rh="1" srh="1" />
     <t_user_group id="2" name="User" lower_name="user"
         active="y" create_time_millis="{currentMillis}"
         update_time_millis="{currentMillis}" deleted="n" version="0"
-        row_hash="2" />
+        rh="2" srh="2" />
     <t_user_group id="3" name="Marketing" lower_name="marketing"
         active="y" create_time_millis="{currentMillis}"
         update_time_millis="{currentMillis}" deleted="n" version="0"
-        row_hash="3" />
+        rh="3" srh="3" />
 
 </dataset>

@@ -1,3 +1,8 @@
+/*
+ * 
+ * Licensed under the MIT License. See LICENSE file in the project root for full license information.
+ * 
+ */
 package ga.classi.web.controller;
 
 import java.io.UnsupportedEncodingException;
@@ -36,7 +41,6 @@ import lombok.extern.slf4j.Slf4j;
 import ga.classi.web.constant.ModelConstants;
 import ga.classi.web.constant.SessionConstants;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Function;
 
 /**
  * 

@@ -1,3 +1,8 @@
+/*
+ * 
+ * Licensed under the MIT License. See LICENSE file in the project root for full license information.
+ * 
+ */
 package ga.classi.web.helper;
 
 import java.io.File;
@@ -16,7 +21,7 @@ import ga.classi.web.constant.MenuConstants;
 
 /**
  *
- * @author eatonmunoz
+ * @author muhammad
  */
 public class MenuLoader {
 

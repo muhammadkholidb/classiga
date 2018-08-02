@@ -1,3 +1,8 @@
+/*
+ * 
+ * Licensed under the MIT License. See LICENSE file in the project root for full license information.
+ * 
+ */
 package ga.classi.commons.web.helper;
 
 import org.json.simple.JSONArray;
@@ -12,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * Helper class for processing JSONObject and JSONArray.
- * @author Muhammad
+ * @author muhammad
  *
  */
 @Slf4j

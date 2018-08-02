@@ -1,3 +1,8 @@
+/*
+ * 
+ * Licensed under the MIT License. See LICENSE file in the project root for full license information.
+ * 
+ */
 package ga.classi.web.controller;
 
 import java.net.URLDecoder;
@@ -32,7 +37,7 @@ import ga.classi.web.constant.ModelConstants;
 
 /**
  *
- * @author eatonmunoz
+ * @author muhammad
  */
 @Slf4j
 @Controller

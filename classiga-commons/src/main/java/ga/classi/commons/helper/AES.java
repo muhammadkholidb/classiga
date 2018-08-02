@@ -1,3 +1,8 @@
+/*
+ * 
+ * Licensed under the MIT License. See LICENSE file in the project root for full license information.
+ * 
+ */
 package ga.classi.commons.helper;
 
 import java.io.UnsupportedEncodingException;
@@ -18,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  *
- * @author eatonmunoz
+ * @author muhammad
  */
 @Slf4j
 public class AES {

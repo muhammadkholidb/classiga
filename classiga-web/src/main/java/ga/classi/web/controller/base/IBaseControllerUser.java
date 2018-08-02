@@ -1,3 +1,8 @@
+/*
+ * 
+ * Licensed under the MIT License. See LICENSE file in the project root for full license information.
+ * 
+ */
 package ga.classi.web.controller.base;
 
 import java.util.Map;
@@ -8,7 +13,7 @@ import ga.classi.commons.helper.ActionResult;
 
 /**
  *
- * @author eatonmunoz
+ * @author muhammad
  */
 public interface IBaseControllerUser {
 

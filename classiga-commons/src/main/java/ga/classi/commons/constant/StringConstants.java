@@ -1,10 +1,15 @@
+/*
+ * 
+ * Licensed under the MIT License. See LICENSE file in the project root for full license information.
+ * 
+ */
 package ga.classi.commons.constant;
 
 import java.io.File;
 
 /**
  *
- * @author eatonmunoz
+ * @author muhammad
  */
 public final class StringConstants {
 

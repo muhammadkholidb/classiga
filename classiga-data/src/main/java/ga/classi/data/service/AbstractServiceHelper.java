@@ -1,3 +1,8 @@
+/*
+ * 
+ * Licensed under the MIT License. See LICENSE file in the project root for full license information.
+ * 
+ */
 package ga.classi.data.service;
 
 import java.util.List;
@@ -14,7 +19,7 @@ import ga.classi.data.entity.BaseEntity;
 
 /**
  * A parent class with a set of methods to make standard data services.
- * @author eatonmunoz
+ * @author muhammad
  */
 public abstract class AbstractServiceHelper {
 

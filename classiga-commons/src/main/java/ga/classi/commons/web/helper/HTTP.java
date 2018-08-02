@@ -1,3 +1,8 @@
+/*
+ * 
+ * Licensed under the MIT License. See LICENSE file in the project root for full license information.
+ * 
+ */
 package ga.classi.commons.web.helper;
 
 import java.io.IOException;
@@ -22,7 +27,7 @@ import org.springframework.web.client.RestTemplate;
 /**
  * The client for processing HTTP based requests.
  * 
- * @author muhammadkholidb
+ * @author muhammad
  */
 @Slf4j
 @Setter

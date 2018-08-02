@@ -1,3 +1,8 @@
+/*
+ * 
+ * Licensed under the MIT License. See LICENSE file in the project root for full license information.
+ * 
+ */
 package ga.classi.data.specifications;
 
 import java.util.ArrayList;
@@ -15,7 +20,7 @@ import ga.classi.data.entity.UserGroupEntity;
 
 /**
  *
- * @author eatonmunoz
+ * @author muhammad
  */
 public final class UserGroupSpecifications {
     

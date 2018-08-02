@@ -1,3 +1,8 @@
+/*
+ * 
+ * Licensed under the MIT License. See LICENSE file in the project root for full license information.
+ * 
+ */
 package ga.classi.commons.helper;
 
 import ga.classi.commons.constant.CommonConstants;
@@ -10,7 +15,7 @@ import org.json.simple.JSONValue;
 
 /**
  * A utility class for string checking.
- * @author eatonmunoz
+ * @author muhammad
  */
 public final class StringCheck {
     

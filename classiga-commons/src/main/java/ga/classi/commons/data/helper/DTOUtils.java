@@ -1,3 +1,8 @@
+/*
+ * 
+ * Licensed under the MIT License. See LICENSE file in the project root for full license information.
+ * 
+ */
 package ga.classi.commons.data.helper;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,7 +18,7 @@ import javax.servlet.ServletRequest;
 
 /**
  * A utility class for Dto processing.
- * @author eatonmunoz
+ * @author muhammad
  */
 public class DTOUtils {
 

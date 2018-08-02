@@ -1,3 +1,8 @@
+/*
+ * 
+ * Licensed under the MIT License. See LICENSE file in the project root for full license information.
+ * 
+ */
 package ga.classi.web.helper;
 
 import java.util.Collections;
@@ -13,7 +18,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 /**
  *
- * @author eatonmunoz
+ * @author muhammad
  */
 public class SessionManager {
 
@@ -64,7 +69,7 @@ public class SessionManager {
     
     public static Map<String, Object> getMap() {
         HttpSession session = getSession();
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
         Enumeration<String> keys = session.getAttributeNames();
         while (keys.hasMoreElements()) {
             String key = keys.nextElement();

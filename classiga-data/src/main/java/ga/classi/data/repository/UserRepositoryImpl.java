@@ -1,3 +1,8 @@
+/*
+ * 
+ * Licensed under the MIT License. See LICENSE file in the project root for full license information.
+ * 
+ */
 package ga.classi.data.repository;
 
 import java.util.List;
@@ -7,7 +12,7 @@ import javax.persistence.Query;
 
 /**
  *
- * @author eatonmunoz
+ * @author muhammad
  */
 public class UserRepositoryImpl implements UserRepositoryCustom {
 

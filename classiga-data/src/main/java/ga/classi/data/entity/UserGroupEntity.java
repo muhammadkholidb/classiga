@@ -24,6 +24,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * 
@@ -91,7 +92,7 @@ public class UserGroupEntity extends BaseEntity implements Serializable {
         StringBuilder sb = new StringBuilder();
         sb.append(this.name);
         sb.append(this.lowerName);
-        sb.append(this.description);
+        sb.append(StringUtils.defaultString(this.description));
         sb.append(this.active);
         return sb;
     }

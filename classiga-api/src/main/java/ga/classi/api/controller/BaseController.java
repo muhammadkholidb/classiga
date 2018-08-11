@@ -15,7 +15,7 @@ import org.springframework.web.servlet.LocaleResolver;
 
 import ga.classi.commons.data.error.DataException;
 import ga.classi.commons.constant.CommonConstants;
-import ga.classi.commons.helper.MessageHelper;
+import ga.classi.commons.utility.MessageHelper;
 import ga.classi.api.helper.ResponseObject;
 import lombok.extern.slf4j.Slf4j;
 

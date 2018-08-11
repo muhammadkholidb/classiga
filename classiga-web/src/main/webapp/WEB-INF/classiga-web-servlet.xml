@@ -35,7 +35,7 @@
         </property>
     </bean>
 
-    <bean id="messageHelper" class="ga.classi.commons.helper.MessageHelper">
+    <bean id="messageHelper" class="ga.classi.commons.utility.MessageHelper">
         <property name="messageSource" ref="messageSource" />
         <property name="defaultLocale" value="en" />
     </bean>
@@ -68,6 +68,7 @@
             <mvc:exclude-mapping path="/avatar/**" />
             <mvc:exclude-mapping path="/logout" />
             <mvc:exclude-mapping path="/error" />
+            <mvc:exclude-mapping path="/generate-html" />
             <bean class="ga.classi.web.interceptor.LoginInterceptor" />
         </mvc:interceptor>
 
@@ -80,6 +81,7 @@
             <mvc:exclude-mapping path="/error" />
             <mvc:exclude-mapping path="/user/change-password" />
             <mvc:exclude-mapping path="/user/edit-profile" />
+            <mvc:exclude-mapping path="/generate-html" />
             <bean class="ga.classi.web.interceptor.PagePermissionInterceptor" />
         </mvc:interceptor>
 

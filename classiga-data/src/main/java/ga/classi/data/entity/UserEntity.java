@@ -24,6 +24,7 @@ import ga.classi.commons.constant.CommonConstants;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  *
@@ -132,12 +133,12 @@ public class UserEntity extends BaseEntity implements Serializable {
         sb.append(this.username);
         sb.append(this.email);
         sb.append(this.passwordHash);
-        sb.append(this.salt);
+        sb.append(StringUtils.defaultString(this.salt));
         sb.append(this.active);
         sb.append(this.lowerFullName);
         sb.append(this.lowerEmail);
         sb.append(this.lowerUsername);
-        sb.append(this.avatar);
+        sb.append(StringUtils.defaultString(this.avatar));
         sb.append(this.userGroup.getId());
         return sb;
     }

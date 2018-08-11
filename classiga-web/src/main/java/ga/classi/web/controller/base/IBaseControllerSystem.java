@@ -9,7 +9,7 @@ import java.util.Map;
 
 import org.json.simple.JSONArray;
 
-import ga.classi.commons.helper.ActionResult;
+import ga.classi.commons.utility.ActionResult;
 
 /**
  *

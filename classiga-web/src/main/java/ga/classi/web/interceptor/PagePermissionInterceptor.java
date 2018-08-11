@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import ga.classi.commons.constant.CommonConstants;
-import ga.classi.commons.helper.DefaultUser;
+import ga.classi.commons.utility.DefaultUser;
 import ga.classi.web.helper.SessionManager;
 import java.util.Arrays;
 import java.util.List;

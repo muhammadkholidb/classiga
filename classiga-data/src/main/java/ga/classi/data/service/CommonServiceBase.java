@@ -5,7 +5,7 @@
  */
 package ga.classi.data.service;
 
-import ga.classi.commons.data.helper.DTO;
+import ga.classi.commons.data.DTO;
 
 public interface CommonServiceBase {
 

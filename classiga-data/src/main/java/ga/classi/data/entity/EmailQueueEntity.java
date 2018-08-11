@@ -16,6 +16,7 @@ import javax.persistence.Entity;
 import javax.persistence.Index;
 import javax.persistence.Table;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * 
@@ -33,6 +34,7 @@ import lombok.Data;
             @Index(columnList = "to, subject"),
             @Index(columnList = "status"),
             @Index(columnList = "status, id"),
+            @Index(columnList = "status, deleted"),
             @Index(columnList = "deleted"),
             @Index(columnList = "deleted, id")
     })
@@ -81,10 +83,10 @@ public class EmailQueueEntity extends BaseEntity implements Serializable {
         StringBuilder sb = new StringBuilder();
         sb.append(this.to);
         sb.append(this.subject);
-        sb.append(this.template);
-        sb.append(this.message);
+        sb.append(StringUtils.defaultString(this.template));
+        sb.append(StringUtils.defaultString(this.message));
         sb.append(this.status);
-        sb.append(this.data);
+        sb.append(StringUtils.defaultString(this.data));
         return sb;
     }
 

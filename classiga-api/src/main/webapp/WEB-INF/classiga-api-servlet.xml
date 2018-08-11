@@ -18,7 +18,7 @@
 
     <bean id="localeResolver" class="org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver" />
 
-    <bean id="messageHelper" class="ga.classi.commons.helper.MessageHelper">
+    <bean id="messageHelper" class="ga.classi.commons.utility.MessageHelper">
         <property name="messageSource" ref="messageSource" />
         <property name="defaultLocale" value="en" />
     </bean>

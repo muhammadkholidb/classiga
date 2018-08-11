@@ -18,12 +18,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import ga.classi.commons.helper.ActionResult;
+import ga.classi.commons.utility.ActionResult;
 import ga.classi.commons.constant.CommonConstants;
-import ga.classi.commons.helper.DefaultUser;
-import ga.classi.commons.helper.PasswordUtils;
+import ga.classi.commons.utility.DefaultUser;
+import ga.classi.commons.utility.PasswordUtils;
 import ga.classi.commons.constant.StringConstants;
-import ga.classi.commons.web.helper.JSON;
+import ga.classi.commons.web.utility.JSON;
 import ga.classi.web.controller.base.BaseControllerAdapter;
 import ga.classi.web.helper.SessionManager;
 import lombok.extern.slf4j.Slf4j;

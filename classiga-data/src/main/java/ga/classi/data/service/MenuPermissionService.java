@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ga.classi.commons.data.error.DataException;
 import ga.classi.commons.data.error.ExceptionCode;
-import ga.classi.commons.data.helper.DTO;
+import ga.classi.commons.data.DTO;
 import ga.classi.data.entity.MenuPermissionEntity;
 import ga.classi.data.entity.UserGroupEntity;
 import ga.classi.data.error.ErrorMessageConstants;

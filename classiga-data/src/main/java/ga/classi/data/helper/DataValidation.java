@@ -10,7 +10,7 @@ import java.util.Map;
 
 import ga.classi.commons.data.error.DataException;
 import ga.classi.commons.data.error.ExceptionCode;
-import ga.classi.commons.helper.StringCheck;
+import ga.classi.commons.utility.StringCheck;
 import ga.classi.data.error.ErrorMessageConstants;
 
 /**

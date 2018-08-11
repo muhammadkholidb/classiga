@@ -30,7 +30,7 @@ import org.springframework.stereotype.Component;
 
 import ga.classi.commons.data.error.DataException;
 import ga.classi.commons.data.error.ExceptionCode;
-import ga.classi.commons.helper.CommonUtils;
+import ga.classi.commons.utility.CommonUtils;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;

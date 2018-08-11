@@ -21,6 +21,8 @@ public interface ErrorMessageConstants {
     String EMPTY_VALUE                              = "error.commondata.validation.EmptyValue";                
     String VALUES_NOT_EQUALS                        = "error.commondata.validation.ValuesNotEquals";
 
+    String INVALID_QUEUE_STATUS                     = "error.invalidqueuestatus";
+
     // User Group
     String CANT_REMOVE_USER_GROUP_CAUSE_USER_EXISTS = "error.commondata.CantRemoveUserGroupCauseUserExists";
     String USER_GROUP_NOT_FOUND                     = "error.commondata.UserGroupNotFound";
@@ -42,8 +44,8 @@ public interface ErrorMessageConstants {
     String USER_GROUP_MENU_PERMISSION_NOT_FOUND     = "error.commondata.UserGroupMenuPermissionNotFound";
 
     // Email queue
-    String INVALID_EMAIL_QUEUE_STATUS               = "error.emailqueue.invalidstatus";
-    String EMPTY_TEMPLATE_AND_MESSAGE               = "error.emailqueue.emptytemplateandmessage";
+    String EMPTY_TEMPLATE_AND_MESSAGE               = "error.emailqueue.emptytemplateandmessage";    
+    String EMAIL_QUEUE_NOT_FOUND                    = "error.emailqueue.notfound";
 
     
 }

@@ -3,7 +3,7 @@
  * Licensed under the MIT License. See LICENSE file in the project root for full license information.
  * 
  */
-package ga.classi.commons.helper;
+package ga.classi.commons.utility;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -70,11 +70,9 @@ public class LocaleDateUtils {
         String[] dateTimePatterns = new String[PATTERN_STYLES.length * PATTERN_STYLES.length];
         int i = 0;
         for (int df : PATTERN_STYLES) {
-            SimpleDateFormat sdf = (SimpleDateFormat) DateFormat.getDateInstance(df, locale);
-            String pattern = sdf.toLocalizedPattern();
             for (int tf : PATTERN_STYLES) {
-                sdf = (SimpleDateFormat) DateFormat.getTimeInstance(tf, locale);
-                dateTimePatterns[i] = pattern + " " + sdf.toLocalizedPattern();
+                SimpleDateFormat sdf = (SimpleDateFormat) DateFormat.getDateTimeInstance(df, tf, locale);
+                dateTimePatterns[i] = sdf.toLocalizedPattern();
                 i++;
             }
         }
@@ -82,7 +80,10 @@ public class LocaleDateUtils {
     }
 
     public static String[] allPatterns(Locale locale) {
-        String[] allPatterns = new String[PATTERN_STYLES.length + PATTERN_STYLES.length + (PATTERN_STYLES.length * PATTERN_STYLES.length)];
+        int datePatternsCount = PATTERN_STYLES.length;
+        int timePatternsCount = PATTERN_STYLES.length;
+        int dateTimePatternsCount = datePatternsCount * timePatternsCount;
+        String[] allPatterns = new String[datePatternsCount + timePatternsCount + dateTimePatternsCount];
         int dfCount = 0;
         int loop = 0;
         for (int df : PATTERN_STYLES) {
@@ -93,7 +94,8 @@ public class LocaleDateUtils {
             for (int tf : PATTERN_STYLES) {
                 sdf = (SimpleDateFormat) DateFormat.getTimeInstance(tf, locale);
                 String timePattern = sdf.toLocalizedPattern();
-                allPatterns[loop] = datePattern + " " + timePattern;
+                String dateTimePattern = datePattern + " " + timePattern;
+                allPatterns[loop] = dateTimePattern;
                 loop++;
                 if (dfCount == 0) {
                     allPatterns[loop] = timePattern;
@@ -265,7 +267,7 @@ public class LocaleDateUtils {
      * @return Formatted date string
      */
     public static String toString(long milliseconds, String pattern, Locale locale) {
-        String dateString = null;
+        String dateString;
         SimpleDateFormat sdf = new SimpleDateFormat(pattern, locale);
         dateString = sdf.format(milliseconds);
         return dateString;

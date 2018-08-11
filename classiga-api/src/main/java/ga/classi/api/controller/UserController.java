@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import ga.classi.commons.data.helper.DTO;
-import ga.classi.commons.data.helper.DTOUtils;
+import ga.classi.commons.data.DTO;
+import ga.classi.commons.data.utility.DTOUtils;
 import ga.classi.commons.constant.CommonConstants;
 import ga.classi.data.service.UserService;
 import ga.classi.api.helper.ResponseObject;

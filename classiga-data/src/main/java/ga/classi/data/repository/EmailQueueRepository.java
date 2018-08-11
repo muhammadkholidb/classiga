@@ -6,6 +6,7 @@
 package ga.classi.data.repository;
 
 import ga.classi.data.entity.EmailQueueEntity;
+import java.util.List;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -14,5 +15,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface EmailQueueRepository extends BaseDataRepository<EmailQueueEntity, Long> {
+    
+    List<EmailQueueEntity> findByStatusAndDeleted(Integer status, String deleted);
     
 }

@@ -3,7 +3,7 @@
  * Licensed under the MIT License. See LICENSE file in the project root for full license information.
  * 
  */
-package ga.classi.commons.web.helper;
+package ga.classi.commons.web.utility;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -38,38 +38,38 @@ public class HTTP {
 
     private String url;
     private HttpHeaders headers;
-    private Map<String, ?> body;
-    
-    public static HTTP create(String url, Map<String, ?> body, HttpHeaders headers) {
-        return new HTTP();
-    }
+    private Object body;
     
     public HTTPResponse request(HttpMethod method) throws IOException {
-        HttpEntity<Map<String, ?>> requestEntity;
+        HttpEntity<Object> request;
         ResponseEntity<String> response;
         if (HttpMethod.GET == method) {
             
             // If http GET, than the parameters should be set as URI variables
-            requestEntity = new HttpEntity(headers);
-            response = REST.exchange(url + "?" + buildQueryString(body), method, requestEntity, String.class, new Object[0]);
+            request = new HttpEntity<>(headers);
+            response = REST.exchange(url + ((body instanceof String) ? ("?" + body) : ("?" + buildQueryString((Map<String, ?>) body))), method, request, String.class, new Object[0]);
             
         } else {
             
             // Else than http GET, set the parameters in request body
             // Spring RestTemplate requires body parameters must be in type of MultiValueMap
-            MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-            if (body != null) {
-                body.entrySet().forEach((entry) -> {
-                    try {
-                        map.add(entry.getKey(), URLEncoder.encode(entry.getValue().toString(), "UTF-8"));
-                    } catch (UnsupportedEncodingException ex) {
-                        log.warn("Unable to encode request value, send without encoding");
-                        map.add(entry.getKey(), entry.getValue());
-                    }
-                });
+            if (body instanceof Map) {
+                MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+                if (body != null) {
+                    ((Map<String, ?>) body).entrySet().forEach((entry) -> {
+                        try {
+                            map.add(entry.getKey(), (entry.getValue() == null) ? null : URLEncoder.encode(entry.getValue().toString(), "UTF-8"));
+                        } catch (UnsupportedEncodingException ex) {
+                            log.warn("Unable to encode request value, send without encoding");
+                            map.add(entry.getKey(), entry.getValue());
+                        }
+                    });
+                }
+                request = new HttpEntity(map, headers);
+            } else {
+                request = new HttpEntity<>(body, headers);
             }
-            requestEntity = new HttpEntity(map, headers);
-            response = REST.exchange(url, method, requestEntity, String.class, new Object[0]);
+            response = REST.exchange(url, method, request, String.class, new Object[0]);
         }
         if (response.getStatusCode() == HttpStatus.OK) {
             return new HTTPResponse(response.getBody());

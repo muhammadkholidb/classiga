@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import ga.classi.commons.helper.ActionResult;
+import ga.classi.commons.utility.ActionResult;
 import ga.classi.commons.constant.CommonConstants;
 import ga.classi.commons.constant.StringConstants;
 import ga.classi.web.controller.base.BaseControllerAdapter;

@@ -15,7 +15,7 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import ga.classi.commons.data.helper.DTO;
+import ga.classi.commons.data.DTO;
 import ga.classi.data.entity.UserGroupEntity;
 
 /**

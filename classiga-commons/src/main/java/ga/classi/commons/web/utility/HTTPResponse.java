@@ -3,12 +3,12 @@
  * Licensed under the MIT License. See LICENSE file in the project root for full license information.
  * 
  */
-package ga.classi.commons.web.helper;
+package ga.classi.commons.web.utility;
 
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
-import ga.classi.commons.helper.ActionResult;
+import ga.classi.commons.utility.ActionResult;
 import ga.classi.commons.constant.CommonConstants;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,7 @@ public class HTTPResponse extends ActionResult {
             this.data = (JSONObject) json.get(CommonConstants.DATA);
             parseData();
         } catch (ParseException e) {
-            log.error("Error parsing HTTP response.", e); 
+            log.warn("Not a JSON formatted response, unable to parse"); 
         }
     }
 

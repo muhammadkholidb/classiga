@@ -13,7 +13,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Properties;
 
 import javax.annotation.PostConstruct;
@@ -33,12 +32,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import ga.classi.commons.helper.ActionResult;
+import ga.classi.commons.utility.ActionResult;
 import ga.classi.commons.constant.CommonConstants;
-import ga.classi.commons.helper.DefaultUser;
-import ga.classi.commons.helper.MessageHelper;
+import ga.classi.commons.utility.DefaultUser;
+import ga.classi.commons.utility.MessageHelper;
 import ga.classi.commons.constant.StringConstants;
-import ga.classi.commons.web.helper.JSON;
+import ga.classi.commons.web.utility.JSON;
 import ga.classi.web.helper.MenuLoader;
 import ga.classi.web.helper.SessionManager;
 import ga.classi.web.helper.UIHelper;
@@ -233,10 +232,9 @@ public abstract class AbstractBaseController implements IBaseController {
 
     @Override
     public ModelAndView redirect(String path, RedirectAttributes ra) {
-        Map<String, Object> defaultRequestAttributes = getDefaultRequestAttributes();
-        for (Entry<String, Object> entry : defaultRequestAttributes.entrySet()) {            
+        getDefaultRequestAttributes().entrySet().forEach((entry) -> {            
             ra.addFlashAttribute(entry.getKey(), entry.getValue());
-        }
+        });
         if ((path != null) && !path.startsWith("redirect:")) {
             return new ModelAndView("redirect:" + path);
         }
@@ -544,7 +542,7 @@ public abstract class AbstractBaseController implements IBaseController {
         if (templates != null && !templates.isEmpty()) {
             return templates;
         }
-        templates = new ArrayList<String>();
+        templates = new ArrayList<>();
         File[] files = new File(servletContext.getRealPath("/WEB-INF/templates/")).listFiles();
         for (File file : files) {
             if (file.isDirectory()) {
@@ -588,12 +586,10 @@ public abstract class AbstractBaseController implements IBaseController {
     public JSONArray getSystems() {
         log.debug("Get systems ...");
         JSONArray systems = SessionManager.get(SessionConstants.SYSTEMS);
-        log.debug("Systems from session: {}", systems);
         if (systems == null) {
             loadSystems();
             return SessionManager.get(SessionConstants.SYSTEMS);
         }
-        log.debug("Systems are not null");
         return systems;
     }
 
@@ -602,18 +598,15 @@ public abstract class AbstractBaseController implements IBaseController {
         log.debug("Get system: {}", key);
         JSONArray systems = getSystems();
         if (systems != null) {
-            log.debug("Systems from session is not null");
             for (Object object : systems) {
                 JSONObject json = (JSONObject) object;
                 String dataKey = (String) json.get("dataKey");
                 String dataValue = (String) json.get("dataValue");
                 if (dataKey.equals(key)) {
-                    log.debug("Found value for {}: {}", key, dataValue);
                     return dataValue;
                 }
             }
         }
-        log.debug("Systems are null");
         log.debug("Key '{}' not found.", key);
         return null;
     }

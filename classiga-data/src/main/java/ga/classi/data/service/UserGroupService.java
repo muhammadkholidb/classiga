@@ -21,10 +21,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ga.classi.commons.data.error.DataException;
 import ga.classi.commons.data.error.ExceptionCode;
-import ga.classi.commons.data.helper.DTO;
-import ga.classi.commons.data.helper.DTOUtils;
+import ga.classi.commons.data.DTO;
+import ga.classi.commons.data.utility.DTOUtils;
 import ga.classi.commons.constant.CommonConstants;
-import ga.classi.commons.helper.StringCheck;
+import ga.classi.commons.utility.StringCheck;
 import ga.classi.data.entity.MenuPermissionEntity;
 import ga.classi.data.entity.UserGroupEntity;
 import ga.classi.data.error.ErrorMessageConstants;

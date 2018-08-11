@@ -3,7 +3,7 @@
  * Licensed under the MIT License. See LICENSE file in the project root for full license information.
  * 
  */
-package ga.classi.commons.web.helper;
+package ga.classi.commons.web.utility;
 
 import java.io.File;
 import java.io.FileOutputStream;

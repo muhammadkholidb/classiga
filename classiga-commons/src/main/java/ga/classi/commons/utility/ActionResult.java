@@ -3,7 +3,7 @@
  * Licensed under the MIT License. See LICENSE file in the project root for full license information.
  * 
  */
-package ga.classi.commons.helper;
+package ga.classi.commons.utility;
 
 import ga.classi.commons.constant.CommonConstants;
 import java.util.Map;

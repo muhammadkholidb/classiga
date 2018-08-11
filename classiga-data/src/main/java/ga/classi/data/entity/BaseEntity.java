@@ -37,7 +37,8 @@ public abstract class BaseEntity {
     public static final String F_CREATE_TIME_MILLIS = "createTimeMillis";
     public static final String F_UPDATE_TIME_MILLIS = "updateTimeMillis";
     public static final String F_DELETED            = "deleted";
-    public static final String F_ROW_HASH           = "rowHash";
+    public static final String F_RH                 = "rh";
+    public static final String F_SRH                = "srh";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

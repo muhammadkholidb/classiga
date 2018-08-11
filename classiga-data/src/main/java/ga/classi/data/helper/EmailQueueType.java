@@ -10,8 +10,7 @@ import java.util.Map;
 
 public enum EmailQueueType {
 
-    USER_CREATED(1, "email.queue.type.subject.usercreated", "user-created"),
-    USER_UPDATED(2, "email.queue.type.subject.userupdated", "user-updated");
+    USER_CREATED(1, "email.queue.type.subject.usercreated", "user-created");
 
     private final Integer id;
     private final String code;

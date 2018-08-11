@@ -3,21 +3,21 @@
  * Licensed under the MIT License. See LICENSE file in the project root for full license information.
  * 
  */
-package ga.classi.data.helper;
+package ga.classi.commons.data.constant;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public enum EmailQueueStatus {
+public enum QueueStatus {
 
-    PENDING(1, "email.queue.status.pending"),
-    PROCESSING(2, "email.queue.status.processing"),
-    DONE(3, "email.queue.status.done");
+    PENDING(1, "queue.status.pending"),
+    PROCESSING(2, "queue.status.processing"),
+    DONE(3, "queue.status.done");
 
     private final Integer id;
     private final String code;
 
-    EmailQueueStatus(Integer id, String code) {
+    QueueStatus(Integer id, String code) {
         this.id = id;
         this.code = code;
     }
@@ -31,7 +31,7 @@ public enum EmailQueueStatus {
     }
     
     public static Integer[] ids() {
-        EmailQueueStatus[] values = values();
+        QueueStatus[] values = values();
         Integer[] ids = new Integer[values.length];
         for (int i = 0; i < values.length; i++) {
             ids[i] = values[i].id;
@@ -40,7 +40,7 @@ public enum EmailQueueStatus {
     }
     
     public static String[] codes() {
-        EmailQueueStatus[] values = values();
+        QueueStatus[] values = values();
         String[] codes = new String[values.length];
         for (int i = 0; i < values.length; i++) {
             codes[i] = values[i].code;
@@ -50,7 +50,7 @@ public enum EmailQueueStatus {
     
     @SuppressWarnings("unchecked")
     public static Map<String, Object>[] maps() {
-        EmailQueueStatus[] values = values();
+        QueueStatus[] values = values();
         Map<String, Object>[] maps = new Map[values.length];
         for (int i = 0; i < values.length; i++) {
             Map<String, Object> map = new HashMap<>();
@@ -61,8 +61,8 @@ public enum EmailQueueStatus {
         return maps;
     }
     
-    public static EmailQueueStatus byId(Integer id) {
-        for (EmailQueueStatus status : values()) {
+    public static QueueStatus byId(Integer id) {
+        for (QueueStatus status : values()) {
             if (status.id.equals(id)) {
                 return status;
             }

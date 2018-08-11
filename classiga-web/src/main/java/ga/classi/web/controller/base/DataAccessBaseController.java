@@ -16,10 +16,10 @@ import org.json.simple.JSONValue;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import ga.classi.commons.data.error.DataException;
-import ga.classi.commons.data.helper.DTO;
-import ga.classi.commons.helper.ActionResult;
+import ga.classi.commons.data.DTO;
+import ga.classi.commons.utility.ActionResult;
 import ga.classi.commons.constant.CommonConstants;
-import ga.classi.commons.helper.CommonUtils;
+import ga.classi.commons.utility.CommonUtils;
 import ga.classi.data.helper.DataImporter;
 import ga.classi.data.service.EmailQueueService;
 import ga.classi.data.service.SystemService;
@@ -276,6 +276,34 @@ public class DataAccessBaseController extends AbstractBaseController implements 
         try {
             DTO dto = emailQueueService.add(new DTO(parameters));
             return successActionResult(createMessage("success.emailqueue.add"), dto);
+        } catch (DataException e) {
+            log.error(CommonUtils.getExceptionMessage(e), e);
+            return failActionResult(createMessage(e.getMessage(), e.getData()));
+        } catch (Exception e) {
+            log.error(CommonUtils.getExceptionMessage(e), e);
+            return errorActionResult();
+        }
+    }
+
+    @Override
+    public ActionResult getEmailQueuesByStatus(Integer status) {
+        try {
+            DTO dto = emailQueueService.getAllByStatus(new DTO().put("status", status));
+            return successActionResult(dto);
+        } catch (DataException e) {
+            log.error(CommonUtils.getExceptionMessage(e), e);
+            return failActionResult(createMessage(e.getMessage(), e.getData()));
+        } catch (Exception e) {
+            log.error(CommonUtils.getExceptionMessage(e), e);
+            return errorActionResult();
+        }
+    }
+
+    @Override
+    public ActionResult editEmailQueue(Map<String, Object> parameters) {
+        try {
+            DTO dto = emailQueueService.edit(new DTO(parameters));
+            return successActionResult(createMessage("success.emailqueue.edit"), dto);
         } catch (DataException e) {
             log.error(CommonUtils.getExceptionMessage(e), e);
             return failActionResult(createMessage(e.getMessage(), e.getData()));

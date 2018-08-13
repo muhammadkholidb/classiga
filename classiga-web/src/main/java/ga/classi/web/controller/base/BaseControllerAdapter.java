@@ -1,3 +1,8 @@
+/*
+ * 
+ * Licensed under the MIT License. See LICENSE file in the project root for full license information.
+ * 
+ */
 package ga.classi.web.controller.base;
 
 import java.util.List;
@@ -21,8 +26,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import ga.classi.commons.helper.ActionResult;
-import ga.classi.commons.helper.MessageHelper;
+import ga.classi.commons.utility.ActionResult;
+import ga.classi.commons.utility.MessageHelper;
 
 public abstract class BaseControllerAdapter {
 
@@ -402,4 +407,18 @@ public abstract class BaseControllerAdapter {
         return baseController.getLoggedInUserGroup();
     }
 
+    // Adapter for IBaseControllerEmailQueue
+    
+    protected ActionResult addEmailQueue(Map<String, Object> parameters) {
+        return baseController.addEmailQueue(parameters);
+    }
+    
+    protected ActionResult getEmailQueuesByStatus(Integer status) {
+        return baseController.getEmailQueuesByStatus(status);
+    }
+    
+    protected ActionResult editEmailQueue(Map<String, Object> parameters) {
+        return baseController.editEmailQueue(parameters);
+    }
+    
 }

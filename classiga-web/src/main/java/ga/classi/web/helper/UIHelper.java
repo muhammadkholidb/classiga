@@ -1,10 +1,15 @@
+/*
+ * 
+ * Licensed under the MIT License. See LICENSE file in the project root for full license information.
+ * 
+ */
 package ga.classi.web.helper;
 
 import ga.classi.web.ui.Notify;
 
 /**
  *
- * @author eatonmunoz
+ * @author muhammad
  */
 public class UIHelper {
 

@@ -1,3 +1,8 @@
+/*
+ * 
+ * Licensed under the MIT License. See LICENSE file in the project root for full license information.
+ * 
+ */
 package ga.classi.commons.test.helper;
 
 import static org.junit.Assert.assertEquals;
@@ -7,7 +12,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ga.classi.commons.helper.PasswordUtils;
+import ga.classi.commons.utility.PasswordUtils;
 
 public class PasswordUtilsTest {
 

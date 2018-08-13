@@ -1,3 +1,8 @@
+/*
+ * 
+ * Licensed under the MIT License. See LICENSE file in the project root for full license information.
+ * 
+ */
 package ga.classi.web.helper;
 
 import java.io.File;
@@ -12,10 +17,11 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ga.classi.web.constant.MenuConstants;
 
 /**
  *
- * @author eatonmunoz
+ * @author muhammad
  */
 public class MenuLoader {
 
@@ -52,11 +58,11 @@ public class MenuLoader {
             
             for (Object object : flatMenus) {
                 JSONObject menu = (JSONObject) object;
-                String code = (String) menu.get(MenuKeyConstants.CODE);
-                String parentCode = (String) menu.get(MenuKeyConstants.PARENT_CODE);
+                String code = (String) menu.get(MenuConstants.CODE);
+                String parentCode = (String) menu.get(MenuConstants.PARENT_CODE);
                 JSONObject nestedMenu = (JSONObject) menu.clone();
                 if (parentCode == null || parentCode.isEmpty()) {
-                    nestedMenu.put(MenuKeyConstants.SUBMENUS, getChildren(flatMenus, code));
+                    nestedMenu.put(MenuConstants.SUBMENUS, getChildren(flatMenus, code));
                     nestedMenus.add(nestedMenu);
                     lastParentCode = code;
                 } else if (!parentCode.equals(lastParentCode)) {
@@ -76,7 +82,7 @@ public class MenuLoader {
         JSONArray children = new JSONArray();
         for (Object menu : menus) {
             JSONObject json = (JSONObject) menu;
-            if (parentCode.equals(json.get(MenuKeyConstants.PARENT_CODE))) {
+            if (parentCode.equals(json.get(MenuConstants.PARENT_CODE))) {
                 children.add(json);
             }
         }

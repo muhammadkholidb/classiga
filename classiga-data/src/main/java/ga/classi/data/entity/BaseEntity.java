@@ -1,3 +1,8 @@
+/*
+ * 
+ * Licensed under the MIT License. See LICENSE file in the project root for full license information.
+ * 
+ */
 package ga.classi.data.entity;
 
 import javax.persistence.Column;
@@ -14,16 +19,14 @@ import org.apache.commons.lang3.RandomStringUtils;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import ga.classi.commons.helper.CommonConstants;
-import lombok.Getter;
+import ga.classi.commons.constant.CommonConstants;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @NoArgsConstructor
-@Setter 
-@Getter 
+@Data
 @MappedSuperclass
 public abstract class BaseEntity {
 
@@ -34,15 +37,20 @@ public abstract class BaseEntity {
     public static final String F_CREATE_TIME_MILLIS = "createTimeMillis";
     public static final String F_UPDATE_TIME_MILLIS = "updateTimeMillis";
     public static final String F_DELETED            = "deleted";
-    public static final String F_ROW_HASH           = "rowHash";
+    public static final String F_RH                 = "rh";
+    public static final String F_SRH                = "srh";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "row_hash", length = 32, nullable = false, unique = true)
-    private String rowHash;
+    @JsonIgnore
+    @Column(name = "rh", length = 40, nullable = false, unique = true)
+    private String rh;
+    
+    @Column(name = "srh", length = 10, nullable = false, unique = true)
+    private String srh;
     
     @JsonIgnore
     @Version
@@ -77,18 +85,31 @@ public abstract class BaseEntity {
     
     protected abstract void setValuesOnUpdate();
     
-    // Inspired by git commit id / hash, row hash will use SHA1 and it will have short row hash 
-    // which is the "n first digits" of the actual row hash
+    protected abstract StringBuilder getHashElements();
+    
+    // Inspired by git commit id / hash, row hash (rh) uses SHA1 and it has short row hash (srh) which is the "n first characters" of the actual row hash
     // https://stackoverflow.com/questions/34764195/how-does-git-create-unique-commit-hashes-mainly-the-first-few-characters/34764586
     // https://stackoverflow.com/questions/18134627/how-much-of-a-git-sha-is-generally-considered-necessary-to-uniquely-identify-a
+    
+    private String getHash() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.id);
+        sb.append(this.version);
+        sb.append(this.createTimeMillis);
+        sb.append(this.updateTimeMillis);
+        sb.append(this.deleted);
+        sb.append(getHashElements());
+        sb.append(RandomStringUtils.random(32));    // RandomStringUtils.random() returns non letter characters such as: 锪椢獬ꃅ諔諔궏ꃅ뚱뇉여獬ﻄ蚹㙰ﻄ
+        return DigestUtils.sha1Hex(sb.toString());
+    }
     
     @PrePersist
     public void onCreate() {
         log.debug("Execute onCreate() ..."); 
         updateTimeMillis = createTimeMillis = System.currentTimeMillis();
         deleted = CommonConstants.NO;
-        // RandomStringUtils.random() returns non letter characters such as: 锪椢獬ꃅ諔諔궏ꃅ뚱뇉여獬ﻄ蚹㙰ﻄ
-        rowHash = DigestUtils.md5Hex(RandomStringUtils.random(32) + createTimeMillis); 
+        rh = getHash();
+        srh = rh.substring(0, 10);
         setValuesOnCreate();
     }
 
@@ -96,7 +117,8 @@ public abstract class BaseEntity {
     public void onUpdate() {
         log.debug("Execute onUpdate() ..."); 
         updateTimeMillis = System.currentTimeMillis();
-        rowHash = DigestUtils.md5Hex(RandomStringUtils.random(32) + updateTimeMillis);
+        rh = getHash();
+        srh = rh.substring(0, 10);
         setValuesOnUpdate();
     }
     

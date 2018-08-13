@@ -1,3 +1,8 @@
+/*
+ * 
+ * Licensed under the MIT License. See LICENSE file in the project root for full license information.
+ * 
+ */
 package ga.classi.web.controller;
 
 import java.util.ArrayList;
@@ -15,15 +20,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import ga.classi.commons.helper.ActionResult;
-import ga.classi.commons.helper.CommonConstants;
-import ga.classi.commons.helper.StringConstants;
+import ga.classi.commons.utility.ActionResult;
+import ga.classi.commons.constant.CommonConstants;
+import ga.classi.commons.constant.StringConstants;
 import ga.classi.web.controller.base.BaseControllerAdapter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
  *
- * @author eatonmunoz
+ * @author muhammad
  */
 @Slf4j
 @Controller

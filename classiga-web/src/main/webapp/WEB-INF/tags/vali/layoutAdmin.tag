@@ -129,6 +129,7 @@
                     <style>
                         .side-info {
                             margin-top: 20px;
+                            margin-bottom: 20px;
                         }
                         .side-info p {
                             padding: 10px;

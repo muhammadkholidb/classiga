@@ -1,32 +1,36 @@
+/*
+ * 
+ * Licensed under the MIT License. See LICENSE file in the project root for full license information.
+ * 
+ */
 package ga.classi.api.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import ga.classi.commons.data.helper.DTO;
-import ga.classi.commons.data.helper.DTOUtils;
-import ga.classi.commons.helper.CommonConstants;
-import ga.classi.commons.helper.StringConstants;
+import ga.classi.commons.data.DTO;
+import ga.classi.commons.data.utility.DTOUtils;
+import ga.classi.commons.constant.CommonConstants;
+import ga.classi.commons.constant.StringConstants;
 import ga.classi.data.service.UserService;
 import ga.classi.api.helper.ResponseObject;
 import java.io.UnsupportedEncodingException;
 import java.util.Collections;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 
+@Slf4j
 @RestController
 public class DefaultController extends BaseController {
 
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseObject login() throws UnsupportedEncodingException {
-        
         DTO dtoUser = userService.login(DTOUtils.fromServletRequest(request));
-
         return new ResponseObject(CommonConstants.SUCCESS, dtoUser);
     }
 

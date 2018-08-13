@@ -1,3 +1,8 @@
+/*
+ * 
+ * Licensed under the MIT License. See LICENSE file in the project root for full license information.
+ * 
+ */
 package ga.classi.data.error;
 
 public interface ErrorMessageConstants {
@@ -15,6 +20,8 @@ public interface ErrorMessageConstants {
     String INVALID_DATE                             = "error.commondata.validation.InvalidDate";
     String EMPTY_VALUE                              = "error.commondata.validation.EmptyValue";                
     String VALUES_NOT_EQUALS                        = "error.commondata.validation.ValuesNotEquals";
+
+    String INVALID_QUEUE_STATUS                     = "error.invalidqueuestatus";
 
     // User Group
     String CANT_REMOVE_USER_GROUP_CAUSE_USER_EXISTS = "error.commondata.CantRemoveUserGroupCauseUserExists";
@@ -36,4 +43,9 @@ public interface ErrorMessageConstants {
     // User Group Menu Permission
     String USER_GROUP_MENU_PERMISSION_NOT_FOUND     = "error.commondata.UserGroupMenuPermissionNotFound";
 
+    // Email queue
+    String EMPTY_TEMPLATE_AND_MESSAGE               = "error.emailqueue.emptytemplateandmessage";    
+    String EMAIL_QUEUE_NOT_FOUND                    = "error.emailqueue.notfound";
+
+    
 }

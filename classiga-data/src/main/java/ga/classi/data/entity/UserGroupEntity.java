@@ -1,3 +1,8 @@
+/*
+ * 
+ * Licensed under the MIT License. See LICENSE file in the project root for full license information.
+ * 
+ */
 package ga.classi.data.entity;
 
 
@@ -17,18 +22,17 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * 
- * @author eatonmunoz
+ * @author muhammad
  */
 @NoArgsConstructor
 @AllArgsConstructor
-@Setter 
-@Getter 
+@Data
 @Entity
 @Table(name = UserGroupEntity.TABLE_NAME, 
     indexes = {
@@ -81,6 +85,16 @@ public class UserGroupEntity extends BaseEntity implements Serializable {
     @Override
     protected void setValuesOnUpdate() {
         // Set values on update
+    }
+
+    @Override
+    protected StringBuilder getHashElements() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.name);
+        sb.append(this.lowerName);
+        sb.append(StringUtils.defaultString(this.description));
+        sb.append(this.active);
+        return sb;
     }
  
 }

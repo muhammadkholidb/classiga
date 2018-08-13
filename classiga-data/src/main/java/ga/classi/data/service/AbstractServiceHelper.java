@@ -1,3 +1,8 @@
+/*
+ * 
+ * Licensed under the MIT License. See LICENSE file in the project root for full license information.
+ * 
+ */
 package ga.classi.data.service;
 
 import java.util.List;
@@ -7,14 +12,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 
-import ga.classi.commons.data.helper.DTO;
-import ga.classi.commons.data.helper.DTOUtils;
-import ga.classi.commons.helper.CommonConstants;
+import ga.classi.commons.data.DTO;
+import ga.classi.commons.data.utility.DTOUtils;
+import ga.classi.commons.constant.CommonConstants;
 import ga.classi.data.entity.BaseEntity;
 
 /**
  * A parent class with a set of methods to make standard data services.
- * @author eatonmunoz
+ * @author muhammad
  */
 public abstract class AbstractServiceHelper {
 

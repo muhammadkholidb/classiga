@@ -1,11 +1,14 @@
+/*
+ * 
+ * Licensed under the MIT License. See LICENSE file in the project root for full license information.
+ * 
+ */
 package ga.classi.data.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.io.Serializable;
 
@@ -15,17 +18,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import lombok.Data;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 /**
  * 
- * @author eatonmunoz
+ * @author muhammad
  */
 @NoArgsConstructor
 @AllArgsConstructor
-@Setter 
-@Getter 
+@Data
 @Entity
 @Table(name = MenuPermissionEntity.TABLE_NAME, uniqueConstraints = @UniqueConstraint(columnNames = {"user_group_id", "menu_code"})) // Let hibernate give its constraint name
 @DynamicInsert
@@ -65,6 +68,16 @@ public class MenuPermissionEntity extends BaseEntity implements Serializable {
     @Override
     protected void setValuesOnUpdate() {
         // Set values on update
+    }
+
+    @Override
+    protected StringBuilder getHashElements() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.menuCode);
+        sb.append(this.canView);
+        sb.append(this.canModify);
+        sb.append(this.userGroup.getId());
+        return sb;
     }
     
 }

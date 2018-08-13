@@ -1,3 +1,8 @@
+/*
+ * 
+ * Licensed under the MIT License. See LICENSE file in the project root for full license information.
+ * 
+ */
 package ga.classi.data.specifications;
 
 import java.util.ArrayList;
@@ -10,12 +15,12 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import ga.classi.commons.data.helper.DTO;
+import ga.classi.commons.data.DTO;
 import ga.classi.data.entity.UserGroupEntity;
 
 /**
  *
- * @author eatonmunoz
+ * @author muhammad
  */
 public final class UserGroupSpecifications {
     

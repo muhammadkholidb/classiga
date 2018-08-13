@@ -1,6 +1,11 @@
+/*
+ * 
+ * Licensed under the MIT License. See LICENSE file in the project root for full license information.
+ * 
+ */
 package ga.classi.data.service;
 
-import ga.classi.commons.data.helper.DTO;
+import ga.classi.commons.data.DTO;
 
 public interface CommonServiceBase {
 

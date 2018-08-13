@@ -1,3 +1,8 @@
+/*
+ * 
+ * Licensed under the MIT License. See LICENSE file in the project root for full license information.
+ * 
+ */
 package ga.classi.web.controller;
 
 import java.io.IOException;
@@ -13,22 +18,22 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import ga.classi.commons.helper.ActionResult;
-import ga.classi.commons.helper.CommonConstants;
-import ga.classi.commons.helper.DefaultUser;
-import ga.classi.commons.helper.PasswordUtils;
-import ga.classi.commons.helper.StringConstants;
-import ga.classi.commons.web.helper.JSON;
+import ga.classi.commons.utility.ActionResult;
+import ga.classi.commons.constant.CommonConstants;
+import ga.classi.commons.utility.DefaultUser;
+import ga.classi.commons.utility.PasswordUtils;
+import ga.classi.commons.constant.StringConstants;
+import ga.classi.commons.web.utility.JSON;
 import ga.classi.web.controller.base.BaseControllerAdapter;
-import ga.classi.web.helper.ModelKeyConstants;
-import ga.classi.web.helper.SessionKeyConstants;
 import ga.classi.web.helper.SessionManager;
-import ga.classi.web.helper.URLParameterKeyContants;
 import lombok.extern.slf4j.Slf4j;
+import ga.classi.web.constant.ModelConstants;
+import ga.classi.web.constant.SessionConstants;
+import ga.classi.web.constant.URLParameterContants;
 
 /**
  *
- * @author eatonmunoz
+ * @author muhammad
  */
 @Slf4j
 @Controller
@@ -43,8 +48,8 @@ public class LoginController extends BaseControllerAdapter {
         log.debug("Login form ...");
 
         Map<String, Object> model = new HashMap<>();
-        model.put(ModelKeyConstants.USERNAME, username);
-        model.put(ModelKeyConstants.PASSWORD, password);
+        model.put(ModelConstants.USERNAME, username);
+        model.put(ModelConstants.PASSWORD, password);
         
         if (isPost()) {
 
@@ -77,14 +82,14 @@ public class LoginController extends BaseControllerAdapter {
                 JSONObject userGroup = (JSONObject) user.get("userGroup");
                 JSONArray menuPermissions = (JSONArray) userGroup.get("menuPermissions");
                 
-                SessionManager.set(SessionKeyConstants.USER, JSON.remove(user, "userGroup"));
-                SessionManager.set(SessionKeyConstants.USER_GROUP, JSON.remove(userGroup, "menuPermissions"));
-                SessionManager.set(SessionKeyConstants.MENU_PERMISSIONS, menuPermissions);
+                SessionManager.set(SessionConstants.USER, JSON.remove(user, "userGroup"));
+                SessionManager.set(SessionConstants.USER_GROUP, JSON.remove(userGroup, "menuPermissions"));
+                SessionManager.set(SessionConstants.MENU_PERMISSIONS, menuPermissions);
 
                 // Trigger menu loading
                 loadAllowedMenus();
                 
-                String redirect = httpServletRequest.getParameter(URLParameterKeyContants.REDIRECT);
+                String redirect = httpServletRequest.getParameter(URLParameterContants.REDIRECT);
 
                 if (redirect != null && !redirect.isEmpty()) {
                     return redirectAndNotifySuccess(URLDecoder.decode(redirect, "UTF-8"), messageHelper.getMessage("success.loginsuccessfully"));
@@ -135,7 +140,7 @@ public class LoginController extends BaseControllerAdapter {
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public ModelAndView logout() {
-        if (SessionManager.get(SessionKeyConstants.USER) != null) {
+        if (SessionManager.get(SessionConstants.USER) != null) {
             SessionManager.destroy();
             return redirectAndNotifySuccess("login", messageHelper.getMessage("success.logoutsuccessfully"));
         }

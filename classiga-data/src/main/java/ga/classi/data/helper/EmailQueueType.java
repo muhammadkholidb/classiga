@@ -1,3 +1,8 @@
+/*
+ * 
+ * Licensed under the MIT License. See LICENSE file in the project root for full license information.
+ * 
+ */
 package ga.classi.data.helper;
 
 import java.util.HashMap;
@@ -24,7 +29,11 @@ public enum EmailQueueType {
     public String code() {
         return this.code;
     }
-
+    
+    public String template() {
+        return this.template;
+    }
+    
     public static Integer[] ids() {
         EmailQueueType[] values = values();
         Integer[] ids = new Integer[values.length];

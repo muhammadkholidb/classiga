@@ -1,3 +1,8 @@
+/*
+ * 
+ * Licensed under the MIT License. See LICENSE file in the project root for full license information.
+ * 
+ */
 package ga.classi.data.repository;
 
 import ga.classi.data.entity.MenuPermissionEntity;
@@ -7,7 +12,7 @@ import org.springframework.stereotype.Repository;
 
 /**
  * Repository for MenuPermissionEntity.
- * @author eatonmunoz
+ * @author muhammad
  */
 @Repository
 public interface MenuPermissionRepository extends BaseDataRepository<MenuPermissionEntity, Long> {

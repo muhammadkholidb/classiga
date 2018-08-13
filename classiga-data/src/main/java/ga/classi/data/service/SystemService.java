@@ -1,3 +1,8 @@
+/*
+ * 
+ * Licensed under the MIT License. See LICENSE file in the project root for full license information.
+ * 
+ */
 package ga.classi.data.service;
 
 import java.util.ArrayList;
@@ -12,8 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ga.classi.commons.data.error.DataException;
 import ga.classi.commons.data.error.ExceptionCode;
-import ga.classi.commons.data.helper.DTO;
-import ga.classi.commons.data.helper.DTOUtils;
+import ga.classi.commons.data.DTO;
+import ga.classi.commons.data.utility.DTOUtils;
 import ga.classi.data.entity.SystemEntity;
 import ga.classi.data.error.ErrorMessageConstants;
 import ga.classi.data.helper.DataValidation;

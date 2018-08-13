@@ -1,3 +1,8 @@
+/*
+ * 
+ * Licensed under the MIT License. See LICENSE file in the project root for full license information.
+ * 
+ */
 package ga.classi.data.service;
 
 import static org.junit.Assert.assertEquals;
@@ -22,8 +27,8 @@ import com.github.springtestdbunit.annotation.DbUnitConfiguration;
 
 import ga.classi.commons.data.error.DataException;
 import ga.classi.commons.data.error.ExceptionCode;
-import ga.classi.commons.data.helper.DTO;
-import ga.classi.commons.helper.CommonConstants;
+import ga.classi.commons.data.DTO;
+import ga.classi.commons.constant.CommonConstants;
 import ga.classi.data.error.ErrorMessageConstants;
 import ga.classi.data.test.ReplacementFlatXmlDataSetLoader;
 import lombok.extern.slf4j.Slf4j;

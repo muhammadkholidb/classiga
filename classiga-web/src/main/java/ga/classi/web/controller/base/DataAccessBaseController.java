@@ -1,3 +1,8 @@
+/*
+ * 
+ * Licensed under the MIT License. See LICENSE file in the project root for full license information.
+ * 
+ */
 package ga.classi.web.controller.base;
 
 import java.io.InputStream;
@@ -11,25 +16,29 @@ import org.json.simple.JSONValue;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import ga.classi.commons.data.error.DataException;
-import ga.classi.commons.data.helper.DTO;
-import ga.classi.commons.helper.ActionResult;
-import ga.classi.commons.helper.CommonConstants;
-import ga.classi.commons.helper.CommonUtils;
+import ga.classi.commons.data.DTO;
+import ga.classi.commons.utility.ActionResult;
+import ga.classi.commons.constant.CommonConstants;
+import ga.classi.commons.utility.CommonUtils;
 import ga.classi.data.helper.DataImporter;
+import ga.classi.data.service.EmailQueueService;
 import ga.classi.data.service.SystemService;
 import ga.classi.data.service.UserGroupService;
 import ga.classi.data.service.UserService;
-import ga.classi.web.helper.SessionKeyConstants;
 import ga.classi.web.helper.SessionManager;
 import lombok.extern.slf4j.Slf4j;
+import ga.classi.web.constant.SessionConstants;
 
 /**
  * 
- * @author eatonmunoz
+ * @author muhammad
  */
 @Slf4j
 public class DataAccessBaseController extends AbstractBaseController implements IBaseController {
 
+    @Autowired
+    private EmailQueueService emailQueueService;
+    
     @Autowired
     private SystemService    systemService;
 
@@ -68,7 +77,7 @@ public class DataAccessBaseController extends AbstractBaseController implements 
                 dto = systemService.getAllSystem(new DTO());
             }
 
-            SessionManager.set(SessionKeyConstants.SYSTEMS,
+            SessionManager.set(SessionConstants.SYSTEMS,
                     (JSONArray) JSONValue.parse(JSONArray.toJSONString((List) dto.get(CommonConstants.CONTENT))));
             updateLocale(getSystem(CommonConstants.SYSTEM_KEY_LANGUAGE_CODE));
 
@@ -253,6 +262,48 @@ public class DataAccessBaseController extends AbstractBaseController implements 
         try {
             userGroupService.remove(new DTO(parameters));
             return successActionResult(createMessage("success.SuccessfullyRemoveUserGroup"), new HashMap<>());
+        } catch (DataException e) {
+            log.error(CommonUtils.getExceptionMessage(e), e);
+            return failActionResult(createMessage(e.getMessage(), e.getData()));
+        } catch (Exception e) {
+            log.error(CommonUtils.getExceptionMessage(e), e);
+            return errorActionResult();
+        }
+    }
+
+    @Override
+    public ActionResult addEmailQueue(Map<String, Object> parameters) {
+        try {
+            DTO dto = emailQueueService.add(new DTO(parameters));
+            return successActionResult(createMessage("success.emailqueue.add"), dto);
+        } catch (DataException e) {
+            log.error(CommonUtils.getExceptionMessage(e), e);
+            return failActionResult(createMessage(e.getMessage(), e.getData()));
+        } catch (Exception e) {
+            log.error(CommonUtils.getExceptionMessage(e), e);
+            return errorActionResult();
+        }
+    }
+
+    @Override
+    public ActionResult getEmailQueuesByStatus(Integer status) {
+        try {
+            DTO dto = emailQueueService.getAllByStatus(new DTO().put("status", status));
+            return successActionResult(dto);
+        } catch (DataException e) {
+            log.error(CommonUtils.getExceptionMessage(e), e);
+            return failActionResult(createMessage(e.getMessage(), e.getData()));
+        } catch (Exception e) {
+            log.error(CommonUtils.getExceptionMessage(e), e);
+            return errorActionResult();
+        }
+    }
+
+    @Override
+    public ActionResult editEmailQueue(Map<String, Object> parameters) {
+        try {
+            DTO dto = emailQueueService.edit(new DTO(parameters));
+            return successActionResult(createMessage("success.emailqueue.edit"), dto);
         } catch (DataException e) {
             log.error(CommonUtils.getExceptionMessage(e), e);
             return failActionResult(createMessage(e.getMessage(), e.getData()));

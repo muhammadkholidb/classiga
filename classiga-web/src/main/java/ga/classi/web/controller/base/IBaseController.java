@@ -1,3 +1,8 @@
+/*
+ * 
+ * Licensed under the MIT License. See LICENSE file in the project root for full license information.
+ * 
+ */
 package ga.classi.web.controller.base;
 
 import java.util.List;
@@ -8,13 +13,13 @@ import org.json.simple.JSONArray;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import ga.classi.commons.helper.ActionResult;
+import ga.classi.commons.utility.ActionResult;
 
 /**
  *
- * @author eatonmunoz
+ * @author muhammad
  */
-public interface IBaseController extends IBaseControllerSystem, IBaseControllerUser, IBaseControllerUserGroup {
+public interface IBaseController extends IBaseControllerSystem, IBaseControllerUser, IBaseControllerUserGroup, IBaseControllerEmailQueue {
 
     // Package private access
 

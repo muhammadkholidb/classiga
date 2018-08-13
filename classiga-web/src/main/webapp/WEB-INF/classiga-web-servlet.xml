@@ -1,10 +1,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-    xmlns:mvc="http://www.springframework.org/schema/mvc"
-    xmlns:context="http://www.springframework.org/schema/context"
-    xmlns:task="http://www.springframework.org/schema/task"
-    xmlns:util="http://www.springframework.org/schema/util"
-    xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
@@ -35,7 +35,7 @@
         </property>
     </bean>
 
-    <bean id="messageHelper" class="ga.classi.commons.helper.MessageHelper">
+    <bean id="messageHelper" class="ga.classi.commons.utility.MessageHelper">
         <property name="messageSource" ref="messageSource" />
         <property name="defaultLocale" value="en" />
     </bean>
@@ -68,6 +68,7 @@
             <mvc:exclude-mapping path="/avatar/**" />
             <mvc:exclude-mapping path="/logout" />
             <mvc:exclude-mapping path="/error" />
+            <mvc:exclude-mapping path="/generate-html" />
             <bean class="ga.classi.web.interceptor.LoginInterceptor" />
         </mvc:interceptor>
 
@@ -80,6 +81,7 @@
             <mvc:exclude-mapping path="/error" />
             <mvc:exclude-mapping path="/user/change-password" />
             <mvc:exclude-mapping path="/user/edit-profile" />
+            <mvc:exclude-mapping path="/generate-html" />
             <bean class="ga.classi.web.interceptor.PagePermissionInterceptor" />
         </mvc:interceptor>
 
@@ -92,19 +94,19 @@
     <!-- https://crunchify.com/spring-mvc-4-1-x-simple-way-to-send-an-email-using-org-springframework-mail-javamail-javamailsenderimpl/ -->
     <!-- Production implementation of the JavaMailSender interface, supporting both JavaMail MimeMessages and Spring SimpleMailMessages -->
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-        <property name="host" value="smtp.gmail.com" />
-        <property name="port" value="587" />
-        <property name="username" value="nasigorengbiru@gmail.com" />
-		<property name="password" value="nasigorengbiru!@#" />
+        <property name="host" value="${mail.smtp.host}" />
+        <property name="port" value="${mail.smtp.port}" />
+        <property name="username" value="${mail.username}" />
+        <property name="password" value="${mail.password}" />
 
-		<!-- https://docs.oracle.com/javaee/6/api/javax/mail/package-summary.html -->
+        <!-- https://docs.oracle.com/javaee/6/api/javax/mail/package-summary.html -->
         <!-- https://javaee.github.io/javamail/docs/api/com/sun/mail/smtp/package-summary.html -->
-		<property name="javaMailProperties">
+        <property name="javaMailProperties">
             <props>
-                <prop key="mail.debug">true</prop>
+                <prop key="mail.debug">${mail.debug}</prop>
                 <prop key="mail.transport.protocol">smtp</prop>
                 <prop key="mail.smtp.auth">true</prop>
-                <prop key="mail.smtp.starttls.enable">true</prop>
+                <prop key="mail.smtp.starttls.enable">${mail.smtp.starttls.enable}</prop>
             </props>
         </property>
     </bean>

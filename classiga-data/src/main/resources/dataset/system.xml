@@ -2,14 +2,14 @@
 <dataset>
     <t_system data_key='languageCode' data_value='id'
         create_time_millis="{currentMillis}" update_time_millis="{currentMillis}"
-        deleted="n" version="0" row_hash="1" />
+        deleted="n" version="0" rh="1" srh="1" />
     <t_system data_key='templateCode' data_value='vali'
         create_time_millis="{currentMillis}" update_time_millis="{currentMillis}"
-        deleted="n" version="0" row_hash="2" />
+        deleted="n" version="0" rh="2" srh="2" />
     <t_system data_key='image' data_value='sample-logo.png'
         create_time_millis="{currentMillis}" update_time_millis="{currentMillis}"
-        deleted="n" version="0" row_hash="3" />
+        deleted="n" version="0" rh="3" srh="3" />
     <t_system data_key='online' data_value='n'
         create_time_millis="{currentMillis}" update_time_millis="{currentMillis}"
-        deleted="n" version="0" row_hash="4" />
+        deleted="n" version="0" rh="4" srh="4" />
 </dataset>

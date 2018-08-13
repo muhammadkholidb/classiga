@@ -1,3 +1,8 @@
+/*
+ * 
+ * Licensed under the MIT License. See LICENSE file in the project root for full license information.
+ * 
+ */
 package ga.classi.web.controller;
 
 import java.io.UnsupportedEncodingException;
@@ -20,28 +25,78 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import ga.classi.commons.helper.ActionResult;
-import ga.classi.commons.helper.CommonConstants;
-import ga.classi.commons.helper.CommonUtils;
-import ga.classi.commons.helper.DefaultUser;
-import ga.classi.commons.helper.StringConstants;
-import ga.classi.commons.web.helper.MultipartFileUtils;
+import ga.classi.commons.utility.ActionResult;
+import ga.classi.commons.constant.CommonConstants;
+import ga.classi.commons.utility.CommonUtils;
+import ga.classi.commons.utility.DefaultUser;
+import ga.classi.commons.constant.StringConstants;
+import ga.classi.commons.web.utility.MultipartFileUtils;
+import ga.classi.commons.data.constant.QueueStatus;
+import ga.classi.commons.web.utility.JSON;
+import ga.classi.data.helper.EmailQueueType;
 import ga.classi.web.controller.base.BaseControllerAdapter;
-import ga.classi.web.helper.ModelKeyConstants;
-import ga.classi.web.helper.SessionKeyConstants;
 import ga.classi.web.helper.SessionManager;
 import ga.classi.web.helper.UIHelper;
 import ga.classi.web.ui.Notify;
 import lombok.extern.slf4j.Slf4j;
+import ga.classi.web.constant.ModelConstants;
+import ga.classi.web.constant.SessionConstants;
+import java.util.concurrent.CompletableFuture;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- *
- * @author eatonmunoz
+ * 
+ * @author muhammad
  */
 @Slf4j
 @Controller
 public class UserController extends BaseControllerAdapter {
 
+    private static final String[] SORT_COLUMN_NAME_BY_NUMBER = new String[] {
+            "fullName", 
+            "fullName", 
+            "username", 
+            "email", 
+            "active", 
+            "userGroup.lowerName", 
+            "fullName"}; 
+    
+    @SuppressWarnings("unchecked")
+    @GetMapping(value = "/settings/user/list", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public JSONObject getUsers() {
+
+        log.info("Get users ...");
+        
+        JSONObject params = new JSONObject();
+        params.put("start", httpServletRequest.getParameter("start").trim());
+        params.put("length", httpServletRequest.getParameter("length").trim());
+        params.put("searchTerm", httpServletRequest.getParameter("searchTerm"));
+        params.put("sortOrder", httpServletRequest.getParameter("sortOrder").trim());
+        params.put("sortColumn", getSortColumnName(httpServletRequest.getParameter("sortColumnIndex").trim()));
+        
+        ActionResult result = listUser(params);
+
+        JSONObject json = new JSONObject();
+        
+        if (CommonConstants.SUCCESS.equals(result.getStatus())) {
+            json.put("recordsFiltered", result.getTotalRows());
+            json.put("data", (JSONArray) result.getContent());
+        } else {
+            json.put("recordsFiltered", 0);
+            json.put("data", new JSONArray());
+            json.put("error", result.getMessage());
+        }
+        
+        return json;
+    }
+
+    private String getSortColumnName(String columnIndex) {
+        Integer index = Integer.valueOf(columnIndex);
+        return SORT_COLUMN_NAME_BY_NUMBER[index];
+    }
+    
     @GetMapping(value = "/settings/user")
     public ModelAndView index() {
         log.info("Index ...");
@@ -49,7 +104,7 @@ public class UserController extends BaseControllerAdapter {
     }
 
     private JSONArray getUserGroups() {
-        log.info("Get user groups ..."); 
+        log.info("Get user groups ...");
         ActionResult result = listUserGroup(null);
         if (result != null && CommonConstants.SUCCESS.equals(result.getStatus())) {
             return (JSONArray) result.getContent();
@@ -67,14 +122,11 @@ public class UserController extends BaseControllerAdapter {
             @RequestParam(name = "userGroupId", required = true, defaultValue = StringConstants.EMPTY) String userGroupId) {
 
         Map<String, Object> model = new HashMap<>();
-        model.put(ModelKeyConstants.FULL_NAME, fullName);
-        model.put(ModelKeyConstants.USERNAME, username);
-        model.put(ModelKeyConstants.EMAIL, email);
-        model.put(ModelKeyConstants.PASSWORD, password);
-        model.put(ModelKeyConstants.USER_GROUP_ID, userGroupId);
-
-        JSONArray userGroups = getUserGroups();
-        model.put(ModelKeyConstants.USER_GROUPS, userGroups);
+        model.put(ModelConstants.FULL_NAME, fullName);
+        model.put(ModelConstants.USERNAME, username);
+        model.put(ModelConstants.EMAIL, email);
+        model.put(ModelConstants.PASSWORD, password);
+        model.put(ModelConstants.USER_GROUP_ID, userGroupId);
 
         if (isPost()) {
 
@@ -84,7 +136,7 @@ public class UserController extends BaseControllerAdapter {
                     return viewAndNotifyError("user/form-add", model, messageHelper.getMessage("error.usernamenotallowed"));
                 }
             }
-            
+
             JSONObject jsonUser = new JSONObject();
             jsonUser.put("fullName", fullName.trim());
             jsonUser.put("username", username.trim());
@@ -94,19 +146,50 @@ public class UserController extends BaseControllerAdapter {
             jsonUser.put("userGroupId", userGroupId);
 
             ActionResult result = addUser(jsonUser);
-            
+
             if (CommonConstants.SUCCESS.equals(result.getStatus())) {
+                JSONObject user = (JSONObject) result.getContent();
+                Map<String, Object> data = new HashMap<>();
+                data.put("fullName", user.get("fullName"));
+                data.put("password", password.trim());
+                data.put("loginEmail", user.get("email"));
+                data.put("loginUsername", user.get("username"));
+                data.put("appName", getApplicationName());
+                prepareToSendEmail(EmailQueueType.USER_CREATED, (String) user.get("email"), data, 
+                        getSystem(CommonConstants.SYSTEM_KEY_TEMPLATE_CODE), 
+                        getSystem(CommonConstants.SYSTEM_KEY_LANGUAGE_CODE));
                 return redirectAndNotifySuccess("/settings/user", result.getMessage());
             } else {    // Fail or error
                 return viewAndNotifyError("user/form-add", model, result.getMessage());
             }
         }
 
+        JSONArray userGroups = getUserGroups();
+        model.put(ModelConstants.USER_GROUPS, userGroups);
+
         if (userGroups == null || userGroups.isEmpty()) {
             return viewAndNotifyWarning("user/form-add", model, messageHelper.getMessage("warn.emptyusergroups"));
         }
 
         return view("user/form-add", model);
+    }
+
+    private void prepareToSendEmail(EmailQueueType type, String to, Map<String, Object> data, String templateCode, String languageCode) {
+        CompletableFuture.runAsync(() -> {
+            log.debug("Prepare to send email to: {}", to); 
+            String subject = messageHelper.getMessage(type.code());
+            Map<String, Object> params = new HashMap<>();
+            params.put("subject", subject);
+            params.put("to", to);
+            params.put("status", QueueStatus.PENDING.id());
+            params.put("data", JSON.stringify(data));
+            params.put("template", templateCode  + "/email/"  + languageCode + "/"  + type.template());
+            ActionResult result = addEmailQueue(params);
+            log.debug("Status: {}", result.getStatus());
+        }).exceptionally((ex) -> {
+            log.error("Error prepare to send email", ex);
+            return null; 
+        });
     }
 
     @SuppressWarnings("unchecked")
@@ -130,7 +213,7 @@ public class UserController extends BaseControllerAdapter {
         paramsFind.put("id", userId);
 
         ActionResult resultFind = findUser(paramsFind);
-        
+
         if (CommonConstants.SUCCESS.equals(resultFind.getStatus())) {
             user = (JSONObject) resultFind.getContent();
         } else {    // Fail or error
@@ -142,14 +225,14 @@ public class UserController extends BaseControllerAdapter {
         if (isPost()) {
 
             Map<String, Object> model = new HashMap<>();
-            model.put(ModelKeyConstants.FULL_NAME, fullName);
-            model.put(ModelKeyConstants.USERNAME, username);
-            model.put(ModelKeyConstants.EMAIL, email);
-            model.put(ModelKeyConstants.PASSWORD, password);
-            model.put(ModelKeyConstants.USER_GROUP_ID, userGroupId);
-            model.put(ModelKeyConstants.ACTIVE, active);
-            model.put(ModelKeyConstants.USER_ID, userId);
-            model.put(ModelKeyConstants.USER_GROUPS, userGroups);
+            model.put(ModelConstants.FULL_NAME, fullName);
+            model.put(ModelConstants.USERNAME, username);
+            model.put(ModelConstants.EMAIL, email);
+            model.put(ModelConstants.PASSWORD, password);
+            model.put(ModelConstants.USER_GROUP_ID, userGroupId);
+            model.put(ModelConstants.ACTIVE, active);
+            model.put(ModelConstants.USER_ID, userId);
+            model.put(ModelConstants.USER_GROUPS, userGroups);
 
             // Check if submitted username and email equal to default user's username
             for (Object key : usersProperties.keySet()) {
@@ -168,7 +251,7 @@ public class UserController extends BaseControllerAdapter {
             jsonUser.put("id", userId);
 
             ActionResult result = editUser(jsonUser);
-            
+
             if (CommonConstants.SUCCESS.equals(result.getStatus())) {
                 JSONObject loggedInUser = getLoggedInUser();
                 Map<String, Object> flash = new HashMap<>();
@@ -185,16 +268,16 @@ public class UserController extends BaseControllerAdapter {
         }
 
         JSONObject userGroup = (JSONObject) user.get("userGroup");
-        
+
         Map<String, Object> model = new HashMap<>();
-        model.put(ModelKeyConstants.FULL_NAME, user.get("fullName"));
-        model.put(ModelKeyConstants.USERNAME, user.get("username"));
-        model.put(ModelKeyConstants.EMAIL, user.get("email"));
-        model.put(ModelKeyConstants.PASSWORD, password);
-        model.put(ModelKeyConstants.USER_GROUP_ID, userGroup.get("id"));
-        model.put(ModelKeyConstants.ACTIVE, user.get("active"));
-        model.put(ModelKeyConstants.USER_ID, user.get("id"));
-        model.put(ModelKeyConstants.USER_GROUPS, userGroups);
+        model.put(ModelConstants.FULL_NAME, user.get("fullName"));
+        model.put(ModelConstants.USERNAME, user.get("username"));
+        model.put(ModelConstants.EMAIL, user.get("email"));
+        model.put(ModelConstants.PASSWORD, password);
+        model.put(ModelConstants.USER_GROUP_ID, userGroup.get("id"));
+        model.put(ModelConstants.ACTIVE, user.get("active"));
+        model.put(ModelConstants.USER_ID, user.get("id"));
+        model.put(ModelConstants.USER_GROUPS, userGroups);
 
         if (userGroups == null || userGroups.isEmpty()) {
             return viewAndNotifyWarning("user/form-edit", model, messageHelper.getMessage("warn.emptyusergroups"));
@@ -210,21 +293,21 @@ public class UserController extends BaseControllerAdapter {
         if (selected == null || selected.length == 0) {
             return redirect("/settings/user");
         }
-        
+
         JSONObject loggedInUser = getLoggedInUser();
-        
+
         for (String strId : selected) {
             String loggedInUserId = loggedInUser.get("id").toString();
             if (loggedInUserId.equals(strId)) {
                 return redirectAndNotifyError("/settings/user", messageHelper.getMessage("error.cannotremovecurrenlyloginuser"));
             }
         }
-        
+
         JSONObject params = new JSONObject();
         params.put("id", Arrays.toString(selected));
 
         ActionResult result = removeUser(params);
-        
+
         if (CommonConstants.SUCCESS.equals(result.getStatus())) {
 
             return redirectAndNotifySuccess("/settings/user", result.getMessage());
@@ -245,10 +328,10 @@ public class UserController extends BaseControllerAdapter {
             log.warn("Change password is not supported for default user, redirect ...");
             return redirect(getDefaultRedirect());
         }
-        
+
         return view("user/change-password", modelMap);
     }
-    
+
     @PostMapping(value = "/user/change-password")
     public ModelAndView changePassword(
             @RequestParam(name = "oldPassword", required = false) String oldPassword,
@@ -263,42 +346,42 @@ public class UserController extends BaseControllerAdapter {
             log.warn("Change password is not supported for default user, redirect ...");
             return redirect(getDefaultRedirect());
         }
-        
+
         ActionResult result = changePassword(CommonUtils.map(
-                "oldPassword", oldPassword, 
-                "newPassword", newPassword, 
-                "newPasswordConfirm", newPassword, 
+                "oldPassword", oldPassword,
+                "newPassword", newPassword,
+                "newPasswordConfirm", newPassword,
                 "id", user.get("id")));
-        
+
         if (result.isSuccess()) {
             ra.addFlashAttribute("logout", true);
-            ra.addFlashAttribute(ModelKeyConstants.NOTIFY, UIHelper.createSuccessNotification(result.getMessage()));
+            ra.addFlashAttribute(ModelConstants.NOTIFY, UIHelper.createSuccessNotification(result.getMessage()));
             return redirect("/user/change-password", ra);
         }
-        
+
         ra.addFlashAttribute("oldPassword", oldPassword);
         ra.addFlashAttribute("newPassword", newPassword);
         ra.addFlashAttribute("newPasswordConfirm", newPasswordConfirm);
-        ra.addFlashAttribute(ModelKeyConstants.NOTIFY, UIHelper.createErrorNotification(result.getMessage()));
-        
+        ra.addFlashAttribute(ModelConstants.NOTIFY, UIHelper.createErrorNotification(result.getMessage()));
+
         return redirect("/user/change-password", ra);
     }
 
     @GetMapping("/user/edit-profile")
     public ModelAndView editProfile(ModelMap modelMap) {
         log.info("Edit profile page ...");
-        
+
         JSONObject user = getLoggedInUser();
 
         if ((user != null) && DefaultUser.USER_ID.equals(user.get("id"))) {
             log.warn("Edit profile is not supported for default user, redirect ...");
             return redirect(getDefaultRedirect());
         }
-        
+
         if ((user != null) && modelMap.isEmpty()) {
             modelMap.put("fullName", user.get("fullName"));
             modelMap.put("username", user.get("username"));
-            modelMap.put("email", user.get("email"));       
+            modelMap.put("email", user.get("email"));
         }
         return view("user/edit-profile", modelMap);
     }
@@ -309,7 +392,7 @@ public class UserController extends BaseControllerAdapter {
             @RequestParam(name = "fullName", required = true, defaultValue = StringConstants.EMPTY) String fullName,
             @RequestParam(name = "username", required = true, defaultValue = StringConstants.EMPTY) String username,
             @RequestParam(name = "email", required = true, defaultValue = StringConstants.EMPTY) String email,
-            @RequestParam(name = "avatar", required = true, defaultValue = StringConstants.EMPTY) MultipartFile avatar, 
+            @RequestParam(name = "avatar", required = true, defaultValue = StringConstants.EMPTY) MultipartFile avatar,
             RedirectAttributes ra) throws UnsupportedEncodingException {
 
         log.info("Submit edit profile ...");
@@ -325,7 +408,7 @@ public class UserController extends BaseControllerAdapter {
         ra.addFlashAttribute("fullName", fullName);
         ra.addFlashAttribute("username", username);
         ra.addFlashAttribute("email", email);
-        
+
         // Check if submitted username and email equal to default user's username
         for (Object key : usersProperties.keySet()) {
             if (username.equalsIgnoreCase(key.toString()) || email.equalsIgnoreCase(key.toString())) {
@@ -337,9 +420,9 @@ public class UserController extends BaseControllerAdapter {
         String avatarName = System.currentTimeMillis() + StringConstants.UNDERSCORE + RandomStringUtils.randomAlphanumeric(16).toUpperCase() + MultipartFileUtils.getFileExtension(avatar);
         int uploadSize = MultipartFileUtils.upload(avatar, applicationProperties.getProperty("directory.path.images") + "/avatar", avatarName);
         boolean isUploadSuccess = uploadSize > 0;
-        
-        log.debug("Upload success: {}", isUploadSuccess); 
-        
+
+        log.debug("Upload success: {}", isUploadSuccess);
+
         Map<String, Object> params = new HashMap<>();
         params.put("fullName", fullName.trim());
         params.put("username", username.trim());
@@ -351,20 +434,20 @@ public class UserController extends BaseControllerAdapter {
         params.put("id", user.get("id"));
 
         log.debug("Params: {}", params);
-        
-        ActionResult result = editUser(params);        
-        
+
+        ActionResult result = editUser(params);
+
         if (result.isSuccess()) {
             user.put("avatar", isUploadSuccess ? avatarName : user.get("avatar"));
             user.put("fullName", fullName);
             user.put("username", username);
             user.put("email", email);
-            SessionManager.set(SessionKeyConstants.USER, user);
+            SessionManager.set(SessionConstants.USER, user);
             String messageCode = "success.editprofile" + (isUploadSuccess ? "" : ".withoutavatar");
             return redirectAndNotifySuccess("/user/edit-profile", ra, messageHelper.getMessage(messageCode));
         }
-        
+
         return redirectAndNotifyError("/user/edit-profile", ra, result.getMessage());
     }
-    
+
 }

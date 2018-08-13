@@ -1,3 +1,8 @@
+/*
+ * 
+ * Licensed under the MIT License. See LICENSE file in the project root for full license information.
+ * 
+ */
 package ga.classi.web.controller;
 
 import java.net.URLDecoder;
@@ -19,25 +24,69 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import ga.classi.commons.helper.ActionResult;
-import ga.classi.commons.helper.CommonConstants;
-import ga.classi.commons.helper.StringConstants;
-import ga.classi.commons.web.helper.JSON;
+import ga.classi.commons.utility.ActionResult;
+import ga.classi.commons.constant.CommonConstants;
+import ga.classi.commons.constant.StringConstants;
+import ga.classi.commons.web.utility.JSON;
 import ga.classi.web.controller.base.BaseControllerAdapter;
-import ga.classi.web.helper.ModelKeyConstants;
 import ga.classi.web.ui.Notify;
 import java.io.UnsupportedEncodingException;
 import lombok.extern.slf4j.Slf4j;
+import ga.classi.web.constant.ModelConstants;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
 /**
  *
- * @author eatonmunoz
+ * @author muhammad
  */
 @Slf4j
 @Controller
 public class UserGroupController extends BaseControllerAdapter {
 
+    private static final String[] SORT_COLUMN_NAME_BY_NUMBER = new String[] {
+            "name", 
+            "name", 
+            "description", 
+            "active", 
+            "name"}; 
+    
+    @SuppressWarnings("unchecked")
+    @GetMapping(value = "/settings/user-group/list", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public JSONObject getUserGroups() {
+
+        log.info("Get user groups ...");
+        
+        JSONObject params = new JSONObject();
+        params.put("start", httpServletRequest.getParameter("start").trim());
+        params.put("length", httpServletRequest.getParameter("length").trim());
+        params.put("searchTerm", httpServletRequest.getParameter("searchTerm"));
+        params.put("sortOrder", httpServletRequest.getParameter("sortOrder").trim());
+        params.put("sortColumn", getSortColumnName(httpServletRequest.getParameter("sortColumnIndex").trim()));
+        
+        ActionResult response = listUserGroup(params);
+
+        JSONObject json = new JSONObject();
+        
+        if (CommonConstants.SUCCESS.equals(response.getStatus())) {
+            json.put("recordsFiltered", response.getTotalRows());
+            json.put("data", (JSONArray) response.getContent());
+        } else {
+            json.put("recordsFiltered", 0);
+            json.put("data", new JSONArray());
+            json.put("error", response.getMessage());
+        }
+        
+        return json;
+    }
+
+    private String getSortColumnName(String columnIndex) {
+        Integer index = Integer.valueOf(columnIndex);
+        return SORT_COLUMN_NAME_BY_NUMBER[index];
+    }
+    
     @GetMapping(value = "/settings/user-group")
     public ModelAndView index() {
         log.info("Index ...");
@@ -111,9 +160,9 @@ public class UserGroupController extends BaseControllerAdapter {
         List<JSONObject> menus = loadCheckedMenuPermissions((JSONArray) JSONValue.parse(decodedMenuPermissions), null);            
         
         Map<String, Object> model = new HashMap<>();
-        model.put(ModelKeyConstants.NAME, name);
-        model.put(ModelKeyConstants.DESCRIPTION, description);
-        model.put(ModelKeyConstants.MENU_PERMISSIONS, menus);
+        model.put(ModelConstants.NAME, name);
+        model.put(ModelConstants.DESCRIPTION, description);
+        model.put(ModelConstants.MENU_PERMISSIONS, menus);
 
         if (errorMessage != null) {
             return viewAndNotifyError("user-group/form-add", model, errorMessage);
@@ -182,21 +231,21 @@ public class UserGroupController extends BaseControllerAdapter {
         if (errorMessage != null) {
             
             Map<String, Object> model = new HashMap<>();
-            model.put(ModelKeyConstants.USER_GROUP_ID, userGroupId);
-            model.put(ModelKeyConstants.NAME, name);
-            model.put(ModelKeyConstants.DESCRIPTION, description);
-            model.put(ModelKeyConstants.MENU_PERMISSIONS, menus);
-            model.put(ModelKeyConstants.ACTIVE, active);
+            model.put(ModelConstants.USER_GROUP_ID, userGroupId);
+            model.put(ModelConstants.NAME, name);
+            model.put(ModelConstants.DESCRIPTION, description);
+            model.put(ModelConstants.MENU_PERMISSIONS, menus);
+            model.put(ModelConstants.ACTIVE, active);
 
             return viewAndNotifyError("user-group/form-edit", model, errorMessage);
         }
 
         Map<String, Object> model = new HashMap<>();
-        model.put(ModelKeyConstants.USER_GROUP_ID, userGroup.get("id"));
-        model.put(ModelKeyConstants.NAME, userGroup.get("name"));
-        model.put(ModelKeyConstants.DESCRIPTION, userGroup.get("description"));
-        model.put(ModelKeyConstants.MENU_PERMISSIONS, menus);
-        model.put(ModelKeyConstants.ACTIVE, userGroup.get("active"));
+        model.put(ModelConstants.USER_GROUP_ID, userGroup.get("id"));
+        model.put(ModelConstants.NAME, userGroup.get("name"));
+        model.put(ModelConstants.DESCRIPTION, userGroup.get("description"));
+        model.put(ModelConstants.MENU_PERMISSIONS, menus);
+        model.put(ModelConstants.ACTIVE, userGroup.get("active"));
 
         return view("user-group/form-edit", model);
     }

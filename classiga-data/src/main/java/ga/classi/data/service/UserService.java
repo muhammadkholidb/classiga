@@ -1,3 +1,8 @@
+/*
+ * 
+ * Licensed under the MIT License. See LICENSE file in the project root for full license information.
+ * 
+ */
 package ga.classi.data.service;
 
 import java.util.ArrayList;
@@ -16,11 +21,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ga.classi.commons.data.error.DataException;
 import ga.classi.commons.data.error.ExceptionCode;
-import ga.classi.commons.data.helper.DTO;
-import ga.classi.commons.data.helper.DTOUtils;
-import ga.classi.commons.helper.CommonConstants;
-import ga.classi.commons.helper.PasswordUtils;
-import ga.classi.commons.helper.StringCheck;
+import ga.classi.commons.data.DTO;
+import ga.classi.commons.data.utility.DTOUtils;
+import ga.classi.commons.constant.CommonConstants;
+import ga.classi.commons.utility.PasswordUtils;
+import ga.classi.commons.utility.StringCheck;
 import ga.classi.data.entity.UserEntity;
 import ga.classi.data.entity.UserGroupEntity;
 import ga.classi.data.error.ErrorMessageConstants;

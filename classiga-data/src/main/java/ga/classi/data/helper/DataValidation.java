@@ -1,3 +1,8 @@
+/*
+ * 
+ * Licensed under the MIT License. See LICENSE file in the project root for full license information.
+ * 
+ */
 package ga.classi.data.helper;
 
 import java.util.List;
@@ -5,13 +10,13 @@ import java.util.Map;
 
 import ga.classi.commons.data.error.DataException;
 import ga.classi.commons.data.error.ExceptionCode;
-import ga.classi.commons.helper.StringCheck;
+import ga.classi.commons.utility.StringCheck;
 import ga.classi.data.error.ErrorMessageConstants;
 
 /**
  * Data validation helper class.
  * 
- * @author eatonmunoz
+ * @author muhammad
  */
 public class DataValidation {
 

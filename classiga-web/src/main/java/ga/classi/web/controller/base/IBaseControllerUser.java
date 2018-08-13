@@ -1,14 +1,19 @@
+/*
+ * 
+ * Licensed under the MIT License. See LICENSE file in the project root for full license information.
+ * 
+ */
 package ga.classi.web.controller.base;
 
 import java.util.Map;
 
 import org.json.simple.JSONObject;
 
-import ga.classi.commons.helper.ActionResult;
+import ga.classi.commons.utility.ActionResult;
 
 /**
  *
- * @author eatonmunoz
+ * @author muhammad
  */
 public interface IBaseControllerUser {
 

@@ -3,74 +3,74 @@
 
     <t_user_group id="1" name="Administrator" lower_name="administrator"
         active="y" deleted="n" version="0" create_time_millis="{currentMillis}"
-        update_time_millis="{currentMillis}" row_hash="1" />
+        update_time_millis="{currentMillis}" rh="1" srh="1" />
     <t_user_group id="2" name="User" lower_name="user"
         active="y" deleted="n" version="0" create_time_millis="{currentMillis}"
-        update_time_millis="{currentMillis}" row_hash="2" />
+        update_time_millis="{currentMillis}" rh="2" srh="2" />
     <t_user_group id="3" name="Marketing" lower_name="marketing"
         active="y" deleted="n" version="0" create_time_millis="{currentMillis}"
-        update_time_millis="{currentMillis}" row_hash="3" />
+        update_time_millis="{currentMillis}" rh="3" srh="3" />
 
     <t_user id="1" full_name="John" lower_full_name="john"
         username="johndoe" password_hash="abc" salt="123" email="johndoe@yahoo.com"
         active="y" deleted="n" version="0" user_group_id="1"
         lower_username="johndoe" lower_email="johndoe@yahoo.com"
         create_time_millis="{currentMillis}" update_time_millis="{currentMillis}"
-        row_hash="4" />
+        rh="4" srh="4" />
     <t_user id="2" full_name="Fulan" lower_full_name="fulan"
         username="fulan" password_hash="abc" salt="123" email="fulan@yahoo.com"
         active="y" deleted="n" version="0" user_group_id="2"
         lower_username="fulan" lower_email="fulan@yahoo.com"
         create_time_millis="{currentMillis}" update_time_millis="{currentMillis}"
-        row_hash="5" />
+        rh="5" srh="5" />
 
     <t_menu_permission id="1" user_group_id="1"
         menu_code="menu.settings" can_view="y" can_modify="y"
         create_time_millis="{currentMillis}" update_time_millis="{currentMillis}"
-        deleted="n" version="0" row_hash="6" />
+        deleted="n" version="0" rh="6" srh="6" />
     <t_menu_permission id="2" user_group_id="1"
         menu_code="menu.settings.system" can_view="y" can_modify="y"
         create_time_millis="{currentMillis}" update_time_millis="{currentMillis}"
-        deleted="n" version="0" row_hash="7" />
+        deleted="n" version="0" rh="7" srh="7" />
     <t_menu_permission id="3" user_group_id="1"
         menu_code="menu.settings.user" can_view="y" can_modify="y"
         create_time_millis="{currentMillis}" update_time_millis="{currentMillis}"
-        deleted="n" version="0" row_hash="8" />
+        deleted="n" version="0" rh="8" srh="8" />
     <t_menu_permission id="4" user_group_id="1"
         menu_code="menu.settings.usergroup" can_view="y" can_modify="y"
         create_time_millis="{currentMillis}" update_time_millis="{currentMillis}"
-        deleted="n" version="0" row_hash="9" />
+        deleted="n" version="0" rh="9" srh="9" />
     <t_menu_permission id="5" user_group_id="2"
         menu_code="menu.settings" can_view="n" can_modify="n"
         create_time_millis="{currentMillis}" update_time_millis="{currentMillis}"
-        deleted="n" version="0" row_hash="10" />
+        deleted="n" version="0" rh="10" srh="10" />
     <t_menu_permission id="6" user_group_id="2"
         menu_code="menu.settings.system" can_view="n" can_modify="n"
         create_time_millis="{currentMillis}" update_time_millis="{currentMillis}"
-        deleted="n" version="0" row_hash="11" />
+        deleted="n" version="0" rh="11" srh="11" />
     <t_menu_permission id="7" user_group_id="2"
         menu_code="menu.settings.user" can_view="n" can_modify="n"
         create_time_millis="{currentMillis}" update_time_millis="{currentMillis}"
-        deleted="n" version="0" row_hash="12" />
+        deleted="n" version="0" rh="12" srh="12" />
     <t_menu_permission id="8" user_group_id="2"
         menu_code="menu.settings.usergroup" can_view="n" can_modify="n"
         create_time_millis="{currentMillis}" update_time_millis="{currentMillis}"
-        deleted="n" version="0" row_hash="13" />
+        deleted="n" version="0" rh="13" srh="13" />
     <t_menu_permission id="9" user_group_id="3"
         menu_code="menu.settings" can_view="n" can_modify="n"
         create_time_millis="{currentMillis}" update_time_millis="{currentMillis}"
-        deleted="n" version="0" row_hash="14" />
+        deleted="n" version="0" rh="14" srh="14" />
     <t_menu_permission id="10" user_group_id="3"
         menu_code="menu.settings.system" can_view="n" can_modify="n"
         create_time_millis="{currentMillis}" update_time_millis="{currentMillis}"
-        deleted="n" version="0" row_hash="15" />
+        deleted="n" version="0" rh="15" srh="15" />
     <t_menu_permission id="11" user_group_id="3"
         menu_code="menu.settings.user" can_view="n" can_modify="n"
         create_time_millis="{currentMillis}" update_time_millis="{currentMillis}"
-        deleted="n" version="0" row_hash="16" />
+        deleted="n" version="0" rh="16" srh="16" />
     <t_menu_permission id="12" user_group_id="3"
         menu_code="menu.settings.usergroup" can_view="n" can_modify="n"
         create_time_millis="{currentMillis}" update_time_millis="{currentMillis}"
-        deleted="n" version="0" row_hash="17" />
+        deleted="n" version="0" rh="17" srh="17" />
 
 </dataset>

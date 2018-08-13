@@ -46,7 +46,7 @@ public class EmailQueueEntity extends BaseEntity implements Serializable {
 
     public static final String TABLE_NAME = "t_email_queue";
 
-    @Column(name = "to", length = 128, nullable = false)
+    @Column(name = "[to]", length = 128, nullable = false)
     private String to;
 
     @Column(name = "subject", length = 128, nullable = false)

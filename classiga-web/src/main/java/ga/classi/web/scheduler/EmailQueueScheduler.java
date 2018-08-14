@@ -131,6 +131,7 @@ public class EmailQueueScheduler extends BaseControllerAdapter {
                 queue.put("status", QueueStatus.PROCESSING.id());
                 ActionResult res = editEmailQueue(queue);
                 log.info("Result status: {}", res.getStatus());
+                log.info("Result message: {}", res.getMessage());
                 JSONObject content = null;
                 if (res.isSuccess()) {
                     content = (JSONObject) res.getContent();
@@ -156,6 +157,9 @@ public class EmailQueueScheduler extends BaseControllerAdapter {
                 return processingQueue;
             }).thenAccept((processedQueue) -> {
                 log.info("thenAccept(processedQueue): {}", processedQueue);
+                if (processedQueue == null) {
+                    return;
+                }
                 // processedQueue should not be null
                 log.info("Edit email queue status to DONE");
                 processedQueue.put("status", QueueStatus.DONE.id());

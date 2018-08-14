@@ -18,11 +18,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  *
  * @author muhammad
  */
+@Slf4j
 @RestController
 @RequestMapping("/email-queues")
 public class EmailQueueController extends BaseController {
@@ -32,18 +34,22 @@ public class EmailQueueController extends BaseController {
     
     @GetMapping
     public ResponseObject getEmailQueuesByStatus(String status) throws UnsupportedEncodingException {
+        log.info("Get email queues");
         DTO result = emailQueueService.getAllByStatus(new DTO().put("status", status));
+        log.info("Result: {}", result);
         return new ResponseObject(CommonConstants.SUCCESS, result);
     }
 
     @PostMapping
     public ResponseObject addEmailQueue() throws UnsupportedEncodingException {
+        log.info("Add email queue");
         DTO added = emailQueueService.add(DTOUtils.fromServletRequest(request));
         return new ResponseObject(CommonConstants.SUCCESS, getResponseMessage("success.emailqueue.add"), added);
     }
 
     @PutMapping("/{srh}")
     public ResponseObject editEmailQueue(@PathVariable String srh) throws UnsupportedEncodingException {
+        log.info("Edit email queue");
         DTO edited = emailQueueService.edit(DTOUtils.fromServletRequest(request).put("srh", srh));
         return new ResponseObject(CommonConstants.SUCCESS, getResponseMessage("success.emailqueue.edit"), edited);
     }

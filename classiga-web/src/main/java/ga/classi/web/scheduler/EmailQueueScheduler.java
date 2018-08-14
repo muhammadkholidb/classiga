@@ -44,12 +44,13 @@ public class EmailQueueScheduler extends BaseControllerAdapter {
     
     @Scheduled(fixedRateString = "${mail.scheduler.interval.millisecond}")
     public void execute() {
-        log.info("Execute ...");
+        log.info("Execute");
         getPendingQueues().thenAccept(this::processEmailQueues);
     }
 
     private CompletableFuture<JSONArray> getPendingQueues() {
         CompletableFuture<JSONArray> future = CompletableFuture.supplyAsync(() -> {
+            log.info("Get pending queues");
             ActionResult res = getEmailQueuesByStatus(QueueStatus.PENDING.id());
             if (!res.isSuccess()) {
                 return new JSONArray();
@@ -126,6 +127,7 @@ public class EmailQueueScheduler extends BaseControllerAdapter {
         queues.forEach((o) -> {
             JSONObject queue = (JSONObject) o;
             CompletableFuture.supplyAsync(() -> {
+                log.info("Edit email queue status to PENDING");
                 queue.put("status", QueueStatus.PROCESSING.id());
                 ActionResult res = editEmailQueue(queue);
                 if (res.isSuccess()) {
@@ -149,6 +151,7 @@ public class EmailQueueScheduler extends BaseControllerAdapter {
                 return processingQueue;
             }).thenAccept((processedQueue) -> {
                 // processedQueue should not be null
+                log.info("Edit email queue status to DONE");
                 processedQueue.put("status", QueueStatus.DONE.id());
                 ActionResult res = editEmailQueue(processedQueue);
                 log.debug("Update to DONE: {}", res.getStatus());

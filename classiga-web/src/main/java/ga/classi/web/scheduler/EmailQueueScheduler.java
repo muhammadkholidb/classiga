@@ -130,11 +130,15 @@ public class EmailQueueScheduler extends BaseControllerAdapter {
                 log.info("Edit email queue status to PENDING");
                 queue.put("status", QueueStatus.PROCESSING.id());
                 ActionResult res = editEmailQueue(queue);
+                log.info("Result status: {}", res.getStatus());
+                JSONObject content = null;
                 if (res.isSuccess()) {
-                    return (JSONObject) res.getContent();
+                    content = (JSONObject) res.getContent();
                 }
-                return null;
+                log.info("Content: {}", content);
+                return content;
             }).thenApply((processingQueue) -> {
+                log.info("thenApply(processingQueue): {}", processingQueue);
                 if (processingQueue == null) {
                     return null;
                 }
@@ -145,11 +149,13 @@ public class EmailQueueScheduler extends BaseControllerAdapter {
                 }
                 return processingQueue;
             }).handle((processingQueue, ex) -> {
+                log.info("handle(processingQueue, ex): {}, {}", processingQueue, ex);
                 if (ex != null) {
                     log.error("Failed to send email", ex);
                 }
                 return processingQueue;
             }).thenAccept((processedQueue) -> {
+                log.info("thenAccept(processedQueue): {}", processedQueue);
                 // processedQueue should not be null
                 log.info("Edit email queue status to DONE");
                 processedQueue.put("status", QueueStatus.DONE.id());
@@ -158,6 +164,9 @@ public class EmailQueueScheduler extends BaseControllerAdapter {
                 if (!res.isSuccess()) {
                     log.debug("Message: {}", res.getMessage());
                 }
+            }).exceptionally(ex -> {
+                log.info("exceptionally: {}", ex);
+                return null;
             });
         });
     }

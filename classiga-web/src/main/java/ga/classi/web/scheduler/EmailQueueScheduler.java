@@ -129,6 +129,7 @@ public class EmailQueueScheduler extends BaseControllerAdapter {
             CompletableFuture.supplyAsync(() -> {
                 log.info("Edit email queue status to PENDING");
                 queue.put("status", QueueStatus.PROCESSING.id());
+                log.info("Queue: {}", queue);
                 ActionResult res = editEmailQueue(queue);
                 log.info("Result status: {}", res.getStatus());
                 log.info("Result message: {}", res.getMessage());

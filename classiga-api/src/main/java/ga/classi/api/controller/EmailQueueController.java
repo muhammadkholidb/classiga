@@ -49,6 +49,8 @@ public class EmailQueueController extends BaseController {
     @PutMapping("/{srh}")
     public ResponseObject editEmailQueue(@PathVariable String srh) throws UnsupportedEncodingException {
         log.info("Edit email queue");
+        log.info("From servlet: {}", DTOUtils.fromServletRequest(request));
+        log.info("From servlet .put(srh): {}", DTOUtils.fromServletRequest(request).put("srh", srh));
         DTO edited = emailQueueService.edit(DTOUtils.fromServletRequest(request).put("srh", srh));
         return new ResponseObject(CommonConstants.SUCCESS, getResponseMessage("success.emailqueue.edit"), edited);
     }

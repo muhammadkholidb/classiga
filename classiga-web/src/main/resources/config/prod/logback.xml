@@ -26,7 +26,7 @@
         </encoder>
     </appender> 
 
-    <root level="INFO">
+    <root level="DEBUG">
         <if condition='property("os.name").toLowerCase().contains("windows")'>
             <then>
                 <appender-ref ref="STDOUT_NO_COLOR"/>

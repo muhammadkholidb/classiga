@@ -50,7 +50,6 @@ public class EmailQueueController extends BaseController {
     public ResponseObject editEmailQueue(@PathVariable String srh) throws UnsupportedEncodingException {
         log.info("Edit email queue");
         DTO edited = emailQueueService.edit(DTOUtils.fromServletRequest(request).put("srh", srh));
-        log.info("Edited: {}", edited);
         return new ResponseObject(CommonConstants.SUCCESS, getResponseMessage("success.emailqueue.edit"), edited);
     }
 

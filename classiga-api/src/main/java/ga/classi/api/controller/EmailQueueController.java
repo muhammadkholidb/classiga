@@ -36,7 +36,6 @@ public class EmailQueueController extends BaseController {
     public ResponseObject getEmailQueuesByStatus(String status) throws UnsupportedEncodingException {
         log.info("Get email queues");
         DTO result = emailQueueService.getAllByStatus(new DTO().put("status", status));
-        log.info("Result: {}", result);
         return new ResponseObject(CommonConstants.SUCCESS, result);
     }
 
@@ -51,6 +50,7 @@ public class EmailQueueController extends BaseController {
     public ResponseObject editEmailQueue(@PathVariable String srh) throws UnsupportedEncodingException {
         log.info("Edit email queue");
         DTO edited = emailQueueService.edit(DTOUtils.fromServletRequest(request).put("srh", srh));
+        log.info("Edited: {}", edited);
         return new ResponseObject(CommonConstants.SUCCESS, getResponseMessage("success.emailqueue.edit"), edited);
     }
 

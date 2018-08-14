@@ -45,7 +45,7 @@ public abstract class BaseController {
 
     @ExceptionHandler(DataException.class)
     public ResponseObject handleDataException(DataException e) {
-        log.debug("Data exception caught!");
+        log.debug("Data exception caught!", e);
         return new ResponseObject(CommonConstants.FAIL, createResponseMessage(e.getMessage(), e.getData()));
     }
 

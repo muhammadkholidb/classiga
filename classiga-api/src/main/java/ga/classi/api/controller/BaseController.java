@@ -45,13 +45,13 @@ public abstract class BaseController {
 
     @ExceptionHandler(DataException.class)
     public ResponseObject handleDataException(DataException e) {
-        log.debug("Data exception caught!", e);
+        log.error("Data exception caught! {}", e.toString());
         return new ResponseObject(CommonConstants.FAIL, createResponseMessage(e.getMessage(), e.getData()));
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseObject handleOtherException(Exception e) {
-        log.debug("Other exception caught!", e);
+        log.error("Other exception caught!", e);
         return new ResponseObject(CommonConstants.ERROR, getResponseMessage("error.ServerError"));
     }
 

@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  *
@@ -47,11 +49,9 @@ public class EmailQueueController extends BaseController {
     }
 
     @PutMapping("/{srh}")
-    public ResponseObject editEmailQueue(@PathVariable String srh) throws UnsupportedEncodingException {
+    public ResponseObject editEmailQueue(@PathVariable String srh, @RequestBody MultiValueMap<String, ?> map) throws UnsupportedEncodingException {
         log.info("Edit email queue");
-        log.info("From servlet: {}", DTOUtils.fromServletRequest(request));
-        log.info("From servlet .put(srh): {}", DTOUtils.fromServletRequest(request).put("srh", srh));
-        DTO edited = emailQueueService.edit(DTOUtils.fromServletRequest(request).put("srh", srh));
+        DTO edited = emailQueueService.edit(DTOUtils.fromMultiValueMap(map));
         return new ResponseObject(CommonConstants.SUCCESS, getResponseMessage("success.emailqueue.edit"), edited);
     }
 

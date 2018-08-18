@@ -99,7 +99,7 @@
             </table>
             <p>
                 Anda dapat masuk ke aplikasi dengan informasi yang tercantum di atas. 
-                Harap pastikan Anda mengubah kata sandi setelah login pertama Anda jika Anda merasa perlu. 
+                Pastikan untuk mengubah kata sandi setelah login pertama Anda jika dirasa perlu. 
                 <b><a href="https://securityinabox.org/id/guide/passwords/" target="_blank">Berikut</a></b> adalah beberapa kiat untuk membuat kata sandi yang kuat namun mudah diingat.</p>
 
             <p>Semoga hari Anda menyenangkan!</p>

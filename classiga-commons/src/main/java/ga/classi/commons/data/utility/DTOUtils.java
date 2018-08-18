@@ -16,9 +16,10 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletRequest;
+import org.springframework.util.MultiValueMap;
 
 /**
- * A utility class for Dto processing.
+ * A utility class for DTO processing.
  * @author muhammad
  */
 public class DTOUtils {
@@ -59,6 +60,29 @@ public class DTOUtils {
         return dto;
     }
 
+    public static <K, V> DTO fromMultiValueMap(MultiValueMap<K, V> mvm) throws UnsupportedEncodingException {
+        if (mvm == null) {
+            return null;
+        }
+        DTO dto = new DTO();
+        for (Map.Entry<K, List<V>> entry : mvm.entrySet()) {
+            K key = entry.getKey();
+            List<V> values = entry.getValue();
+            switch (values.size()) {
+                case 0:
+                    dto.put(key, ""); // Put empty string
+                    break;
+                case 1:
+                    dto.put(key, URLDecoder.decode(String.valueOf(values.get(0)), "UTF-8")); // Put the first value
+                    break;
+                default:
+                    dto.put(key, URLDecoder.decode(values.toString(), "UTF-8")); // Put all values
+                    break;
+            }
+        }
+        return dto;
+    }
+    
     /**
      * Converts list of object to list of Dto. 
      * @param list List of object to be converted.

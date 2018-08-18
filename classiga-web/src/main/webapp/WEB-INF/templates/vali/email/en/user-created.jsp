@@ -98,8 +98,8 @@
                 </tbody>
             </table>
             <p>
-                You can login to the application with information listed above. 
-                Please make sure you change your password after your first login if you feel need to. 
+                You can login to the application with the information listed above. 
+                Please make sure to change your password after your first login if you feel need to. 
                 <b><a href="http://home.bt.com/tech-gadgets/computing/8-tips-to-make-sure-your-passwords-are-strong-but-simple-11364015494778" target="_blank">Here</a></b> are some tips to create a strong but easy to remember password.</p>
             
             <p>Have a great day!</p>

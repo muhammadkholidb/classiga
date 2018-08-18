@@ -20,6 +20,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Slf4j
 @RestController
@@ -37,6 +38,12 @@ public class DefaultController extends BaseController {
     @GetMapping("/ping")
     public ResponseObject ping() {
         return new ResponseObject(CommonConstants.SUCCESS, StringConstants.EMPTY, Collections.EMPTY_MAP);
+    }
+    
+    @PostMapping("/user/change-password")
+    public ResponseObject changePassword() throws UnsupportedEncodingException {
+        DTO dtoUser = userService.changePassword(DTOUtils.fromServletRequest(request));
+        return new ResponseObject(CommonConstants.SUCCESS, dtoUser);
     }
     
 }

@@ -12,17 +12,21 @@
         update_time_millis="{currentMillis}" rh="3" srh="3" />
 
     <t_user id="1" full_name="John" lower_full_name="john"
-        username="johndoe" password_hash="abc" salt="123" email="johndoe@yahoo.com"
+        username="johndoe"
+        password_hash="ca5cc6099e5c4cace696de44367d7672a4664394c38583700b76f25176b60288"
+        salt="XITTNcAAs0cCOl81FmUJsBWt05y3NySk" email="johndoe@yahoo.com"
         active="y" deleted="n" version="0" user_group_id="1"
         lower_username="johndoe" lower_email="johndoe@yahoo.com"
         create_time_millis="{currentMillis}" update_time_millis="{currentMillis}"
-        rh="4" srh="4" />
+        rh="3" srh="3" />
     <t_user id="2" full_name="Fulan" lower_full_name="fulan"
-        username="fulan" password_hash="abc" salt="123" email="fulan@yahoo.com"
+        username="fulan"
+        password_hash="163f2511d5d301f6efbadb4c87484388054703bbe2008a2129c0110c9b08a694"
+        salt="ogYNaxFg8F0yV8yuqFpIidBoFPDUxVip" email="fulan@yahoo.com"
         active="y" deleted="n" version="0" user_group_id="2"
         lower_username="fulan" lower_email="fulan@yahoo.com"
         create_time_millis="{currentMillis}" update_time_millis="{currentMillis}"
-        rh="5" srh="5" />
+        rh="4" srh="4" />
 
     <t_menu_permission id="1" user_group_id="1"
         menu_code="menu.settings" can_view="y" can_modify="y"

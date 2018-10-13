@@ -98,7 +98,7 @@
         <version.json-path>2.2.0</version.json-path>
         <version.htmlcompressor>1.5.2</version.htmlcompressor>
         <version.yuicompressor>2.4.8</version.yuicompressor>
-        <version.lombok>1.16.18</version.lombok>
+        <version.lombok>1.18.2</version.lombok>
 
         <version.maven-compiler-plugin>3.1</version.maven-compiler-plugin>
         <version.maven-war-plugin>2.6</version.maven-war-plugin>

@@ -21,7 +21,6 @@ import org.springframework.web.servlet.ModelAndView;
 import ga.classi.commons.utility.ActionResult;
 import ga.classi.commons.constant.CommonConstants;
 import ga.classi.commons.utility.DefaultUser;
-import ga.classi.commons.utility.PasswordUtils;
 import ga.classi.commons.constant.StringConstants;
 import ga.classi.commons.web.utility.JSON;
 import ga.classi.web.controller.base.BaseControllerAdapter;
@@ -30,6 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 import ga.classi.web.constant.ModelConstants;
 import ga.classi.web.constant.SessionConstants;
 import ga.classi.web.constant.URLParameterContants;
+import org.apache.commons.codec.digest.DigestUtils;
 
 /**
  *
@@ -122,7 +122,7 @@ public class LoginController extends BaseControllerAdapter {
 
         }
         String defaultUserPassword = dataUserSplit[0].trim();
-        String stirredPassword = PasswordUtils.stir(password);
+        String stirredPassword = DigestUtils.sha256Hex(password);
         if ((defaultUserPassword != null) && defaultUserPassword.equals(stirredPassword)) {
             JSONObject userGroup = new JSONObject();
             userGroup.put("id", DefaultUser.USER_GROUP_ID);

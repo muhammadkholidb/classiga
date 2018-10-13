@@ -24,7 +24,6 @@ import ga.classi.commons.data.error.ExceptionCode;
 import ga.classi.commons.data.DTO;
 import ga.classi.commons.data.utility.DTOUtils;
 import ga.classi.commons.constant.CommonConstants;
-import ga.classi.commons.utility.PasswordUtils;
 import ga.classi.commons.utility.StringCheck;
 import ga.classi.data.entity.UserEntity;
 import ga.classi.data.entity.UserGroupEntity;
@@ -33,6 +32,7 @@ import ga.classi.data.helper.DataValidation;
 import ga.classi.data.repository.UserGroupRepository;
 import ga.classi.data.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.digest.DigestUtils;
 
 @Slf4j
 @Service
@@ -114,7 +114,7 @@ public class UserService extends AbstractServiceHelper {
             throw new DataException(ExceptionCode.E1001, ErrorMessageConstants.USER_NOT_FOUND);
         }
 
-        String stirredPassword = PasswordUtils.stir(strPassword, loginUser.getSalt());
+        String stirredPassword = DigestUtils.sha256Hex(strPassword + loginUser.getSalt());
 
         if (!loginUser.getPasswordHash().equals(stirredPassword)) {
             throw new DataException(ExceptionCode.E1001, ErrorMessageConstants.USER_NOT_FOUND);
@@ -215,7 +215,7 @@ public class UserService extends AbstractServiceHelper {
         }
 
         String salt = RandomStringUtils.randomAlphanumeric(32);
-        String stirredPassword = PasswordUtils.stir(strPassword, salt);
+        String stirredPassword = DigestUtils.sha256Hex(strPassword + salt);
 
         UserEntity addUser = new UserEntity();
         addUser.setFullName(strFullName);
@@ -295,7 +295,7 @@ public class UserService extends AbstractServiceHelper {
         
         if ((strPassword != null) && !strPassword.trim().isEmpty()) {
             String newSalt = RandomStringUtils.randomAlphanumeric(32);
-            String stirredPassword = PasswordUtils.stir(strPassword, newSalt);
+            String stirredPassword = DigestUtils.sha256Hex(strPassword + newSalt);
             findUserById.setSalt(newSalt);
             findUserById.setPasswordHash(stirredPassword);
         }
@@ -366,12 +366,12 @@ public class UserService extends AbstractServiceHelper {
             throw new DataException(ExceptionCode.E1001, ErrorMessageConstants.USER_NOT_FOUND);
         }
 
-        String oldPasswordHash = PasswordUtils.stir(strOldPassword, user.getSalt());
+        String oldPasswordHash = DigestUtils.sha256Hex(strOldPassword + user.getSalt());
         
         DataValidation.validateEquals(oldPasswordHash, user.getPasswordHash(), "Old Password");
 
         String salt = RandomStringUtils.randomAlphanumeric(32);
-        String newPasswordHash = PasswordUtils.stir(strNewPassword, salt);
+        String newPasswordHash = DigestUtils.sha256Hex(strNewPassword + salt);
         
         user.setSalt(salt);
         user.setPasswordHash(newPasswordHash);

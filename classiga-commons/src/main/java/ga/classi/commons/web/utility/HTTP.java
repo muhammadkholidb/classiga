@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import ga.classi.commons.constant.StringConstants;
+import java.net.Proxy;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -34,20 +36,40 @@ import org.springframework.web.client.RestTemplate;
 @Getter
 public class HTTP {
 
-    private static final RestTemplate REST = new RestTemplate();
-
     private String url;
     private HttpHeaders headers;
     private Object body;
+    private Proxy proxy;
+    
+    private SimpleClientHttpRequestFactory getDefaultRequestFactory() {
+        SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
+        requestFactory.setConnectTimeout(10000);
+        requestFactory.setReadTimeout(10000);
+        return requestFactory;
+    }
+    
+    public HTTP() {}
+    
+    public HTTP(Proxy proxy) {
+        this.proxy = proxy;
+    }
     
     public HTTPResponse request(HttpMethod method) throws IOException {
+        RestTemplate rest;
+        if (proxy != null) {
+            SimpleClientHttpRequestFactory requestFactory = getDefaultRequestFactory();
+            requestFactory.setProxy(proxy);
+            rest = new RestTemplate(requestFactory);
+        } else {
+            rest = new RestTemplate(getDefaultRequestFactory());
+        }
         HttpEntity<Object> request;
         ResponseEntity<String> response;
         if (HttpMethod.GET == method) {
             
             // If http GET, than the parameters should be set as URI variables
             request = new HttpEntity<>(headers);
-            response = REST.exchange(url + ((body instanceof String) ? ("?" + body) : ("?" + buildQueryString((Map<String, ?>) body))), method, request, String.class, new Object[0]);
+            response = rest.exchange(url + ((body instanceof String) ? ("?" + body) : ("?" + buildQueryString((Map<String, ?>) body))), method, request, String.class, new Object[0]);
             
         } else {
             
@@ -69,32 +91,12 @@ public class HTTP {
             } else {
                 request = new HttpEntity<>(body, headers);
             }
-            response = REST.exchange(url, method, request, String.class, new Object[0]);
+            response = rest.exchange(url, method, request, String.class, new Object[0]);
         }
         if (response.getStatusCode() == HttpStatus.OK) {
             return new HTTPResponse(response.getBody());
         }
         throw new IOException("Response code: " + response.getStatusCodeValue() + " (" + response.getBody() + ")");
-    }
-    
-    public HTTPResponse get() throws IOException {
-        return request(HttpMethod.GET);
-    }
-    
-    public HTTPResponse post() throws IOException {
-        return request(HttpMethod.POST);
-    }
-    
-    public HTTPResponse put() throws IOException {
-        return request(HttpMethod.PUT);
-    }
-    
-    public HTTPResponse patch() throws IOException {
-        return request(HttpMethod.PATCH);
-    }
-    
-    public HTTPResponse delete() throws IOException {
-        return request(HttpMethod.DELETE);
     }
     
     /**
@@ -122,4 +124,24 @@ public class HTTP {
         return "";
     }
 
+    public HTTPResponse get() throws IOException {
+        return request(HttpMethod.GET);
+    }
+    
+    public HTTPResponse post() throws IOException {
+        return request(HttpMethod.POST);
+    }
+    
+    public HTTPResponse put() throws IOException {
+        return request(HttpMethod.PUT);
+    }
+    
+    public HTTPResponse patch() throws IOException {
+        return request(HttpMethod.PATCH);
+    }
+    
+    public HTTPResponse delete() throws IOException {
+        return request(HttpMethod.DELETE);
+    }
+    
 }

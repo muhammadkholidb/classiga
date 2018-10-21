@@ -3,12 +3,12 @@
  * Licensed under the MIT License. See LICENSE file in the project root for full license information.
  * 
  */
-package ga.classi.data.helper;
+package ga.classi.commons.constant;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public enum EmailQueueType {
+public enum EmailType {
 
     USER_CREATED(1, "email.queue.type.subject.usercreated", "user-created");
 
@@ -16,7 +16,7 @@ public enum EmailQueueType {
     private final String code;
     private final String template;
 
-    EmailQueueType(Integer id, String code, String template) {
+    EmailType(Integer id, String code, String template) {
         this.id = id;
         this.code = code;
         this.template = template;
@@ -35,7 +35,7 @@ public enum EmailQueueType {
     }
     
     public static Integer[] ids() {
-        EmailQueueType[] values = values();
+        EmailType[] values = values();
         Integer[] ids = new Integer[values.length];
         for (int i = 0; i < values.length; i++) {
             ids[i] = values[i].id;
@@ -44,7 +44,7 @@ public enum EmailQueueType {
     }
 
     public static String[] codes() {
-        EmailQueueType[] values = values();
+        EmailType[] values = values();
         String[] codes = new String[values.length];
         for (int i = 0; i < values.length; i++) {
             codes[i] = values[i].code;
@@ -54,7 +54,7 @@ public enum EmailQueueType {
 
     @SuppressWarnings("unchecked")
     public static Map<String, Object>[] maps() {
-        EmailQueueType[] values = values();
+        EmailType[] values = values();
         Map<String, Object>[] maps = new Map[values.length];
         for (int i = 0; i < values.length; i++) {
             Map<String, Object> map = new HashMap<>();
@@ -65,8 +65,8 @@ public enum EmailQueueType {
         return maps;
     }
     
-    public static EmailQueueType byId(Integer id) {
-        for (EmailQueueType status : values()) {
+    public static EmailType byId(Integer id) {
+        for (EmailType status : values()) {
             if (status.id.equals(id)) {
                 return status;
             }

@@ -23,7 +23,7 @@ public class ErrorController extends BaseControllerAdapter {
 
         int errorCode = httpServletResponse.getStatus();
 
-        Map<String, Object> model = new HashMap<String, Object>();
+        Map<String, Object> model = new HashMap<>();
         model.put(ModelConstants.ERROR_CODE, errorCode);
         model.put(ModelConstants.ERROR_MESSAGE, messageHelper.getMessage("error." + errorCode));
         

@@ -576,8 +576,17 @@ public abstract class AbstractBaseController implements IBaseController {
     }
 
     @Override
+    public String getHostURL() {
+        StringBuffer url = httpServletRequest.getRequestURL();
+        String uri = httpServletRequest.getRequestURI();
+        String contextPath = httpServletRequest.getContextPath();
+        String host = url.substring(0, url.indexOf(uri)) + contextPath; //result
+        return host;
+    }
+    
+    @Override
     public String getFullRequestURL() {
-        return httpServletRequest.getRequestURL() + (httpServletRequest.getQueryString() != null ? "?" + httpServletRequest.getQueryString() : "");
+        return httpServletRequest.getRequestURL().append(httpServletRequest.getQueryString() != null ? "?" + httpServletRequest.getQueryString() : "").toString();
     }
 
     // Implements IBaseControllerSystem

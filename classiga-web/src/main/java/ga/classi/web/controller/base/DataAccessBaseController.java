@@ -21,7 +21,6 @@ import ga.classi.commons.utility.ActionResult;
 import ga.classi.commons.constant.CommonConstants;
 import ga.classi.commons.utility.CommonUtils;
 import ga.classi.data.helper.DataImporter;
-import ga.classi.data.service.EmailQueueService;
 import ga.classi.data.service.SystemService;
 import ga.classi.data.service.UserGroupService;
 import ga.classi.data.service.UserService;
@@ -35,9 +34,6 @@ import ga.classi.web.constant.SessionConstants;
  */
 @Slf4j
 public class DataAccessBaseController extends AbstractBaseController implements IBaseController {
-
-    @Autowired
-    private EmailQueueService emailQueueService;
     
     @Autowired
     private SystemService    systemService;
@@ -262,48 +258,6 @@ public class DataAccessBaseController extends AbstractBaseController implements 
         try {
             userGroupService.remove(new DTO(parameters));
             return successActionResult(createMessage("success.SuccessfullyRemoveUserGroup"), new HashMap<>());
-        } catch (DataException e) {
-            log.error(CommonUtils.getExceptionMessage(e), e);
-            return failActionResult(createMessage(e.getMessage(), e.getData()));
-        } catch (Exception e) {
-            log.error(CommonUtils.getExceptionMessage(e), e);
-            return errorActionResult();
-        }
-    }
-
-    @Override
-    public ActionResult addEmailQueue(Map<String, Object> parameters) {
-        try {
-            DTO dto = emailQueueService.add(new DTO(parameters));
-            return successActionResult(createMessage("success.emailqueue.add"), dto);
-        } catch (DataException e) {
-            log.error(CommonUtils.getExceptionMessage(e), e);
-            return failActionResult(createMessage(e.getMessage(), e.getData()));
-        } catch (Exception e) {
-            log.error(CommonUtils.getExceptionMessage(e), e);
-            return errorActionResult();
-        }
-    }
-
-    @Override
-    public ActionResult getEmailQueuesByStatus(Integer status) {
-        try {
-            DTO dto = emailQueueService.getAllByStatus(new DTO().put("status", status));
-            return successActionResult(dto);
-        } catch (DataException e) {
-            log.error(CommonUtils.getExceptionMessage(e), e);
-            return failActionResult(createMessage(e.getMessage(), e.getData()));
-        } catch (Exception e) {
-            log.error(CommonUtils.getExceptionMessage(e), e);
-            return errorActionResult();
-        }
-    }
-
-    @Override
-    public ActionResult editEmailQueue(Map<String, Object> parameters) {
-        try {
-            DTO dto = emailQueueService.edit(new DTO(parameters));
-            return successActionResult(createMessage("success.emailqueue.edit"), dto);
         } catch (DataException e) {
             log.error(CommonUtils.getExceptionMessage(e), e);
             return failActionResult(createMessage(e.getMessage(), e.getData()));

@@ -21,6 +21,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class CommonController {
     
+    public String favicon() {
+        return null;
+    }
+    
+    public String robot() {
+        return null;
+    }
+    
     @PostMapping("/generate-html")
     public String generateHtml(
             @RequestParam(name = "template") String encodedTemplate, 

@@ -31,9 +31,9 @@ import ga.classi.commons.utility.CommonUtils;
 import ga.classi.commons.utility.DefaultUser;
 import ga.classi.commons.constant.StringConstants;
 import ga.classi.commons.web.utility.MultipartFileUtils;
-import ga.classi.commons.data.constant.QueueStatus;
+import ga.classi.commons.web.utility.EmailServiceBean;
 import ga.classi.commons.web.utility.JSON;
-import ga.classi.data.helper.EmailQueueType;
+import ga.classi.commons.constant.EmailType;
 import ga.classi.web.controller.base.BaseControllerAdapter;
 import ga.classi.web.helper.SessionManager;
 import ga.classi.web.helper.UIHelper;
@@ -42,25 +42,36 @@ import lombok.extern.slf4j.Slf4j;
 import ga.classi.web.constant.ModelConstants;
 import ga.classi.web.constant.SessionConstants;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
+import javax.mail.MessagingException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- * 
+ *
  * @author muhammad
  */
 @Slf4j
 @Controller
 public class UserController extends BaseControllerAdapter {
 
-    private static final String[] SORT_COLUMN_NAME_BY_NUMBER = new String[] {
-            "fullName", 
-            "fullName", 
-            "username", 
-            "email", 
-            "active", 
-            "userGroup.lowerName", 
-            "fullName"}; 
+    private static final String[] SORT_COLUMN_NAME_BY_NUMBER = new String[]{
+        "fullName",
+        "fullName",
+        "username",
+        "email",
+        "active",
+        "userGroup.lowerName",
+        "fullName"};
+
+    @Value("${mail.from}")
+    private String from;
+
+    @Autowired
+    private EmailServiceBean emailService;
     
     @SuppressWarnings("unchecked")
     @GetMapping(value = "/settings/user/list", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -68,18 +79,18 @@ public class UserController extends BaseControllerAdapter {
     public JSONObject getUsers() {
 
         log.info("Get users ...");
-        
+
         JSONObject params = new JSONObject();
         params.put("start", httpServletRequest.getParameter("start").trim());
         params.put("length", httpServletRequest.getParameter("length").trim());
         params.put("searchTerm", httpServletRequest.getParameter("searchTerm"));
         params.put("sortOrder", httpServletRequest.getParameter("sortOrder").trim());
         params.put("sortColumn", getSortColumnName(httpServletRequest.getParameter("sortColumnIndex").trim()));
-        
+
         ActionResult result = listUser(params);
 
         JSONObject json = new JSONObject();
-        
+
         if (CommonConstants.SUCCESS.equals(result.getStatus())) {
             json.put("recordsFiltered", result.getTotalRows());
             json.put("data", (JSONArray) result.getContent());
@@ -88,7 +99,7 @@ public class UserController extends BaseControllerAdapter {
             json.put("data", new JSONArray());
             json.put("error", result.getMessage());
         }
-        
+
         return json;
     }
 
@@ -96,7 +107,7 @@ public class UserController extends BaseControllerAdapter {
         Integer index = Integer.valueOf(columnIndex);
         return SORT_COLUMN_NAME_BY_NUMBER[index];
     }
-    
+
     @GetMapping(value = "/settings/user")
     public ModelAndView index() {
         log.info("Index ...");
@@ -155,9 +166,14 @@ public class UserController extends BaseControllerAdapter {
                 data.put("loginEmail", user.get("email"));
                 data.put("loginUsername", user.get("username"));
                 data.put("appName", getApplicationName());
-                prepareToSendEmail(EmailQueueType.USER_CREATED, (String) user.get("email"), data, 
-                        getSystem(CommonConstants.SYSTEM_KEY_TEMPLATE_CODE), 
-                        getSystem(CommonConstants.SYSTEM_KEY_LANGUAGE_CODE));
+                
+                String to = CommonUtils.concat(
+                        user.get("fullName"), 
+                        StringConstants.ANGLE_BRACKET_OPEN, 
+                        user.get("email"), 
+                        StringConstants.ANGLE_BRACKET_CLOSE);
+                sendEmail(to, data, EmailType.USER_CREATED);
+                
                 return redirectAndNotifySuccess("/settings/user", result.getMessage());
             } else {    // Fail or error
                 return viewAndNotifyError("user/form-add", model, result.getMessage());
@@ -174,21 +190,25 @@ public class UserController extends BaseControllerAdapter {
         return view("user/form-add", model);
     }
 
-    private void prepareToSendEmail(EmailQueueType type, String to, Map<String, Object> data, String templateCode, String languageCode) {
+    private void sendEmail(String to, Map<String, Object> data, EmailType type) {
+        String appUrl = getHostURL();
+        String tmplCode = getSystem(CommonConstants.SYSTEM_KEY_TEMPLATE_CODE);
+        String langCode = getSystem(CommonConstants.SYSTEM_KEY_LANGUAGE_CODE);
+        String subject = messageHelper.getMessage(type.code());
         CompletableFuture.runAsync(() -> {
-            log.debug("Prepare to send email to: {}", to); 
-            String subject = messageHelper.getMessage(type.code());
             Map<String, Object> params = new HashMap<>();
-            params.put("subject", subject);
-            params.put("to", to);
-            params.put("status", QueueStatus.PENDING.id());
             params.put("data", JSON.stringify(data));
-            params.put("template", templateCode  + "/email/"  + languageCode + "/"  + type.template());
-            ActionResult result = addEmailQueue(params);
-            log.debug("Status: {}", result.getStatus());
+            params.put("template", CommonUtils.concat(tmplCode, "/email/", langCode + "/", type.template()));
+            String content = emailService.getRemoteContent(appUrl + "/generate-html", params, HttpMethod.POST);
+            try {
+                log.debug("Sending email to {}", to);
+                emailService.sendEmail(from, to, subject, content);
+            } catch (MessagingException e) {
+                throw new CompletionException(e);
+            }
         }).exceptionally((ex) -> {
-            log.error("Error prepare to send email", ex);
-            return null; 
+            log.error("Error sending email", ex);
+            return null;
         });
     }
 

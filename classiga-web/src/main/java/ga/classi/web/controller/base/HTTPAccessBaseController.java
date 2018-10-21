@@ -11,7 +11,6 @@ import org.json.simple.JSONArray;
 
 import ga.classi.commons.utility.ActionResult;
 import ga.classi.commons.constant.CommonConstants;
-import ga.classi.commons.data.constant.QueueStatus;
 import ga.classi.commons.utility.CommonUtils;
 import ga.classi.commons.web.utility.HTTP;
 import ga.classi.commons.web.utility.HTTPResponse;
@@ -221,45 +220,6 @@ public class HTTPAccessBaseController extends AbstractBaseController implements 
     public ActionResult removeUserGroup(Map<String, Object> parameters) {
         try {            
             return defaultHTTP("/settings/user-group/remove", parameters).post();
-        } catch (IOException e) {
-            log.error(CommonUtils.getExceptionMessage(e), e);
-            return errorActionResult();
-        }
-    }
-
-    @Override
-    public ActionResult addEmailQueue(Map<String, Object> parameters) {
-        try {            
-            HTTP http = new HTTP();
-            http.setUrl(hostUrl + "/email-queues");
-            http.setBody(parameters);
-            return http.post();
-        } catch (IOException e) {
-            log.error(CommonUtils.getExceptionMessage(e), e);
-            return errorActionResult();
-        }
-    }
-
-    @Override
-    public ActionResult getEmailQueuesByStatus(Integer status) {
-        try {            
-            HTTP http = new HTTP();
-            http.setUrl(hostUrl + "/email-queues");
-            http.setBody(CommonUtils.map("status", status));
-            return http.get();
-        } catch (IOException e) {
-            log.error(CommonUtils.getExceptionMessage(e), e);
-            return errorActionResult();
-        }
-    }
-
-    @Override
-    public ActionResult editEmailQueue(Map<String, Object> parameters) {
-        try {            
-            HTTP http = new HTTP();
-            http.setUrl(hostUrl + "/email-queues/" + parameters.get("srh"));
-            http.setBody(parameters);
-            return http.put();
         } catch (IOException e) {
             log.error(CommonUtils.getExceptionMessage(e), e);
             return errorActionResult();

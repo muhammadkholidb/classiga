@@ -19,7 +19,7 @@ import ga.classi.commons.utility.ActionResult;
  *
  * @author muhammad
  */
-public interface IBaseController extends IBaseControllerSystem, IBaseControllerUser, IBaseControllerUserGroup, IBaseControllerEmailQueue {
+public interface IBaseController extends IBaseControllerSystem, IBaseControllerUser, IBaseControllerUserGroup {
 
     // Package private access
 
@@ -122,6 +122,8 @@ public interface IBaseController extends IBaseControllerSystem, IBaseControllerU
     void updateLocale(String languageCode);
 
     void updateLocale(Locale newLocale);
+
+    String getHostURL();
 
     String getFullRequestURL();
 

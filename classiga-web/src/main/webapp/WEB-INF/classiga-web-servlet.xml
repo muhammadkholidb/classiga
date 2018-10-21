@@ -87,10 +87,6 @@
 
     </mvc:interceptors>
 
-    <task:executor id="executor" pool-size="10"/>
-    <task:scheduler id="scheduler" pool-size="10"/>
-    <task:annotation-driven scheduler="scheduler" executor="executor" />
-
     <!-- https://crunchify.com/spring-mvc-4-1-x-simple-way-to-send-an-email-using-org-springframework-mail-javamail-javamailsenderimpl/ -->
     <!-- Production implementation of the JavaMailSender interface, supporting both JavaMail MimeMessages and Spring SimpleMailMessages -->
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
@@ -109,6 +105,10 @@
                 <prop key="mail.smtp.starttls.enable">${mail.smtp.starttls.enable}</prop>
             </props>
         </property>
+    </bean>
+
+    <bean id="emailServiceBean" class="ga.classi.commons.web.utility.EmailServiceBean">
+        <property name="mailSender" ref="mailSender" />
     </bean>
 
 </beans>

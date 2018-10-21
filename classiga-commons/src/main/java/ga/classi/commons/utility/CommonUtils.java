@@ -30,5 +30,16 @@ public final class CommonUtils {
         }
         return map;
     }
-    
+
+    public static String concat(Object... objs) {
+        if ((objs == null) || (objs.length == 0)) {
+            return "";
+        }
+        StringBuilder sb = new StringBuilder();
+        for (Object o : objs) {
+            sb.append(o);
+        }
+        return sb.toString();
+    }
+
 }

@@ -266,6 +266,10 @@ public abstract class BaseControllerAdapter {
         baseController.updateLocale(newLocale);
     }
 
+    protected String getHostURL() {
+        return baseController.getHostURL();
+    }
+    
     protected String getFullRequestURL() {
         return baseController.getFullRequestURL();
     }
@@ -407,18 +411,4 @@ public abstract class BaseControllerAdapter {
         return baseController.getLoggedInUserGroup();
     }
 
-    // Adapter for IBaseControllerEmailQueue
-    
-    protected ActionResult addEmailQueue(Map<String, Object> parameters) {
-        return baseController.addEmailQueue(parameters);
-    }
-    
-    protected ActionResult getEmailQueuesByStatus(Integer status) {
-        return baseController.getEmailQueuesByStatus(status);
-    }
-    
-    protected ActionResult editEmailQueue(Map<String, Object> parameters) {
-        return baseController.editEmailQueue(parameters);
-    }
-    
 }

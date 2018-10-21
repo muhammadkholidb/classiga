@@ -66,12 +66,12 @@
         <maven.compiler.target>1.8</maven.compiler.target>
 
         <version.classiga>${project.version}</version.classiga>
-        <version.spring>4.3.10.RELEASE</version.spring>
+        <version.spring>4.3.18.RELEASE</version.spring>
         <version.spring-data-jpa>1.11.0.RELEASE</version.spring-data-jpa>
         <version.hibernate>5.1.0.Final</version.hibernate>
         <version.apache-httpcomponents>5.0-alpha1</version.apache-httpcomponents>
         <version.json-simple>1.1.1</version.json-simple>
-        <version.jackson>2.6.7</version.jackson>
+        <version.jackson>2.8.11.1</version.jackson>
         <version.javax-servlet>3.1.0</version.javax-servlet>
         <version.javax-jsp>2.1</version.javax-jsp>
         <version.mysql-connector>5.1.30</version.mysql-connector>
@@ -85,7 +85,7 @@
         <version.primefaces>6.0</version.primefaces>
         <version.primefaces-themes>1.0.10</version.primefaces-themes>
         <version.cdi>1.2</version.cdi>
-        <version.h2database>1.4.191</version.h2database>
+        <version.h2database>1.4.197</version.h2database>
         <version.omnifaces>1.13</version.omnifaces>
         <version.commons-io>2.5</version.commons-io>
         <version.commons-codec>1.10</version.commons-codec>
@@ -103,7 +103,7 @@
         <version.maven-compiler-plugin>3.1</version.maven-compiler-plugin>
         <version.maven-war-plugin>2.6</version.maven-war-plugin>
         <version.maven-jar-plugin>2.6</version.maven-jar-plugin>
-        <version.maven-jetty-plugin>9.2.11.v20150529</version.maven-jetty-plugin>
+        <version.maven-jetty-plugin>9.4.12.v20180830</version.maven-jetty-plugin>
         <version.maven-wagon-ftp>2.10</version.maven-wagon-ftp>
         <version.maven-source-plugin>2.1.2</version.maven-source-plugin>
         <version.maven-javadoc-plugin>2.7</version.maven-javadoc-plugin>

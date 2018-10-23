@@ -40,7 +40,7 @@ public class EmailServiceBean {
         return "";
     }
  
-    public void sendEmail(String from, String to, String subject, String message) throws MessagingException {
+    public void send(String from, String to, String subject, String message) throws MessagingException {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
         helper.setFrom(from);

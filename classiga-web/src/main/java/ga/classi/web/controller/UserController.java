@@ -40,6 +40,7 @@ import ga.classi.web.helper.UIHelper;
 import ga.classi.web.ui.Notify;
 import lombok.extern.slf4j.Slf4j;
 import ga.classi.web.constant.ModelConstants;
+import ga.classi.web.constant.RequestMappingConstants;
 import ga.classi.web.constant.SessionConstants;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
@@ -72,9 +73,9 @@ public class UserController extends BaseControllerAdapter {
 
     @Autowired
     private EmailServiceBean emailService;
-    
+
     @SuppressWarnings("unchecked")
-    @GetMapping(value = "/settings/user/list", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = RequestMappingConstants.USER_LIST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public JSONObject getUsers() {
 
@@ -108,7 +109,7 @@ public class UserController extends BaseControllerAdapter {
         return SORT_COLUMN_NAME_BY_NUMBER[index];
     }
 
-    @GetMapping(value = "/settings/user")
+    @GetMapping(value = RequestMappingConstants.USER)
     public ModelAndView index() {
         log.info("Index ...");
         return view("user/list");
@@ -124,7 +125,7 @@ public class UserController extends BaseControllerAdapter {
     }
 
     @SuppressWarnings("unchecked")
-    @RequestMapping(value = "/settings/user/add", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = RequestMappingConstants.USER_ADD, method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView add(
             @RequestParam(name = "fullName", required = true, defaultValue = StringConstants.EMPTY) String fullName,
             @RequestParam(name = "username", required = true, defaultValue = StringConstants.EMPTY) String username,
@@ -166,14 +167,14 @@ public class UserController extends BaseControllerAdapter {
                 data.put("loginEmail", user.get("email"));
                 data.put("loginUsername", user.get("username"));
                 data.put("appName", getApplicationName());
-                
+
                 String to = CommonUtils.concat(
-                        user.get("fullName"), 
-                        StringConstants.ANGLE_BRACKET_OPEN, 
-                        user.get("email"), 
+                        user.get("fullName"),
+                        StringConstants.ANGLE_BRACKET_OPEN,
+                        user.get("email"),
                         StringConstants.ANGLE_BRACKET_CLOSE);
                 sendEmail(to, data, EmailType.USER_CREATED);
-                
+
                 return redirectAndNotifySuccess("/settings/user", result.getMessage());
             } else {    // Fail or error
                 return viewAndNotifyError("user/form-add", model, result.getMessage());
@@ -202,7 +203,7 @@ public class UserController extends BaseControllerAdapter {
             String content = emailService.getRemoteContent(appUrl + "/generate-html", params, HttpMethod.POST);
             try {
                 log.debug("Sending email to {}", to);
-                emailService.sendEmail(from, to, subject, content);
+                emailService.send(from, to, subject, content);
             } catch (MessagingException e) {
                 throw new CompletionException(e);
             }
@@ -213,7 +214,7 @@ public class UserController extends BaseControllerAdapter {
     }
 
     @SuppressWarnings("unchecked")
-    @RequestMapping(value = "/settings/user/edit/{userId}", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = RequestMappingConstants.USER_EDIT, method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView edit(
             @PathVariable String userId,
             @RequestParam(name = "fullName", required = true, defaultValue = StringConstants.EMPTY) String fullName,
@@ -307,7 +308,7 @@ public class UserController extends BaseControllerAdapter {
     }
 
     @SuppressWarnings("unchecked")
-    @PostMapping(value = "/settings/user/remove")
+    @PostMapping(value = RequestMappingConstants.USER_REMOVE)
     public ModelAndView remove(@RequestParam(name = "selected", required = false) String[] selected) {
 
         if (selected == null || selected.length == 0) {
@@ -338,7 +339,7 @@ public class UserController extends BaseControllerAdapter {
         }
     }
 
-    @GetMapping("/user/change-password")
+    @GetMapping(RequestMappingConstants.USER_CHANGE_PASSWORD)
     public ModelAndView changePassword(ModelMap modelMap) {
         log.info("Change password page ...");
 
@@ -352,7 +353,7 @@ public class UserController extends BaseControllerAdapter {
         return view("user/change-password", modelMap);
     }
 
-    @PostMapping(value = "/user/change-password")
+    @PostMapping(RequestMappingConstants.USER_CHANGE_PASSWORD)
     public ModelAndView changePassword(
             @RequestParam(name = "oldPassword", required = false) String oldPassword,
             @RequestParam(name = "newPassword", required = false) String newPassword,
@@ -387,7 +388,7 @@ public class UserController extends BaseControllerAdapter {
         return redirect("/user/change-password", ra);
     }
 
-    @GetMapping("/user/edit-profile")
+    @GetMapping(RequestMappingConstants.USER_EDIT_PROFILE)
     public ModelAndView editProfile(ModelMap modelMap) {
         log.info("Edit profile page ...");
 
@@ -407,7 +408,7 @@ public class UserController extends BaseControllerAdapter {
     }
 
     @SuppressWarnings("unchecked")
-    @PostMapping(value = "/user/edit-profile")
+    @PostMapping(RequestMappingConstants.USER_EDIT_PROFILE)
     public ModelAndView editProfile(
             @RequestParam(name = "fullName", required = true, defaultValue = StringConstants.EMPTY) String fullName,
             @RequestParam(name = "username", required = true, defaultValue = StringConstants.EMPTY) String username,

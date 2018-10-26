@@ -12,11 +12,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ga.classi.commons.data.error.DataException;
-import ga.classi.commons.data.error.ExceptionCode;
 import ga.classi.commons.data.DTO;
+import ga.classi.commons.data.error.Errors;
 import ga.classi.data.entity.MenuPermissionEntity;
 import ga.classi.data.entity.UserGroupEntity;
-import ga.classi.data.error.ErrorMessageConstants;
 import ga.classi.data.helper.DataValidation;
 import ga.classi.data.repository.MenuPermissionRepository;
 import ga.classi.data.repository.UserGroupRepository;
@@ -52,7 +51,7 @@ public class MenuPermissionService extends AbstractServiceHelper {
 
         UserGroupEntity userGroup = userGroupRepository.findOne(Long.valueOf(strUserGroupId));
         if (userGroup == null) {
-            throw new DataException(ExceptionCode.E1001, ErrorMessageConstants.USER_GROUP_NOT_FOUND);
+            throw new DataException(Errors.USER_GROUP_NOT_FOUND);
         }
 
         List<MenuPermissionEntity> list = userGroupMenuPermissionRepository.findByUserGroup(userGroup);

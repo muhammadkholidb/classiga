@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ga.classi.commons.data.error.DataException;
 import ga.classi.commons.data.error.ExceptionCode;
 import ga.classi.commons.data.DTO;
+import ga.classi.commons.data.error.Errors;
 import ga.classi.commons.data.utility.DTOUtils;
 import ga.classi.data.entity.SystemEntity;
 import ga.classi.data.error.ErrorMessageConstants;
@@ -52,7 +53,7 @@ public class SystemService extends AbstractServiceHelper {
 
         SystemEntity systemEntity = systemRepository.findByDataKey(strKey);
         if (systemEntity == null) {
-            throw new DataException(ExceptionCode.E1001, ErrorMessageConstants.SYSTEM_NOT_FOUND, new Object[]{strKey});
+            throw new DataException(Errors.SYSTEM_NOT_FOUND, new Object[]{strKey});
         }
 
         return buildResultByEntity(systemEntity);
@@ -71,7 +72,7 @@ public class SystemService extends AbstractServiceHelper {
 
         SystemEntity systemEntity = systemRepository.findOne(Long.valueOf(strId));
         if (systemEntity == null) {
-            throw new DataException(ExceptionCode.E1001, ErrorMessageConstants.SYSTEM_NOT_FOUND);
+            throw new DataException(Errors.SYSTEM_NOT_FOUND);
         }
 
         return buildResultByEntity(systemEntity);
@@ -109,7 +110,7 @@ public class SystemService extends AbstractServiceHelper {
 
             SystemEntity findSystem = systemRepository.findOne(Long.valueOf(strId));
             if (findSystem == null) {
-                throw new DataException(ExceptionCode.E1001, ErrorMessageConstants.SYSTEM_NOT_FOUND);
+                throw new DataException(Errors.SYSTEM_NOT_FOUND);
             }
 
             findSystem.setDataValue(strValue);

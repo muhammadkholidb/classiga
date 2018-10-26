@@ -15,10 +15,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.sql.DataSource;
 
 import org.dbunit.DatabaseUnitException;
-import org.dbunit.database.DatabaseDataSourceConnection;
 import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.ReplacementDataSet;
@@ -29,8 +27,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import ga.classi.commons.data.error.DataException;
-import ga.classi.commons.data.error.ExceptionCode;
-import ga.classi.commons.utility.CommonUtils;
+import ga.classi.commons.data.error.Errors;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -90,9 +87,8 @@ public class DataImporter {
             }
             log.debug("Import done.");
         } catch (Exception ex) {
-            String message = CommonUtils.getExceptionMessage(ex);
-            log.error(message, ex);
-            throw new DataException(ExceptionCode.E1007, message);
+            log.error(ex.getMessage(), ex);
+            throw new DataException(Errors.UNKNOWN);
         }
     }
 
@@ -127,9 +123,8 @@ public class DataImporter {
                 streamDataSets = null;
             }
         } catch (Exception ex) {
-            String message = CommonUtils.getExceptionMessage(ex);
-            log.error(message, ex);
-            throw new DataException(ExceptionCode.E1007, message);
+            log.error(ex.getMessage(), ex);
+            throw new DataException(Errors.UNKNOWN);
         }
     }
 

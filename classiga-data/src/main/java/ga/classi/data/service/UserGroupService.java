@@ -20,14 +20,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ga.classi.commons.data.error.DataException;
-import ga.classi.commons.data.error.ExceptionCode;
 import ga.classi.commons.data.DTO;
 import ga.classi.commons.data.utility.DTOUtils;
 import ga.classi.commons.constant.CommonConstants;
+import ga.classi.commons.data.error.Errors;
 import ga.classi.commons.utility.StringCheck;
 import ga.classi.data.entity.MenuPermissionEntity;
 import ga.classi.data.entity.UserGroupEntity;
-import ga.classi.data.error.ErrorMessageConstants;
 import ga.classi.data.helper.DataValidation;
 import ga.classi.data.repository.MenuPermissionRepository;
 import ga.classi.data.repository.UserGroupRepository;
@@ -78,7 +77,7 @@ public class UserGroupService extends AbstractServiceHelper {
 
         UserGroupEntity userGroup = userGroupRepository.findOneByIdAndDeleted(Long.valueOf(strId), CommonConstants.NO);
         if (userGroup == null) {
-            throw new DataException(ExceptionCode.E1001, ErrorMessageConstants.USER_GROUP_NOT_FOUND);
+            throw new DataException(Errors.USER_GROUP_NOT_FOUND);
         }
 
         return buildResultByEntity(userGroup);
@@ -97,7 +96,7 @@ public class UserGroupService extends AbstractServiceHelper {
 
         UserGroupEntity userGroup = userGroupRepository.findByIdAndDeletedFetchMenuPermissions(Long.valueOf(strId), CommonConstants.NO);
         if (userGroup == null) {
-            throw new DataException(ExceptionCode.E1001, ErrorMessageConstants.USER_GROUP_NOT_FOUND);
+            throw new DataException(Errors.USER_GROUP_NOT_FOUND);
         }
 
         List<MenuPermissionEntity> menuPermissions = userGroup.getMenuPermissions();
@@ -166,7 +165,7 @@ public class UserGroupService extends AbstractServiceHelper {
         // Find other user group with name
         UserGroupEntity findUserGroup = userGroupRepository.findOneByLowerNameAndDeleted(strGroupName.toLowerCase(), CommonConstants.NO);
         if (findUserGroup != null) {
-            throw new DataException(ExceptionCode.E1003, ErrorMessageConstants.USER_GROUP_ALREADY_EXISTS, new Object[]{strGroupName});
+            throw new DataException(Errors.USER_GROUP_ALREADY_EXISTS, new Object[]{strGroupName});
         }
 
         // Save new user group
@@ -221,13 +220,13 @@ public class UserGroupService extends AbstractServiceHelper {
         // Find by ID
         UserGroupEntity findUserGroupById = userGroupRepository.findOneByIdAndDeleted(userGroupId, CommonConstants.NO);
         if (findUserGroupById == null) {
-            throw new DataException(ExceptionCode.E1001, ErrorMessageConstants.USER_GROUP_NOT_FOUND);
+            throw new DataException(Errors.USER_GROUP_NOT_FOUND);
         }
 
         // Find another user group having the same name
         UserGroupEntity findUserGroupByName = userGroupRepository.findOneByLowerNameAndDeleted(strGroupName.toLowerCase(), CommonConstants.NO);
         if ((findUserGroupByName != null) && (!Objects.equals(findUserGroupByName.getId(), userGroupId))) {
-            throw new DataException(ExceptionCode.E1003, ErrorMessageConstants.USER_GROUP_ALREADY_EXISTS, new Object[]{strGroupName});
+            throw new DataException(Errors.USER_GROUP_ALREADY_EXISTS, new Object[]{strGroupName});
         }
 
         List<MenuPermissionEntity> listMenuPermission = new ArrayList<>();
@@ -310,7 +309,7 @@ public class UserGroupService extends AbstractServiceHelper {
 
             UserGroupEntity findUserGroupById = userGroupRepository.findOneByIdAndDeleted(userGroupId, CommonConstants.NO);
             if (findUserGroupById == null) {
-                throw new DataException(ExceptionCode.E1001, ErrorMessageConstants.USER_GROUP_NOT_FOUND);
+                throw new DataException(Errors.USER_GROUP_NOT_FOUND);
             }
 
             // Count users in this group
@@ -319,8 +318,7 @@ public class UserGroupService extends AbstractServiceHelper {
             log.debug("User group {}, count users: {}", userGroupId, countUsers);
             
             if (countUsers > 0) {
-                throw new DataException(ExceptionCode.E1002, 
-                        ErrorMessageConstants.CANT_REMOVE_USER_GROUP_CAUSE_USER_EXISTS, 
+                throw new DataException(Errors.CANT_REMOVE_USER_GROUP_CAUSE_USER_EXISTS, 
                         new Object[] { findUserGroupById.getName(), countUsers } );
             }
 

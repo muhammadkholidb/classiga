@@ -6,7 +6,11 @@
 package ga.classi.commons.data.error;
 
 import java.util.Arrays;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class DataException extends RuntimeException {
 
     /**
@@ -14,51 +18,31 @@ public class DataException extends RuntimeException {
      */
     private static final long serialVersionUID = 1L;
 
-    private ExceptionCode code;
+    private String code;
     private String message;
     private Object[] data;
 
-    public DataException() {}
-    
-    public DataException(ExceptionCode code, String message) {
-        this.code = code;
-        this.message = message;
-    }
-        
-    public DataException(ExceptionCode code, String message, Object[] data) {
+    public DataException(String code, String message, Object[] data) {
         this.code = code;
         this.message = message;
         this.data = data;
     }
-        
-    @Override
-    public String getMessage() {
-    	return this.message;
-    }
-
-    public void setMessage(String message) {
-    	this.message = message;
+    
+    public DataException(String code, String message) {
+        this(code, message, new Object[0]);
     }
     
-    public ExceptionCode getCode() {
-        return code;
+    public DataException(Errors errorCode, Object[] data) {
+        this(errorCode.code(), errorCode.messageCode(), data);
     }
-
-    public void setCode(ExceptionCode code) {
-        this.code = code;
+    
+    public DataException(Errors errorCode) {
+        this(errorCode, new Object[0]);
     }
-
-    public Object[] getData() {
-        return data;
-    }
-
-    public void setData(Object[] data) {
-        this.data = data;
-    }
-
+    
     @Override
     public String toString() {
-        return this.getClass().getName() + ": " + code + " - " + message + ((data == null) ? "" : " - " + Arrays.asList(data)); 
+        return this.getClass().getName() + ": " + this.code + " - " + this.message + ((data == null) ? "" : " - " + Arrays.toString(data)); 
     }
-    
+
 }

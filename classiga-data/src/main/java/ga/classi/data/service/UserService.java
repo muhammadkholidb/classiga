@@ -20,14 +20,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ga.classi.commons.data.error.DataException;
-import ga.classi.commons.data.error.ExceptionCode;
 import ga.classi.commons.data.DTO;
 import ga.classi.commons.data.utility.DTOUtils;
 import ga.classi.commons.constant.CommonConstants;
+import ga.classi.commons.data.error.Errors;
 import ga.classi.commons.utility.StringCheck;
 import ga.classi.data.entity.UserEntity;
 import ga.classi.data.entity.UserGroupEntity;
-import ga.classi.data.error.ErrorMessageConstants;
 import ga.classi.data.helper.DataValidation;
 import ga.classi.data.repository.UserGroupRepository;
 import ga.classi.data.repository.UserRepository;
@@ -74,7 +73,7 @@ public class UserService extends AbstractServiceHelper {
 
         UserGroupEntity userGroup = userGroupRepository.findOneByIdAndDeleted(Long.valueOf(strUserGroupId), CommonConstants.NO);
         if (userGroup == null) {
-            throw new DataException(ExceptionCode.E1001, ErrorMessageConstants.USER_GROUP_NOT_FOUND);
+            throw new DataException(Errors.USER_GROUP_NOT_FOUND);
         }
         
         List<UserEntity> list = userRepository.findByUserGroup(userGroup);
@@ -94,7 +93,7 @@ public class UserService extends AbstractServiceHelper {
 
         UserEntity user = userRepository.findOneByIdAndDeleted(Long.valueOf(strUserId), CommonConstants.NO);
         if (user == null) {
-            throw new DataException(ExceptionCode.E1001, ErrorMessageConstants.USER_NOT_FOUND);
+            throw new DataException(Errors.USER_NOT_FOUND);
         }
 
         return buildResultByEntity(user);
@@ -111,23 +110,23 @@ public class UserService extends AbstractServiceHelper {
 
         UserEntity loginUser = userRepository.findOneByLowerEmailOrLowerUsernameAndDeleted(strUsername.toLowerCase(), strUsername.toLowerCase(), CommonConstants.NO);
         if (loginUser == null) {
-            throw new DataException(ExceptionCode.E1001, ErrorMessageConstants.USER_NOT_FOUND);
+            throw new DataException(Errors.USER_NOT_FOUND);
         }
 
         String stirredPassword = DigestUtils.sha256Hex(strPassword + loginUser.getSalt());
 
         if (!loginUser.getPasswordHash().equals(stirredPassword)) {
-            throw new DataException(ExceptionCode.E1001, ErrorMessageConstants.USER_NOT_FOUND);
+            throw new DataException(Errors.USER_NOT_FOUND);
         }
 
         if (CommonConstants.NO.equals(loginUser.getActive())) {
-            throw new DataException(ExceptionCode.E1008, ErrorMessageConstants.CANT_LOGIN_CAUSE_USER_NOT_ACTIVE);
+            throw new DataException(Errors.CANT_LOGIN_CAUSE_USER_NOT_ACTIVE);
         }
 
         UserGroupEntity userGroup = loginUser.getUserGroup();
 
         if (CommonConstants.NO.equals(userGroup.getActive())) {
-            throw new DataException(ExceptionCode.E1008, ErrorMessageConstants.CANT_LOGIN_CAUSE_USER_GROUP_NOT_ACTIVE);
+            throw new DataException(Errors.CANT_LOGIN_CAUSE_USER_GROUP_NOT_ACTIVE);
         }
 
         List<DTO> menuPermissions = DTOUtils.toDTOList(userGroup.getMenuPermissions(), "userGroup");
@@ -150,7 +149,7 @@ public class UserService extends AbstractServiceHelper {
 
         UserEntity user = userRepository.findOneByLowerEmailAndDeleted(strEmail.toLowerCase(), CommonConstants.NO);
         if (user == null) {
-            throw new DataException(ExceptionCode.E1001, ErrorMessageConstants.USER_NOT_FOUND, new Object[]{strEmail});
+            throw new DataException(Errors.USER_NOT_FOUND, new Object[]{strEmail});
         }
 
         return buildResultByEntity(user);
@@ -169,7 +168,7 @@ public class UserService extends AbstractServiceHelper {
 
         UserEntity user = userRepository.findOneByLowerUsernameAndDeleted(strUsername.toLowerCase(), CommonConstants.NO);
         if (user == null) {
-            throw new DataException(ExceptionCode.E1001, ErrorMessageConstants.USER_NOT_FOUND, new Object[]{strUsername});
+            throw new DataException(Errors.USER_NOT_FOUND, new Object[]{strUsername});
         }
 
         return buildResultByEntity(user);
@@ -199,19 +198,19 @@ public class UserService extends AbstractServiceHelper {
         // Find user by username
         UserEntity userByUsername = userRepository.findOneByLowerUsernameAndDeleted(strUsername.toLowerCase(), CommonConstants.NO);
         if (userByUsername != null) {
-            throw new DataException(ExceptionCode.E1003, ErrorMessageConstants.USER_ALREADY_EXISTS_WITH_USERNAME, new Object[]{strUsername});
+            throw new DataException(Errors.USER_ALREADY_EXISTS_WITH_USERNAME, new Object[]{strUsername});
         }
 
         // Find user by email
         UserEntity userByEmail = userRepository.findOneByLowerEmailAndDeleted(strEmail.toLowerCase(), CommonConstants.NO);
         if (userByEmail != null) {
-            throw new DataException(ExceptionCode.E1003, ErrorMessageConstants.USER_ALREADY_EXISTS_WITH_EMAIL, new Object[]{strEmail});
+            throw new DataException(Errors.USER_ALREADY_EXISTS_WITH_EMAIL, new Object[]{strEmail});
         }
 
         // Find user group by ID
         UserGroupEntity userGroupById = userGroupRepository.findOneByIdAndDeleted(Long.valueOf(strUserGroupId), CommonConstants.NO);
         if (userGroupById == null) {
-            throw new DataException(ExceptionCode.E1001, ErrorMessageConstants.USER_GROUP_NOT_FOUND);
+            throw new DataException(Errors.USER_GROUP_NOT_FOUND);
         }
 
         String salt = RandomStringUtils.randomAlphanumeric(32);
@@ -259,25 +258,25 @@ public class UserService extends AbstractServiceHelper {
 
         UserEntity findUserById = userRepository.findOneByIdAndDeleted(Long.valueOf(strId), CommonConstants.NO);
         if (findUserById == null) {
-            throw new DataException(ExceptionCode.E1001, ErrorMessageConstants.USER_NOT_FOUND);
+            throw new DataException(Errors.USER_NOT_FOUND);
         }
 
         // Find other user by username
         UserEntity userByUsername = userRepository.findOneByLowerUsernameAndDeleted(strUsername.toLowerCase(), CommonConstants.NO);
         if (userByUsername != null && !Objects.equals(userByUsername.getId(), Long.valueOf(strId))) {
-            throw new DataException(ExceptionCode.E1003, ErrorMessageConstants.USER_ALREADY_EXISTS_WITH_USERNAME, new Object[]{strUsername});
+            throw new DataException(Errors.USER_ALREADY_EXISTS_WITH_USERNAME, new Object[]{strUsername});
         }
 
         // Find other user by email
         UserEntity userByEmail = userRepository.findOneByLowerEmailAndDeleted(strEmail.toLowerCase(), CommonConstants.NO);
         if (userByEmail != null && !Objects.equals(userByEmail.getId(), Long.valueOf(strId))) {
-            throw new DataException(ExceptionCode.E1003, ErrorMessageConstants.USER_ALREADY_EXISTS_WITH_EMAIL, new Object[]{strEmail});
+            throw new DataException(Errors.USER_ALREADY_EXISTS_WITH_EMAIL, new Object[]{strEmail});
         }
 
         // Find user group by ID
         UserGroupEntity userGroupById = userGroupRepository.findOneByIdAndDeleted(Long.valueOf(strUserGroupId), CommonConstants.NO);
         if (userGroupById == null) {
-            throw new DataException(ExceptionCode.E1001, ErrorMessageConstants.USER_GROUP_NOT_FOUND);
+            throw new DataException(Errors.USER_GROUP_NOT_FOUND);
         }
 
         findUserById.setFullName(strFullName);
@@ -325,7 +324,7 @@ public class UserService extends AbstractServiceHelper {
                 DataValidation.validateNumber(strId, "User ID");
                 UserEntity findUserById = userRepository.findOneByIdAndDeleted(Long.valueOf(strId), CommonConstants.NO);
                 if (findUserById == null) {
-                    throw new DataException(ExceptionCode.E1001, ErrorMessageConstants.USER_NOT_FOUND);
+                    throw new DataException(Errors.USER_NOT_FOUND);
                 }
                 findUserById.setDeleted();
                 listUser.add(findUserById);
@@ -336,7 +335,7 @@ public class UserService extends AbstractServiceHelper {
             DataValidation.validateNumber(strUserId, "User ID");
             UserEntity findUserById = userRepository.findOneByIdAndDeleted(Long.valueOf(strUserId), CommonConstants.NO);
             if (findUserById == null) {
-                throw new DataException(ExceptionCode.E1001, ErrorMessageConstants.USER_NOT_FOUND);
+                throw new DataException(Errors.USER_NOT_FOUND);
             }
             findUserById.setDeleted();
             listUser.add(findUserById);
@@ -363,7 +362,7 @@ public class UserService extends AbstractServiceHelper {
         
         UserEntity user = userRepository.findOneByIdAndDeleted(Long.valueOf(strId), CommonConstants.NO);
         if (user == null) {
-            throw new DataException(ExceptionCode.E1001, ErrorMessageConstants.USER_NOT_FOUND);
+            throw new DataException(Errors.USER_NOT_FOUND);
         }
 
         String oldPasswordHash = DigestUtils.sha256Hex(strOldPassword + user.getSalt());

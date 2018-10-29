@@ -26,10 +26,9 @@ import com.github.springtestdbunit.annotation.DatabaseTearDown;
 import com.github.springtestdbunit.annotation.DbUnitConfiguration;
 
 import ga.classi.commons.data.error.DataException;
-import ga.classi.commons.data.error.ExceptionCode;
 import ga.classi.commons.data.DTO;
 import ga.classi.commons.constant.CommonConstants;
-import ga.classi.data.error.ErrorMessageConstants;
+import ga.classi.commons.data.error.Errors;
 import ga.classi.data.test.ReplacementFlatXmlDataSetLoader;
 import lombok.extern.slf4j.Slf4j;
 
@@ -133,8 +132,7 @@ public class UserServiceTest {
             fail("User should not be found.");
         } catch (DataException ex) {
             log.debug(ex.toString());
-            assertEquals(ExceptionCode.E1001, ex.getCode());
-            assertEquals(ErrorMessageConstants.USER_NOT_FOUND, ex.getMessage());
+            assertEquals(Errors.USER_NOT_FOUND.code(), ex.getCode());
         } catch (Exception ex) {
             fail(ex.toString());
         }
@@ -195,8 +193,7 @@ public class UserServiceTest {
             fail("User should not found.");
         } catch (DataException ex) {
             log.debug(ex.toString());
-            assertEquals(ExceptionCode.E1001, ex.getCode());
-            assertEquals(ErrorMessageConstants.USER_NOT_FOUND, ex.getMessage());
+            assertEquals(Errors.USER_NOT_FOUND.code(), ex.getCode());
         } catch (Exception ex) {
             fail(ex.toString());
         }
@@ -231,8 +228,7 @@ public class UserServiceTest {
             fail("User should not found.");
         } catch (DataException ex) {
             log.debug(ex.toString());
-            assertEquals(ExceptionCode.E1001, ex.getCode());
-            assertEquals(ErrorMessageConstants.USER_NOT_FOUND, ex.getMessage());
+            assertEquals(Errors.USER_NOT_FOUND.code(), ex.getCode());
         } catch (Exception ex) {
             fail(ex.toString());
         }
@@ -278,8 +274,7 @@ public class UserServiceTest {
             fail();
         } catch (DataException e) {
             log.debug(e.toString());
-            assertEquals(ExceptionCode.E1003, e.getCode());
-            assertEquals(ErrorMessageConstants.USER_ALREADY_EXISTS_WITH_USERNAME, e.getMessage());
+            assertEquals(Errors.USER_ALREADY_EXISTS_WITH_USERNAME.code(), e.getCode());
         } catch (Exception e) {
             log.error(e.toString(), e);
             fail(e.toString());
@@ -331,8 +326,7 @@ public class UserServiceTest {
             fail();
         } catch (DataException e) {
             log.debug(e.toString());
-            assertEquals(ExceptionCode.E1001, e.getCode());
-            assertEquals(ErrorMessageConstants.USER_NOT_FOUND, e.getMessage());
+            assertEquals(Errors.USER_NOT_FOUND.code(), e.getCode());
         } catch (Exception e) {
             log.error(e.toString(), e);
             fail(e.toString());
@@ -358,8 +352,7 @@ public class UserServiceTest {
             fail();
         } catch (DataException e) {
             log.debug(e.toString());
-            assertEquals(ExceptionCode.E1003, e.getCode());
-            assertEquals(ErrorMessageConstants.USER_ALREADY_EXISTS_WITH_EMAIL, e.getMessage());
+            assertEquals(Errors.USER_ALREADY_EXISTS_WITH_EMAIL.code(), e.getCode());
         } catch (Exception e) {
             log.error(e.toString(), e);
             fail(e.toString());
@@ -386,8 +379,7 @@ public class UserServiceTest {
             fail();
         } catch (DataException e) {
             log.debug(e.toString());
-            assertEquals(ExceptionCode.E1001, e.getCode());
-            assertEquals(ErrorMessageConstants.USER_NOT_FOUND, e.getMessage());
+            assertEquals(Errors.USER_NOT_FOUND.code(), e.getCode());
         } catch (Exception e) {
             log.error(e.toString(), e);
             fail(e.toString());
@@ -421,8 +413,7 @@ public class UserServiceTest {
                 fail();
             } catch (DataException e) {
                 log.debug(e.toString());
-                assertEquals(ExceptionCode.E1001, e.getCode());
-                assertEquals(ErrorMessageConstants.USER_NOT_FOUND, e.getMessage());
+                assertEquals(Errors.USER_NOT_FOUND.code(), e.getCode());
             } catch (Exception e) {
                 log.error(e.toString(), e);
                 fail(e.toString());

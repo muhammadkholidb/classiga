@@ -26,10 +26,9 @@ import com.github.springtestdbunit.annotation.DatabaseTearDown;
 import com.github.springtestdbunit.annotation.DbUnitConfiguration;
 
 import ga.classi.commons.data.error.DataException;
-import ga.classi.commons.data.error.ExceptionCode;
 import ga.classi.commons.data.DTO;
 import ga.classi.commons.constant.CommonConstants;
-import ga.classi.data.error.ErrorMessageConstants;
+import ga.classi.commons.data.error.Errors;
 import ga.classi.data.test.ReplacementFlatXmlDataSetLoader;
 import lombok.extern.slf4j.Slf4j;
 
@@ -85,8 +84,7 @@ public class SystemServiceTest {
             fail();
         } catch (DataException e) {
             log.debug(e.toString());
-            assertEquals(ExceptionCode.E1001, e.getCode());
-            assertEquals(ErrorMessageConstants.SYSTEM_NOT_FOUND, e.getMessage());
+            assertEquals(Errors.SYSTEM_NOT_FOUND.code(), e.getCode());
         } catch (Exception e) {
             log.error(e.toString(), e);
             fail(e.toString());
@@ -154,8 +152,7 @@ public class SystemServiceTest {
             fail();
         } catch (DataException e) {
             log.debug(e.toString());
-            assertEquals(ExceptionCode.E1001, e.getCode());
-            assertEquals(ErrorMessageConstants.SYSTEM_NOT_FOUND, e.getMessage());
+            assertEquals(Errors.SYSTEM_NOT_FOUND.code(), e.getCode());
         } catch (Exception e) {
             log.error(e.toString(), e);
             fail(e.toString());

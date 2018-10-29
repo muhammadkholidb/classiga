@@ -27,11 +27,13 @@ import ga.classi.commons.data.error.Errors;
 import ga.classi.commons.utility.StringCheck;
 import ga.classi.data.entity.MenuPermissionEntity;
 import ga.classi.data.entity.UserGroupEntity;
-import ga.classi.data.helper.DataValidation;
 import ga.classi.data.repository.MenuPermissionRepository;
 import ga.classi.data.repository.UserGroupRepository;
 import ga.classi.data.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+
+import static ga.classi.commons.constant.RequestDataConstants.*;
+import ga.classi.data.helper.DataValidator;
 
 @Slf4j
 @Service
@@ -49,7 +51,7 @@ public class UserGroupService extends AbstractServiceHelper {
     @Transactional(readOnly = true)
     public DTO getAll(DTO dtoInput) {
 
-        String searchTerm = dtoInput.getStringValue("searchTerm");
+        String searchTerm = dtoInput.getStringValue(SEARCH_TERM);
 
         PageRequest pageRequest = createPageRequest(dtoInput, Sort.Direction.ASC, "name");
         
@@ -68,12 +70,11 @@ public class UserGroupService extends AbstractServiceHelper {
     public DTO getOne(DTO dtoInput) {
 
         // Validate dtoInput
-        DataValidation.containsRequiredData(dtoInput, "id");
-
-        String strId = dtoInput.getStringValue("id");
+        DataValidator validator = new DataValidator(dtoInput);
+        validator.containsRequiredData(ID);
 
         // Validate values
-        DataValidation.validateNumber(strId, "User Group ID");
+        String strId = validator.validateNumber(ID);
 
         UserGroupEntity userGroup = userGroupRepository.findOneByIdAndDeleted(Long.valueOf(strId), CommonConstants.NO);
         if (userGroup == null) {
@@ -87,12 +88,11 @@ public class UserGroupService extends AbstractServiceHelper {
     public DTO getOneWithMenuPermissions(DTO dtoInput) {
 
         // Validate dtoInput
-        DataValidation.containsRequiredData(dtoInput, "id");
-
-        String strId = dtoInput.getStringValue("id");
+        DataValidator validator = new DataValidator(dtoInput);
+        validator.containsRequiredData(ID);
 
         // Validate values
-        DataValidation.validateNumber(strId, "User Group ID");
+        String strId = validator.validateNumber(ID);
 
         UserGroupEntity userGroup = userGroupRepository.findByIdAndDeletedFetchMenuPermissions(Long.valueOf(strId), CommonConstants.NO);
         if (userGroup == null) {
@@ -102,9 +102,9 @@ public class UserGroupService extends AbstractServiceHelper {
         List<MenuPermissionEntity> menuPermissions = userGroup.getMenuPermissions();
 
         DTO dtoUserGroup = DTOUtils.toDTO(userGroup);
-        List<DTO> listDtoMenuPermissions = DTOUtils.toDTOList(menuPermissions, "userGroup");
+        List<DTO> listDtoMenuPermissions = DTOUtils.toDTOList(menuPermissions, USER_GROUP);
 
-        return buildResultByDTO(dtoUserGroup.put("menuPermissions", listDtoMenuPermissions));
+        return buildResultByDTO(dtoUserGroup.put(MENU_PERMISSIONS, listDtoMenuPermissions));
     }
 
     @SuppressWarnings("unchecked")
@@ -112,28 +112,25 @@ public class UserGroupService extends AbstractServiceHelper {
     public DTO add(DTO dtoInput) {
 
         // Validate dtoInput
-        DataValidation.containsRequiredData(dtoInput, "userGroup", "menuPermissions");
-
-        String strUserGroup = dtoInput.getStringValue("userGroup");
-        String strMenuPermissions = dtoInput.getStringValue("menuPermissions");
+        DataValidator validator = new DataValidator(dtoInput);
+        validator.containsRequiredData(USER_GROUP, MENU_PERMISSIONS);
 
         // Validate values
-        DataValidation.validateJSONObject(strUserGroup, "User Group");
-        DataValidation.validateJSONArray(strMenuPermissions, "Menu Permissions");
+        String strUserGroup = validator.validateJSONObject(USER_GROUP);
+        String strMenuPermissions = validator.validateJSONArray(MENU_PERMISSIONS);
 
         JSONObject jsonUserGroup = (JSONObject) JSONValue.parse(strUserGroup);
         JSONArray arrMenuPermissions = (JSONArray) JSONValue.parse(strMenuPermissions);
 
         // Validate parameter user group
-        DataValidation.containsRequiredData(jsonUserGroup, "name", "active");
-
-        String strGroupName = String.valueOf(jsonUserGroup.get("name"));
-        String strGroupActive = String.valueOf(jsonUserGroup.get("active"));
-        String strGroupDescription = String.valueOf(jsonUserGroup.get("description"));
+        DataValidator validatorUserGroup = new DataValidator(new DTO(jsonUserGroup));
+        validatorUserGroup.containsRequiredData(NAME, ACTIVE);
 
         // Validate values user group
-        DataValidation.validateEmpty(strGroupName, "Name");
-        DataValidation.validateYesNo(strGroupActive, "Active");
+        String strGroupName = validatorUserGroup.validateEmptyString(NAME);
+        String strGroupActive = validatorUserGroup.validateYesNo(ACTIVE);
+
+        String strGroupDescription = String.valueOf(jsonUserGroup.get(DESCRIPTION));
 
         List<MenuPermissionEntity> listMenuPermission = new ArrayList<>();
 
@@ -143,16 +140,13 @@ public class UserGroupService extends AbstractServiceHelper {
             JSONObject jsonMenuPermission = (JSONObject) object;
 
             // Validate dtoInput
-            DataValidation.containsRequiredData(jsonMenuPermission, "menuCode", "canView", "canModify");
-
-            String strMenuCode = String.valueOf(jsonMenuPermission.get("menuCode"));
-            String strViewPermission = String.valueOf(jsonMenuPermission.get("canView"));
-            String strModifyPermission = String.valueOf(jsonMenuPermission.get("canModify"));
+            DataValidator validatorMenu = new DataValidator(new DTO(jsonMenuPermission));
+            validatorMenu.containsRequiredData(MENU_CODE, CAN_VIEW, CAN_MODIFY);
 
             // Validate values
-            DataValidation.validateEmpty(strMenuCode, "Menu Code");
-            DataValidation.validateYesNo(strViewPermission, "View Permission");
-            DataValidation.validateYesNo(strModifyPermission, "Modify Permission");
+            String strMenuCode = validatorMenu.validateEmptyString(MENU_CODE);
+            String strViewPermission = validatorMenu.validateYesNo(CAN_VIEW);
+            String strModifyPermission = validatorMenu.validateYesNo(CAN_MODIFY);
 
             MenuPermissionEntity menuPermission = new MenuPermissionEntity();
             menuPermission.setMenuCode(strMenuCode);
@@ -190,31 +184,27 @@ public class UserGroupService extends AbstractServiceHelper {
     public DTO edit(DTO dtoInput) {
 
         // Validate dtoInput
-        DataValidation.containsRequiredData(dtoInput, "userGroup", "menuPermissions");
-
-        String strUserGroup = dtoInput.getStringValue("userGroup");
-        String strMenuPermissions = dtoInput.getStringValue("menuPermissions");
+        DataValidator validator = new DataValidator(dtoInput);
+        validator.containsRequiredData(USER_GROUP, MENU_PERMISSIONS);
 
         // Validate values
-        DataValidation.validateJSONObject(strUserGroup, "User Group");
-        DataValidation.validateJSONArray(strMenuPermissions, "Menu Permissions");
+        String strUserGroup = validator.validateJSONObject(USER_GROUP);
+        String strMenuPermissions = validator.validateJSONArray(MENU_PERMISSIONS);
 
         JSONObject jsonUserGroup = (JSONObject) JSONValue.parse(strUserGroup);
         JSONArray arrMenuPermissions = (JSONArray) JSONValue.parse(strMenuPermissions);
 
         // Validate parameter user group
-        DataValidation.containsRequiredData(jsonUserGroup, "id", "name", "active");
-
-        String strId = String.valueOf(jsonUserGroup.get("id"));
-        String strGroupName = String.valueOf(jsonUserGroup.get("name"));
-        String strGroupDescription = String.valueOf(jsonUserGroup.get("description"));
-        String strGroupActive = String.valueOf(jsonUserGroup.get("active"));
+        DataValidator validatorUserGroup = new DataValidator(new DTO(jsonUserGroup));
+        validatorUserGroup.containsRequiredData(ID, NAME, ACTIVE);
 
         // Validate values user group
-        DataValidation.validateNumber(strId, "User Group ID");
-        DataValidation.validateEmpty(strId, "Name");
-        DataValidation.validateYesNo(strGroupActive, "Active");
+        String strId = validatorUserGroup.validateNumber(ID);
+        String strGroupName = validatorUserGroup.validateEmptyString(NAME);
+        String strGroupActive = validatorUserGroup.validateYesNo(ACTIVE);
 
+        String strGroupDescription = String.valueOf(jsonUserGroup.get(DESCRIPTION));
+        
         Long userGroupId = Long.valueOf(strId);
 
         // Find by ID
@@ -237,16 +227,13 @@ public class UserGroupService extends AbstractServiceHelper {
             JSONObject jsonMenuPermission = (JSONObject) object;
 
             // Validate dtoInput
-            DataValidation.containsRequiredData(jsonMenuPermission, "menuCode", "canView", "canModify");
-
-            String strMenuCode = String.valueOf(jsonMenuPermission.get("menuCode"));
-            String strViewPermission = String.valueOf(jsonMenuPermission.get("canView"));
-            String strModifyPermission = String.valueOf(jsonMenuPermission.get("canModify"));
+            DataValidator validatorMenu = new DataValidator(new DTO(jsonMenuPermission));
+            validatorMenu.containsRequiredData(MENU_CODE, CAN_VIEW, CAN_MODIFY);
 
             // Validate values
-            DataValidation.validateEmpty(strMenuCode, "Menu Code");
-            DataValidation.validateYesNo(strViewPermission, "View Permission");
-            DataValidation.validateYesNo(strModifyPermission, "Modify Permission");
+            String strMenuCode = validatorMenu.validateEmptyString(MENU_CODE);
+            String strViewPermission = validatorMenu.validateYesNo(CAN_VIEW);
+            String strModifyPermission = validatorMenu.validateYesNo(CAN_MODIFY);
 
             MenuPermissionEntity menuPermission = new MenuPermissionEntity();
             menuPermission.setMenuCode(strMenuCode);
@@ -281,9 +268,10 @@ public class UserGroupService extends AbstractServiceHelper {
     public void remove(DTO dtoInput) {
 
         // Validate dtoInput
-        DataValidation.containsRequiredData(dtoInput, "id");
+        DataValidator validator = new DataValidator(dtoInput);
+        validator.containsRequiredData(ID);
 
-        String strUserGroupId = dtoInput.getStringValue("id");
+        String strUserGroupId = dtoInput.getStringValue(ID);
 
         List<Long> listUserGroupId = new ArrayList<>();
 
@@ -293,13 +281,17 @@ public class UserGroupService extends AbstractServiceHelper {
 
             for (Object id : arr) {
                 String strId = String.valueOf(id);
-                DataValidation.validateNumber(strId, "User Group ID");
+                if (!StringCheck.isNumber(strId)) {
+                    throw new DataException(Errors.INVALID_NUMBER, new Object[] {ID});
+                }
                 listUserGroupId.add(Long.valueOf(strId));
             }
 
         } else {
 
-            DataValidation.validateNumber(strUserGroupId, "User Group ID");
+            if (!StringCheck.isNumber(strUserGroupId)) {
+                throw new DataException(Errors.INVALID_NUMBER, new Object[] {ID});
+            }
             listUserGroupId.add(Long.valueOf(strUserGroupId));
         }
 

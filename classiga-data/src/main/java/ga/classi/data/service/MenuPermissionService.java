@@ -16,9 +16,11 @@ import ga.classi.commons.data.DTO;
 import ga.classi.commons.data.error.Errors;
 import ga.classi.data.entity.MenuPermissionEntity;
 import ga.classi.data.entity.UserGroupEntity;
-import ga.classi.data.helper.DataValidation;
 import ga.classi.data.repository.MenuPermissionRepository;
 import ga.classi.data.repository.UserGroupRepository;
+
+import static ga.classi.commons.constant.RequestDataConstants.*;
+import ga.classi.data.helper.DataValidator;
 
 @Service
 public class MenuPermissionService extends AbstractServiceHelper {
@@ -42,12 +44,11 @@ public class MenuPermissionService extends AbstractServiceHelper {
     public DTO getMenuPermissionListByUserGroupId(DTO dtoInput) {
 
         // Validate parameters
-        DataValidation.containsRequiredData(dtoInput, "userGroupId");
-
-        String strUserGroupId = dtoInput.getStringValue("userGroupId");
+        DataValidator validator = new DataValidator(dtoInput);
+        validator.containsRequiredData(USER_GROUP_ID);
 
         // Validate values
-        DataValidation.validateNumber(strUserGroupId, "User Group ID");
+        String strUserGroupId = validator.validateNumber(USER_GROUP_ID);
 
         UserGroupEntity userGroup = userGroupRepository.findOne(Long.valueOf(strUserGroupId));
         if (userGroup == null) {

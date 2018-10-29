@@ -27,11 +27,13 @@ import ga.classi.commons.data.error.Errors;
 import ga.classi.commons.utility.StringCheck;
 import ga.classi.data.entity.UserEntity;
 import ga.classi.data.entity.UserGroupEntity;
-import ga.classi.data.helper.DataValidation;
+import ga.classi.data.helper.DataValidator;
 import ga.classi.data.repository.UserGroupRepository;
 import ga.classi.data.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
+
+import static ga.classi.commons.constant.RequestDataConstants.*;
 
 @Slf4j
 @Service
@@ -65,11 +67,11 @@ public class UserService extends AbstractServiceHelper {
     public DTO getAllByUserGroupId(DTO dtoInput) {
 
         // Validate dtoInput
-        DataValidation.containsRequiredData(dtoInput, "userGroupId");
+        DataValidator validator = new DataValidator(dtoInput);
+        validator.containsRequiredData(USER_GROUP_ID);
 
         // Validate values
-        String strUserGroupId = dtoInput.getStringValue("userGroupId");
-        DataValidation.validateNumber(strUserGroupId, "User Group ID");
+        String strUserGroupId = validator.validateNumber(USER_GROUP_ID);
 
         UserGroupEntity userGroup = userGroupRepository.findOneByIdAndDeleted(Long.valueOf(strUserGroupId), CommonConstants.NO);
         if (userGroup == null) {
@@ -85,11 +87,11 @@ public class UserService extends AbstractServiceHelper {
     public DTO getOne(DTO dtoInput) {
 
         // Validate dtoInput
-        DataValidation.containsRequiredData(dtoInput, "id");
+        DataValidator validator = new DataValidator(dtoInput);
+        validator.containsRequiredData(ID);
 
         // Validate values
-        String strUserId = dtoInput.getStringValue("id");
-        DataValidation.validateNumber(strUserId, "User ID");
+        String strUserId = validator.validateNumber(ID);
 
         UserEntity user = userRepository.findOneByIdAndDeleted(Long.valueOf(strUserId), CommonConstants.NO);
         if (user == null) {
@@ -103,10 +105,11 @@ public class UserService extends AbstractServiceHelper {
     public DTO login(DTO dtoInput) {
 
         // Validate dtoInput
-        DataValidation.containsRequiredData(dtoInput, "password", "username");
+        DataValidator validator = new DataValidator(dtoInput);
+        validator.containsRequiredData(USERNAME, PASSWORD);
 
-        String strPassword = dtoInput.get("password");
-        String strUsername = dtoInput.get("username");
+        String strPassword = dtoInput.get(PASSWORD);
+        String strUsername = dtoInput.get(USERNAME);
 
         UserEntity loginUser = userRepository.findOneByLowerEmailOrLowerUsernameAndDeleted(strUsername.toLowerCase(), strUsername.toLowerCase(), CommonConstants.NO);
         if (loginUser == null) {
@@ -140,12 +143,11 @@ public class UserService extends AbstractServiceHelper {
     public DTO getByEmail(DTO dtoInput) {
 
         // Validate dtoInput
-        DataValidation.containsRequiredData(dtoInput, "email");
-
-        String strEmail = dtoInput.get("email");
+        DataValidator validator = new DataValidator(dtoInput);
+        validator.containsRequiredData(EMAIL);
 
         // Validate values
-        DataValidation.validateEmail(strEmail);
+        String strEmail = validator.validateEmail(EMAIL);
 
         UserEntity user = userRepository.findOneByLowerEmailAndDeleted(strEmail.toLowerCase(), CommonConstants.NO);
         if (user == null) {
@@ -159,12 +161,11 @@ public class UserService extends AbstractServiceHelper {
     public DTO getByUsername(DTO dtoInput) {
 
         // Validate dtoInput
-        DataValidation.containsRequiredData(dtoInput, "username");
-
-        String strUsername = dtoInput.get("username");
+        DataValidator validator = new DataValidator(dtoInput);
+        validator.containsRequiredData(USERNAME);
 
         // Validate values
-        DataValidation.validateUsername(strUsername);
+        String strUsername = validator.validateUsername(USERNAME);
 
         UserEntity user = userRepository.findOneByLowerUsernameAndDeleted(strUsername.toLowerCase(), CommonConstants.NO);
         if (user == null) {
@@ -178,22 +179,16 @@ public class UserService extends AbstractServiceHelper {
     public DTO add(DTO dtoInput) {
 
         // Validate dtoInput
-        DataValidation.containsRequiredData(dtoInput, "fullName", "email", "username", "password", "active", "userGroupId");
-
-        String strFullName = dtoInput.get("fullName");
-        String strEmail = dtoInput.get("email");
-        String strUsername = dtoInput.get("username");
-        String strPassword = dtoInput.get("password");
-        String strActive = dtoInput.get("active");
-        String strUserGroupId = dtoInput.getStringValue("userGroupId");
+        DataValidator validator = new DataValidator(dtoInput);
+        validator.containsRequiredData(FULL_NAME, EMAIL, USERNAME, PASSWORD, ACTIVE, USER_GROUP_ID);
 
         // Validate values
-        DataValidation.validateEmpty(strFullName, "Full Name");
-        DataValidation.validateEmpty(strPassword, "Password");
-        DataValidation.validateEmail(strEmail);
-        DataValidation.validateUsername(strUsername);
-        DataValidation.validateNumber(strUserGroupId, "User Group ID");
-        DataValidation.validateYesNo(strActive, "Active");
+        String strFullName = validator.validateEmptyString(FULL_NAME);
+        String strPassword = validator.validateEmptyString(PASSWORD);
+        String strEmail = validator.validateEmail(EMAIL);
+        String strUsername = validator.validateUsername(USERNAME);
+        String strUserGroupId = validator.validateNumber(USER_GROUP_ID);
+        String strActive = validator.validateYesNo(ACTIVE);
 
         // Find user by username
         UserEntity userByUsername = userRepository.findOneByLowerUsernameAndDeleted(strUsername.toLowerCase(), CommonConstants.NO);
@@ -237,24 +232,19 @@ public class UserService extends AbstractServiceHelper {
     public DTO edit(DTO dtoInput) {
 
         // Validate dtoInput
-        DataValidation.containsRequiredData(dtoInput, "id", "fullName", "email", "username", "active", "userGroupId");
-
-        String strId = dtoInput.getStringValue("id");
-        String strFullName = dtoInput.get("fullName");
-        String strEmail = dtoInput.get("email");
-        String strUsername = dtoInput.get("username");
-        String strPassword = dtoInput.get("password");
-        String strActive = dtoInput.get("active");
-        String strAvatar = dtoInput.get("avatar");
-        String strUserGroupId = dtoInput.getStringValue("userGroupId");
+        DataValidator validator = new DataValidator(dtoInput);
+        validator.containsRequiredData(ID, FULL_NAME, EMAIL, USERNAME, ACTIVE, USER_GROUP_ID);
 
         // Validate values
-        DataValidation.validateNumber(strId, "User ID");
-        DataValidation.validateEmpty(strFullName, "First Name");
-        DataValidation.validateEmail(strEmail);
-        DataValidation.validateUsername(strUsername);
-        DataValidation.validateNumber(strUserGroupId, "User Group ID");
-        DataValidation.validateYesNo(strActive, "Active");
+        String strId = validator.validateNumber(ID);
+        String strFullName = validator.validateEmptyString(FULL_NAME);
+        String strEmail = validator.validateEmail(EMAIL);
+        String strUsername = validator.validateUsername(USERNAME);
+        String strUserGroupId = validator.validateNumber(USER_GROUP_ID);
+        String strActive = validator.validateYesNo(ACTIVE);
+
+        String strPassword = dtoInput.get(PASSWORD);
+        String strAvatar = dtoInput.get(AVATAR);
 
         UserEntity findUserById = userRepository.findOneByIdAndDeleted(Long.valueOf(strId), CommonConstants.NO);
         if (findUserById == null) {
@@ -308,10 +298,11 @@ public class UserService extends AbstractServiceHelper {
     public void remove(DTO dtoInput) {
 
         // Validate dtoInput
-        DataValidation.containsRequiredData(dtoInput, "id");
+        DataValidator validator = new DataValidator(dtoInput);
+        validator.containsRequiredData(ID);
 
         // Validate values
-        String strUserId = dtoInput.getStringValue("id");
+        String strUserId = dtoInput.getStringValue(ID);
 
         List<UserEntity> listUser = new ArrayList<>();
 
@@ -321,7 +312,9 @@ public class UserService extends AbstractServiceHelper {
 
             for (Object id : arr) {
                 String strId = String.valueOf(id);
-                DataValidation.validateNumber(strId, "User ID");
+                if (!StringCheck.isNumber(strId)) {
+                    throw new DataException(Errors.INVALID_NUMBER, new Object[] {ID});
+                }
                 UserEntity findUserById = userRepository.findOneByIdAndDeleted(Long.valueOf(strId), CommonConstants.NO);
                 if (findUserById == null) {
                     throw new DataException(Errors.USER_NOT_FOUND);
@@ -332,7 +325,9 @@ public class UserService extends AbstractServiceHelper {
 
         } else {
 
-            DataValidation.validateNumber(strUserId, "User ID");
+            if (!StringCheck.isNumber(strUserId)) {
+                throw new DataException(Errors.INVALID_NUMBER, new Object[] {ID});
+            }
             UserEntity findUserById = userRepository.findOneByIdAndDeleted(Long.valueOf(strUserId), CommonConstants.NO);
             if (findUserById == null) {
                 throw new DataException(Errors.USER_NOT_FOUND);
@@ -349,16 +344,12 @@ public class UserService extends AbstractServiceHelper {
     public DTO changePassword(DTO dtoInput) {
 
         // Validate dtoInput
-        DataValidation.containsRequiredData(dtoInput, "id", "oldPassword", "newPassword", "newPasswordConfirm");
+        DataValidator validator = new DataValidator(dtoInput);
+        validator.containsRequiredData(ID, OLD_PASSWORD, NEW_PASSWORD, NEW_PASSWORD_CONFIRM);
 
-        String strId = dtoInput.getStringValue("id");
-        String strOldPassword = dtoInput.getStringValue("oldPassword");
-        String strNewPassword = dtoInput.getStringValue("newPassword");
-        String strNewPasswordConfirm = dtoInput.getStringValue("newPasswordConfirm");
-
-        DataValidation.validate(strId, "User ID", DataValidation.EMPTY, DataValidation.NUMBER);
-        DataValidation.validateEmpty(strOldPassword, "Old Password");
-        DataValidation.validateEquals(strNewPassword, strNewPasswordConfirm, "New Password and Confirmation");
+        String strId = validator.validateNumber(USER_ID);
+        String strOldPassword = validator.validateEmptyString(OLD_PASSWORD);
+        String[] passwords = validator.validateEquals(NEW_PASSWORD, NEW_PASSWORD_CONFIRM);
         
         UserEntity user = userRepository.findOneByIdAndDeleted(Long.valueOf(strId), CommonConstants.NO);
         if (user == null) {
@@ -367,10 +358,10 @@ public class UserService extends AbstractServiceHelper {
 
         String oldPasswordHash = DigestUtils.sha256Hex(strOldPassword + user.getSalt());
         
-        DataValidation.validateEquals(oldPasswordHash, user.getPasswordHash(), "Old Password");
+        validator.validateEquals(oldPasswordHash, user.getPasswordHash(), "Old Password");
 
         String salt = RandomStringUtils.randomAlphanumeric(32);
-        String newPasswordHash = DigestUtils.sha256Hex(strNewPassword + salt);
+        String newPasswordHash = DigestUtils.sha256Hex(passwords[0] + salt);
         
         user.setSalt(salt);
         user.setPasswordHash(newPasswordHash);

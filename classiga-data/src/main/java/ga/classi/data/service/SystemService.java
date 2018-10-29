@@ -16,15 +16,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ga.classi.commons.data.error.DataException;
-import ga.classi.commons.data.error.ExceptionCode;
 import ga.classi.commons.data.DTO;
 import ga.classi.commons.data.error.Errors;
 import ga.classi.commons.data.utility.DTOUtils;
 import ga.classi.data.entity.SystemEntity;
-import ga.classi.data.error.ErrorMessageConstants;
-import ga.classi.data.helper.DataValidation;
+import ga.classi.data.helper.DataValidator;
 import ga.classi.data.repository.SystemRepository;
 import lombok.extern.slf4j.Slf4j;
+
+import static ga.classi.commons.constant.RequestDataConstants.*;
 
 @Slf4j
 @Service
@@ -47,9 +47,10 @@ public class SystemService extends AbstractServiceHelper {
     public DTO getSystemByDataKey(DTO dtoInput) {
 
         // Validate parameters
-        DataValidation.containsRequiredData(dtoInput, "dataKey");
+        DataValidator validator = new DataValidator(dtoInput);
+        validator.containsRequiredData(DATA_KEY);
 
-        String strKey = dtoInput.get("dataKey");
+        String strKey = dtoInput.get(DATA_KEY);
 
         SystemEntity systemEntity = systemRepository.findByDataKey(strKey);
         if (systemEntity == null) {
@@ -63,12 +64,11 @@ public class SystemService extends AbstractServiceHelper {
     public DTO getSystemById(DTO dtoInput) {
 
         // Validate parameters
-        DataValidation.containsRequiredData(dtoInput, "id");
-
-        String strId = dtoInput.get("id");
+        DataValidator validator = new DataValidator(dtoInput);
+        validator.containsRequiredData(ID);
 
         // Validate values
-        DataValidation.validateNumber(strId, "System ID");
+        String strId = validator.validateNumber(ID);
 
         SystemEntity systemEntity = systemRepository.findOne(Long.valueOf(strId));
         if (systemEntity == null) {
@@ -83,12 +83,11 @@ public class SystemService extends AbstractServiceHelper {
     public DTO editSystemList(DTO dtoInput) {
 
         // Validate parameters
-        DataValidation.containsRequiredData(dtoInput, "systems");
-
-        String strSystems = dtoInput.get("systems");
+        DataValidator validator = new DataValidator(dtoInput);
+        validator.containsRequiredData(SYSTEMS);
 
         // Validate values
-        DataValidation.validateJSONArray(strSystems, "Systems");
+        String strSystems = validator.validateJSONArray(SYSTEMS);
 
         JSONArray arrSystems = (JSONArray) JSONValue.parse(strSystems);
 
@@ -99,14 +98,12 @@ public class SystemService extends AbstractServiceHelper {
             JSONObject jsonSystem = (JSONObject) object;
 
             // Validate parameters
-            DataValidation.containsRequiredData(jsonSystem, "id", "dataValue");
-
-            String strId = String.valueOf(jsonSystem.get("id"));
-            String strValue = String.valueOf(jsonSystem.get("dataValue"));
+            DataValidator validatorSystem = new DataValidator(new DTO(jsonSystem));
+            validatorSystem.containsRequiredData(ID, DATA_VALUE);
 
             // Validate values
-            DataValidation.validateNumber(strId, "System ID");
-            DataValidation.validateEmpty(strValue, "Data Value");
+            String strId = validatorSystem.validateNumber(ID);
+            String strValue = validatorSystem.validateEmptyString(DATA_VALUE);
 
             SystemEntity findSystem = systemRepository.findOne(Long.valueOf(strId));
             if (findSystem == null) {

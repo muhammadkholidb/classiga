@@ -5,24 +5,24 @@
  */
 package ga.classi.api.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.util.Collections;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import ga.classi.commons.data.DTO;
-import ga.classi.commons.data.utility.DTOUtils;
+import ga.classi.api.helper.ResponseObject;
 import ga.classi.commons.constant.CommonConstants;
 import ga.classi.commons.constant.StringConstants;
+import ga.classi.commons.data.DTO;
+import ga.classi.commons.data.utility.DTOUtils;
 import ga.classi.data.service.UserService;
-import ga.classi.api.helper.ResponseObject;
-import java.io.UnsupportedEncodingException;
-import java.util.Collections;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 
-@Slf4j
+
 @RestController
 public class DefaultController extends BaseController {
 

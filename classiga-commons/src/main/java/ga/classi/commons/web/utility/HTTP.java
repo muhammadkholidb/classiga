@@ -54,6 +54,7 @@ public class HTTP {
         this.proxy = proxy;
     }
     
+    @SuppressWarnings("unchecked")
     public HTTPResponse request(HttpMethod method) throws IOException {
         RestTemplate rest;
         if (proxy != null) {
@@ -87,7 +88,7 @@ public class HTTP {
                         }
                     });
                 }
-                request = new HttpEntity(map, headers);
+                request = new HttpEntity<>(map, headers);
             } else {
                 request = new HttpEntity<>(body, headers);
             }

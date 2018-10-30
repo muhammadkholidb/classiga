@@ -5,6 +5,17 @@
  */
 package ga.classi.data.service;
 
+import static ga.classi.commons.constant.RequestDataConstants.ACTIVE;
+import static ga.classi.commons.constant.RequestDataConstants.CAN_MODIFY;
+import static ga.classi.commons.constant.RequestDataConstants.CAN_VIEW;
+import static ga.classi.commons.constant.RequestDataConstants.DESCRIPTION;
+import static ga.classi.commons.constant.RequestDataConstants.ID;
+import static ga.classi.commons.constant.RequestDataConstants.MENU_CODE;
+import static ga.classi.commons.constant.RequestDataConstants.MENU_PERMISSIONS;
+import static ga.classi.commons.constant.RequestDataConstants.NAME;
+import static ga.classi.commons.constant.RequestDataConstants.SEARCH_TERM;
+import static ga.classi.commons.constant.RequestDataConstants.USER_GROUP;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -19,21 +30,19 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ga.classi.commons.data.error.DataException;
-import ga.classi.commons.data.DTO;
-import ga.classi.commons.data.utility.DTOUtils;
 import ga.classi.commons.constant.CommonConstants;
+import ga.classi.commons.data.DTO;
+import ga.classi.commons.data.error.DataException;
 import ga.classi.commons.data.error.Errors;
+import ga.classi.commons.data.utility.DTOUtils;
 import ga.classi.commons.utility.StringCheck;
 import ga.classi.data.entity.MenuPermissionEntity;
 import ga.classi.data.entity.UserGroupEntity;
+import ga.classi.data.helper.DataValidator;
 import ga.classi.data.repository.MenuPermissionRepository;
 import ga.classi.data.repository.UserGroupRepository;
 import ga.classi.data.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
-
-import static ga.classi.commons.constant.RequestDataConstants.*;
-import ga.classi.data.helper.DataValidator;
 
 @Slf4j
 @Service
@@ -107,7 +116,6 @@ public class UserGroupService extends AbstractServiceHelper {
         return buildResultByDTO(dtoUserGroup.put(MENU_PERMISSIONS, listDtoMenuPermissions));
     }
 
-    @SuppressWarnings("unchecked")
     @Transactional
     public DTO add(DTO dtoInput) {
 
@@ -179,7 +187,6 @@ public class UserGroupService extends AbstractServiceHelper {
         return buildResultByEntity(inserted);
     }
 
-    @SuppressWarnings("unchecked")
     @Transactional
     public DTO edit(DTO dtoInput) {
 

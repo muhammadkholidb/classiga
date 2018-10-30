@@ -2,6 +2,7 @@
 .project
 .metadata
 .classpath
+.factorypath
 nbactions.xml
 nb-configuration.xml
 **/.settings/

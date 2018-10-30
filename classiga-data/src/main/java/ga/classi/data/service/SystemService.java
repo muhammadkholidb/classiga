@@ -5,6 +5,11 @@
  */
 package ga.classi.data.service;
 
+import static ga.classi.commons.constant.RequestDataConstants.DATA_KEY;
+import static ga.classi.commons.constant.RequestDataConstants.DATA_VALUE;
+import static ga.classi.commons.constant.RequestDataConstants.ID;
+import static ga.classi.commons.constant.RequestDataConstants.SYSTEMS;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,16 +20,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ga.classi.commons.data.error.DataException;
 import ga.classi.commons.data.DTO;
+import ga.classi.commons.data.error.DataException;
 import ga.classi.commons.data.error.Errors;
 import ga.classi.commons.data.utility.DTOUtils;
 import ga.classi.data.entity.SystemEntity;
 import ga.classi.data.helper.DataValidator;
 import ga.classi.data.repository.SystemRepository;
 import lombok.extern.slf4j.Slf4j;
-
-import static ga.classi.commons.constant.RequestDataConstants.*;
 
 @Slf4j
 @Service
@@ -78,7 +81,6 @@ public class SystemService extends AbstractServiceHelper {
         return buildResultByEntity(systemEntity);
     }
 
-    @SuppressWarnings("unchecked")
     @Transactional
     public DTO editSystemList(DTO dtoInput) {
 

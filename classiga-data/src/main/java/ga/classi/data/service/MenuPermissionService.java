@@ -5,22 +5,22 @@
  */
 package ga.classi.data.service;
 
+import static ga.classi.commons.constant.RequestDataConstants.USER_GROUP_ID;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ga.classi.commons.data.error.DataException;
 import ga.classi.commons.data.DTO;
+import ga.classi.commons.data.error.DataException;
 import ga.classi.commons.data.error.Errors;
 import ga.classi.data.entity.MenuPermissionEntity;
 import ga.classi.data.entity.UserGroupEntity;
+import ga.classi.data.helper.DataValidator;
 import ga.classi.data.repository.MenuPermissionRepository;
 import ga.classi.data.repository.UserGroupRepository;
-
-import static ga.classi.commons.constant.RequestDataConstants.*;
-import ga.classi.data.helper.DataValidator;
 
 @Service
 public class MenuPermissionService extends AbstractServiceHelper {

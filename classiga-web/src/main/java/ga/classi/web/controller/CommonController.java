@@ -29,6 +29,7 @@ public class CommonController {
         return null;
     }
     
+    @SuppressWarnings("unchecked")
     @PostMapping("/generate-html")
     public String generateHtml(
             @RequestParam(name = "template") String encodedTemplate, 

@@ -15,7 +15,7 @@ public class ObjectFactoryBean extends AbstractFactoryBean<Object> {
     
     // To read https://stackoverflow.com/questions/2209010/is-it-possible-to-specify-a-class-name-for-spring-framework-in-an-external-file
     
-    private Class targetClass;
+    private Class<?> targetClass;
     
     @Override
     public Class<?> getObjectType() {
@@ -27,7 +27,7 @@ public class ObjectFactoryBean extends AbstractFactoryBean<Object> {
         return targetClass.newInstance();
     }
 
-    public void setTargetClass(Class targetClass) {
+    public void setTargetClass(Class<?> targetClass) {
         this.targetClass = targetClass;
     }
     

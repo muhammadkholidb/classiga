@@ -5,10 +5,24 @@
  */
 package ga.classi.data.service;
 
+import static ga.classi.commons.constant.RequestDataConstants.ACTIVE;
+import static ga.classi.commons.constant.RequestDataConstants.AVATAR;
+import static ga.classi.commons.constant.RequestDataConstants.EMAIL;
+import static ga.classi.commons.constant.RequestDataConstants.FULL_NAME;
+import static ga.classi.commons.constant.RequestDataConstants.ID;
+import static ga.classi.commons.constant.RequestDataConstants.NEW_PASSWORD;
+import static ga.classi.commons.constant.RequestDataConstants.NEW_PASSWORD_CONFIRM;
+import static ga.classi.commons.constant.RequestDataConstants.OLD_PASSWORD;
+import static ga.classi.commons.constant.RequestDataConstants.PASSWORD;
+import static ga.classi.commons.constant.RequestDataConstants.USERNAME;
+import static ga.classi.commons.constant.RequestDataConstants.USER_GROUP_ID;
+import static ga.classi.commons.constant.RequestDataConstants.USER_ID;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
@@ -19,11 +33,11 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ga.classi.commons.data.error.DataException;
-import ga.classi.commons.data.DTO;
-import ga.classi.commons.data.utility.DTOUtils;
 import ga.classi.commons.constant.CommonConstants;
+import ga.classi.commons.data.DTO;
+import ga.classi.commons.data.error.DataException;
 import ga.classi.commons.data.error.Errors;
+import ga.classi.commons.data.utility.DTOUtils;
 import ga.classi.commons.utility.StringCheck;
 import ga.classi.data.entity.UserEntity;
 import ga.classi.data.entity.UserGroupEntity;
@@ -31,9 +45,6 @@ import ga.classi.data.helper.DataValidator;
 import ga.classi.data.repository.UserGroupRepository;
 import ga.classi.data.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.codec.digest.DigestUtils;
-
-import static ga.classi.commons.constant.RequestDataConstants.*;
 
 @Slf4j
 @Service

@@ -20,9 +20,11 @@ import org.apache.commons.lang3.RandomStringUtils;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import ga.classi.commons.constant.CommonConstants;
+import ga.classi.commons.constant.StringConstants;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 
 @Slf4j
 @NoArgsConstructor
@@ -66,6 +68,10 @@ public abstract class BaseEntity {
     private Long updateTimeMillis;
 
     @JsonIgnore
+    @Column(name = "delete_time_millis")
+    private Long deleteTimeMillis;
+
+    @JsonIgnore
     @Column(name = "deleted", length = 1, nullable = false)
     private String deleted;
 
@@ -75,6 +81,7 @@ public abstract class BaseEntity {
 
     public void setDeleted() {
         this.deleted = CommonConstants.YES;
+        this.deleteTimeMillis = System.currentTimeMillis();
     }
     
     public Boolean isDeleted() {
@@ -98,6 +105,7 @@ public abstract class BaseEntity {
         sb.append(this.createTimeMillis);
         sb.append(this.updateTimeMillis);
         sb.append(this.deleted);
+        sb.append(ObjectUtils.defaultIfNull(this.deleteTimeMillis, StringConstants.EMPTY));
         sb.append(getHashElements());
         sb.append(RandomStringUtils.random(32));    // RandomStringUtils.random() returns non letter characters such as: 锪椢獬ꃅ諔諔궏ꃅ뚱뇉여獬ﻄ蚹㙰ﻄ
         return DigestUtils.sha1Hex(sb.toString());

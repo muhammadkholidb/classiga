@@ -1,4 +1,4 @@
-image: maven:3.5.2-slim
+image: maven:3.3.9
 
 cache:
   paths:

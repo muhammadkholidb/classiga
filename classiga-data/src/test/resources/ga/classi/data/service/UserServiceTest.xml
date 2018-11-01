@@ -58,4 +58,6 @@
         create_time_millis="{currentMillis}" update_time_millis="{currentMillis}"
         deleted="n" version="0" rh="12" srh="12" />
 
+    <t_user_session />
+
 </dataset>

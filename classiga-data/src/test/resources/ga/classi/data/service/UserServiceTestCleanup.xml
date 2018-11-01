@@ -7,4 +7,6 @@
     
     <t_menu_permission />
     
+    <t_user_session />
+
 </dataset>

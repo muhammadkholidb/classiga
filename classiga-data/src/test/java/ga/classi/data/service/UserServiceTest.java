@@ -5,10 +5,17 @@
  */
 package ga.classi.data.service;
 
+import static ga.classi.commons.constant.RequestDataConstants.TOKEN;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import java.util.List;
+
+import com.github.springtestdbunit.DbUnitTestExecutionListener;
+import com.github.springtestdbunit.annotation.DatabaseSetup;
+import com.github.springtestdbunit.annotation.DatabaseTearDown;
+import com.github.springtestdbunit.annotation.DbUnitConfiguration;
 
 import org.json.simple.JSONArray;
 import org.junit.Assert;
@@ -20,14 +27,9 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
-import com.github.springtestdbunit.DbUnitTestExecutionListener;
-import com.github.springtestdbunit.annotation.DatabaseSetup;
-import com.github.springtestdbunit.annotation.DatabaseTearDown;
-import com.github.springtestdbunit.annotation.DbUnitConfiguration;
-
-import ga.classi.commons.data.error.DataException;
-import ga.classi.commons.data.DTO;
 import ga.classi.commons.constant.CommonConstants;
+import ga.classi.commons.data.DTO;
+import ga.classi.commons.data.error.DataException;
 import ga.classi.commons.data.error.Errors;
 import ga.classi.data.test.ReplacementFlatXmlDataSetLoader;
 import lombok.extern.slf4j.Slf4j;
@@ -145,20 +147,9 @@ public class UserServiceTest {
         dtoInput.put("username", "fulan");
         dtoInput.put("password", "12345678");
         try {
-            DTO dtoUser = userService.login(dtoInput).get(CommonConstants.CONTENT);
-            log.debug("Result: {}", dtoUser);
-            assertEquals("Fulan", dtoUser.get("fullName"));
-            assertEquals("fulan", dtoUser.get("username"));
-            assertEquals("fulan@yahoo.com", dtoUser.get("email"));
-            assertEquals(CommonConstants.YES, dtoUser.get("active"));
-
-            DTO dtoUserGroup = dtoUser.getDTO("userGroup");
-            assertEquals((Long) 2L, dtoUserGroup.get("id"));
-            assertEquals("User", dtoUserGroup.get("name"));
-
-            List<DTO> menuPermissions = dtoUserGroup.get("menuPermissions");
-            assertEquals(4, menuPermissions.size());
-
+            DTO dtoResult = userService.login(dtoInput).get(CommonConstants.CONTENT);
+            log.debug("Result: {}", dtoResult);
+            assertNotNull(dtoResult.get(TOKEN));
         } catch (Exception ex) {
             fail(ex.toString());
         }

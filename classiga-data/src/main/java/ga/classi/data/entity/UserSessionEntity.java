@@ -61,7 +61,7 @@ public class UserSessionEntity extends BaseEntity implements Serializable {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private UserEntity user;
     
-    @Column(name = "token", length = 64, nullable = false)
+    @Column(name = "token", length = 40, nullable = false)
     private String token;
 
     @Column(name = "user_agent", length = 256)

@@ -10,11 +10,15 @@ import static ga.classi.commons.constant.RequestDataConstants.AVATAR;
 import static ga.classi.commons.constant.RequestDataConstants.EMAIL;
 import static ga.classi.commons.constant.RequestDataConstants.FULL_NAME;
 import static ga.classi.commons.constant.RequestDataConstants.ID;
+import static ga.classi.commons.constant.RequestDataConstants.IP_ADDRESS;
 import static ga.classi.commons.constant.RequestDataConstants.NEW_PASSWORD;
 import static ga.classi.commons.constant.RequestDataConstants.NEW_PASSWORD_CONFIRM;
 import static ga.classi.commons.constant.RequestDataConstants.OLD_PASSWORD;
 import static ga.classi.commons.constant.RequestDataConstants.PASSWORD;
+import static ga.classi.commons.constant.RequestDataConstants.SEARCH_TERM;
+import static ga.classi.commons.constant.RequestDataConstants.TOKEN;
 import static ga.classi.commons.constant.RequestDataConstants.USERNAME;
+import static ga.classi.commons.constant.RequestDataConstants.USER_AGENT;
 import static ga.classi.commons.constant.RequestDataConstants.USER_GROUP_ID;
 import static ga.classi.commons.constant.RequestDataConstants.USER_ID;
 
@@ -37,13 +41,14 @@ import ga.classi.commons.constant.CommonConstants;
 import ga.classi.commons.data.DTO;
 import ga.classi.commons.data.error.DataException;
 import ga.classi.commons.data.error.Errors;
-import ga.classi.commons.data.utility.DTOUtils;
 import ga.classi.commons.utility.StringCheck;
 import ga.classi.data.entity.UserEntity;
 import ga.classi.data.entity.UserGroupEntity;
+import ga.classi.data.entity.UserSessionEntity;
 import ga.classi.data.helper.DataValidator;
 import ga.classi.data.repository.UserGroupRepository;
 import ga.classi.data.repository.UserRepository;
+import ga.classi.data.repository.UserSessionRepository;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -56,10 +61,13 @@ public class UserService extends AbstractServiceHelper {
     @Autowired
     private UserGroupRepository userGroupRepository;
 
+    @Autowired
+    private UserSessionRepository userSessionRepository;
+
     @Transactional(readOnly = true)
     public DTO getAll(DTO dtoInput) {
 
-        String searchTerm = dtoInput.getStringValue("searchTerm");
+        String searchTerm = dtoInput.getStringValue(SEARCH_TERM);
 
         PageRequest pageRequest = createPageRequest(dtoInput, Direction.ASC, "fullName");
         
@@ -121,6 +129,8 @@ public class UserService extends AbstractServiceHelper {
 
         String strPassword = dtoInput.get(PASSWORD);
         String strUsername = dtoInput.get(USERNAME);
+        String strIpAddress = dtoInput.get(IP_ADDRESS);
+        String strUserAgent = dtoInput.get(USER_AGENT);
 
         UserEntity loginUser = userRepository.findOneByLowerEmailOrLowerUsernameAndDeleted(strUsername.toLowerCase(), strUsername.toLowerCase(), CommonConstants.NO);
         if (loginUser == null) {
@@ -143,11 +153,16 @@ public class UserService extends AbstractServiceHelper {
             throw new DataException(Errors.CANT_LOGIN_CAUSE_USER_GROUP_NOT_ACTIVE);
         }
 
-        List<DTO> menuPermissions = DTOUtils.toDTOList(userGroup.getMenuPermissions(), "userGroup");
-        DTO dtoUserGroup = DTOUtils.toDTO(userGroup).put("menuPermissions", menuPermissions);
-        DTO dtoUser = DTOUtils.toDTO(loginUser).put("userGroup", dtoUserGroup);
+        String token = DigestUtils.sha1Hex(RandomStringUtils.random(16) + System.currentTimeMillis());
 
-        return buildResultByDTO(dtoUser);
+        UserSessionEntity userSession = new UserSessionEntity();
+        userSession.setUser(loginUser);
+        userSession.setToken(token);
+        userSession.setIpAddress(strIpAddress);
+        userSession.setUserAgent(strUserAgent);
+        userSession = userSessionRepository.save(userSession);
+
+        return buildResultByDTO(new DTO().put(TOKEN, token));
     }
 
     @Transactional(readOnly = true)

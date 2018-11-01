@@ -1,4 +1,4 @@
-image: maven:latest
+image: maven:3.5.2-alpine
 
 cache:
   paths:

@@ -11,3 +11,4 @@ nb-configuration.xml
 **/bin/
 .idea/
 *.iml
+.vscode/

@@ -132,7 +132,14 @@ public class UserService extends AbstractServiceHelper {
         String strIpAddress = dtoInput.get(IP_ADDRESS);
         String strUserAgent = dtoInput.get(USER_AGENT);
 
-        UserEntity loginUser = userRepository.findOneByLowerEmailOrLowerUsernameAndDeleted(strUsername.toLowerCase(), strUsername.toLowerCase(), CommonConstants.NO);
+        UserEntity loginUser;
+
+        if (StringCheck.isEmail(strUsername)) {
+            loginUser = userRepository.findOneByLowerEmailAndDeleted(strUsername.toLowerCase(), CommonConstants.NO);
+        } else {
+            loginUser = userRepository.findOneByLowerUsernameAndDeleted(strUsername.toLowerCase(), CommonConstants.NO);
+        }
+
         if (loginUser == null) {
             throw new DataException(Errors.USER_NOT_FOUND);
         }

@@ -26,6 +26,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 
+// https://stackoverflow.com/questions/2292662/how-important-is-the-order-of-columns-in-indexes
+// https://use-the-index-luke.com/sql/where-clause/the-equals-operator/concatenated-keys
+
 /**
  *
  * @author muhammad
@@ -37,13 +40,13 @@ import org.apache.commons.lang3.StringUtils;
 @Table(name = UserEntity.TABLE_NAME, 
     indexes = {
         @Index(columnList = "deleted"),
-        @Index(columnList = "deleted, id"),
-        @Index(columnList = "deleted, lower_full_name"),
-        @Index(columnList = "deleted, lower_username"),
-        @Index(columnList = "deleted, lower_email"),
+        @Index(columnList = "id, deleted"),
         @Index(columnList = "lower_full_name"),
+        @Index(columnList = "lower_full_name, deleted"),
         @Index(columnList = "lower_username"),
-        @Index(columnList = "lower_email")
+        @Index(columnList = "lower_username, deleted"),
+        @Index(columnList = "lower_email"),
+        @Index(columnList = "lower_email, deleted")
     })
 @DynamicInsert
 @DynamicUpdate

@@ -35,9 +35,9 @@ import org.apache.commons.lang3.StringUtils;
 @Table(name = UserSessionEntity.TABLE_NAME, 
     indexes = {
         @Index(columnList = "deleted"),
-        @Index(columnList = "deleted, id"),
-        @Index(columnList = "deleted, token"),
-        @Index(columnList = "token")
+        @Index(columnList = "id, deleted"),
+        @Index(columnList = "token"),
+        @Index(columnList = "token, deleted")
     })
 @DynamicInsert
 @DynamicUpdate

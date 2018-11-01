@@ -37,9 +37,9 @@ import org.apache.commons.lang3.StringUtils;
 @Table(name = UserGroupEntity.TABLE_NAME, 
     indexes = {
         @Index(columnList = "deleted"),
-        @Index(columnList = "deleted, id"),
-        @Index(columnList = "deleted, lower_name"),
-        @Index(columnList = "lower_name")
+        @Index(columnList = "id, deleted"),
+        @Index(columnList = "lower_name"),
+        @Index(columnList = "lower_name, deleted")
     })
 @DynamicInsert
 @DynamicUpdate

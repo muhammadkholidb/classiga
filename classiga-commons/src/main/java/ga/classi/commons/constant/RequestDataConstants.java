@@ -34,4 +34,7 @@ public class RequestDataConstants {
     public static final String DATA_KEY = "dataKey";
     public static final String DATA_VALUE = "dataValue";
     public static final String SYSTEMS = "systems";
+    public static final String USER_AGENT = "userAgent";
+    public static final String IP_ADDRESS = "ipAddress";
+    public static final String TOKEN = "token";
 }

@@ -38,6 +38,7 @@ public abstract class BaseEntity {
     public static final String F_VERSION            = "version";
     public static final String F_CREATE_TIME_MILLIS = "createTimeMillis";
     public static final String F_UPDATE_TIME_MILLIS = "updateTimeMillis";
+    public static final String F_DELETE_TIME_MILLIS = "deleteTimeMillis";
     public static final String F_DELETED            = "deleted";
     public static final String F_RH                 = "rh";
     public static final String F_SRH                = "srh";
@@ -113,7 +114,7 @@ public abstract class BaseEntity {
     
     @PrePersist
     public void onCreate() {
-        log.debug("Execute onCreate() ..."); 
+        log.debug("Before create ..."); 
         updateTimeMillis = createTimeMillis = System.currentTimeMillis();
         deleted = CommonConstants.NO;
         rh = getHash();
@@ -123,7 +124,7 @@ public abstract class BaseEntity {
 
     @PreUpdate
     public void onUpdate() {
-        log.debug("Execute onUpdate() ..."); 
+        log.debug("Before update ..."); 
         updateTimeMillis = System.currentTimeMillis();
         rh = getHash();
         srh = rh.substring(0, 10);

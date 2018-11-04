@@ -46,7 +46,6 @@ public class SystemService extends AbstractServiceHelper {
         return buildResultByEntityList(list);
     }
 
-    @Transactional(readOnly = true)
     public DTO getSystemByDataKey(DTO dtoInput) {
 
         // Validate parameters
@@ -63,7 +62,6 @@ public class SystemService extends AbstractServiceHelper {
         return buildResultByEntity(systemEntity);
     }
 
-    @Transactional(readOnly = true)
     public DTO getSystemById(DTO dtoInput) {
 
         // Validate parameters

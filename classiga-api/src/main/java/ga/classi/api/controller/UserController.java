@@ -13,13 +13,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import ga.classi.api.helper.ResponseObject;
-import ga.classi.commons.constant.CommonConstants;
 import ga.classi.commons.data.DTO;
 import ga.classi.commons.data.utility.DTOUtils;
 import ga.classi.data.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 
 import static ga.classi.api.constant.RequestMappingConstants.*;
+import ga.classi.commons.constant.RequestDataConstants;
+import ga.classi.commons.web.utility.RequestInformation;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Slf4j
@@ -31,7 +32,11 @@ public class UserController extends BaseController {
 
     @RequestMapping(value = USER_LOGIN, method = RequestMethod.POST)
     public ResponseObject login() throws UnsupportedEncodingException {
-        DTO dtoUser = userService.login(DTOUtils.fromServletRequest(request));
+        RequestInformation reqInfo = new RequestInformation(request);
+        DTO dtoLogin = DTOUtils.fromServletRequest(request);
+        dtoLogin.put(RequestDataConstants.IP_ADDRESS, reqInfo.getClientIpAddr());
+        dtoLogin.put(RequestDataConstants.USER_AGENT, reqInfo.getUserAgent());
+        DTO dtoUser = userService.login(dtoLogin);
         return ResponseObject.success(dtoUser);
     }
 

@@ -64,7 +64,6 @@ public class UserService extends AbstractServiceHelper {
     @Autowired
     private UserSessionRepository userSessionRepository;
 
-    @Transactional(readOnly = true)
     public DTO getAll(DTO dtoInput) {
 
         String searchTerm = dtoInput.getStringValue(SEARCH_TERM);
@@ -82,7 +81,6 @@ public class UserService extends AbstractServiceHelper {
         return buildResultByPage(pages);
     }
 
-    @Transactional(readOnly = true)
     public DTO getAllByUserGroupId(DTO dtoInput) {
 
         // Validate dtoInput
@@ -102,7 +100,6 @@ public class UserService extends AbstractServiceHelper {
         return buildResultByEntityList(list);
     }
 
-    @Transactional(readOnly = true)
     public DTO getOne(DTO dtoInput) {
 
         // Validate dtoInput
@@ -120,7 +117,7 @@ public class UserService extends AbstractServiceHelper {
         return buildResultByEntity(user);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public DTO login(DTO dtoInput) {
 
         // Validate dtoInput
@@ -173,7 +170,6 @@ public class UserService extends AbstractServiceHelper {
         return buildResultByDTO(new DTO().put(TOKEN, token));
     }
 
-    @Transactional(readOnly = true)
     public DTO getByEmail(DTO dtoInput) {
 
         // Validate dtoInput
@@ -191,7 +187,6 @@ public class UserService extends AbstractServiceHelper {
         return buildResultByEntity(user);
     }
 
-    @Transactional(readOnly = true)
     public DTO getByUsername(DTO dtoInput) {
 
         // Validate dtoInput

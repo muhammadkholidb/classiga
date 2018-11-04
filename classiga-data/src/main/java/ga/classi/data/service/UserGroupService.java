@@ -57,7 +57,6 @@ public class UserGroupService extends AbstractServiceHelper {
     @Autowired
     private MenuPermissionRepository menuPermissionRepository;
 
-    @Transactional(readOnly = true)
     public DTO getAll(DTO dtoInput) {
 
         String searchTerm = dtoInput.getStringValue(SEARCH_TERM);
@@ -75,7 +74,6 @@ public class UserGroupService extends AbstractServiceHelper {
         return buildResultByPage(pages);
     }
 
-    @Transactional(readOnly = true)
     public DTO getOne(DTO dtoInput) {
 
         // Validate dtoInput
@@ -93,7 +91,6 @@ public class UserGroupService extends AbstractServiceHelper {
         return buildResultByEntity(userGroup);
     }
 
-    @Transactional(readOnly = true)
     public DTO getOneWithMenuPermissions(DTO dtoInput) {
 
         // Validate dtoInput

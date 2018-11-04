@@ -16,6 +16,7 @@ import ga.classi.data.helper.DataValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ga.classi.data.repository.UserSessionRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserSessionService extends AbstractServiceHelper {
@@ -23,7 +24,8 @@ public class UserSessionService extends AbstractServiceHelper {
     @Autowired
     private UserSessionRepository userSessionRepository;
     
-    public DTO getUserSessionByToken(DTO dtoInput) {
+    @Transactional
+    public DTO updateUserSession(DTO dtoInput) {
 
         // Validate dtoInput
         DataValidator validator = new DataValidator(dtoInput);
@@ -37,6 +39,10 @@ public class UserSessionService extends AbstractServiceHelper {
             throw new DataException(Errors.USER_SESSION_NOT_FOUND);
         }
 
+        // Update datetime
+        userSession.setUpdateTimeMillis(System.currentTimeMillis());
+        userSession = userSessionRepository.saveAndFlush(userSession);
+        
         return buildResultByEntity(userSession);
     }
 

@@ -5,6 +5,7 @@
  */
 package ga.classi.data.repository;
 
+import ga.classi.data.entity.UserEntity;
 import org.springframework.stereotype.Repository;
 
 import ga.classi.data.entity.UserSessionEntity;
@@ -17,5 +18,7 @@ import ga.classi.data.entity.UserSessionEntity;
 public interface UserSessionRepository extends BaseDataRepository<UserSessionEntity, Long> {
 
     public UserSessionEntity findOneByTokenAndDeleted(String token, String deleted);
+    
+    public UserSessionEntity findOneByUserAndDeleted(UserEntity user, String deleted);
     
 }

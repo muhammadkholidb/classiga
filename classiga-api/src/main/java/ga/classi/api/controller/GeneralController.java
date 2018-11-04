@@ -5,15 +5,11 @@
  */
 package ga.classi.api.controller;
 
-import java.util.Collections;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ga.classi.api.helper.ResponseObject;
-import ga.classi.commons.constant.CommonConstants;
-import ga.classi.commons.constant.RequestDataConstants;
-import ga.classi.commons.constant.StringConstants;
 
 import static ga.classi.api.constant.RequestMappingConstants.PING;
 import lombok.extern.slf4j.Slf4j;

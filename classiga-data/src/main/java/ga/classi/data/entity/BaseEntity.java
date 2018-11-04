@@ -115,7 +115,10 @@ public abstract class BaseEntity {
     @PrePersist
     public void onCreate() {
         log.debug("Before create ..."); 
-        updateTimeMillis = createTimeMillis = System.currentTimeMillis();
+        if (createTimeMillis == null) {
+            createTimeMillis = System.currentTimeMillis();
+        }
+        updateTimeMillis = createTimeMillis;
         deleted = CommonConstants.NO;
         rh = getHash();
         srh = rh.substring(0, 10);
@@ -125,7 +128,12 @@ public abstract class BaseEntity {
     @PreUpdate
     public void onUpdate() {
         log.debug("Before update ..."); 
-        updateTimeMillis = System.currentTimeMillis();
+        if (deleteTimeMillis != null) {
+            updateTimeMillis = deleteTimeMillis;
+        }
+        if (updateTimeMillis == null) {
+            updateTimeMillis = System.currentTimeMillis();
+        }
         rh = getHash();
         srh = rh.substring(0, 10);
         setValuesOnUpdate();

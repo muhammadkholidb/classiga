@@ -31,7 +31,6 @@ public class MenuPermissionService extends AbstractServiceHelper {
     @Autowired
     private MenuPermissionRepository userGroupMenuPermissionRepository;
 
-    @Transactional(readOnly = true)
     public DTO getAllMenuPermissions(DTO dtoInput) {
 
         // No validation
@@ -40,7 +39,6 @@ public class MenuPermissionService extends AbstractServiceHelper {
         return buildResultByEntityList(list);
     }
 
-    @Transactional(readOnly = true)
     public DTO getMenuPermissionListByUserGroupId(DTO dtoInput) {
 
         // Validate parameters

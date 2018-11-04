@@ -69,7 +69,7 @@ public class UserService extends AbstractServiceHelper {
 
         String searchTerm = dtoInput.getStringValue(SEARCH_TERM);
 
-        PageRequest pageRequest = createPageRequest(dtoInput, Direction.ASC, "fullName");
+        PageRequest pageRequest = createPageRequest(dtoInput, Direction.ASC, UserEntity.F_FULL_NAME);
         
         Page<UserEntity> pages;
 
@@ -167,7 +167,8 @@ public class UserService extends AbstractServiceHelper {
         userSession.setToken(token);
         userSession.setIpAddress(strIpAddress);
         userSession.setUserAgent(strUserAgent);
-        userSession = userSessionRepository.save(userSession);
+        
+        userSessionRepository.save(userSession);
 
         return buildResultByDTO(new DTO().put(TOKEN, token));
     }

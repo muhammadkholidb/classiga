@@ -29,5 +29,15 @@
 
     <!-- Enables the Spring MVC @Controller programming model --> 
     <mvc:annotation-driven/> 
- 
+    
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**" />
+            <mvc:exclude-mapping path="/login" />
+            <mvc:exclude-mapping path="/data-exception" />
+            <mvc:exclude-mapping path="/ping" />
+            <bean class="ga.classi.api.interceptor.TokenInterceptor" />
+        </mvc:interceptor>
+    </mvc:interceptors>
+
 </beans>

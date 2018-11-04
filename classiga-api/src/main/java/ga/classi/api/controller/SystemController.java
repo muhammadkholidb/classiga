@@ -22,6 +22,8 @@ import ga.classi.api.helper.ResponseObject;
 import java.io.UnsupportedEncodingException;
 import lombok.extern.slf4j.Slf4j;
 
+import static ga.classi.api.constant.RequestMappingConstants.*;
+
 /**
  *
  *
@@ -31,7 +33,6 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @RestController
-@RequestMapping("/settings")
 public class SystemController extends BaseController {
 	
     @Autowired
@@ -41,7 +42,7 @@ public class SystemController extends BaseController {
     protected DataImporter dataImporter;
     
     @SuppressWarnings("rawtypes")
-    @RequestMapping(value = "/system/list", method = RequestMethod.GET)
+    @RequestMapping(value = SYSTEM_LIST, method = RequestMethod.GET)
     public ResponseObject getAllSystem() {
         
         DTO dto = systemService.getAllSystem(new DTO());
@@ -58,13 +59,13 @@ public class SystemController extends BaseController {
             dto = systemService.getAllSystem(null);
         }
         
-        return new ResponseObject(CommonConstants.SUCCESS, dto);
+        return ResponseObject.success(dto);
     }
 
-    @RequestMapping(value = "/system/edit", method = RequestMethod.POST)
+    @RequestMapping(value = SYSTEM_EDIT, method = RequestMethod.POST)
     public ResponseObject editSystemList() throws UnsupportedEncodingException {
         DTO dto = systemService.editSystemList(DTOUtils.fromServletRequest(request));
-        return new ResponseObject(CommonConstants.SUCCESS, getResponseMessage("success.SuccessfullyEditSystem"), dto);
+        return ResponseObject.success(getResponseMessage("success.SuccessfullyEditSystem"), dto);
     }
 
 }

@@ -18,43 +18,44 @@ import ga.classi.api.helper.ResponseObject;
 import java.io.UnsupportedEncodingException;
 import lombok.extern.slf4j.Slf4j;
 
+import static ga.classi.api.constant.RequestMappingConstants.*;
+
 @Slf4j
 @RestController
-@RequestMapping("/settings")
 public class UserGroupController extends BaseController {
 
     @Autowired
     private UserGroupService userGroupService;
 
-    @RequestMapping(value = "/user-group/list", method = RequestMethod.GET)
+    @RequestMapping(value = USER_GROUP_LIST, method = RequestMethod.GET)
     public ResponseObject getAllUserGroup() throws UnsupportedEncodingException  {
         log.info("Get all user group ...");
         DTO result = userGroupService.getAll(DTOUtils.fromServletRequest(request));
-        return new ResponseObject(CommonConstants.SUCCESS, result);
+        return ResponseObject.success(result);
     }
 
-    @RequestMapping(value = "/user-group/find", method = RequestMethod.GET)
+    @RequestMapping(value = USER_GROUP_FIND, method = RequestMethod.GET)
     public ResponseObject getUserGroup() throws UnsupportedEncodingException {
         DTO dto = userGroupService.getOneWithMenuPermissions(DTOUtils.fromServletRequest(request));
-        return new ResponseObject(CommonConstants.SUCCESS, dto);
+        return ResponseObject.success(CommonConstants.SUCCESS, dto);
     }
 
-    @RequestMapping(value = "/user-group/remove", method = RequestMethod.POST)
+    @RequestMapping(value = USER_GROUP_REMOVE, method = RequestMethod.POST)
     public ResponseObject removeUserGroup() throws UnsupportedEncodingException {
         userGroupService.remove(DTOUtils.fromServletRequest(request));
-        return new ResponseObject(CommonConstants.SUCCESS, getResponseMessage("success.SuccessfullyRemoveUserGroup"));
+        return ResponseObject.success(getResponseMessage("success.SuccessfullyRemoveUserGroup"));
     }
 
-    @RequestMapping(value = "/user-group/add", method = RequestMethod.POST)
+    @RequestMapping(value = USER_GROUP_ADD, method = RequestMethod.POST)
     public ResponseObject addUserGroup() throws UnsupportedEncodingException {
         DTO added = userGroupService.add(DTOUtils.fromServletRequest(request));
-        return new ResponseObject(CommonConstants.SUCCESS, getResponseMessage("success.SuccessfullyAddUserGroup"), added);
+        return ResponseObject.success(getResponseMessage("success.SuccessfullyAddUserGroup"), added);
     }
 
-    @RequestMapping(value = "/user-group/edit", method = RequestMethod.POST)
+    @RequestMapping(value = USER_GROUP_EDIT, method = RequestMethod.POST)
     public ResponseObject editUserGroup() throws UnsupportedEncodingException {
         DTO updated = userGroupService.edit(DTOUtils.fromServletRequest(request));
-        return new ResponseObject(CommonConstants.SUCCESS, getResponseMessage("success.SuccessfullyEditUserGroup"), updated);
+        return ResponseObject.success(getResponseMessage("success.SuccessfullyEditUserGroup"), updated);
     }
 
 }

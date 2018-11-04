@@ -15,5 +15,7 @@ import ga.classi.data.entity.UserSessionEntity;
  */
 @Repository
 public interface UserSessionRepository extends BaseDataRepository<UserSessionEntity, Long> {
+
+    public UserSessionEntity findOneByTokenAndDeleted(String token, String deleted);
     
 }

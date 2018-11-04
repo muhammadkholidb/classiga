@@ -88,7 +88,7 @@ public class DataImporter {
             log.debug("Import done.");
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
-            throw new DataException(Errors.UNKNOWN);
+            throw new DataException(Errors.DATA_IMPORTER_ERROR);
         }
     }
 
@@ -124,7 +124,7 @@ public class DataImporter {
             }
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
-            throw new DataException(Errors.UNKNOWN);
+            throw new DataException(Errors.DATA_IMPORTER_ERROR);
         }
     }
 

@@ -37,4 +37,6 @@ public class RequestDataConstants {
     public static final String USER_AGENT = "userAgent";
     public static final String IP_ADDRESS = "ipAddress";
     public static final String TOKEN = "token";
+    public static final String EXCEPTION = "exception";
+    public static final String CODE = "code";
 }

@@ -5,8 +5,12 @@
  */
 package ga.classi.commons.data.error;
 
+import org.springframework.util.Assert;
+
 public enum Errors {
 
+    NONE("0000", "error.none"),
+    
     // Validation 
     REQUIRED_PARAMETERS_NOT_FOUND("0001", "error.commondata.validation.RequiredParametersNotFound"),
     REQUIRED_PARAMETER_NOT_FOUND("0002", "error.commondata.validation.RequiredParameterNotFound"),
@@ -36,9 +40,13 @@ public enum Errors {
     CANT_LOGIN_CAUSE_USER_GROUP_NOT_ACTIVE("0023", "error.commonrest.CantLoginCauseUserGroupNotActive"),
     // Menu permission
     USER_GROUP_MENU_PERMISSION_NOT_FOUND("0024", "error.commondata.UserGroupMenuPermissionNotFound"),
-    // Other
-    UNKNOWN("9999", "error.unknown");
+    // User session
+    USER_SESSION_NOT_FOUND("0025", "error.data.usersession.tokennotfound"),
+    // Data importer
+    DATA_IMPORTER_ERROR("0026", "error.data.importer"),
 
+    UNKNOWN("9999", "error.unknown");
+    
     private final String code;
     private final String messageCode;
 
@@ -50,9 +58,19 @@ public enum Errors {
     public String code() {
         return this.code;
     }
-    
+
     public String messageCode() {
         return this.messageCode;
     }
-    
+
+    public static Errors byCode(String code) {
+        Assert.notNull(code, "Error code must not be null");
+        for (Errors e : values()) {
+            if (e.code.equals(code)) {
+                return e;
+            }
+        }
+        throw new IllegalArgumentException("Error code is not registered: " + code);
+    }
+
 }

@@ -5,23 +5,29 @@
  */
 package ga.classi.api.controller;
 
+import static ga.classi.api.constant.RequestMappingConstants.USER_ADD;
+import static ga.classi.api.constant.RequestMappingConstants.USER_CHANGE_PASSWORD;
+import static ga.classi.api.constant.RequestMappingConstants.USER_EDIT;
+import static ga.classi.api.constant.RequestMappingConstants.USER_FIND;
+import static ga.classi.api.constant.RequestMappingConstants.USER_LIST;
+import static ga.classi.api.constant.RequestMappingConstants.USER_LOGIN;
+import static ga.classi.api.constant.RequestMappingConstants.USER_REMOVE;
+
 import java.io.UnsupportedEncodingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import ga.classi.api.helper.ResponseObject;
+import ga.classi.commons.constant.RequestDataConstants;
 import ga.classi.commons.data.DTO;
 import ga.classi.commons.data.utility.DTOUtils;
+import ga.classi.commons.web.utility.RequestInformation;
 import ga.classi.data.service.UserService;
 import lombok.extern.slf4j.Slf4j;
-
-import static ga.classi.api.constant.RequestMappingConstants.*;
-import ga.classi.commons.constant.RequestDataConstants;
-import ga.classi.commons.web.utility.RequestInformation;
-import org.springframework.web.bind.annotation.PostMapping;
 
 @Slf4j
 @RestController

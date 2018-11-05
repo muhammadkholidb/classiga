@@ -5,21 +5,22 @@
  */
 package ga.classi.api.interceptor;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
+
 import ga.classi.api.constant.RequestMappingConstants;
-import ga.classi.commons.constant.CommonConstants;
 import ga.classi.commons.constant.RequestDataConstants;
 import ga.classi.commons.data.DTO;
 import ga.classi.commons.data.error.DataException;
 import ga.classi.commons.data.error.Errors;
 import ga.classi.commons.web.utility.RequestInformation;
 import ga.classi.data.service.UserSessionService;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.ModelAndView;
 
 /**
  *

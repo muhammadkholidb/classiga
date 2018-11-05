@@ -13,9 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.LocaleResolver;
 
 import ga.classi.commons.utility.MessageHelper;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 public abstract class BaseController {
 
     @Autowired

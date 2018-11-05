@@ -5,10 +5,11 @@
  */
 package ga.classi.api.helper;
 
+import java.util.Collections;
+
 import ga.classi.commons.constant.CommonConstants;
 import ga.classi.commons.constant.StringConstants;
 import ga.classi.commons.data.error.Errors;
-import java.util.Collections;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -6,17 +6,19 @@
 package ga.classi.data.service;
 
 
+import static ga.classi.commons.constant.RequestDataConstants.TOKEN;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import ga.classi.commons.constant.CommonConstants;
-import static ga.classi.commons.constant.RequestDataConstants.*;
 import ga.classi.commons.data.DTO;
 import ga.classi.commons.data.error.DataException;
 import ga.classi.commons.data.error.Errors;
 import ga.classi.data.entity.UserSessionEntity;
 import ga.classi.data.helper.DataValidator;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import ga.classi.data.repository.UserSessionRepository;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserSessionService extends AbstractServiceHelper {

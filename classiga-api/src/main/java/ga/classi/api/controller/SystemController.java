@@ -5,7 +5,11 @@
  */
 package ga.classi.api.controller;
 
+import static ga.classi.api.constant.RequestMappingConstants.SYSTEM_EDIT;
+import static ga.classi.api.constant.RequestMappingConstants.SYSTEM_LIST;
+
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,16 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import ga.classi.api.helper.ResponseObject;
 import ga.classi.commons.data.DTO;
 import ga.classi.commons.data.utility.DTOUtils;
-import ga.classi.commons.constant.CommonConstants;
 import ga.classi.data.helper.DataImporter;
 import ga.classi.data.service.SystemService;
-import ga.classi.api.helper.ResponseObject;
-import java.io.UnsupportedEncodingException;
 import lombok.extern.slf4j.Slf4j;
-
-import static ga.classi.api.constant.RequestMappingConstants.*;
 
 /**
  *

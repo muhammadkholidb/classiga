@@ -5,20 +5,25 @@
  */
 package ga.classi.api.controller;
 
+import static ga.classi.api.constant.RequestMappingConstants.USER_GROUP_ADD;
+import static ga.classi.api.constant.RequestMappingConstants.USER_GROUP_EDIT;
+import static ga.classi.api.constant.RequestMappingConstants.USER_GROUP_FIND;
+import static ga.classi.api.constant.RequestMappingConstants.USER_GROUP_LIST;
+import static ga.classi.api.constant.RequestMappingConstants.USER_GROUP_REMOVE;
+
+import java.io.UnsupportedEncodingException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import ga.classi.api.helper.ResponseObject;
+import ga.classi.commons.constant.CommonConstants;
 import ga.classi.commons.data.DTO;
 import ga.classi.commons.data.utility.DTOUtils;
-import ga.classi.commons.constant.CommonConstants;
 import ga.classi.data.service.UserGroupService;
-import ga.classi.api.helper.ResponseObject;
-import java.io.UnsupportedEncodingException;
 import lombok.extern.slf4j.Slf4j;
-
-import static ga.classi.api.constant.RequestMappingConstants.*;
 
 @Slf4j
 @RestController

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog 
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd"> 
+    
+    <changeSet author="classiga" id="init-system">
+        <insert tableName="t_system">
+            <column name="create_time_millis" value="0" />
+            <column name="delete_time_millis" />
+            <column name="deleted" value="n" />
+            <column name="rh" value="1" />
+            <column name="srh" value="1" />
+            <column name="update_time_millis" value="0" />
+            <column name="version" value="0" />
+            <column name="data_key" value="languageCode" />
+            <column name="data_value" value="id" />
+        </insert>
+        <insert tableName="t_system">
+            <column name="create_time_millis" value="0" />
+            <column name="delete_time_millis" />
+            <column name="deleted" value="n" />
+            <column name="rh" value="2" />
+            <column name="srh" value="2" />
+            <column name="update_time_millis" value="0" />
+            <column name="version" value="0" />
+            <column name="data_key" value="templateCode" />
+            <column name="data_value" value="vali" />
+        </insert>
+        <insert tableName="t_system">
+            <column name="create_time_millis" value="0" />
+            <column name="delete_time_millis" />
+            <column name="deleted" value="n" />
+            <column name="rh" value="3" />
+            <column name="srh" value="3" />
+            <column name="update_time_millis" value="0" />
+            <column name="version" value="0" />
+            <column name="data_key" value="image" />
+            <column name="data_value" value="sample-logo.png" />
+        </insert>
+    </changeSet>
+</databaseChangeLog> 

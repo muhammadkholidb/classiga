@@ -93,4 +93,9 @@
 
     <jpa:repositories base-package="ga.classi.data.repository"/>
 
+    <bean id="liquibase" class="liquibase.integration.spring.SpringLiquibase" >
+        <property name="dataSource" ref="dataSource" />
+        <property name="changeLog" value="classpath:db/changelog/master.xml" />
+    </bean>
+    
 </beans>

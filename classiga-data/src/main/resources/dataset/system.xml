@@ -9,7 +9,4 @@
     <t_system data_key='image' data_value='sample-logo.png'
         create_time_millis="{currentMillis}" update_time_millis="{currentMillis}"
         deleted="n" version="0" rh="3" srh="3" />
-    <t_system data_key='online' data_value='n'
-        create_time_millis="{currentMillis}" update_time_millis="{currentMillis}"
-        deleted="n" version="0" rh="4" srh="4" />
 </dataset>

@@ -18,6 +18,12 @@
             <groupId>ga.classi</groupId>
             <artifactId>classiga-data</artifactId>
         </dependency>
+        
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+            <version>3.5.3</version>
+        </dependency>
 
         <!-- Spring 4 dependencies -->
         <dependency>

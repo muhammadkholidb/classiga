@@ -5,11 +5,6 @@
  */
 package ga.classi.data.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-
 import java.io.Serializable;
 
 import javax.persistence.Column;
@@ -18,9 +13,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-import lombok.Data;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
  * 
@@ -29,6 +31,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@EqualsAndHashCode(callSuper=false)
 @Entity
 @Table(name = MenuPermissionEntity.TABLE_NAME, uniqueConstraints = @UniqueConstraint(columnNames = {"user_group_id", "menu_code"})) // Let hibernate give its constraint name
 @DynamicInsert

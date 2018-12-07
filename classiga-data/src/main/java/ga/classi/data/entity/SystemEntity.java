@@ -17,6 +17,7 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
@@ -26,6 +27,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@EqualsAndHashCode(callSuper = false)
 @Entity
 @Table(name = SystemEntity.TABLE_NAME, uniqueConstraints = @UniqueConstraint(columnNames = { "data_key" }))
 @DynamicInsert
@@ -66,5 +68,5 @@ public class SystemEntity extends BaseEntity implements Serializable {
         sb.append(this.dataValue);
         return sb;
     }
-    
+
 }

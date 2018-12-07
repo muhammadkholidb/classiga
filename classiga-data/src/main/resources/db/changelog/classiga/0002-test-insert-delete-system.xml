@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog 
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd"> 
+    
+    <changeSet author="classiga" id="classiga-test-insert-delete-system">
+        <insert tableName="t_system">
+            <column name="create_time_millis" value="0" />
+            <column name="delete_time_millis" />
+            <column name="deleted" value="n" />
+            <column name="rh" value="4" />
+            <column name="srh" value="4" />
+            <column name="update_time_millis" value="0" />
+            <column name="version" value="0" />
+            <column name="data_key" value="test" />
+            <column name="data_value" value="test" />
+        </insert>
+        <delete tableName="t_system">
+            <where>data_key = 'test'</where>
+        </delete>
+    </changeSet>
+</databaseChangeLog> 

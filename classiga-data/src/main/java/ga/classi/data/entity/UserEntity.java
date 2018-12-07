@@ -14,17 +14,18 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import org.apache.commons.lang3.StringUtils;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import ga.classi.commons.constant.CommonConstants;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 
 // https://stackoverflow.com/questions/2292662/how-important-is-the-order-of-columns-in-indexes
 // https://use-the-index-luke.com/sql/where-clause/the-equals-operator/concatenated-keys
@@ -36,6 +37,7 @@ import org.apache.commons.lang3.StringUtils;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@EqualsAndHashCode(callSuper=false)
 @Entity
 @Table(name = UserEntity.TABLE_NAME, 
     indexes = {

@@ -7,7 +7,7 @@ package ga.classi.commons.data.error;
 
 import org.springframework.util.Assert;
 
-public enum Errors {
+public enum Errors implements IErrors {
 
     NONE("0000", "error.none"),
     
@@ -55,10 +55,12 @@ public enum Errors {
         this.messageCode = messageCode;
     }
 
+    @Override
     public String code() {
         return this.code;
     }
 
+    @Override
     public String messageCode() {
         return this.messageCode;
     }

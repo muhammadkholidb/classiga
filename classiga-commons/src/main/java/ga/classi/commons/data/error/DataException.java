@@ -32,12 +32,12 @@ public class DataException extends RuntimeException {
         this(code, message, new Object[0]);
     }
     
-    public DataException(Errors errorCode, Object[] data) {
-        this(errorCode.code(), errorCode.messageCode(), data);
+    public DataException(IErrors ierrors, Object[] data) {
+        this(ierrors.code(), ierrors.messageCode(), data);
     }
     
-    public DataException(Errors errorCode) {
-        this(errorCode, new Object[0]);
+    public DataException(IErrors ierrors) {
+        this(ierrors, new Object[0]);
     }
     
     @Override

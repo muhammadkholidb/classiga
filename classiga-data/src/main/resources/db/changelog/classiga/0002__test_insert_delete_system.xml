@@ -5,7 +5,7 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd"> 
     
-    <changeSet author="classiga" id="classiga-test-insert-delete-system">
+    <changeSet author="classiga" id="test-insert-delete-system">
         <insert tableName="t_system">
             <column name="create_time_millis" value="0" />
             <column name="delete_time_millis" />

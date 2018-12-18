@@ -4,7 +4,9 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
-
-    <includeAll path="db/changelog/classiga/"/> 
-    <includeAll path="db/changelog/other/"/> 
+    <!-- START Classiga changesets -->
+    <include file="db/changelog/classiga/0001__init_system.xml" />
+    <include file="db/changelog/classiga/0002__test_insert_delete_system.xml" /> 
+    <!-- END Classiga changesets -->
+    <includeAll path="db/changelog/external/" /> 
 </databaseChangeLog> 

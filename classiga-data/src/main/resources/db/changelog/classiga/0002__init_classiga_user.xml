@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog 
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd"> 
+    
+    <changeSet author="classiga" id="init_classiga_user">
+        <insert tableName="t_user_group">
+            <column name="id" value="-1" />
+            <column name="create_time_millis" value="0" />
+            <column name="delete_time_millis" />
+            <column name="deleted" value="n" />
+            <column name="rh" value="0" />
+            <column name="srh" value="0" />
+            <column name="update_time_millis" value="0" />
+            <column name="version" value="0" />
+            <column name="name" value="Classiga" />
+            <column name="lower_name" value="classiga" />
+            <column name="active" value="y" />
+        </insert>
+        <insert tableName="t_user">
+            <column name="id" value="-1" />
+            <column name="create_time_millis" value="0" />
+            <column name="delete_time_millis" />
+            <column name="deleted" value="n" />
+            <column name="rh" value="0" />
+            <column name="srh" value="0" />
+            <column name="update_time_millis" value="0" />
+            <column name="version" value="0" />
+            <column name="full_name" value="Classiga" />
+            <column name="username" value="classiga" />
+            <column name="email" value="mail.classiga@gmail.com" />
+            <column name="password_hash" value="adb486927967b72030d7a2768c7c9f4ce607cc9d8dc9f264e59bd4fb918149cd" />
+            <column name="salt" />
+            <column name="active" value="y" />
+            <column name="lower_full_name" value="classiga" />
+            <column name="lower_username" value="classiga" />
+            <column name="lower_email" value="mail.classiga@gmail.com" />
+            <column name="user_group_id" value="-1" />
+        </insert>
+    </changeSet>
+</databaseChangeLog> 

@@ -6,7 +6,7 @@
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
     <!-- START Classiga changesets -->
     <include file="db/changelog/classiga/0001__init_system.xml" />
-    <include file="db/changelog/classiga/0002__test_insert_delete_system.xml" /> 
+    <include file="db/changelog/classiga/0002__init_classiga_user.xml" /> 
     <!-- END Classiga changesets -->
     <includeAll path="db/changelog/external/" /> 
 </databaseChangeLog> 

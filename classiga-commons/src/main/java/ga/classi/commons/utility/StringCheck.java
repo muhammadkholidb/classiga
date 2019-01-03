@@ -105,4 +105,13 @@ public final class StringCheck {
         return GenericValidator.isCreditCard(text);
     }
     
+    /**
+     * Returns true if the given text is a valid URL.
+     * @param text The string to check.
+     * @return true if the given text is a valid URL.
+     */
+    public static boolean isURL(String text) {
+        return GenericValidator.isUrl(text);
+    }
+    
 }

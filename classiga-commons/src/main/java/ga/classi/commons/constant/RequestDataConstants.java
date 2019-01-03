@@ -9,7 +9,7 @@ package ga.classi.commons.constant;
  *
  * @author muhammad
  */
-public class RequestDataConstants {
+public interface RequestDataConstants {
     
     public static final String USERNAME = "username";
     public static final String PASSWORD = "password";

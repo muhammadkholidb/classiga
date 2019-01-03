@@ -264,4 +264,34 @@ public class DataValidator {
         return validateEquals(field1, field2, Errors.VALUES_NOT_EQUALS.messageCode());
     }
 
+    public String validateURL(String field, String message) {
+        String url = dtoInput.getStringValue(field);
+        if ((url == null) || !StringCheck.isURL(url)) {
+            throw new DataException(Errors.INVALID_URL.code(), message, new Object[]{field});
+        }
+        return url;
+    }
+
+    public String validateURL(String field) {
+        return validateURL(field, Errors.INVALID_URL.messageCode());
+    }
+
+    public String validateURLOrEmpty(String field, String message) {
+        String url = dtoInput.getStringValue(field);
+        if (url == null) {
+            return url;
+        }
+        if (StringCheck.isEmpty(url)) {
+            return url;
+        }
+        if (!StringCheck.isEmail(url)) {
+            throw new DataException(Errors.INVALID_URL, new Object[]{field});
+        }
+        return url;
+    }
+
+    public String validateURLOrEmpty(String field) {
+        return validateURLOrEmpty(field, Errors.INVALID_URL.messageCode());
+    }
+
 }

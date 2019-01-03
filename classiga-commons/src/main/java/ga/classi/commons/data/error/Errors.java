@@ -24,6 +24,7 @@ public enum Errors implements IErrors {
     INVALID_DATE("0010", "error.commondata.validation.InvalidDate"),
     EMPTY_VALUE("0011", "error.commondata.validation.EmptyValue"),
     VALUES_NOT_EQUALS("0012", "error.commondata.validation.ValuesNotEquals"),
+    INVALID_URL("0027", "error.data.validation.invalidurl"),
     // User group
     CANT_REMOVE_USER_GROUP_CAUSE_USER_EXISTS("0013", "error.commondata.CantRemoveUserGroupCauseUserExists"),
     USER_GROUP_NOT_FOUND("0014", "error.commondata.UserGroupNotFound"),
